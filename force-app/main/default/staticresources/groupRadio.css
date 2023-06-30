@@ -1,0 +1,15 @@
+/* .slds-form-element__control .slds-radio{
+    border-bottom: 1px solid lightgrey !important;
+    padding: 18px 10px 18px 0px !important;
+} */
+.clsrk .slds-input{
+    box-shadow: none;
+}
+.slds-file-selector__input[disabled]~.slds-file-selector__body>.slds-file-selector__button {
+    background: none;
+    border-color: #C9C9C9;
+    color: #0176D3;
+}
+.slds-file-selector__input[disabled]~.slds-file-selector__body {
+    color: black;
+}

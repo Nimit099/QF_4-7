@@ -1,0 +1,1858 @@
+<template>
+    <c-toast-component></c-toast-component>
+    <c-errorpopup></c-errorpopup>
+    <!-- Email Id -->
+    <template if:true={isTrueEmail}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:email" alternative-text="Email Id" title="Email Id"
+                    size="small"> </lightning-icon> Email-Id
+            </div>
+        </template>
+
+    </template>
+
+    <!--Full Name -->
+    <template if:true={isTrueFullName}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:user" alternative-text="Name" title="Name"
+                    size="small"></lightning-icon> Full Name
+            </div>
+        </template>
+
+    </template>
+
+    <!-- Name -->
+    <template if:true={isTrueName}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:user" alternative-text="Name" title="Name"
+                    size="small"></lightning-icon> Name
+            </div>
+        </template>
+    </template>
+
+    <!-- Address -->
+    <template if:true={isTrueAddress}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:checkin" alternative-text="Address" title="Address"
+                    size="small"></lightning-icon> Address
+            </div>
+        </template>
+    </template>
+
+    <template if:true={isTruePhone}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:call" alternative-text="Phone" title="Phone"
+                    size="small"></lightning-icon> Phone
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+
+    <!-- Short Text -->
+    <template if:true={isTrueShortText}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:justify_text" alternative-text="Short Text"
+                    title="Short Text" size="small"></lightning-icon> Short Text
+            </div>
+        </template>
+    </template>
+
+    <template if:true={isTrueLongText}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:textarea" alternative-text="Long Text" title="Long Text"
+                    size="small"></lightning-icon> Long Text
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!-- DropDown -->
+    <template if:true={isTrueDropdown}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:down" alternative-text="DropDown" title="DropDown"
+                    size="small"></lightning-icon> Dropdown
+            </div>
+        </template>
+    </template>
+
+    <!--CheckBox-->
+    <template if:true={isTrueCheckBox}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:check" alternative-text="CheckBox" title="CheckBox"
+                    size="small"></lightning-icon> Checkbox
+            </div>
+        </template>
+    </template>
+
+    <!-- Radio Button -->
+    <template if:true={isTrueRadioButton}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:radio_button" alternative-text="CheckBox"
+                    title="CheckBox" size="small"></lightning-icon> Radio Button
+            </div>
+        </template>
+    </template>
+
+    <template if:true={isTrueFileUpload}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:upload" alternative-text="CheckBox" title="CheckBox"
+                    size="small"> </lightning-icon>File Upload
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!-- Number -->
+    <template if:true={isTrueNumber}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:richtextnumberedlist" alternative-text="Number"
+                    title="Number" size="small"></lightning-icon> Number
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!-- Price -->
+    <template if:true={isTruePrice}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:moneybag" alternative-text="Price" title="Price"
+                    size="small"></lightning-icon> Price
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!-- Date -->
+    <template if:true={isTrueDate}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:date_input" alternative-text="Date" title="Date"
+                    size="small"></lightning-icon> Date
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <template if:true={isTrueTime}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:clock" alternative-text="Time" title="Time"
+                    size="small"></lightning-icon> Time
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <template if:true={isTrueDateTime}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:date_time" alternative-text="DateTime" title="DateTime"
+                    size="small"></lightning-icon> Date-Time
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!--RATING-->
+    <template if:true={isTrueRating}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small">
+                <lightning-icon class="icon" icon-name="utility:rating" alternative-text="Rating" title="Rating"
+                    size="small"></lightning-icon> Star Rating
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!--EMOJI RATING-->
+    <template if:true={isTrueEmojiRating}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:smiley_and_people" alternative-text="Rating"
+                    title="Rating" size="small"></lightning-icon> Emoji Rating
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!--Scale Rating-->
+    <template if:true={isTrueScaleRating}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small scaleRating fieldOutlines">
+                <lightning-icon class="icon" icon-name="utility:multi_select_checkbox" alternative-text="Rating"
+                    title="Rating" size="small"></lightning-icon> Scale Rating
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!-- Terms of Service -->
+    <template if:true={isTrueTerms}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:warranty_term" alternative-text="Terms of Service"
+                    title="Terms of Service" size="small"></lightning-icon> Terms of Service
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <!-- Link -->
+    <template if:true={isTrueLink}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:link" alternative-text="Link" title="Link"
+                    size="small"></lightning-icon> Link
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+    <template if:true={isTrueSign}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:drag" alternative-text="Signature" title="Signature"
+                    size="small"></lightning-icon> Signature
+            </div>
+        </template>
+        <template if:true={isFullView}></template>
+    </template>
+
+
+    <!--page break-->
+    <template if:true={isTruePageBreak}>
+        <template if:true={isFieldCompView}>
+            <div class="slds-box_xx-small fieldOutlines isSelected">
+                <lightning-icon class="icon" icon-name="utility:display_rich_text" alternative-text="Page Break"
+                    title="Short Text" size="small"></lightning-icon> Page Break
+            </div>
+        </template>
+    </template>
+
+    <template if:true={fieldtype}>
+        <template if:true={sTrueLink}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='url'
+                                value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTruePassword}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='password'
+                                value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled}
+                                maxlength={maximum} minlength={minimum} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueLongText}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <textarea data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
+                            class="slds-input textarea2" value={fildval} onchange={OnFieldClick} minlength={minimum}
+                            maxlength={maximum} placeholder={placeholder}>{fildval}</textarea>
+                        <span data-id={fieldmapping}></span>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueName}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='text'
+                                value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled}
+                                maxlength={maximum} minlength={minimum} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueEmail}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='email'
+                                value={fildval} maxlength={maximum} minlength={minimum} onchange={OnFieldClick}
+                                class="slds-input" disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueDateTime}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder}
+                                type='datetime-local' value={sec_val} onchange={OnFieldClick}
+                                class="slds-input date_picker" min={minimumdatetime} max={maximumdatetime}
+                                disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueNumber}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='number'
+                                value={fildval} maxlength={maximum} minlength={minimum} onchange={OnFieldClick}
+                                class="slds-input" disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueTime}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='Time'
+                                value={sec_val} onchange={OnFieldClick} class="slds-input date_picker"
+                                disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTruePhone}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                data-type="phone" onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder}
+                                type='text' value={fildval} onkeyup={OnFieldClick} class="slds-input"
+                                disabled={isdisabled} />
+                            <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid Phone Number
+                            </p>
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueFullName}>
+            <div>
+                <template if:true={FieldShown}>
+                    <template if:true={labelcheck}>
+                        <div class="labeldiv">
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                    </template>
+                    <div class="fullname" id={PageId}>
+                        <div class="slds-form-element__control fullnamewidth">
+                            <div class="slds-select_container">
+                                <select data-name={salutation} name="s_salutation" onmousemove={handlehover}
+                                    onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                    class="slds-input slds-select" data-id="select-01" onchange={sobj_fullname}
+                                    disabled={isdisabled}>
+                                    <option class="slds-input" value=""> --None-- </option>
+                                    <template for:each={salutationvalue} for:item="value">
+                                        <option class="slds-input" onmousemove={handlehover} onmouseout={handleblur}
+                                            data-id={value} onfocusin={handlefocus} onblur={handleblur1} value={value}
+                                            key={value}>{value}</option>
+                                    </template>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__control fullnamewidth">
+                            <input data-id="First Name" data-name={firstname} name="f_name" onmousemove={handlehover}
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                placeholder="First Name" value={s_f_name} onchange={sobj_fullname} class="slds-input"
+                                disabled={isdisabled} />
+                        </div>
+                        <div class="slds-form-element__control fullnamewidth">
+                            <input data-id="Last Name" data-name={lastname} name="s_name" onmousemove={handlehover}
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                placeholder="Last Name" value={s_l_name} onchange={sobj_fullname} class="slds-input"
+                                disabled={isdisabled} />
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTruePercent}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='number'
+                                value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled}
+                                maxlength={maximum} minlength={minimum} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueCurrency}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='number'
+                                value={fildval} maxlength={maximum} minlength={minimum} onchange={OnFieldClick}
+                                class="slds-input" disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueDate}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='date'
+                                value={fildval} min={minimumdate} max={maximumdate} onchange={OnFieldClick}
+                                class="slds-input date_picker" disabled={isdisabled} />
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueCheckBox}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                placeholder={placeholder} type="checkbox" value={fildval} name={tView}
+                                options={CheckBoxOp} pattern={fieldValidations}
+                                message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick} key={value}
+                                disabled={isdisabled}></input>
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueAddress}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form slds-form_stacked">
+                                <div class="slds-form-element">
+                                    <div class="areatext slds-form-element__control">
+                                        <textarea data-name={street} onmousemove={handlehover} onmouseout={handleblur}
+                                            onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
+                                            data-id="street-address" class="slds-input textarea1" placeholder="Street"
+                                            onchange={OnFieldClick} name="street">{sstreet}</textarea>
+                                    </div>
+                                </div>
+                                <div class="slds-form-element flex">
+                                    <div class="slds-form-element__control leftfield">
+                                        <input data-name={city} onmousemove={handlehover} onmouseout={handleblur}
+                                            onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
+                                            type="text" data-id="city" onchange={OnFieldClick} name="city"
+                                            class="slds-input" placeholder="City" value={scity} />
+                                    </div>
+                                    <div class="slds-form-element__control rightfield">
+                                        <input data-name={state} onmousemove={handlehover} onmouseout={handleblur}
+                                            onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
+                                            type="text" data-id="state" onchange={OnFieldClick} name="state"
+                                            class="slds-input" placeholder="State" value={sstate} />
+                                    </div>
+                                </div>
+                                <div class="slds-form-element flex">
+                                    <div class="slds-form-element__control leftfield">
+                                        <input data-name={postalcode} onmousemove={handlehover} onmouseout={handleblur}
+                                            onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
+                                            type="text" data-id="zip-code" data-type="zip-code" onchange={OnFieldClick} name="zipcode"
+                                            class="slds-input" placeholder="Zip Code" value={szipcode} />
+                                            <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid Zip Code
+                            </p>
+                                    </div>
+                                    <div class="slds-form-element__control rightfield">
+                                        <input data-name={country} onmousemove={handlehover} onmouseout={handleblur}
+                                            onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
+                                            type="text" data-id="country" onchange={OnFieldClick} name="country"
+                                            class="slds-input" placeholder="Country" value={scountry} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTruePicklist}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <select data-name={fieldmapping} class="slds-input slds-select" onmousemove={handlehover}
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                onchange={OnFieldClick} disabled={isdisabled}>
+                                <option>--Select--</option>
+                                <template for:each={picklistvalue} for:item="value">
+                                    <option data-id={value.value} value={value.value} key={value}>{value.key}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueRefernce}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <span class="deleteicon">
+                                <input ref={searchInputRef} onmousemove={handlehover} onmouseout={handleblur}
+                                    onkeyup={referencevalues} onfocusin={handlefocus} onclick={getreferncevalue}
+                                    data-title="REFERENCE" value={searchkey} data-id={fieldId} data-name={fieldmapping}
+                                    onblur={handleblur1} disabled={isdisabled} readonly={referecnereadonly}
+                                    type="search" onchange={OnFieldClick} class="slds-input nosubmit fieldcancel " />
+                                <template if:true={showCrossIcon}>    
+                                <span id={fieldmapping} data-id={fieldmapping} class="clearref" onclick={clearreference}
+                                    style={cross_img}>
+                                </span>
+                                </template>
+                            </span>
+                            <div if:true={usrViewBool} id="userListView" style="z-index:9001"
+                                class=" slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-dropdown_left">
+                                <!-- spinner for list -->
+                                <template if:true={spinnerdatatable}>
+                                    <div class="load">
+                                        <div class="progress"></div>
+                                        <div class="progress"></div>
+                                        <div class="progress"></div>
+                                    </div>
+                                </template>
+                                <!-- spinner for list -->
+                                <template if:true={referencevaling}>
+                                    <ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-5 slds-dropdown_fluid customClass"
+                                        tabindex="0" role="presentation">
+                                        <template for:each={referencevalue} for:item="option">
+                                            <li key={option.Id} role="presentation"
+                                                class="listbox-item slds-listbox__item" data-id={option.Name}
+                                                data-name={fieldmapping} onclick={selectreferencevalue}
+                                                data-title={option.Id} value={option.Id} title={option.Name}>
+                                                <div id={option.Id} style="align-items: baseline;"
+                                                    class="usrnameClass slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                        <template if:true={usricon}>
+                                                            <lightning-icon icon-name={reficon}
+                                                                size="small"></lightning-icon>
+                                                        </template>
+                                                    </span>
+                                                    <span class="slds-truncate">
+                                                        <span>{option.Name}</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </template>
+                                <template if:true={referencevalings}>
+                                    <div class="nullresult">There is no such Records</div>
+                                </template>
+                            </div>
+
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+
+        <template if:true={sTrueMultiPicklist}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                            <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                                <template if:true={helptextcheck}>
+                                    <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                                </template>
+                            </div>
+                        <div class="slds-form-element__control">
+                            <div class="multipicklist">
+                                <div class="dropuser slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-dropdown_left slds-input"
+                                    style="">
+                                    <ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-5 slds-dropdown_fluid customClass"
+                                        tabindex="0" role="presentation" style="height:100px;">
+                                        <template for:each={picklistvalue} for:item="option">
+                                            <li key={option.value} data-id={option.value} role="presentation"
+                                                class="listbox-item slds-listbox__item" data-name={option.key}
+                                                onclick={selectedvalues} value={option.value} title={option.key}>
+                                                <div id={option.value} onmouseover={optionhover} onmouseout={optionblur}
+                                                    class="usrnameClass slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                        <div data-id={option.value} class="tickicons ">
+                                                            <img src={multitick} alt="">
+                                                        </div>
+                                                    </span>
+                                                    <span class="slds-truncate transparentbg">
+                                                        <span class="transparentbg">{option.key}</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+
+                                <div class="arrows">
+                                    <div data-name={fieldmapping} class="arrorcss" onclick={rightarrowmulti}> <img
+                                            src={multiright} alt=""></div>
+                                    <div data-name={fieldmapping} class="arrorcss" onclick={leftarrowmulti}> <img
+                                            src={multileft} alt=""> </div>
+                                </div>
+
+                                <div class="dropuser slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-dropdown_left slds-input"
+                                    style="">
+                                    <ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-5 slds-dropdown_fluid customClass"
+                                        tabindex="0" role="presentation" style="height:100px;">
+                                        <template for:each={selectedmultipicklistvalues} for:item="option">
+                                            <li key={option.key} role="presentation"
+                                                class="listbox-item slds-listbox__item" data-name={option.key}
+                                                data-id={option.value} onclick={unselectedvalues} value={option.value}
+                                                title={option.key}>
+                                                <div id={option.value} onmouseover={optionhover} onmouseout={optionblur}
+                                                    class="usrnameClass slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                    role="option">
+                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                        <div data-id={option.value} class="tickicons">
+                                                            <img src={multitick} alt="">
+                                                        </div>
+                                                    </span>
+                                                    <span class="slds-truncate transparentbg">
+                                                        <span class="transparentbg">{option.key}</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={sTrueBase64}>
+            <div>
+                <template if:true={FieldShown}>
+                    <label>
+                        <div class="labeldiv">
+                            <template if:true={labelcheck}>
+                                <template if:true={isReqired}>
+                                    <label class="slds-form-element_label flabel">
+                                        <abbr class="slds-required" title="required">* </abbr>
+                                    </label>
+                                </template>
+                                <label class="slds-form-element__label flabel">
+                                    {labelvalue}
+                                </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <lightning-input onchange={handleUploadbase64} type="file" data-name={fieldmapping}
+                                name="file" accept=".png , .jpeg , .jpg, .PDF " data-id="username"
+                                disabled={filesignread} class="backclass"></lightning-input>
+                            <template if:true={fileuploadrkAtt}>
+                                <label>
+                                    <div class="container">
+                                        <div class="box box1">
+                                            <p>{uploadfilenameAtt}</p>
+                                        </div>
+                                        <div id={fieldmapping} data-name='yashR' class="box removeImage" onclick={removeReceiptImage_att}>
+                                            <img id={fieldmapping} src={Cross} class="cross_img_file">
+                                        </div>
+                                    </div>
+                                </label>
+                            </template>
+                            <span data-id={fieldmapping}></span>
+                        </div>
+
+                    </label>
+                </template>
+            </div>
+        </template>
+
+
+    </template>
+    <template if:false={fieldtype}>
+        <!-- email -->
+        <template if:true={isTrueEmail}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                    <template if:true={labelcheck}>
+                        <template if:true={isReqired}>
+                            <label class="slds-form-element__label flabel">
+                                <abbr class="slds-required" title="required">* </abbr>
+                            </label>
+                        </template>
+                        <label class="slds-form-element__label flabel ">
+                            {labelvalue}
+                        </label>
+                    </template>
+                    <template if:true={helptextcheck}>
+                        <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                    </template>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} value={fildval} onblur={handleblur1} placeholder={placeholder}
+                            type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" onchange={OnFieldClick}
+                            class="slds-input" disabled={isdisabled} maxlength={maximum} minlength={minimum} />
+                        <span data-id={fieldmapping}></span>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- full Name -->
+        <template if:true={isTrueFullName}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                        <div class="labeldiv">
+                    <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                            </template>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
+                        </div>
+                    <div class="fullname" id={PageId}>
+                        <div class="slds-form-element__control fullnamewidth">
+                            <div class="slds-select_container">
+                                <select data-name={fieldmapping} name="salutation" onmousemove={handlehover}
+                                    onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                    class="slds-input slds-select" data-id="select-01" onchange={full_name}
+                                    disabled={isdisabled}>
+                                    <option class="slds-input" value=""> --None-- </option>
+                                    <template for:each={salutationvalue} for:item="value">
+                                        <option class="slds-input" onmousemove={handlehover} onmouseout={handleblur}
+                                            data-id={value} onfocusin={handlefocus} onblur={handleblur1} value={value}
+                                            key={value}>{value}</option>
+                                    </template>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="slds-form-element__control fullnamewidth">
+                            <input data-id="First Name" data-name={fieldmapping} name="f_name" onmousemove={handlehover}
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                placeholder="First Name" value={thi_val} onchange={full_name} class="slds-input"
+                                disabled={isdisabled} />
+                        </div>
+                        <div class="slds-form-element__control fullnamewidth">
+                            <input data-id="Last Name" data-name={fieldmapping} name="s_name" onmousemove={handlehover}
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                placeholder="Last Name" value={for_val} onchange={full_name} class="slds-input"
+                                disabled={isdisabled} />
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- Name -->
+        <template if:true={isTrueName}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                        </template>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder}
+                            onchange={OnFieldClick} class="slds-input" value={fildval} disabled={isdisabled}
+                            maxlength={maximum} minlength={minimum}></input>
+                        <span data-id={fieldmapping}></span>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- Address -->        
+        <template if:true={isTrueAddress}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            
+                        </template>
+                    </div>
+                    <!-- Custom Address Field -->
+                    <div class="slds-form slds-form_stacked">
+                        <div class="slds-form-element">
+                            <div class="areatext slds-form-element__control">
+                                <textarea data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                    onfocusin={handlefocus} onchange={address} onblur={handleblur1}
+                                    data-id="street-address" disabled={isdisabled} id="street-address" name="street"
+                                    class="slds-input" placeholder="Street">
+                                    {sec_val}
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="slds-form-element flex">
+                            <div class="slds-form-element__control leftfield">
+                                <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                    onfocusin={handlefocus} onchange={address} onblur={handleblur1} data-id="city"
+                                    disabled={isdisabled} type="text" id="city" name="city" class="slds-input"
+                                    value={thi_val} placeholder="City" />
+                            </div>
+                            <div class="slds-form-element__control rightfield">
+                                <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                    onfocusin={handlefocus} onchange={address} onblur={handleblur1} data-id="state"
+                                    disabled={isdisabled} type="text" id="state" name="state" class="slds-input"
+                                    value={for_val} placeholder="State" />
+                            </div>
+                        </div>
+                        <div class="slds-form-element flex">
+                            <div class="slds-form-element__control leftfield">
+                                <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                    onfocusin={handlefocus} onchange={address} onblur={handleblur1} data-id="zip-code" data-type="zip-code"
+                                    disabled={isdisabled} type="text" id="zip-code" name="zipcode" class="slds-input"
+                                    value={fiv_val} placeholder="Zip Code" />
+                                    <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid Zip Code
+                            </p>
+                            </div>
+                            <div class="slds-form-element__control rightfield">
+                                <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                                    onfocusin={handlefocus} onchange={address} onblur={handleblur1} data-id="country"
+                                    disabled={isdisabled} type="text" id="country" name="country" class="slds-input"
+                                    value={six_val} placeholder="Country" />
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isTrueShortText}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                        </template>
+                    </div>
+                    <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onblur={handleblur1} class="slds-input" placeholder={placeholder}
+                        type="text" value={fildval} pattern={fieldValidations} maxlength={maximum} minlength={minimum}
+                        message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick}
+                        disabled={isdisabled}></input>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+        <template if:true={isTrueLongText}>
+            <template if:true={isFullView}></template>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                        </template>
+                    </div>
+                    <textarea data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur} type="text"
+                        onfocusin={handlefocus} onblur={handleblur1} class='slds-input textarea2'
+                        placeholder={placeholder} value={fildval} pattern={fieldValidations} maxlength={maximum}
+                        minlength={minimum} message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick}
+                        disabled={isdisabled}>{fildval}</textarea>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <!-- DropDown -->
+        <template if:true={isTrueDropdown}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label>
+                                DropDown {count}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                        </template>
+                    </div>
+                    <select data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onblur={handleblur1} class="dropdown-menu" value={fildval}
+                        onchange={OnFieldClick}>
+                        <option value={dropdownOp}>Select Option </option>
+                    </select>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <!--CheckBox-->
+        <template if:true={isTrueCheckBox}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                        </template>
+                    </div>
+                    <div>
+                        <template for:each={salutationvalue} for:item="value">
+                            <div id={PageId} key={value} style="align-items: center;" class="clsrk">
+                                <input data-name={fieldmapping} data-id={value} onmousemove={handlehover}
+                                    onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                    class="slds-input" placeholder={placeholder} type="checkbox" value={value}
+                                    name={tView} options={CheckBoxOp} pattern={fieldValidations}
+                                    message-when-pattern-mismatch={fieldAttributeValue} onchange={check_box} key={value}
+                                    disabled={isdisabled}></input>
+                                <label key={value}>{value}</label>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </template>
+        <template if:true={isTrueRadioButton}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <template for:each={salutationvalue} for:item="value">
+                        <div id={PageId} key={value} style="align-items: center;" class="clsrk">
+                            <input data-name={fieldmapping} data-id={value} onmousemove={handlehover}
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                placeholder={placeholder} type="radio" value={value} name={tView} options={CheckBoxOp}
+                                pattern={fieldValidations} message-when-pattern-mismatch={fieldAttributeValue}
+                                onchange={radiobutton} key={value} disabled={isdisabled}></input> <label
+                                key={value}>{value}</label>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </template>
+        <!-- file Upload -->
+        <template if:true={isTrueFileUpload}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <lightning-input onchange={handleFilesChange} type="file" data-name={fieldmapping} name="file"
+                        accept=".png , .jpeg , .jpg, .PDF " data-id="username" disabled={filesignread}
+                        class="backclass"></lightning-input>
+                    <template if:true={fileuploadrk}>
+                        <label>
+                                <!-- {uploadfilename} -->
+                                <div class="container">
+                                    <div class="box box1">
+                                        <p>{uploadfilename}</p>
+                                    </div>
+                                    <div id={fieldmapping} data-name='yashR' class="box removeImage" onclick={removeReceiptImage}>
+                                        <img id={fieldmapping} src={Cross} class="cross_img_file">
+                                    </div>
+                                </div>
+                        </label>
+                    </template>
+                </template>
+            </template>
+        </template>
+
+        <!-- Number -->
+        <template if:true={isTrueNumber}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} class='slds-input' placeholder={placeholder}
+                            type="number" format="#,##0,000.00#" value={fildval}
+                            message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick}
+                            maxlength={maximum} minlength={minimum} disabled={isdisabled}></input>
+                        <span data-id={fieldmapping}></span>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- Price -->
+        <template if:true={isTruePrice}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onblur={handleblur1} class="slds-input" id={fieldId}
+                        placeholder={placeholder} type="number" formatter="currency" value={fildval}
+                        pattern={fieldValidations} onchange={OnFieldClick} maxlength={maximum} minlength={minimum}
+                        disabled={isdisabled}></input>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <!-- Phone -->
+        <template if:true={isTruePhone}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            data-type="phone" onfocusin={handlefocus} onblur={handleblur1} class='slds-input'
+                            placeholder={placeholder} type="phone" value={fildval} onkeyup={OnFieldClick}
+                            disabled={isdisabled}></input>
+                        <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid Phone Number</p>
+                        <span data-id={fieldmapping}></span>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- Date -->
+        <template if:true={isTrueDate}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+
+                    <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onblur={handleblur1} class="slds-input date_picker" id={fieldId}
+                        placeholder={placeholder} formatter="currency" value={fildval} pattern={fieldValidations}
+                        type="date" display-date-picker="true" message-when-pattern-mismatch={fieldAttributeValue}
+                        onchange={OnFieldClick} min={minimumdate} max={maximumdate} disabled={isdisabled}></input>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isTrueTime}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+
+                    <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onblur={handleblur1} class="slds-input date_picker" id={fieldId}
+                        placeholder={placeholder} value={sec_val} pattern={fieldValidations} type="time"
+                        message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick} max={maximumtime}
+                        min={minimumtime} disabled={isdisabled}></input>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isTrueDateTime}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                        <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+
+                        </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+
+                    <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onblur={handleblur1} class="slds-input date_picker" id={fieldId}
+                        placeholder={placeholder} value={sec_val} pattern={fieldValidations} type="datetime-local"
+                        display-date-picker="true" message-when-pattern-mismatch={fieldAttributeValue}
+                        min={minimumdatetime} max={maximumdatetime} onchange={OnFieldClick}
+                        disabled={isdisabled}></input>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isTrueRating}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                    <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                    </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <div class="starrating">
+                        <div class="rate" id={PageId}>
+
+                            <input data-name={fieldmapping} onmousemove={handlehover} 
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                type="radio" id="star35" name="Package" value="5 Star" onchange={star_rating} />
+                            <label for="star35" data-id={str5} title="text">5 stars</label>
+                            <input data-name={fieldmapping}  onmousemove={handlehover} 
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                type="radio" id="star34" name="Package" value="4 Star" onchange={star_rating} />
+                            <label for="star34" data-id={str4} title="text">4 stars</label>
+                            <input data-name={fieldmapping}  onmousemove={handlehover} 
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                type="radio" id="star33" name="Package" value="3 Star" onchange={star_rating} />
+                            <label for="star33" data-id={str3} title="text">3 stars</label>
+                            <input data-name={fieldmapping}  onmousemove={handlehover} 
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                type="radio" id="star32" name="Package" value="2 Star" onchange={star_rating} />
+                            <label for="star32" data-id={str2} title="text">2 stars</label>
+                            <input data-name={fieldmapping}  onmousemove={handlehover} 
+                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
+                                type="radio" id="star31" name="Package" value="1 Star" onchange={star_rating} />
+
+                            <label for="star31" data-id={str1} title="text">1 star</label>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!--EMOJI RATING-->
+        <template if:true={isTrueEmojiRating}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                    <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                    </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <div class="rateEmoji1" id={PageId}>
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} class="emoji-input-box slds-input" type="radio"
+                            id="Poor" name="Poor" value="Poor" onclick={emojiRatingValue}
+                            checked={checkRating} />
+
+                        <label class="emoji-ratingfield" for="Poor" title="Poor"><img class="rating-Emoji-icons"
+                                src={emojiRating1}></label>
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} class="emoji-input-box slds-input" type="radio"
+                            id="Fair" name="Fair" value="Fair" onclick={emojiRatingValue}
+                            checked={checkRating} />
+                        <label class="emoji-ratingfield" for="Fair" title="Fair"><img class="rating-Emoji-icons"
+                                src={emojiRating2}></label>
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} class="emoji-input-box slds-input" type="radio"
+                            id="Average" name="Average" value="Average" onclick={emojiRatingValue}
+                            checked={checkRating} />
+                        <label class="emoji-ratingfield" for="Average" title="Average"><img class="rating-Emoji-icons"
+                                src={emojiRating3}></label>
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} class="emoji-input-box slds-input" type="radio"
+                            id="Happy" name="Happy" value="Happy" onclick={emojiRatingValue}
+                            checked={checkRating} />
+                        <label class="emoji-ratingfield" for="Happy" title="Happy"><img class="rating-Emoji-icons"
+                                src={emojiRating4}></label>
+                        <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                            onfocusin={handlefocus} onblur={handleblur1} class="emoji-input-box slds-input" type="radio"
+                            id="Exeellent" name="Exeellent" value="Exeellent" onclick={emojiRatingValue}
+                            checked={checkedRating} />
+                        <label class="emoji-ratingfield" for="Exeellent" title="Exeellent"><img class="rating-Emoji-icons"
+                                src={emojiRating5}></label>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!--Scale Rating-->
+        <template if:true={isTrueScaleRating}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <div class="labeldiv">
+                    <template if:true={labelcheck}>
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                    </template>
+                        <template if:true={helptextcheck}>
+                            <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+
+                        </template>
+                    </div>
+                    <div class="scaleRating" id={PageId}>
+                        <table>
+                            <tr>
+                                <th></th>
+                                <template for:each={salutationvalue} for:item="value">
+                                    <th key={rating}>
+                                        <label for={rating} class="likert-style" title="5 stars">{value} </label>
+                                    </th>
+                                </template>
+
+                            </tr>
+                            <tr>
+                                <td>FeedBack</td>
+                                <template for:each={salutationvalue} for:item="rating">
+                                    <td key={rating}>
+                                        <div class="likert-style">
+                                            <input data-name={fieldmapping} data-id={rating} onmousemove={handlehover}
+                                                onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
+                                                type="radio" class="newslds" id={rating} name={fieldmapping} value={rating}
+                                                onclick={radiobutton} checked={checkedRating}
+                                                style="display:block;width:8rem" />
+                                        </div>
+                                    </td>
+                                </template>
+                            </tr>
+                        </table>
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- Terms of Service -->
+        <template if:true={isTrueTerms}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <template if:true={labelcheck}>
+                        <div class="labeldiv">
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </div>
+                    </template>
+                    <div id={PageId} class="clsrk">
+                        <input data-name={fieldmapping} data-id="true" onmousemove={handlehover}
+                            onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} type="checkbox"
+                            variant="standard" onchange={OnFieldClick} class="slds-input"
+                            checked={isTermsAndConditionChecked} value={displayTexts}></input>
+                        <lightning-formatted-rich-text value={displayText}
+                            style="display:flex; align-items: center;"></lightning-formatted-rich-text>
+                            
+                    </div>
+                </template>
+            </template>
+        </template>
+
+        <!-- Link -->
+        <template if:true={isTrueLink}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <template if:true={labelcheck}>
+                        <div class="labeldiv">
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </div>
+                    </template>
+                    <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
+                        onfocusin={handlefocus} onfocusout={handleblur1} type="url" placeholder={placeholder}
+                        class="slds-input"
+                        pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"
+                        readonly={isReadOnly} onclick={showOnClick} onblur={linkValue} value={fildval}
+                        onchange={OnFieldClick} disabled={isdisabled}></input>
+                    <span data-id={fieldmapping}></span>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isTrueSign}>
+            <template if:true={isFullView}>
+                <template if:true={FieldShown}>
+                    <template if:true={labelcheck}>
+                        <div class="labeldiv">
+                            <template if:true={isReqired}>
+                                <label class="slds-form-element__label flabel">
+                                    <abbr class="slds-required" title="required">* </abbr>
+                                </label>
+                            </template>
+                            <label class="slds-form-element__label flabel">
+                                {labelvalue}
+                            </label>
+                        </div>
+                    </template>
+                    <template if:true={isFieldView}>
+                        <div>
+                            <div style="width: 300px;" id={PageId}>
+                                <canvas class="signaturefield" style="border:2px solid #ddd;background:white;"
+                                    id={PageId}></canvas>
+                                <div style="display: flex; justify-content: center;" class="signaturefield">
+                                    <div style="width: 65px; margin: 5px 5px 0 0;">
+                                        <div class="slds-button slds-button_brand" id="btnClear">Clear</div>
+                                    </div>
+                                    <div style="width: 65px; margin: 5px 0 0 10px;">
+                                        <div class="slds-button slds-button_brand">Save</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={isPreviewView}>
+                        <div>
+                            <div style="width: 300px;" id={PageId}>
+                                <canvas data-name={fieldmapping} onmousedown={draw_signature} class="signaturefield"
+                                    style="border:2px solid #ddd;background:white;" id={PageId}></canvas>
+                                <div style="display: flex; justify-content: center;" class="signaturefield">
+                                    <div style="width: 65px; margin: 5px 5px 0 0;">
+                                        <div data-name={fieldmapping} class="slds-button slds-button_brand"
+                                            onclick={handleClearClick} id="btnClear1">Clear</div>
+                                    </div>
+                                    <div style="width: 65px; margin: 5px 0 0 10px;">
+                                        <div data-name={fieldmapping} class="slds-button slds-button_brand"
+                                            onclick={get_signature}>Save</div>
+                                        <!-- onclick={handleSaveClick} -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </template>
+        </template>
+
+
+    </template>
+</template>

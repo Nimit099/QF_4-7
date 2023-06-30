@@ -1,0 +1,8 @@
+.slds-path__item {
+    min-width: 1rem !important;
+    width: 1rem;
+}
+.slds-progress{
+    max-width: 100%;
+    width: 90%;
+}
