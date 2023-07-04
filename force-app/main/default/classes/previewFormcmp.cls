@@ -143,18 +143,19 @@ public with sharing class previewFormcmp{
     @AuraEnabled
     public static void sendemailaftersubmission(Id formid, Id submissionid){
         try{
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE Purpose =:'DefaultNoreply' LIMIT 1];
+            
             Notification__c notify = [SELECT Id,Form__r.Name, To_Recipients__c, CC_Recipients__c, BCC_Recipients__c, Subject__c, Email_Body__c, Attachment__c, Status__c
                     FROM Notification__c
                     WHERE Form__c = :formid WITH SECURITY_ENFORCED];
             if (notify.Status__c == true){
                 EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
+                OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
                 Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
                         List<String> toAddresses = new List<String>();
                         toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
                         if ( owea.size() > 0 ) {
-                                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-                            }
+                            emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+                        }
                         emailNotification.setToAddresses(toAddresses);
                         emailNotification.setSubject('New Form');
                         emailNotification.setPlainTextBody(formid +','+ submissionid);
