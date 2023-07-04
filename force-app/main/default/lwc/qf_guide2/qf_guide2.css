@@ -8,6 +8,10 @@
     overflow: overlay;
 }
 
+ul:not(.browser-default) li {
+    list-style-type: disc;
+}
+
 .tab-container::-webkit-scrollbar {
     display: none;
 }
