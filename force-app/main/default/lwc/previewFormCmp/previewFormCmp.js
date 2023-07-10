@@ -1696,5 +1696,20 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
         }
 
     }
-
+    @api
+    getrequestforcloserefencefield(){
+        try {
+            console.log('getrequestforcloserefencefield');
+            var quickfields = this.template.querySelectorAll('c-quickformfieldcomponent');
+            for (let index = 0; index < quickfields.length; index++) {
+                const element = quickfields[index];
+                console.log('getrequestforcloserefencefield');
+                element.changeMessage('true');
+                
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+        
+    }
 }

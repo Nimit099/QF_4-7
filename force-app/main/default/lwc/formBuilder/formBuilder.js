@@ -185,7 +185,6 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
         this.activesidebar = true;
         this.reloadform();
         loadStyle(this, helptextcss);
-
     }
 
     reloadform() {
@@ -1614,6 +1613,23 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
             randomString += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return randomString;
+    }
+
+    @api
+    getrequestforcloserefencefield(){
+        try {
+            console.log('getrequestforcloserefencefield');
+            var quickfields = this.template.querySelectorAll('c-quickformfieldcomponent');
+            for (let index = 0; index < quickfields.length; index++) {
+                const element = quickfields[index];
+                console.log('getrequestforcloserefencefield');
+                element.changeMessage('true');
+                
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+        
     }
 
 }

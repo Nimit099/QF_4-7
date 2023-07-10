@@ -16,13 +16,13 @@ import getScaleRating from '@salesforce/apex/FormBuilderController.getScaleRatin
 import getreferencevalue from '@salesforce/apex/FormBuilderController.getreferencevalue';
 import getpicklistvalue from '@salesforce/apex/FormBuilderController.getpicklistvalue';
 import blackcross from '@salesforce/resourceUrl/blackcross';
-import fieldmessage from '@salesforce/messageChannel/fieldmessage__c';
+// import fieldmessage from '@salesforce/messageChannel/fieldmessage__c';
 import QuickBot_Cross from '@salesforce/resourceUrl/QuickBot_Cross';
-import {
-    publish,
-    subscribe,
-    MessageContext
-} from 'lightning/messageService'
+// import {
+//     publish,
+//     subscribe,
+//     MessageContext
+// } from 'lightning/messageService'
 import groupRadio from '@salesforce/resourceUrl/groupRadio'
 import helptextcss from '@salesforce/resourceUrl/helptextcss'
 import {
@@ -45,7 +45,7 @@ let canvasElement, ctx; //storing canvas context
 
 export default class Quickformfieldcomponent extends LightningElement {
     Cross = QuickBot_Cross;
-    @wire(MessageContext)
+    // @wire(MessageContext)
     messageContext
     message;
 
@@ -200,7 +200,7 @@ export default class Quickformfieldcomponent extends LightningElement {
         this.tView1 = this.tView;
         this.hovercssproperty1 = this.hovercssproperty;
         this.focuscssproperty1 = this.focuscssproperty;
-        this.handleSubscribe();
+        // this.handleSubscribe();
         this.fieldstype = this.tView1.split(',')[1];
         this.tView1 = this.tView1.split(',')[0];
         if (this.fieldstype == 'PICKLIST' || this.fieldstype == 'COMBOBOX') {
@@ -288,8 +288,8 @@ export default class Quickformfieldcomponent extends LightningElement {
                 const event1 = CustomEvent('startsppiner');
                 this.dispatchEvent(event1);
             }
-        } catch ( e ) {
-            this.messagetrack = 'Something went wrong in Rendered callback' + e.message; 
+        } catch (e) {
+            this.messagetrack = 'Something went wrong in Rendered callback' + e.message;
             const event1 = CustomEvent('startsppiner');
             this.dispatchEvent(event1);
         }
@@ -601,7 +601,7 @@ export default class Quickformfieldcomponent extends LightningElement {
                 }
 
             }
-        } catch ( e ) {
+        } catch (e) {
             this.messagetrack = 'Something went wrong in apply val' + e.message;
         }
     }
@@ -641,7 +641,7 @@ export default class Quickformfieldcomponent extends LightningElement {
                         }
                     }
                 }
-            } catch ( e ) {
+            } catch (e) {
                 this.messagetrack = 'Something went wrong in apply css property' + e.message;
             }
         }
@@ -673,7 +673,7 @@ export default class Quickformfieldcomponent extends LightningElement {
                     }
                 }
             }
-        } catch ( e ) {
+        } catch (e) {
             this.messagetrack = 'Something went wrong in labelcss' + e.message;
         }
     }
@@ -753,13 +753,13 @@ export default class Quickformfieldcomponent extends LightningElement {
 
     get CheckBoxOp() {
         return [{
-                label: 'first',
-                value: 'option1'
-            },
-            {
-                label: 'second',
-                value: 'option2'
-            },
+            label: 'first',
+            value: 'option1'
+        },
+        {
+            label: 'second',
+            value: 'option2'
+        },
         ];
     }
 
@@ -980,35 +980,46 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     handleSubscribe() {
-        if (this.subscription) {
-            return;
-        }
-        this.subscription = subscribe(this.messageContext, fieldmessage, (lmsmessage) => {
-            this.messagetrack = lmsmessage.message;
-            if (lmsmessage.message == 'true') {
+        // if (this.subscription) {
+        //     return;
+        // }
+        // this.subscription = subscribe(this.messageContext, fieldmessage, (lmsmessage) => {
+        //     this.messagetrack = lmsmessage.message;
+        //     if (lmsmessage.message == 'true') {
+            console.log('handlesubscribe');
                 this.referencevalue = [];
+                this.referencevaling = false;
+                this.referencevalings = false;
                 this.referecnereadonly = true;
-            } else {
-                this.closereference();
-                this.referecnereadonly = true;
-            }
-        });
+                this.usrViewBool = false;
+        //     } else {
+        //         this.closereference();
+        //         this.referecnereadonly = true;
+        //     }
+        // });
+
     }
 
     getreferncevalue(event) {
         try {
+
             this.spinnerdatatable = true;
+            
             if (this.referencevalue.length == 0) {
-                let lmsmessage = {
-                    message: 'false'
-                };
-                publish(this.messageContext, fieldmessage, lmsmessage);
+                console.log('getreferncevalue');
+                // let lmsmessage = {
+                //     message: 'false'
+                // };
+                // publish(this.messageContext, fieldmessage, lmsmessage);
+                this.sendrequesttoclosereferencefield();
                 document.addEventListener('click', this.outsideClick = this.closereference.bind(this));
                 event.stopPropagation();
+                
+
                 getreferencevalue({
-                        id: this.fieldId,
-                        searchkey: this.searchkey
-                    })
+                    id: this.fieldId,
+                    searchkey: this.searchkey
+                })
                     .then(result => {
                         this.spinnerdatatable = false;
                         this.referecnereadonly = false;
@@ -1026,7 +1037,7 @@ export default class Quickformfieldcomponent extends LightningElement {
                             this.referencevalings = true;
                         }
                         return false;
-                    }).catch( e => {
+                    }).catch(e => {
                         this.messagetrack = 'Something went wrong in Get Reference Value(A)' + e.message;
                         this.showerrorpopup();
                     });
@@ -1043,12 +1054,15 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     closereference() {
-        let lmsmessage = {
-            message: 'true'
-        };
-        publish(this.messageContext, fieldmessage, lmsmessage);
+        // let lmsmessage = {
+        //     message: 'true'
+        // };
+        // publish(this.messageContext, fieldmessage, lmsmessage);
+        // this.sendrequesttoclosereferencefield();
+        console.log('close referencevalue');
         this.referencevaling = false;
         this.referencevalings = false;
+        this.referencevalue =[];
         if (typeof document !== 'undefined') {
             document.removeEventListener('click', this.outsideClick);
         }
@@ -1101,30 +1115,30 @@ export default class Quickformfieldcomponent extends LightningElement {
 
             clearTimeout(this.typingTimer);
             this.typingTimer = setTimeout(() => {
-            getreferencevalue({
+                getreferencevalue({
                     id: this.fieldId,
                     searchkey: this.searchkey
                 })
-                .then(result => {
+                    .then(result => {
                         this.spinnerdatatable = false;
-                    if (result.referenceval.length > 0) {
-                        this.referencevaling = true;
-                        this.referencevalings = false;
-                        this.referencevalue = result.referenceval;
-                        this.reficon = result.objicon;
-                        this.usricon = true;
-                        this.usrViewBool = true;
-                    } else {
-                        this.usrViewBool = true;
-                        this.usricon = false;
-                        this.referencevaling = false;
-                        this.referencevalings = true;
-                        this.referencevalue = [{
-                            Id: 'none',
-                            Name: 'There is no such records'
-                        }]
-                    }
-                });
+                        if (result.referenceval.length > 0) {
+                            this.referencevaling = true;
+                            this.referencevalings = false;
+                            this.referencevalue = result.referenceval;
+                            this.reficon = result.objicon;
+                            this.usricon = true;
+                            this.usrViewBool = true;
+                        } else {
+                            this.usrViewBool = true;
+                            this.usricon = false;
+                            this.referencevaling = false;
+                            this.referencevalings = true;
+                            this.referencevalue = [{
+                                Id: 'none',
+                                Name: 'There is no such records'
+                            }]
+                        }
+                    });
             }, 700);
 
 
@@ -1137,8 +1151,8 @@ export default class Quickformfieldcomponent extends LightningElement {
     picklistvalues() {
         try {
             getpicklistvalue({
-                    id: this.fieldId
-                })
+                id: this.fieldId
+            })
                 .then(result => {
 
                     for (let key in result) {
@@ -1171,6 +1185,7 @@ export default class Quickformfieldcomponent extends LightningElement {
 
     // This function is to be used to store the emoji rating value in JSON.
     emojiRatingValue(event) {
+        this.sendrequesttoclosereferencefield();
         if (this.submit == true) {
             try {
                 var emojiValue = event.target.value;
@@ -1644,14 +1659,14 @@ export default class Quickformfieldcomponent extends LightningElement {
                 });
                 this.dispatchEvent(cssevent1);
                 var error = this.template.querySelector(`[data-id="${key}"]`);
-            if (error != null) {
-                error.textContent = "";
-            }
+                if (error != null) {
+                    error.textContent = "";
+                }
                 const cssevent3 = new CustomEvent("nextbtvaltrue", {
                     detail: key
                 });
                 this.dispatchEvent(cssevent3);
-            } catch ( e ) {
+            } catch (e) {
                 this.messagetrack = 'Something went wrong in remove error message ' + e.message;
                 this.showerrorpopup();
             }
@@ -2045,7 +2060,7 @@ export default class Quickformfieldcomponent extends LightningElement {
                 });
                 this.dispatchEvent(cssevent1);
 
-            } catch ( e ) {
+            } catch (e) {
                 this.messagetrack = 'Something went wrong in SObject Fullname' + e.message;
             }
         }
@@ -2102,6 +2117,7 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     radiobutton(event) {
+        this.sendrequesttoclosereferencefield();
         if (this.submit == true) {
             let radio_val = event.target.value;
             let key = event.target.dataset.name;
@@ -2219,7 +2235,7 @@ export default class Quickformfieldcomponent extends LightningElement {
             });
             this.dispatchEvent(cssevent1);
         }
-        else{
+        else {
             this.searchkey = '';
             this.showCrossIcon = false;
             this.usrViewBool = false;
@@ -2330,4 +2346,22 @@ export default class Quickformfieldcomponent extends LightningElement {
         event.preventDefault();
     }
 
+    @api
+    changeMessage(boolean) {
+        console.log(boolean);
+        this.closereference();
+    }
+
+    sendrequesttoclosereferencefield() {
+        try {
+            console.log('sendrequesttoclosereferencefield');
+            let paramData = true;
+            const ev = new CustomEvent('closefield',
+                { detail: paramData }
+            );
+            this.dispatchEvent(ev);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 }
