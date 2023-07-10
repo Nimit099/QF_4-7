@@ -15,7 +15,7 @@ import formfielddetails from '@salesforce/apex/previewFormcmp.formfielddetails';
 import formpagedetails from '@salesforce/apex/previewFormcmp.formpagedetails';
 import processDecryption from '@salesforce/apex/EncryptDecryptController.processDecryption';
 import bgimages from '@salesforce/apex/previewFormcmp.bgimages';
-import getthankyoupage from '@salesforce/apex/qfthankyou.getthankyoupage';
+import getthankyoupage from '@salesforce/apex/previewFormcmp.getthankyoupage';
 import sendemailaftersubmission from '@salesforce/apex/previewFormcmp.sendemailaftersubmission';
 import BackButton from '@salesforce/resourceUrl/BackButton';
 import getFieldsRecords_page from '@salesforce/apex/FormBuilderController.getFieldsRecords_page';

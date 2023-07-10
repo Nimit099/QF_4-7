@@ -4,7 +4,7 @@
 * Date : 05/04/2023
 * @description : Used in previewFormCmp LWC componnet
 */
-public with sharing class previewFormcmp{
+public without sharing class previewFormcmp{
 
     /**
     * Method Name : formdetails
@@ -165,4 +165,28 @@ public with sharing class previewFormcmp{
             System.debug('Exception in previewclass--->>'+e.getLineNumber()+' -->>'+e.getMessage());
         }
     }
+
+       /**
+    * Method Name : getthankyoupage
+    * @param currentformid Id value.
+    * @description : getthankyoupage
+    * @return Thankyou_Page__c record.
+    */
+    @AuraEnabled
+    public static Thankyou_Page__c getthankyoupage(Id currentformid){
+        try {
+            Thankyou_Page__c record = new Thankyou_Page__c();
+            if(currentformid != null) {
+                record = [SELECT Id, Name, Form__c,Thank_you_URL__c, Thankyou_Page_Type__c	, Thankyou_Text__c, ThankYou_Label__c	FROM Thankyou_Page__c WHERE Form__c =: currentformid WITH SECURITY_ENFORCED LIMIT 1];
+            }
+            if (record == null) {
+                return null;
+            }
+            return record;
+        } catch (Exception e) {
+            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            return null;            
+        }
+    }
+    
 }
