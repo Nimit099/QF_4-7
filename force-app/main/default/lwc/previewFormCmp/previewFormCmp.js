@@ -24,7 +24,6 @@ import createrecord_for_secod_object from '@salesforce/apex/FormBuilderControlle
 import createrecord_for_third_object from '@salesforce/apex/FormBuilderController.createrecord_for_third_object';
 import GetFormValidation from '@salesforce/apex/FormBuilderController.GetFormValidation';
 import findlookupfildes from '@salesforce/apex/FormBuilderController.findlookupfildes';
-// import update_ext_list from '@salesforce/apex/FormBuilderController.update_ext_list';
 
 import {
     loadStyle
@@ -1429,40 +1428,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
 
         }
     }
-    // add_sig() {
-    //     // sig_filde_id
-
-    //     if (Object.keys(this.list_ext_obj).length == 1) {
-    //         this.list_ext_obj == {};
-    //     }
-    //     for (let k = 0; k < this.sig_fildeid.length; k++) {
-    //         var sig_f_id = this.sig_fildeid[k];            
-    //         var sig_con_id = this.sig_u_map[sig_f_id];
-    //         this.list_ext_obj[sig_f_id] = sig_con_id;
-    //     }
-
-    //     for (let i = 0; i < this.file_upload_fildeid.length; i++) {
-    //         var fildeid = this.file_upload_fildeid[i];
-    //         var only_f_id = fildeid.split('<!QF!>');            
-    //         var con_id = this.file_u_map[only_f_id[0]];
-    //         this.list_ext_obj[only_f_id[0]] = con_id;
-    //     }
-
-    //     var ex_object_list = JSON.stringify(this.list_ext_obj);
-
-    //     update_ext_list({
-    //             acc2: ex_object_list,
-    //             submit_id: this.sub_id
-    //         })
-    //         .then(() => {                
-
-    //         })
-    //         .catch( e => {
-    //             this.message = e.message;
-    //             this.spinnerDataTable = false;
-    //         })
-
-    // }
 
     thankyou = false;
     thankyoutype;

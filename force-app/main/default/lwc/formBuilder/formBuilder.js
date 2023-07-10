@@ -1618,13 +1618,10 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     @api
     getrequestforcloserefencefield(){
         try {
-            console.log('getrequestforcloserefencefield');
             var quickfields = this.template.querySelectorAll('c-quickformfieldcomponent');
             for (let index = 0; index < quickfields.length; index++) {
                 const element = quickfields[index];
-                console.log('getrequestforcloserefencefield');
-                element.changeMessage('true');
-                
+                element.changeMessage();
             }
         } catch (error) {
             console.error(error.message);

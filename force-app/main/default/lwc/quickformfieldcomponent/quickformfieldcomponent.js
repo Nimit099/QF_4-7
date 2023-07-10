@@ -16,13 +16,7 @@ import getScaleRating from '@salesforce/apex/FormBuilderController.getScaleRatin
 import getreferencevalue from '@salesforce/apex/FormBuilderController.getreferencevalue';
 import getpicklistvalue from '@salesforce/apex/FormBuilderController.getpicklistvalue';
 import blackcross from '@salesforce/resourceUrl/blackcross';
-// import fieldmessage from '@salesforce/messageChannel/fieldmessage__c';
 import QuickBot_Cross from '@salesforce/resourceUrl/QuickBot_Cross';
-// import {
-//     publish,
-//     subscribe,
-//     MessageContext
-// } from 'lightning/messageService'
 import groupRadio from '@salesforce/resourceUrl/groupRadio'
 import helptextcss from '@salesforce/resourceUrl/helptextcss'
 import {
@@ -45,7 +39,6 @@ let canvasElement, ctx; //storing canvas context
 
 export default class Quickformfieldcomponent extends LightningElement {
     Cross = QuickBot_Cross;
-    // @wire(MessageContext)
     messageContext
     message;
 
@@ -200,7 +193,6 @@ export default class Quickformfieldcomponent extends LightningElement {
         this.tView1 = this.tView;
         this.hovercssproperty1 = this.hovercssproperty;
         this.focuscssproperty1 = this.focuscssproperty;
-        // this.handleSubscribe();
         this.fieldstype = this.tView1.split(',')[1];
         this.tView1 = this.tView1.split(',')[0];
         if (this.fieldstype == 'PICKLIST' || this.fieldstype == 'COMBOBOX') {
@@ -980,41 +972,23 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     handleSubscribe() {
-        // if (this.subscription) {
-        //     return;
-        // }
-        // this.subscription = subscribe(this.messageContext, fieldmessage, (lmsmessage) => {
-        //     this.messagetrack = lmsmessage.message;
-        //     if (lmsmessage.message == 'true') {
-            console.log('handlesubscribe');
-                this.referencevalue = [];
-                this.referencevaling = false;
-                this.referencevalings = false;
-                this.referecnereadonly = true;
-                this.usrViewBool = false;
-        //     } else {
-        //         this.closereference();
-        //         this.referecnereadonly = true;
-        //     }
-        // });
-
+        this.referencevalue = [];
+        this.referencevaling = false;
+        this.referencevalings = false;
+        this.referecnereadonly = true;
+        this.usrViewBool = false;
     }
 
     getreferncevalue(event) {
         try {
 
             this.spinnerdatatable = true;
-            
+
             if (this.referencevalue.length == 0) {
-                console.log('getreferncevalue');
-                // let lmsmessage = {
-                //     message: 'false'
-                // };
-                // publish(this.messageContext, fieldmessage, lmsmessage);
                 this.sendrequesttoclosereferencefield();
                 document.addEventListener('click', this.outsideClick = this.closereference.bind(this));
                 event.stopPropagation();
-                
+
 
                 getreferencevalue({
                     id: this.fieldId,
@@ -1054,15 +1028,9 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     closereference() {
-        // let lmsmessage = {
-        //     message: 'true'
-        // };
-        // publish(this.messageContext, fieldmessage, lmsmessage);
-        // this.sendrequesttoclosereferencefield();
-        console.log('close referencevalue');
         this.referencevaling = false;
         this.referencevalings = false;
-        this.referencevalue =[];
+        this.referencevalue = [];
         if (typeof document !== 'undefined') {
             document.removeEventListener('click', this.outsideClick);
         }
@@ -2347,14 +2315,12 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     @api
-    changeMessage(boolean) {
-        console.log(boolean);
+    changeMessage() {
         this.closereference();
     }
 
     sendrequesttoclosereferencefield() {
         try {
-            console.log('sendrequesttoclosereferencefield');
             let paramData = true;
             const ev = new CustomEvent('closefield',
                 { detail: paramData }
