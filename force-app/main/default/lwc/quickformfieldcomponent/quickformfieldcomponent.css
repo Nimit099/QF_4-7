@@ -461,6 +461,7 @@ select:hover,
     color: black;
     padding: 3%;
     font-family: sans-serif;
+    background-color: white;
 }
 
 .starrating {
@@ -570,6 +571,7 @@ span.deleteicon input {
 }
 
 .clsrk {
+    background-color: white;
     display: flex;
     gap: 8px;
 }
