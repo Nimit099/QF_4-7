@@ -20,8 +20,9 @@ import QuickBot_Cross from '@salesforce/resourceUrl/QuickBot_Cross';
 import groupRadio from '@salesforce/resourceUrl/groupRadio'
 import helptextcss from '@salesforce/resourceUrl/helptextcss'
 import {
-    loadStyle
+    loadStyle,loadScript
 } from 'lightning/platformResourceLoader';
+import signaturePadURL from '@salesforce/resourceUrl/signature_pad';
 
 let isDownFlag,
     isDotFlag = false,
@@ -35,6 +36,7 @@ let y = 1.5; //weight of line width and dot.
 
 let canvasElement, ctx; //storing canvas context
 // let dataURL, convertedDataURI; //holds image data
+
 
 
 export default class Quickformfieldcomponent extends LightningElement {
@@ -95,7 +97,6 @@ export default class Quickformfieldcomponent extends LightningElement {
     @api termsAndConditionValue = '';
     @api fieldName;
     @track fieldcount = true;
-    // d = false;
     @track picklistvalue = [];
     usrViewBool = false;
     referencevalue = [];
@@ -181,6 +182,11 @@ export default class Quickformfieldcomponent extends LightningElement {
     typingTimer = 100;
     spinnerdatatable = false;
 
+    // Added by Nimit for signature
+    sigPadInitialized = false;
+    canvasWidth = 400;
+    canvasHeight = 200;
+
     showerrorpopup() {
         this.template.querySelector('c-errorpopup').errormessagee('QuickForm Field Component Error', this.messagetrack);
     }
@@ -204,6 +210,7 @@ export default class Quickformfieldcomponent extends LightningElement {
         this.onfocus = false;
         loadStyle(this, groupRadio);
         loadStyle(this, helptextcss);
+
     }
 
     renderedCallback() {
@@ -285,6 +292,23 @@ export default class Quickformfieldcomponent extends LightningElement {
             const event1 = CustomEvent('startsppiner');
             this.dispatchEvent(event1);
         }
+
+                // Added By NIMIT
+                if (this.sigPadInitialized) {
+                    return;
+                }
+                this.sigPadInitialized = true;
+        
+                Promise.all([
+                    loadScript(this, signaturePadURL)
+                ])
+                    .then(() => {
+                        this.initialize();
+                    })
+                    .catch(error => {
+                        console.log(error, ' NIMIT');
+                    });
+
         this.s_address();
         this.apply_val();
 
@@ -1292,15 +1316,15 @@ export default class Quickformfieldcomponent extends LightningElement {
         ctx.closePath();
     }
 
-    draw_signature(event) {
-        let field_id = event.target.dataset.name;
-        canvasElement = this.template.querySelector(`[data-name="${field_id}"]`);
-        ctx = canvasElement.getContext("2d");
-        this.template.addEventListener('mousemove', this.handleMouseMove.bind(this));
-        this.template.addEventListener('mousedown', this.handleMouseDown.bind(this));
-        this.template.addEventListener('mouseup', this.handleMouseUp.bind(this));
-        this.template.addEventListener('mouseout', this.handleMouseOut.bind(this));
-    }
+    // draw_signature(event) {
+    //     let field_id = event.target.dataset.name;
+    //     canvasElement = this.template.querySelector(`[data-name="${field_id}"]`);
+    //     ctx = canvasElement.getContext("2d");
+    //     this.template.addEventListener('mousemove', this.handleMouseMove.bind(this));
+    //     this.template.addEventListener('mousedown', this.handleMouseDown.bind(this));
+    //     this.template.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    //     this.template.addEventListener('mouseout', this.handleMouseOut.bind(this));
+    // }
 
     get_signature(event) {
         if (this.submit == true) {
@@ -1311,6 +1335,7 @@ export default class Quickformfieldcomponent extends LightningElement {
             ctx.fillStyle = "#FFF"; //white
             ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
             this.dataURL = canvasElement.toDataURL("image/png"); //convert to png image as dataURL
+            console.log(this.dataURL, "Mitraj Singh");
             this.convertedDataURI = this.dataURL.replace(/^data:image\/(png|jpg);base64,/, ""); //convert that as base64 encoding
             let key = event.target.dataset.name;
             var sig_fildeArr = key.split('<!@!>');
@@ -2328,6 +2353,17 @@ export default class Quickformfieldcomponent extends LightningElement {
             this.dispatchEvent(ev);
         } catch (error) {
             console.error(error.message);
+        }
+    }
+
+    // Added by Nimit for signature
+    initialize() {
+        try {
+            const canvas = this.template.querySelector('canvas.signature-pad');
+            this.signaturePad = new window.SignaturePad(canvas);
+
+        } catch (error) {
+            console.log(error.message);
         }
     }
 }

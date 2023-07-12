@@ -688,3 +688,19 @@ span.deleteicon input {
     display: flex;
     flex-wrap: wrap;
 }
+.signaturebox{
+    width: 300px;
+}
+
+  /* For Mobile Phones Portrait or Landscape View */
+  @media screen and (max-device-width: 640px) {
+    .signaturefield {
+        width: 100%;
+    }
+    .signaturebox{
+        width: 100%;
+    }
+    .scaleRating{
+        overflow-x: scroll;
+    }
+  }

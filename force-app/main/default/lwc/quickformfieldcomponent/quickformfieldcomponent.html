@@ -1,5 +1,5 @@
 <template>
-    
+
     <c-toast-component></c-toast-component>
     <c-errorpopup></c-errorpopup>
     <!-- Email Id -->
@@ -267,7 +267,8 @@
                         <div class="slds-form-element__control">
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='url'
-                                value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled}
+                                onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
 
                         </div>
@@ -299,7 +300,7 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='password'
                                 value={fildval} onchange={OnFieldClick} class="slds-input" disabled={isdisabled}
-                                maxlength={maximum} minlength={minimum} onclick={sendrequesttoclosereferencefield}/>
+                                maxlength={maximum} minlength={minimum} onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
 
@@ -395,7 +396,7 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='email'
                                 value={fildval} maxlength={maximum} minlength={minimum} onchange={OnFieldClick}
-                                class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
                     </label>
@@ -427,7 +428,7 @@
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder}
                                 type='datetime-local' value={sec_val} onchange={OnFieldClick}
                                 class="slds-input date_picker" min={minimumdatetime} max={maximumdatetime}
-                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
                     </label>
@@ -458,7 +459,7 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='number'
                                 value={fildval} maxlength={maximum} minlength={minimum} onchange={OnFieldClick}
-                                class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
                     </label>
@@ -489,7 +490,7 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='Time'
                                 value={sec_val} onchange={OnFieldClick} class="slds-input date_picker"
-                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
                     </label>
@@ -520,7 +521,7 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 data-type="phone" onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder}
                                 type='text' value={fildval} onkeyup={OnFieldClick} class="slds-input"
-                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                             <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid Phone Number
                             </p>
                             <span data-id={fieldmapping}></span>
@@ -638,7 +639,7 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='number'
                                 value={fildval} maxlength={maximum} minlength={minimum} onchange={OnFieldClick}
-                                class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                class="slds-input" disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
 
@@ -670,7 +671,8 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} placeholder={placeholder} type='date'
                                 value={fildval} min={minimumdate} max={maximumdate} onchange={OnFieldClick}
-                                class="slds-input date_picker" disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                class="slds-input date_picker" disabled={isdisabled}
+                                onclick={sendrequesttoclosereferencefield} />
                             <span data-id={fieldmapping}></span>
                         </div>
 
@@ -702,7 +704,8 @@
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
                                 placeholder={placeholder} type="checkbox" value={fildval} name={tView}
-                                options={CheckBoxOp} pattern={fieldValidations} onclick={sendrequesttoclosereferencefield}
+                                options={CheckBoxOp} pattern={fieldValidations}
+                                onclick={sendrequesttoclosereferencefield}
                                 message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick} key={value}
                                 disabled={isdisabled}></input>
                             <span data-id={fieldmapping}></span>
@@ -747,13 +750,15 @@
                                         <input data-name={city} onmousemove={handlehover} onmouseout={handleblur}
                                             onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
                                             type="text" data-id="city" onchange={OnFieldClick} name="city"
-                                            class="slds-input" placeholder="City" value={scity} onclick={sendrequesttoclosereferencefield}/>
+                                            class="slds-input" placeholder="City" value={scity}
+                                            onclick={sendrequesttoclosereferencefield} />
                                     </div>
                                     <div class="slds-form-element__control rightfield">
                                         <input data-name={state} onmousemove={handlehover} onmouseout={handleblur}
                                             onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
                                             type="text" data-id="state" onchange={OnFieldClick} name="state"
-                                            class="slds-input" placeholder="State" value={sstate} onclick={sendrequesttoclosereferencefield}/>
+                                            class="slds-input" placeholder="State" value={sstate}
+                                            onclick={sendrequesttoclosereferencefield} />
                                     </div>
                                 </div>
                                 <div class="slds-form-element flex">
@@ -761,7 +766,8 @@
                                         <input data-name={postalcode} onmousemove={handlehover} onmouseout={handleblur}
                                             onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
                                             type="text" data-id="zip-code" data-type="zip-code" onchange={OnFieldClick}
-                                            name="zipcode" class="slds-input" placeholder="Zip Code" value={szipcode} onclick={sendrequesttoclosereferencefield}/>
+                                            name="zipcode" class="slds-input" placeholder="Zip Code" value={szipcode}
+                                            onclick={sendrequesttoclosereferencefield} />
                                         <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid
                                             Zip Code
                                         </p>
@@ -770,7 +776,8 @@
                                         <input data-name={country} onmousemove={handlehover} onmouseout={handleblur}
                                             onfocusin={handlefocus} onblur={handleblur1} disabled={isdisabled}
                                             type="text" data-id="country" onchange={OnFieldClick} name="country"
-                                            class="slds-input" placeholder="Country" value={scountry} onclick={sendrequesttoclosereferencefield}/>
+                                            class="slds-input" placeholder="Country" value={scountry}
+                                            onclick={sendrequesttoclosereferencefield} />
                                     </div>
                                 </div>
                             </div>
@@ -1052,7 +1059,8 @@
                         <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                             onfocusin={handlefocus} value={fildval} onblur={handleblur1} placeholder={placeholder}
                             type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" onchange={OnFieldClick}
-                            class="slds-input" disabled={isdisabled} maxlength={maximum} minlength={minimum} onclick={sendrequesttoclosereferencefield} />
+                            class="slds-input" disabled={isdisabled} maxlength={maximum} minlength={minimum}
+                            onclick={sendrequesttoclosereferencefield} />
                         <span data-id={fieldmapping}></span>
                     </div>
                 </template>
@@ -1099,13 +1107,13 @@
                             <input data-id="First Name" data-name={fieldmapping} name="f_name" onmousemove={handlehover}
                                 onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
                                 placeholder="First Name" value={thi_val} onchange={full_name} class="slds-input"
-                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                         </div>
                         <div class="slds-form-element__control fullnamewidth">
                             <input data-id="Last Name" data-name={fieldmapping} name="s_name" onmousemove={handlehover}
                                 onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
                                 placeholder="Last Name" value={for_val} onchange={full_name} class="slds-input"
-                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield}/>
+                                disabled={isdisabled} onclick={sendrequesttoclosereferencefield} />
                         </div>
                     </div>
                 </template>
@@ -1179,7 +1187,7 @@
                                 <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                     onfocusin={handlefocus} onchange={address} onblur={handleblur1} data-id="city"
                                     disabled={isdisabled} type="text" id="city" name="city" class="slds-input"
-                                    value={thi_val} placeholder="City" onclick={sendrequesttoclosereferencefield}/>
+                                    value={thi_val} placeholder="City" onclick={sendrequesttoclosereferencefield} />
                             </div>
                             <div class="slds-form-element__control rightfield">
                                 <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
@@ -1193,7 +1201,8 @@
                                 <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                     onfocusin={handlefocus} onchange={address} onblur={handleblur1} data-id="zip-code"
                                     data-type="zip-code" disabled={isdisabled} type="text" id="zip-code" name="zipcode"
-                                    class="slds-input" value={fiv_val} placeholder="Zip Code" onclick={sendrequesttoclosereferencefield}/>
+                                    class="slds-input" value={fiv_val} placeholder="Zip Code"
+                                    onclick={sendrequesttoclosereferencefield} />
                                 <p style="color:red; font-size:10px;" if:true={showErrorMessage}>Enter a Valid Zip Code
                                 </p>
                             </div>
@@ -1320,7 +1329,8 @@
                                 <input data-name={fieldmapping} data-id={value} onmousemove={handlehover}
                                     onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1}
                                     class="slds-input" placeholder={placeholder} type="checkbox" value={value}
-                                    name={tView} options={CheckBoxOp} pattern={fieldValidations} onclick={sendrequesttoclosereferencefield}
+                                    name={tView} options={CheckBoxOp} pattern={fieldValidations}
+                                    onclick={sendrequesttoclosereferencefield}
                                     message-when-pattern-mismatch={fieldAttributeValue} onchange={check_box} key={value}
                                     disabled={isdisabled}></input>
                                 <label key={value}>{value}</label>
@@ -1354,9 +1364,9 @@
                             <input data-name={fieldmapping} data-id={value} onmousemove={handlehover}
                                 onmouseout={handleblur} onfocusin={handlefocus} onblur={handleblur1} class="slds-input"
                                 placeholder={placeholder} type="radio" value={value} name={tView} options={CheckBoxOp}
-                                pattern={fieldValidations} message-when-pattern-mismatch={fieldAttributeValue} onclick={sendrequesttoclosereferencefield}
-                                onchange={radiobutton} key={value} disabled={isdisabled}></input> <label
-                                key={value}>{value}</label>
+                                pattern={fieldValidations} message-when-pattern-mismatch={fieldAttributeValue}
+                                onclick={sendrequesttoclosereferencefield} onchange={radiobutton} key={value}
+                                disabled={isdisabled}></input> <label key={value}>{value}</label>
                         </div>
                     </template>
                 </template>
@@ -1426,7 +1436,8 @@
                     <div class="slds-form-element__control">
                         <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                             onfocusin={handlefocus} onblur={handleblur1} class='slds-input' placeholder={placeholder}
-                            type="number" format="#,##0,000.00#" value={fildval} onclick={sendrequesttoclosereferencefield}
+                            type="number" format="#,##0,000.00#" value={fildval}
+                            onclick={sendrequesttoclosereferencefield}
                             message-when-pattern-mismatch={fieldAttributeValue} onchange={OnFieldClick}
                             maxlength={maximum} minlength={minimum} disabled={isdisabled}></input>
                         <span data-id={fieldmapping}></span>
@@ -1457,9 +1468,9 @@
                     </div>
                     <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                         onfocusin={handlefocus} onblur={handleblur1} class="slds-input" id={fieldId}
-                        placeholder={placeholder} type="number" formatter="currency" value={fildval} onclick={sendrequesttoclosereferencefield}
-                        pattern={fieldValidations} onchange={OnFieldClick} maxlength={maximum} minlength={minimum}
-                        disabled={isdisabled}></input>
+                        placeholder={placeholder} type="number" formatter="currency" value={fildval}
+                        onclick={sendrequesttoclosereferencefield} pattern={fieldValidations} onchange={OnFieldClick}
+                        maxlength={maximum} minlength={minimum} disabled={isdisabled}></input>
                     <span data-id={fieldmapping}></span>
                 </template>
             </template>
@@ -1522,7 +1533,8 @@
                         onfocusin={handlefocus} onblur={handleblur1} class="slds-input date_picker" id={fieldId}
                         placeholder={placeholder} formatter="currency" value={fildval} pattern={fieldValidations}
                         type="date" display-date-picker="true" message-when-pattern-mismatch={fieldAttributeValue}
-                        onchange={OnFieldClick} min={minimumdate} max={maximumdate} disabled={isdisabled} onclick={sendrequesttoclosereferencefield}></input>
+                        onchange={OnFieldClick} min={minimumdate} max={maximumdate} disabled={isdisabled}
+                        onclick={sendrequesttoclosereferencefield}></input>
                     <span data-id={fieldmapping}></span>
                 </template>
             </template>
@@ -1583,8 +1595,8 @@
                         onfocusin={handlefocus} onblur={handleblur1} class="slds-input date_picker" id={fieldId}
                         placeholder={placeholder} value={sec_val} pattern={fieldValidations} type="datetime-local"
                         display-date-picker="true" message-when-pattern-mismatch={fieldAttributeValue}
-                        min={minimumdatetime} max={maximumdatetime} onchange={OnFieldClick} onclick={sendrequesttoclosereferencefield}
-                        disabled={isdisabled}></input>
+                        min={minimumdatetime} max={maximumdatetime} onchange={OnFieldClick}
+                        onclick={sendrequesttoclosereferencefield} disabled={isdisabled}></input>
                     <span data-id={fieldmapping}></span>
                 </template>
             </template>
@@ -1614,23 +1626,28 @@
 
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} class="slds-input" type="radio" id="star35"
-                                name="Package" value="5 Star" onchange={star_rating} onclick={sendrequesttoclosereferencefield}/>
+                                name="Package" value="5 Star" onchange={star_rating}
+                                onclick={sendrequesttoclosereferencefield} />
                             <label for="star35" data-id={str5} title="text">5 stars</label>
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} class="slds-input" type="radio" id="star34"
-                                name="Package" value="4 Star" onchange={star_rating} onclick={sendrequesttoclosereferencefield}/>
+                                name="Package" value="4 Star" onchange={star_rating}
+                                onclick={sendrequesttoclosereferencefield} />
                             <label for="star34" data-id={str4} title="text">4 stars</label>
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} class="slds-input" type="radio" id="star33"
-                                name="Package" value="3 Star" onchange={star_rating} onclick={sendrequesttoclosereferencefield} />
+                                name="Package" value="3 Star" onchange={star_rating}
+                                onclick={sendrequesttoclosereferencefield} />
                             <label for="star33" data-id={str3} title="text">3 stars</label>
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} class="slds-input" type="radio" id="star32"
-                                name="Package" value="2 Star" onchange={star_rating} onclick={sendrequesttoclosereferencefield}/>
+                                name="Package" value="2 Star" onchange={star_rating}
+                                onclick={sendrequesttoclosereferencefield} />
                             <label for="star32" data-id={str2} title="text">2 stars</label>
                             <input data-name={fieldmapping} onmousemove={handlehover} onmouseout={handleblur}
                                 onfocusin={handlefocus} onblur={handleblur1} class="slds-input" type="radio" id="star31"
-                                name="Package" value="1 Star" onchange={star_rating} onclick={sendrequesttoclosereferencefield}/>
+                                name="Package" value="1 Star" onchange={star_rating}
+                                onclick={sendrequesttoclosereferencefield} />
 
                             <label for="star31" data-id={str1} title="text">1 star</label>
                         </div>
@@ -1793,8 +1810,8 @@
                         onfocusin={handlefocus} onfocusout={handleblur1} type="url" placeholder={placeholder}
                         class="slds-input"
                         pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"
-                        readonly={isReadOnly} onclick={sendrequesttoclosereferencefield} onblur={linkValue} value={fildval}
-                        onchange={OnFieldClick} disabled={isdisabled}></input>
+                        readonly={isReadOnly} onclick={sendrequesttoclosereferencefield} onblur={linkValue}
+                        value={fildval} onchange={OnFieldClick} disabled={isdisabled}></input>
                     <span data-id={fieldmapping}></span>
                 </template>
             </template>
@@ -1817,9 +1834,13 @@
                     </template>
                     <template if:true={isFieldView}>
                         <div>
-                            <div style="width: 300px;" id={PageId}>
-                                <canvas class="signaturefield" style="border:2px solid #ddd;background:white;"
-                                    id={PageId}></canvas>
+                            <div style="" id={PageId} class="signaturebox">
+                                <!-- <canvas class="signaturefield" style="border:2px solid #ddd;background:white;"
+                                    id={PageId}></canvas> -->
+                                <canvas class="signature-pad signaturefield" data-name={fieldmapping}
+                                    height={canvasHeight}
+                                    style="border:2px solid #ddd;background:white;" id={PageId}
+                                    lwc:dom="manual"></canvas>
                                 <div style="display: flex; justify-content: center;" class="signaturefield">
                                     <div style="width: 65px; margin: 5px 5px 0 0;">
                                         <div class="slds-button slds-button_brand" id="btnClear">Clear</div>
@@ -1833,9 +1854,13 @@
                     </template>
                     <template if:true={isPreviewView}>
                         <div>
-                            <div style="width: 300px;" id={PageId}>
-                                <canvas data-name={fieldmapping} onmousedown={draw_signature} class="signaturefield"
-                                    style="border:2px solid #ddd;background:white;" id={PageId}></canvas>
+                            <div class="signaturebox" id={PageId}>
+                                <canvas class="signature-pad signaturefield" data-name={fieldmapping}
+                                    height={canvasHeight}
+                                    style="border:2px solid #ddd;background:white;" id={PageId}
+                                    lwc:dom="manual"></canvas>
+                                <!-- <canvas data-name={fieldmapping} onmousedown={draw_signature} class="signaturefield"
+                                    style="border:2px solid #ddd;background:white;" id={PageId}></canvas> -->
                                 <div style="display: flex; justify-content: center;" class="signaturefield">
                                     <div style="width: 65px; margin: 5px 5px 0 0;">
                                         <div data-name={fieldmapping} class="slds-button slds-button_brand"
