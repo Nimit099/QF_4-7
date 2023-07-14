@@ -461,7 +461,7 @@ select:hover,
     color: black;
     padding: 3%;
     font-family: sans-serif;
-    background-color: white;
+    /* background-color: white; */
 }
 
 .starrating {
@@ -571,7 +571,7 @@ span.deleteicon input {
 }
 
 .clsrk {
-    background-color: white;
+    /* background-color: white; */
     display: flex;
     gap: 8px;
 }
@@ -705,4 +705,8 @@ span.deleteicon input {
     .scaleRating{
         overflow-x: scroll;
     }
+  }
+  .clsrkvalue{
+    color: white;
+    mix-blend-mode: difference;
   }

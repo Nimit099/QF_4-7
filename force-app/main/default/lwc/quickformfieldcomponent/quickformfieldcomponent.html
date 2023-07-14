@@ -1333,7 +1333,7 @@
                                     onclick={sendrequesttoclosereferencefield}
                                     message-when-pattern-mismatch={fieldAttributeValue} onchange={check_box} key={value}
                                     disabled={isdisabled}></input>
-                                <label key={value}>{value}</label>
+                                <label key={value} class="clsrkvalue">{value}</label>
                             </div>
                         </template>
                     </div>
@@ -1366,7 +1366,7 @@
                                 placeholder={placeholder} type="radio" value={value} name={tView} options={CheckBoxOp}
                                 pattern={fieldValidations} message-when-pattern-mismatch={fieldAttributeValue}
                                 onclick={sendrequesttoclosereferencefield} onchange={radiobutton} key={value}
-                                disabled={isdisabled}></input> <label key={value}>{value}</label>
+                                disabled={isdisabled}></input> <label key={value} class="clsrkvalue">{value}</label>
                         </div>
                     </template>
                 </template>
@@ -1721,7 +1721,7 @@
                                     <abbr class="slds-required" title="required">* </abbr>
                                 </label>
                             </template>
-                            <label class="slds-form-element__label flabel">
+                            <label class="slds-form-element__label flabel" >
                                 {labelvalue}
                             </label>
                         </template>
@@ -1736,13 +1736,13 @@
                                 <th></th>
                                 <template for:each={salutationvalue} for:item="value">
                                     <th key={rating}>
-                                        <label for={rating} class="likert-style" title="5 stars">{value} </label>
+                                        <label for={rating} class="likert-style clsrkvalue" title="5 stars">{value} </label>
                                     </th>
                                 </template>
 
                             </tr>
                             <tr>
-                                <td>FeedBack</td>
+                                <td class="clsrkvalue">FeedBack</td>
                                 <template for:each={salutationvalue} for:item="rating">
                                     <td key={rating}>
                                         <div class="likert-style">
@@ -1782,7 +1782,7 @@
                             onfocusin={handlefocus} onblur={handleblur1} type="checkbox" variant="standard"
                             onchange={OnFieldClick} class="slds-input" checked={isTermsAndConditionChecked}
                             value={displayTexts} onclick={sendrequesttoclosereferencefield}></input>
-                        <lightning-formatted-rich-text value={displayText}
+                        <lightning-formatted-rich-text value={displayText} class="clsrkvalue"
                             style="display:flex; align-items: center;"></lightning-formatted-rich-text>
 
                     </div>

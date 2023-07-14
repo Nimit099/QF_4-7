@@ -1,7 +1,7 @@
 /**
  * @description FormBuilderController Class
  */
-public with sharing class FormBuilderController{
+public without sharing class FormBuilderController{
     /**
      * @description GetFieldsMetaData Method
      * @return List of BaseField_mdt__mdt
