@@ -4,7 +4,7 @@
 * Date : 05/04/2023
 * @description : Used in previewFormCmp LWC componnet
 */
-public without sharing class previewFormcmp{
+public with sharing class previewFormcmp{
 
     /**
     * Method Name : formdetails

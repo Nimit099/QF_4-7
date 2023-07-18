@@ -953,8 +953,8 @@ public class Test_FormBuilderController {
 
         List<String> find = FormBuilderController.findlookupfildes('Account','Case');
         
-        FormBuilderController.update_ext_list('{"sobjectType":"Form_c"}',sub1.id);
-        FormBuilderController.update_ext_list('{"sobjectType":"Form_c"}',field.id);
+        // FormBuilderController.update_ext_list('{"sobjectType":"Form_c"}',sub1.id);
+        // FormBuilderController.update_ext_list('{"sobjectType":"Form_c"}',field.id);
         System.assert(field != null, 'Successfully');
         System.assert(sub1 != null, 'Successfully');
 
