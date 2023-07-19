@@ -37,7 +37,7 @@ public with sharing class previewFormcmp{
                 nform.Status__c = true;
             }
         } catch (Exception e){
-
+            System.debug(e);
             return null;
         }
         return nform;
