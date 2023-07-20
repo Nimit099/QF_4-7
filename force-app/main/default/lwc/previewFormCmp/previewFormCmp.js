@@ -1173,8 +1173,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     sig_upload_jsone: JSON.stringify(this.sig_upload),
                     sig_upload_fid_list: this.sig_fildeid,
                     file_upload_jsone: JSON.stringify(this.file_upload),
-                    file_upload_fid_list: this.file_upload_fildeid
-
+                    file_upload_fid_list: this.file_upload_fildeid,
+                    
                 })
                     .then(data => {
                         console.log(JSON.stringify(data));
@@ -1209,8 +1209,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     file_upload_fid_list: this.file_upload_fildeid,
                     create_chi: this.create_chi,
                     lookup_list: this.lookup_2obj,
-                    base64att: this.base64Att
-
+                    base64att: this.base64Att,
                 })
                     .then(data => {
                         this.sub_id = data.SubmissionId;
@@ -1246,7 +1245,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     lookup_list: this.lookup_2obj,
                     create_chi_2: this.create_chi_2,
                     lookup_list2: this.lookup_3obj,
-                    base64att: this.base64Att
+                    base64att: this.base64Att,
+                    
                 })
                     .then(data => {
                         this.sub_id = data.SubmissionId;
