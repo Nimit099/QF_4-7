@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "QuickForm_Scratch_18_7",
+  "name": "QuickForm_Scratch",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "57.0"

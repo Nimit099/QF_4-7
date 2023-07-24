@@ -3,7 +3,6 @@ global class TrialEmailService implements Messaging.InboundEmailHandler {
         try{
             Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
             System.debug(result);
-            result.add('Form__c', 'ol');
             return result;
       } catch(Exception e){
           return null;

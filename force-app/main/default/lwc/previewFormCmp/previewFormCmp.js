@@ -250,6 +250,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         let formbg = result.FormBgID__c;
                         this.formname = result.Name;
                         this.form_object = result.Mapped_Objects__c;
+                        console.log(JSON.stringify(this.form_object));
                         this.testtocall();
 
                         if (this.captchavalue == 'None' || this.captchavalue == '--None--' || this.captchavalue == undefined) {
@@ -637,50 +638,70 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
 
     // add by yash
     testtocall() {
-        this.obj = this.form_object;
-        this.form_mapped_Objects = this.obj.split(',');
-        this.first_object = this.form_mapped_Objects[0];
-        this.list_first_obj.sobjectType = this.form_mapped_Objects[0];
-        this.all_filde_value.sobjectType = this.form_mapped_Objects[0];
-        this.second_object = this.form_mapped_Objects[1];
-        this.list_second_obj.sobjectType = this.form_mapped_Objects[1];
-        this.all_filde_value_second.sobjectType = this.form_mapped_Objects[1];
-        this.third_object = this.form_mapped_Objects[2];
-        this.list_third_obj.sobjectType = this.form_mapped_Objects[2];
-        this.all_filde_value_third.sobjectType = this.form_mapped_Objects[2];
-
-        if (this.form_mapped_Objects.length == 2) {
-            findlookupfildes({
-                minobj: this.form_mapped_Objects[0],
-                fsubobj: this.form_mapped_Objects[1]
-            })
-                .then(result => {
-                    this.lookup_2obj = result;
-                })
-                .catch(e => {
-                    this.message = e.message;
-                });
-
-        } else if (this.form_mapped_Objects.length == 3) {
-
-            for (let k = 1; k < this.form_mapped_Objects.length; k++) {
-
+        try {
+            
+            console.log('Test to call');
+            console.log(JSON.stringify(this.form_object));
+            this.obj = this.form_object;
+            console.log(JSON.stringify(this.obj));
+            this.form_mapped_Objects = this.obj.split(',');
+            console.log(JSON.stringify(this.form_mapped_Objects));
+            this.first_object = this.form_mapped_Objects[0];
+            console.log(JSON.stringify(this.first_object));
+            this.list_first_obj.sobjectType = this.form_mapped_Objects[0];
+            console.log(JSON.stringify(this.list_first_obj.sobjectType));
+            this.all_filde_value.sobjectType = this.form_mapped_Objects[0];
+            this.second_object = this.form_mapped_Objects[1];
+            console.log(JSON.stringify(this.second_object));
+            this.list_second_obj.sobjectType = this.form_mapped_Objects[1];
+            this.all_filde_value_second.sobjectType = this.form_mapped_Objects[1];
+            this.third_object = this.form_mapped_Objects[2];
+            console.log(JSON.stringify(this.third_object));
+            this.list_third_obj.sobjectType = this.form_mapped_Objects[2];
+            this.all_filde_value_third.sobjectType = this.form_mapped_Objects[2];
+            console.log('testtocall');
+            if (this.form_mapped_Objects.length == 2) {
+                console.log('Nimit 2');
+                console.log(JSON.stringify(this.form_mapped_Objects[0]));
+                console.log(this.form_mapped_Objects[1]);
+                console.log('Nimit 2 ends');
                 findlookupfildes({
                     minobj: this.form_mapped_Objects[0],
-                    fsubobj: this.form_mapped_Objects[k]
+                    fsubobj: this.form_mapped_Objects[1]
                 })
                     .then(result => {
-                        this.lookup_filde_json[k] = result;
-
+                        this.lookup_2obj = result;
                     })
                     .catch(e => {
                         this.message = e.message;
                     });
+    
+            } else if (this.form_mapped_Objects.length == 3) {
+    
+                
+                for (let k = 1; k < this.form_mapped_Objects.length; k++) {
+                    console.log('Nimit Start 123');
+                    console.log(JSON.stringify(this.form_mapped_Objects[0]));
+                    console.log(JSON.stringify(this.form_mapped_Objects[k]));
+                    console.log('Nimit End123');
+                    findlookupfildes({
+                        minobj: this.form_mapped_Objects[0],
+                        fsubobj: this.form_mapped_Objects[k]
+                    })
+                        .then(result => {
+                            this.lookup_filde_json[k] = result;
+                            console.log(JSON.stringify(this.lookup_filde_json));   
+    
+                        })
+                        .catch(e => {
+                            this.message = e.message;
+                        });
+                }
+                 
             }
-
+        } catch (error) {
+            console.log(error.message);
         }
-
-
     }
     show_required_fields_error() {
         this.checkbool = false;
@@ -1227,9 +1248,18 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     })
 
             } else if (this.form_mapped_Objects.length == 3) {
-
+                console.log('Nimit Start');
+                console.log(this.lookup_filde_json);
+                console.log(this.lookup_filde_json['1']);
                 this.lookup_2obj = this.lookup_filde_json['1'];
+                console.log(this.lookup_2obj);
+                console.log(JSON.stringify(this.lookup_filde_json));
+                console.log(JSON.stringify(this.lookup_filde_json['1']));
+               
                 this.lookup_3obj = this.lookup_filde_json['2'];
+                console.log(this.lookup_filde_json['2']);
+                console.log(JSON.stringify(this.lookup_filde_json['2']));
+                console.log('Nimit End');
                 this.add_lookyp_fildes();
                 this.add_lookyp_fildes_2();
                 createrecord_for_third_object({

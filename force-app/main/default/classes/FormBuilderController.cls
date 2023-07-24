@@ -2433,6 +2433,9 @@ public with sharing class FormBuilderController{
                 insertRecordList.add(formsub.Id);
                 subID = formsub.Id;
             }
+            System.debug((stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+
+            '<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'
+            +lookuplist2_String+'<MVQFSeperator>'+create_chi_2+'<MVQFSeperator>'+subID+'<MVQFSeperator>'+acc.Form__c));
 
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
             OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
@@ -2574,11 +2577,15 @@ public with sharing class FormBuilderController{
             stringthirdobjectdata = stringthirdobjectdata.replace('{', '');
             stringthirdobjectdata = stringthirdobjectdata.replace('}', '');
 
+            System.debug(lookup_list);
+            System.debug(String.valueOf(lookup_list));
             String lookuplist_String = String.valueOf(lookup_list).replace('(', '');
             lookuplist_String = lookuplist_String.replace(')', '');
             String lookuplist2_String = String.valueOf(lookup_list2).replace('(', '');
             lookuplist2_String = lookuplist2_String.replace(')', '');
-            
+            System.debug(lookuplist_String);
+            System.debug(lookuplist_String.split(','));
+            System.debug(lookuplist_String.split(',').size());
             System.debug(lookuplist2_String.split(','));
             System.debug(lookuplist2_String.split(',').size());
 
@@ -2884,29 +2891,48 @@ public with sharing class FormBuilderController{
         /*This method is used to get lookup fildes name.*/
         try{
             String objectApiName = fsubobj;
+            System.debug(objectApiName);
             Map<String, Schema.SObjectType> objectTypes = Schema.getGlobalDescribe();
+            System.debug(objectTypes);
             Schema.SObjectType objectType = objectTypes.get(objectApiName);
+            System.debug(objectType);
             Map<String, Schema.SObjectField> fields = objectType.getDescribe().fields.getMap();
+            System.debug(fields);
             List<String> lookupFields = new List<String>();
             for (String fieldName : fields.keySet()){
+                System.debug(fieldName);
                 Schema.DescribeFieldResult fieldDescribe = fields.get(fieldName).getDescribe();
+                System.debug(fieldDescribe);
                 if (fieldDescribe.getType() == Schema.DisplayType.REFERENCE){
+                    System.debug('1');
+                    System.debug(fieldDescribe.getType());
                     if (fieldDescribe.getReferenceTo()[0].getDescribe().getName() == minobj){
-                        if (fieldDescribe.getRelationshipName() == minobj){
+                        System.debug('2');
+                        System.debug(minobj);
+                        System.debug(fieldDescribe.getReferenceTo()[0].getDescribe().getName());
+                        System.debug(fieldDescribe.getRelationshipName());
+                        // if (fieldDescribe.getRelationshipName() == minobj){
+                            System.debug('3');
                             if (fsubobj == 'Task' || fsubobj == 'Event'){
+                                System.debug('4');
                                 if (fieldDescribe.getName() != 'AccountId'){
+                                    System.debug(fieldDescribe.getName());
                                     lookupFields.add(fieldDescribe.getName());
+                                    System.debug(lookupFields);
                                 }
                             } else{
+                                System.debug(fieldDescribe.getName() + 'ELSE');
                                 lookupFields.add(fieldDescribe.getName());
+                                System.debug(lookupFields + 'ELSE');
                             }
-                        }
+                        // }
                     }
                 }
             }
-
+            System.debug(lookupFields);
             return lookupFields;
         } catch (Exception e){
+            System.debug(e + ' '+e.getLineNumber());
             return null;
         }
     }
