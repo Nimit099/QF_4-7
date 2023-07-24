@@ -2,132 +2,58 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
     global Messaging.InboundEmailResult handleInboundEmail(Messaging.InboundEmail email, Messaging.InboundEnvelope envelope) {
           try{
             Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
-            List<String> objectName = new List<String>();
-            Map<String, Object> mapoffirstobject = new Map<String, Object>();
-            Map<String, Object> mapofsecondobject = new Map<String, Object>();
-            Map<String, Object> mapofthirdobject = new Map<String, Object>();
-            Integer howmanyobjects = 0;
-            Boolean create_chi;
-            Boolean create_chi_2;
-            String key = '';
-            String value = '';
 
-            List<String> firstobjectdata = email.plainTextBody.split('<MVQFSeperator>')[0].split(',');
-            List<String> secondobjectdata = email.plainTextBody.split('<MVQFSeperator>')[1].split(',');
-            List<String> thirdobjectdata = email.plainTextBody.split('<MVQFSeperator>')[2].split(',');
-            List<String> lookup_list = email.plainTextBody.split('<MVQFSeperator>')[4].split(','); 
-            String base64att = email.plainTextBody.split('<MVQFSeperator>')[5].replaceAll('"', '');
-            List<String> lookup_list2 = email.plainTextBody.split('<MVQFSeperator>')[6].split(',');
-            String submissionid = email.plainTextBody.split('<MVQFSeperator>')[8].replaceAll('"', '');
-            String formid = email.plainTextBody.split('<MVQFSeperator>')[9].replaceAll('"', '');
+            String passeddata = email.plainTextBody;
+            Map<String, Object> map1 = (Map<String,Object>)JSON.deserializeUntyped(passeddata);
+            System.debug(map1);
+            System.debug(map1.get('first_obj_list'));
+            System.debug(map1.get('list_second_obj'));
+            System.debug(map1.get('sig_upload_jsone'));
+            System.debug(map1.get('sig_upload_fid_list'));
+            System.debug(map1.get('file_upload_jsone'));
+            System.debug(map1.get('file_upload_fid_list'));
+            System.debug(map1.get('create_chi'));
+            System.debug(map1.get('lookup_list'));
+            System.debug(map1.get('base64att'));
+            Map<String, Object> accmap = (Map<String, Object>)map1.get('acc'); 
+            Map<String, Object> first_obj_listmap = (Map<String, Object>)map1.get('first_obj_list'); 
+            Map<String, Object> list_second_objmap = (Map<String, Object>)map1.get('list_second_obj'); 
+            String sig_upload_jsoneString = (String)map1.get('sig_upload_jsone'); 
+            List<Object> sig_upload_fid_listmap = (List<Object>)map1.get('sig_upload_fid_list'); 
+            String file_upload_jsoneString = (String)map1.get('file_upload_jsone'); 
+            List<Object> file_upload_fid_listmap = (List<Object>)map1.get('file_upload_fid_list'); 
+            Boolean create_chiboolean = (Boolean)map1.get('create_chi'); 
+            String base64attmap = (String)map1.get('base64att'); 
+            List<Object> lookup_listmap = (List<Object>)map1.get('lookup_list'); 
+            List<Object> lookup_list2map = (List<Object>)map1.get('lookup_list2'); 
+            Boolean create_chi_2boolean = (Boolean)map1.get('create_chi_2'); 
 
+            System.debug(accmap);
+            System.debug(first_obj_listmap);
+            System.debug(list_second_objmap);
+            System.debug(sig_upload_jsoneString);
+            System.debug(sig_upload_fid_listmap);
+            System.debug(file_upload_jsoneString);
+            System.debug(file_upload_fid_listmap);
+            System.debug(create_chiboolean);
+            System.debug(lookup_listmap);
+            System.debug(base64attmap);
 
-            System.debug(firstobjectdata);
-            System.debug(secondobjectdata);
-            System.debug(thirdobjectdata);
-            System.debug(lookup_list);
-            System.debug(base64att);
-            System.debug(lookup_list2);
+            String acc1 = (String)accmap.get('First_object_data__c');
+            Map<String, Object> object1 = (Map<String, Object>)JSON.deserializeUntyped(acc1);
 
+            String acc2 = (String)accmap.get('Second_object_data__c');
+            Map<String, Object> object2 = (Map<String, Object>)JSON.deserializeUntyped(acc2);
 
-            System.debug(firstobjectdata.size());
-            System.debug(secondobjectdata.size());
-            System.debug(thirdobjectdata.size());
-            System.debug(lookup_list.size());
-            System.debug(lookup_list2.size());
-         
+            String acc3 = (String)accmap.get('Third_object_data__c');
+            Map<String, Object> object3 = (Map<String, Object>)JSON.deserializeUntyped(acc3);
 
-            if (firstobjectdata.size() > 1) {
-                howmanyobjects = 1;
-                for (String firstobject : firstobjectdata) {
-                    System.debug(firstobject);
-                    key = firstobject.split(':',2)[0].replaceAll('"', '');
-                    value = firstobject.split(':',2)[1].replaceAll('"', '');
-
-                    System.debug(key);
-                    System.debug(value);
-
-                    if (key == 'sobjectType') {
-                        System.debug(key);
-                        objectName.add(value);
-                    } else {
-                        System.debug(key + ' : ' +value);
-                        mapoffirstobject.put(key, value);
-                    }
-                }
-            }
-
-            if (secondobjectdata.size() > 1) {
-                howmanyobjects = 2;
-                for (String secondobject : secondobjectdata) {
-                    key = secondobject.split(':',2)[0].replaceAll('"', '');
-                    value = secondobject.split(':',2)[1].replaceAll('"', '');
-                    if (key == 'sobjectType') {
-                        System.debug(value);
-                        objectName.add(value);
-                    } else {
-                        System.debug(key + ' : ' +value);
-                        mapofsecondobject.put(key, value);
-                    }
-                }
-            }
-            
-            if (thirdobjectdata.size() > 1) {
-                howmanyobjects = 3;
-                for (String thirdobject : thirdobjectdata) {
-                    key = thirdobject.split(':',2)[0].replaceAll('"', '');
-                    value = thirdobject.split(':',2)[1].replaceAll('"', '');
-                    if (key == 'sobjectType') {
-                        System.debug(value);
-                        objectName.add(value);
-                    } else {
-                        System.debug(key + ' : ' +value);
-                        mapofthirdobject.put(key, value);
-                    }
-                }
-            }
-
-            if (email.plainTextBody.split('<MVQFSeperator>')[3].replaceAll('"', '') == 'true') {
-                create_chi = true;
-            } else if(email.plainTextBody.split('<MVQFSeperator>')[3].replaceAll('"', '') == 'false'){
-                create_chi = false;
-            }
-            System.debug(create_chi);
-            if (email.plainTextBody.split('<MVQFSeperator>')[7].replaceAll('"', '') == 'true') {
-                create_chi_2 = true;
-            } else if(email.plainTextBody.split('<MVQFSeperator>')[7].replaceAll('"', '') == 'false'){
-                create_chi_2 = false;
-            }
-            System.debug(create_chi_2);
-
-            System.debug(howmanyobjects);
-            if (howmanyobjects == 1) {
-                System.debug(mapoffirstobject);
-                System.debug(objectName);
-                createrecord(mapoffirstobject, objectName);
-            } else if(howmanyobjects == 2){
-                System.debug(mapoffirstobject);
-                System.debug(objectName);
-                System.debug(mapofsecondobject);
-                System.debug(create_chi);
-                System.debug(lookup_list);
-                System.debug(base64att);
-                createrecord_for_secod_object(objectName, mapoffirstobject, mapofsecondobject, create_chi, lookup_list, base64att);
-            } else if (howmanyobjects == 3) {
-                System.debug(mapoffirstobject);
-                System.debug(objectName);
-                System.debug(mapofsecondobject);
-                System.debug(mapofthirdobject);
-                System.debug(create_chi);
-                System.debug(lookup_list);
-                System.debug(base64att);
-                System.debug(create_chi_2);
-                System.debug(lookup_list2);
-                createrecord_for_third_object(mapoffirstobject, mapofsecondobject, mapofthirdobject, objectName, create_chi, lookup_list, create_chi_2, lookup_list2, base64att);
-            }
-
-
-
+            System.debug(object1);
+            System.debug(object2);
+            System.debug(object3);
+            // createrecord_for_third_object(first_obj_list, list_second_obj, list_third_obj, sig_upload_jsone, sig_upload_fid_list, file_upload_jsone, file_upload_fid_list, create_chi, lookup_list, create_chi_2, lookup_list2, base64att)
+            createrecord_for_third_object(object1, object2,object3, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap, create_chiboolean, lookup_listmap, create_chi_2boolean, lookup_list2map, base64attmap);
+           
             // // formid = email.plainTextBody.split(',')[0];
             // // submissionid = email.plainTextBody.split(',')[1];
             // Notification__c notify = new Notification__c();
@@ -277,137 +203,80 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
               return null;
           }
       }
-      public static SubId createrecord_for_secod_object(List<String> objectName, Map<String, Object> firstobjectdata,Map<String, Object> secondobjectdata, Boolean create_chi, List<String> lookup_list, String base64att ){
+  
+    //    /**
+    //  * @description createrecord_for_secod_object Method
+    //  * @param acc Form_Submission__c record
+    //  * @param first_obj_list SObject record
+    //  * @param list_second_obj SObject record
+    //  * @param sig_upload_jsone String Value
+    //  * @param sig_upload_fid_list List of String
+    //  * @param file_upload_jsone String Value
+    //  * @param file_upload_fid_list List of String
+    //  * @param create_chi Boolean Value
+    //  * @param lookup_list List of String
+    //  * @param base64att base64 String
+    //  * @return SubId record
+    //  */
+    public static void createrecord_for_secod_object( Map<String, Object> first_obj_list, Map<String, Object> list_second_obj, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, String base64att){
         try{
-            String sobjectName = objectName[0];
-            String sobjectName2 = objectName[1];
-            System.debug(sobjectName);
-            System.debug(sobjectName2);
 
+
+            String sobjectName = (String)first_obj_list.get('sobjectType');
+            String sobjectName2 = (String)list_second_obj.get('sobjectType');
             Type sobjectType = Type.forName(sobjectName);
-            System.debug(sobjectType);
-            sObject newSObject = (sObject) sobjectType.newInstance();   
-            System.debug(newSObject);
+            sObject newSObject = (sObject) sobjectType.newInstance();
             Type sobjectType2 = Type.forName(sobjectName2);
-            System.debug(sobjectType2);
             sObject newSObject2 = (sObject) sobjectType2.newInstance();
-            System.debug(newSObject2);
 
             //For First Object
-            for (String key : firstobjectdata.keySet()){
-                System.debug(key);
-                Object value = firstobjectdata.get(key);
-                System.debug(value);
+            for (String key : first_obj_list.keySet()){
+                Object value = first_obj_list.get(key);
                 Integer intValue = null;
-                Decimal decValue = null;
-                Date datValue = null;
-                DateTime dattimValue = null;
-                Time timValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY'){
-                        decValue = Decimal.valueOf(String.valueOf(value));
-                    } else if (fieldType == 'DATE'){
-                        datValue= Date.valueOf(String.valueOf(value));
-                    } else if(fieldType == 'DATETIME'){
-                        String dt = String.valueOf(value);
-                        List<String> datetimes = dt.split('T');
-                        List<String> dates = (datetimes[0].split('-'));
-                        List<Integer> intdate = new List<Integer>();
-                        for(String datee : dates){
-                            intdate.add(Integer.valueOf(datee));
-                        }
-                        List<String> times = datetimes[1].split(':');
-                        Integer hours = Integer.valueOf(times[0]);
-                        Integer minutes = Integer.valueOf(times[1]);
-                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
-
-                    } else if(fieldType == 'TIME'){
-                        String startTime = String.valueOf(value);
-                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
-                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
-                        timValue = Time.newInstance(hour, minute, 0, 0);
                     }
                     if (intValue != null){
                         newSObject.put(key, intValue);
-                    } else if(decValue != null){
-                        newSObject.put(key, decValue);
-                    } else if(datValue != null){
-                        newSObject.put(key, datValue);
-                    } else if(dattimValue != null){
-                        newSObject.put(key, dattimValue);
-                    } else if(timValue != null){
-                        newSObject.put(key, timValue);
-                    }else{
+                    } else{
                         newSObject.put(key, value);
                     }
                 }
             }
-            System.debug(newSObject);
+
             //For Second Object
-            for (String key : secondobjectdata.keySet()){
-                System.debug(key);
-                Object value = secondobjectdata.get(key);
-                System.debug(value);
+            for (String key : list_second_obj.keySet()){
+                Object value = list_second_obj.get(key);
                 Integer intValue = null;
-                Decimal decValue = null;
-                Date datValue = null;
-                DateTime dattimValue = null;
-                Time timValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY'){
-                        decValue = Decimal.valueOf(String.valueOf(value));
-                    } else if (fieldType == 'DATE'){
-                        datValue= Date.valueOf(String.valueOf(value));
-                    } else if(fieldType == 'DATETIME'){
-                        String dt = String.valueOf(value);
-                        List<String> datetimes = dt.split('T');
-                        List<String> dates = (datetimes[0].split('-'));
-                        List<Integer> intdate = new List<Integer>();
-                        for(String datee : dates){
-                            intdate.add(Integer.valueOf(datee));
-                        }
-                        List<String> times = datetimes[1].split(':');
-                        Integer hours = Integer.valueOf(times[0]);
-                        Integer minutes = Integer.valueOf(times[1]);
-                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
-
-                    } else if(fieldType == 'TIME'){
-                        String startTime = String.valueOf(value);
-                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
-                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
-                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    }
+                    if (fieldType == 'BASE64'){
+                        value = EncodingUtil.base64Decode(base64att);
                     }
                     if (intValue != null){
-                        newSObject.put(key, intValue);
-                    } else if(decValue != null){
-                        newSObject.put(key, decValue);
-                    } else if(datValue != null){
-                        newSObject.put(key, datValue);
-                    } else if(dattimValue != null){
-                        newSObject.put(key, dattimValue);
-                    } else if(timValue != null){
-                        newSObject.put(key, timValue);
-                    }else{
-                        newSObject.put(key, value);
+                        newSObject2.put(key, intValue);
+                    } else{
+                        newSObject2.put(key, value);
                     }
                 }
             }
-            System.debug(newSObject2);
+            
             // Check if the current user has permission to create records for the dynamic sObject type
             insert newSObject;
             insertRecordList.add(newSObject.Id);
 
             if (create_chi){
-                for (String lookup_api : lookup_list){
+                System.debug(lookup_list);
+                for (Object lookup_api : lookup_list){
                     System.debug(lookup_api);
                     System.debug(newSObject.Id);
-                    newSObject2.put(lookup_api, newSObject.Id);
+                    // System.debug('lookup.   ' +lookup_api + ' , '+ newSObject.Id );
+                    newSObject2.put((String)lookup_api, newSObject.Id);
                 }
                 if (sobjectName2 == 'Attachment'){
                     Object bas = base64att;
@@ -431,186 +300,111 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                     insertRecordList.add(newSObject2.Id);
                 }
             }
-
-            SubId ids = new SubId();
-            return null;
+            // SubId ids = new SubId();
+            // ids.SubmissionId = subID;
+            // ids.SignatureId = signatureid;
+            // ids.Sig_upload_map = sigUploadMap;
+            // ids.File_upload_map = file_upload_map;
+            // return ids;
 
         } catch (Exception e){
-            System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
+            System.debug('errror' +String.valueOf(e));
             List<sobject> sobjlst = new List<sobject>();
             for (Id i : insertRecordList){
                 sObject q = i.getSobjectType().newSobject(i);
                 sobjlst.add(q);
             }
             delete sobjlst;
-            return null;
+            // return null;
         }
     }
 
-    public static SubId createrecord_for_third_object(Map<String, Object> firstobjectdata, Map<String, Object> secondobjectdata, Map<String, Object> thirdobjectdata, List<String> objectName, Boolean create_chi, List<String> lookup_list, Boolean create_chi_2, List<String> lookup_list2, String base64att){
+        /**
+     * @description createrecord_for_third_object Method
+     * @param acc Form_Submission__c record
+     * @param first_obj_list SObject record
+     * @param list_second_obj SObject record
+     * @param list_third_obj SObject record
+     * @param sig_upload_jsone String Value
+     * @param sig_upload_fid_list List of String
+     * @param file_upload_jsone String Value
+     * @param file_upload_fid_list List of String
+     * @param create_chi Boolean Value
+     * @param lookup_list List of String
+     * @param create_chi_2 Boolean Value
+     * @param lookup_list2 List of String
+     * @param base64att String value
+     * @return SubId record
+     * @return base64att String
+     */
+
+
+    public static void createrecord_for_third_object(Map<String,Object> first_obj_list,  Map<String,Object> list_second_obj,  Map<String,Object> list_third_obj, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, Boolean create_chi_2, List<Object> lookup_list2, String base64att){
         try{
 
-
-           
-            String sobjectName = objectName[0];
-            String sobjectName2 = objectName[1];
-            String sobjectName3 = objectName[2];
+            String sobjectName = (String)first_obj_list.get('sobjectType');
+            String sobjectName2 = (String)list_second_obj.get('sobjectType');
+            String sobjectName3 = (String)list_third_obj.get('sobjectType');
             Type sobjectType = Type.forName(sobjectName);
             sObject newSObject = (sObject) sobjectType.newInstance();
             Type sobjectType2 = Type.forName(sobjectName2);
             sObject newSObject2 = (sObject) sobjectType2.newInstance();
             Type sobjectType3 = Type.forName(sobjectName3);
             sObject newSObject3 = (sObject) sobjectType3.newInstance();
-
+            
             //For First Object
-            for (String key : firstobjectdata.keySet()){
-                Object value = firstobjectdata.get(key);
+            for (String key : first_obj_list.keySet()){
+                Object value = first_obj_list.get(key);
                 Integer intValue = null;
-                Decimal decValue = null;
-                Date datValue = null;
-                DateTime dattimValue = null;
-                Time timValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY'){
-                        decValue = Decimal.valueOf(String.valueOf(value));
-                    } else if (fieldType == 'DATE'){
-                        datValue= Date.valueOf(String.valueOf(value));
-                    } else if(fieldType == 'DATETIME'){
-                        String dt = String.valueOf(value);
-                        List<String> datetimes = dt.split('T');
-                        List<String> dates = (datetimes[0].split('-'));
-                        List<Integer> intdate = new List<Integer>();
-                        for(String datee : dates){
-                            intdate.add(Integer.valueOf(datee));
-                        }
-                        List<String> times = datetimes[1].split(':');
-                        Integer hours = Integer.valueOf(times[0]);
-                        Integer minutes = Integer.valueOf(times[1]);
-                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
-
-                    } else if(fieldType == 'TIME'){
-                        String startTime = String.valueOf(value);
-                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
-                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
-                        timValue = Time.newInstance(hour, minute, 0, 0);
                     }
                     if (intValue != null){
                         newSObject.put(key, intValue);
-                    } else if(decValue != null){
-                        newSObject.put(key, decValue);
-                    } else if(datValue != null){
-                        newSObject.put(key, datValue);
-                    } else if(dattimValue != null){
-                        newSObject.put(key, dattimValue);
-                    } else if(timValue != null){
-                        newSObject.put(key, timValue);
-                    }else{
+                    } else{
                         newSObject.put(key, value);
                     }
                 }
             }
 
             //For Second Object
-            for (String key : secondobjectdata.keySet()){
-                Object value = secondobjectdata.get(key);
+            for (String key : list_second_obj.keySet()){
+                Object value = list_second_obj.get(key);
                 Integer intValue = null;
-                Decimal decValue = null;
-                Date datValue = null;
-                DateTime dattimValue = null;
-                Time timValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY'){
-                        decValue = Decimal.valueOf(String.valueOf(value));
-                    } else if (fieldType == 'DATE'){
-                        datValue= Date.valueOf(String.valueOf(value));
-                    } else if(fieldType == 'DATETIME'){
-                        String dt = String.valueOf(value);
-                        List<String> datetimes = dt.split('T');
-                        List<String> dates = (datetimes[0].split('-'));
-                        List<Integer> intdate = new List<Integer>();
-                        for(String datee : dates){
-                            intdate.add(Integer.valueOf(datee));
-                        }
-                        List<String> times = datetimes[1].split(':');
-                        Integer hours = Integer.valueOf(times[0]);
-                        Integer minutes = Integer.valueOf(times[1]);
-                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
-
-                    } else if(fieldType == 'TIME'){
-                        String startTime = String.valueOf(value);
-                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
-                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
-                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    }
+                    if (fieldType == 'BASE64'){
+                        value = EncodingUtil.base64Decode(base64att);
                     }
                     if (intValue != null){
-                        newSObject.put(key, intValue);
-                    } else if(decValue != null){
-                        newSObject.put(key, decValue);
-                    } else if(datValue != null){
-                        newSObject.put(key, datValue);
-                    } else if(dattimValue != null){
-                        newSObject.put(key, dattimValue);
-                    } else if(timValue != null){
-                        newSObject.put(key, timValue);
-                    }else{
-                        newSObject.put(key, value);
+                        newSObject2.put(key, intValue);
+                    } else{
+                        newSObject2.put(key, value);
                     }
                 }
             }
 
             //For third Object
-            for (String key : thirdobjectdata.keySet()){
-                Object value = thirdobjectdata.get(key);
+            for (String key : list_third_obj.keySet()){
+                Object value = list_third_obj.get(key);
                 Integer intValue = null;
-                Decimal decValue = null;
-                Date datValue = null;
-                DateTime dattimValue = null;
-                Time timValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName3).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY'){
-                        decValue = Decimal.valueOf(String.valueOf(value));
-                    } else if (fieldType == 'DATE'){
-                        datValue= Date.valueOf(String.valueOf(value));
-                    } else if(fieldType == 'DATETIME'){
-                        String dt = String.valueOf(value);
-                        List<String> datetimes = dt.split('T');
-                        List<String> dates = (datetimes[0].split('-'));
-                        List<Integer> intdate = new List<Integer>();
-                        for(String datee : dates){
-                            intdate.add(Integer.valueOf(datee));
-                        }
-                        List<String> times = datetimes[1].split(':');
-                        Integer hours = Integer.valueOf(times[0]);
-                        Integer minutes = Integer.valueOf(times[1]);
-                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
-
-                    } else if(fieldType == 'TIME'){
-                        String startTime = String.valueOf(value);
-                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
-                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
-                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    }
+                    if (fieldType == 'BASE64'){
+                        value = EncodingUtil.base64Decode(base64att);
                     }
                     if (intValue != null){
-                        newSObject.put(key, intValue);
-                    } else if(decValue != null){
-                        newSObject.put(key, decValue);
-                    } else if(datValue != null){
-                        newSObject.put(key, datValue);
-                    } else if(dattimValue != null){
-                        newSObject.put(key, dattimValue);
-                    } else if(timValue != null){
-                        newSObject.put(key, timValue);
-                    }else{
-                        newSObject.put(key, value);
+                        newSObject3.put(key, intValue);
+                    } else{
+                        newSObject3.put(key, value);
                     }
                 }
             }
@@ -618,8 +412,8 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             insertRecordList.add(newSObject.Id);
 
             if (create_chi){
-                for (String lookup_api : lookup_list){
-                    newSObject2.put(lookup_api, newSObject.Id);
+                for (Object lookup_api : lookup_list){
+                    newSObject2.put((String)lookup_api, newSObject.Id);
                 }
                 if (sobjectName2 == 'Attachment'){
                     Object bas = base64att;
@@ -644,8 +438,8 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 }
             }
             if (create_chi_2){
-                for (String lookup_api_2 : lookup_list2){
-                    newSObject3.put(lookup_api_2, newSObject.Id);
+                for (Object lookup_api_2 : lookup_list2){
+                    newSObject3.put((String)lookup_api_2, newSObject.Id);
                 }
                 if (sobjectName3 == 'Attachment'){
                     Object bas = base64att;
@@ -674,8 +468,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                     insertRecordList.add(newSObject3.Id);
                 }
             }
-            SubId ids = new SubId();
-            return null;
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
             List<sobject> sobjlst = new List<sobject>();
@@ -684,7 +476,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 sobjlst.add(q);
             }
             delete sobjlst;
-            return null;
+            // return null;
         }
     }
 

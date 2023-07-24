@@ -2207,42 +2207,7 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord(Form_Submission__c acc, SObject first_obj_list, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list){
         try{
-           
-
-            String create_chi = '';
-            String lookuplist_String = '';
-            String base64att = '';
-
-            String stringfirstobjectdata = acc.First_object_data__c;
-            stringfirstobjectdata = stringfirstobjectdata.replace('{', '');
-            stringfirstobjectdata = stringfirstobjectdata.replace('}', '');
-            String stringsecondobjectdata = acc.Second_object_data__c;
-            stringsecondobjectdata = stringsecondobjectdata.replace('{', '');
-            stringsecondobjectdata = stringsecondobjectdata.replace('}', '');
-            String stringthirdobjectdata = acc.Third_object_data__c;
-            stringthirdobjectdata = stringthirdobjectdata.replace('{', '');
-            stringthirdobjectdata = stringthirdobjectdata.replace('}', '');
-            String create_chi_2 = '';
-            String lookuplist2_String = '';
-
-
-      
-
-            // EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            // OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            // Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            // List<String> toAddresses = new List<String>();
-            // toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            // if ( owea.size() > 0 ) {
-            //     emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            // }
-            // emailNotification.setToAddresses(toAddresses);
-            // emailNotification.setSubject('Two Object Form');
-            // emailNotification.setPlainTextBody(stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+'<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'+lookuplist2_String+'<MVQFSeperator>'+create_chi_2);
-            // Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-       
-
-            
+            System.debug('acc' + acc);
             String signatureid;
             String fildid;
             Map<String, Object> file_upload_map = new Map<String, Object>();
@@ -2251,31 +2216,33 @@ public with sharing class FormBuilderController{
         
             Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
 
-            // Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
-    
+            Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
+            System.debug('firstobjectdata ==> '+firstobjectdata);
 
-            // Schema.SObjectType objType = first_obj_list.getSObjectType();
-            // Schema.DescribeSObjectResult describeResult = objType.getDescribe();
-            // String sobjectName = describeResult.getName();
+            Schema.SObjectType objType = first_obj_list.getSObjectType();
+            Schema.DescribeSObjectResult describeResult = objType.getDescribe();
+            String sobjectName = describeResult.getName();
 
-            // Type sobjectType = Type.forName(sobjectName);
-            // sObject newSObject = (sObject) sobjectType.newInstance();
-       
-            // for (String key : firstobjectdata.keySet()){
-            //     Object value = firstobjectdata.get(key);
-            //     Integer intValue = null;
-            //     if (key != 'sobjectType'){
-            //         String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
-            //         if (fieldType == 'INTEGER'){
-            //             intValue = Integer.valueOf(value);
-            //         }
-            //         if (intValue != null){
-            //             newSObject.put(key, intValue);
-            //         } else{
-            //             newSObject.put(key, value);
-            //         }
-            //     }
-            // }
+            Type sobjectType = Type.forName(sobjectName);
+            sObject newSObject = (sObject) sobjectType.newInstance();
+            System.debug('newSObject ==>'+newSObject);
+
+            for (String key : firstobjectdata.keySet()){
+                Object value = firstobjectdata.get(key);
+                System.debug('value'+value);
+                Integer intValue = null;
+                if (key != 'sobjectType'){
+                    String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
+                    if (fieldType == 'INTEGER'){
+                        intValue = Integer.valueOf(value);
+                    }
+                    if (intValue != null){
+                        newSObject.put(key, intValue);
+                    } else{
+                        newSObject.put(key, value);
+                    }
+                }
+            }
 
              Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
             String subID = '';
@@ -2285,6 +2252,8 @@ public with sharing class FormBuilderController{
                     String sigBaseid = (String) sigMap.get(sigType);
                     signatureid = signatureSave(subID, sigBaseid);
                     sigUploadMap.put(sigType, signatureid);
+                    System.debug('sigType'+sigType);
+                    System.debug('signatureid' + signatureid);
                     otherobjectdata.put(sigType, signatureid);
                 }
             }
@@ -2304,6 +2273,7 @@ public with sharing class FormBuilderController{
             }
 
             Form_Submission__c formsub = new Form_Submission__c();
+
             formsub.Form__c = acc.Form__c;
             formsub.First_object_data__c = acc.First_object_data__c;
             formsub.Second_object_data__c = acc.Second_object_data__c;
@@ -2315,26 +2285,18 @@ public with sharing class FormBuilderController{
                 insertRecordList.add(formsub.Id);
                 subID = formsub.Id;
             }
-
-            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            List<String> toAddresses = new List<String>();
-            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            if ( owea.size() > 0 ) {
-                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            }
-            emailNotification.setToAddresses(toAddresses);
-            emailNotification.setSubject('Two Object Form');
-            emailNotification.setPlainTextBody(stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+'<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'+lookuplist2_String+'<MVQFSeperator>'+create_chi_2+'<MVQFSeperator>'+subID+'<MVQFSeperator>'+acc.Form__c);
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-
-            // insertRecordList.add(formsub.Id);
+                    
+            insertRecordList.add(formsub.Id);
            
-            // insert newSObject;
-            // insertRecordList.add(newSObject.Id);
+            insert newSObject;
+            insertRecordList.add(newSObject.Id);
 
-            return null;
+            SubId ids = new SubId();
+            ids.SubmissionId = subID;
+            ids.SignatureId = signatureid;
+            ids.Sig_upload_map = sigUploadMap;
+            ids.File_upload_map = file_upload_map;
+            return ids;
         } catch (Exception e){
             List<sobject> sobjlst = new List<sobject>();
             System.debug('sobjlst ==>'+sobjlst);
@@ -2367,23 +2329,30 @@ public with sharing class FormBuilderController{
         try{
 
 
-            String stringfirstobjectdata = acc.First_object_data__c;
-            stringfirstobjectdata = stringfirstobjectdata.replace('{', '');
-            stringfirstobjectdata = stringfirstobjectdata.replace('}', '');
-            String stringsecondobjectdata = acc.Second_object_data__c;
-            stringsecondobjectdata = stringsecondobjectdata.replace('{', '');
-            stringsecondobjectdata = stringsecondobjectdata.replace('}', '');
-            String stringthirdobjectdata = acc.Third_object_data__c;
-            stringthirdobjectdata = stringthirdobjectdata.replace('{', '');
-            stringthirdobjectdata = stringthirdobjectdata.replace('}', '');
+            wrapformsubmission wrapper = new wrapformsubmission();
+            wrapper.acc = acc;
+            wrapper.first_obj_list = first_obj_list ;
+            wrapper.list_second_obj = list_second_obj;
+            wrapper.sig_upload_jsone = sig_upload_jsone;
+            wrapper.sig_upload_fid_list = sig_upload_fid_list;
+            wrapper.file_upload_jsone = file_upload_jsone;
+            wrapper.file_upload_fid_list = file_upload_fid_list;
+            wrapper.create_chi = create_chi;
+            wrapper.lookup_list = lookup_list;
+            wrapper.base64att = base64att;
 
-            String lookuplist_String = String.valueOf(lookup_list).replace('(', '');
-            lookuplist_String = lookuplist_String.replace(')', '');
-            System.debug(lookuplist_String.split(','));
-            System.debug(lookuplist_String.split(',').size());
-            String create_chi_2 = '';
-            String lookuplist2_String = '';
-
+            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
+            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
+            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+            List<String> toAddresses = new List<String>();
+            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
+            if ( owea.size() > 0 ) {
+                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+            }
+            emailNotification.setToAddresses(toAddresses);
+            emailNotification.setSubject('Two Object Form');
+            emailNotification.setPlainTextBody(JSON.serialize(wrapper));
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
             String signatureid;
             String fildid;
@@ -2433,23 +2402,6 @@ public with sharing class FormBuilderController{
                 insertRecordList.add(formsub.Id);
                 subID = formsub.Id;
             }
-            System.debug((stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+
-            '<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'
-            +lookuplist2_String+'<MVQFSeperator>'+create_chi_2+'<MVQFSeperator>'+subID+'<MVQFSeperator>'+acc.Form__c));
-
-            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            List<String> toAddresses = new List<String>();
-            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            if ( owea.size() > 0 ) {
-                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            }
-            emailNotification.setToAddresses(toAddresses);
-            emailNotification.setSubject('Two Object Form');
-            emailNotification.setPlainTextBody(stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+'<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'+lookuplist2_String+'<MVQFSeperator>'+create_chi_2+'<MVQFSeperator>'+subID+'<MVQFSeperator>'+acc.Form__c);
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-
 
             // Schema.SObjectType objType = first_obj_list.getSObjectType();
             // Schema.DescribeSObjectResult describeResult = objType.getDescribe();
@@ -2500,14 +2452,19 @@ public with sharing class FormBuilderController{
             //         }
             //     }
             // }
+            
             // // Check if the current user has permission to create records for the dynamic sObject type
             // insert newSObject;
             // insertRecordList.add(newSObject.Id);
 
             // if (create_chi){
-            //     for (String lookup_api : lookup_list){
-            //         newSObject2.put(lookup_api, newSObject.Id);
-            //     }
+            //     System.debug(lookup_list);
+            //     // for (String lookup_api : lookup_list){
+            //     //     System.debug(lookup_api);
+            //     //     System.debug(newSObject.Id);
+            //     //     // System.debug('lookup.   ' +lookup_api + ' , '+ newSObject.Id );
+            //     //     newSObject2.put(lookup_api, newSObject.Id);
+            //     // }
             //     if (sobjectName2 == 'Attachment'){
             //         Object bas = base64att;
             //         String myStr = String.valueOf(bas);
@@ -2530,16 +2487,21 @@ public with sharing class FormBuilderController{
             //         insertRecordList.add(newSObject2.Id);
             //     }
             // }
-
+            // SubId ids = new SubId();
+            // ids.SubmissionId = subID;
+            // ids.SignatureId = signatureid;
+            // ids.Sig_upload_map = sigUploadMap;
+            // ids.File_upload_map = file_upload_map;
             return null;
+
         } catch (Exception e){
-            System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
-            // List<sobject> sobjlst = new List<sobject>();
-            // for (Id i : insertRecordList){
-            //     sObject q = i.getSobjectType().newSobject(i);
-            //     sobjlst.add(q);
-            // }
-            // delete sobjlst;
+            System.debug('errror' +String.valueOf(e));
+            List<sobject> sobjlst = new List<sobject>();
+            for (Id i : insertRecordList){
+                sObject q = i.getSobjectType().newSobject(i);
+                sobjlst.add(q);
+            }
+            delete sobjlst;
             return null;
         }
     }
@@ -2567,41 +2529,34 @@ public with sharing class FormBuilderController{
         try{
 
 
-            String stringfirstobjectdata = acc.First_object_data__c;
-            stringfirstobjectdata = stringfirstobjectdata.replace('{', '');
-            stringfirstobjectdata = stringfirstobjectdata.replace('}', '');
-            String stringsecondobjectdata = acc.Second_object_data__c;
-            stringsecondobjectdata = stringsecondobjectdata.replace('{', '');
-            stringsecondobjectdata = stringsecondobjectdata.replace('}', '');
-            String stringthirdobjectdata = acc.Third_object_data__c;
-            stringthirdobjectdata = stringthirdobjectdata.replace('{', '');
-            stringthirdobjectdata = stringthirdobjectdata.replace('}', '');
 
-            System.debug(lookup_list);
-            System.debug(String.valueOf(lookup_list));
-            String lookuplist_String = String.valueOf(lookup_list).replace('(', '');
-            lookuplist_String = lookuplist_String.replace(')', '');
-            String lookuplist2_String = String.valueOf(lookup_list2).replace('(', '');
-            lookuplist2_String = lookuplist2_String.replace(')', '');
-            System.debug(lookuplist_String);
-            System.debug(lookuplist_String.split(','));
-            System.debug(lookuplist_String.split(',').size());
-            System.debug(lookuplist2_String.split(','));
-            System.debug(lookuplist2_String.split(',').size());
+            wrapformsubmission wrapper = new wrapformsubmission();
+            wrapper.acc = acc;
+            wrapper.first_obj_list = first_obj_list ;
+            wrapper.list_second_obj = list_second_obj;
+            wrapper.sig_upload_jsone = sig_upload_jsone;
+            wrapper.sig_upload_fid_list = sig_upload_fid_list;
+            wrapper.file_upload_jsone = file_upload_jsone;
+            wrapper.file_upload_fid_list = file_upload_fid_list;
+            wrapper.create_chi = create_chi;
+            wrapper.lookup_list = lookup_list;
+            wrapper.base64att = base64att;
+            wrapper.lookup_list2 = lookup_list2;
+            wrapper.create_chi_2 = create_chi_2;
 
-            // EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            // OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            // Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            // List<String> toAddresses = new List<String>();
-            // toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            // if ( owea.size() > 0 ) {
-            //     emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            // }
-            // emailNotification.setToAddresses(toAddresses);
-            // emailNotification.setSubject('Third Object Form');
-            // emailNotification.setPlainTextBody(stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+'<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'+lookuplist2_String+'<MVQFSeperator>'+create_chi_2);
-            // Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-            
+            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
+            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
+            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+            List<String> toAddresses = new List<String>();
+            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
+            if ( owea.size() > 0 ) {
+                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+            }
+            emailNotification.setToAddresses(toAddresses);
+            emailNotification.setSubject('Three Object Form');
+            emailNotification.setPlainTextBody(JSON.serialize(wrapper));
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+
 
             String signatureid;
             String fildid;
@@ -2652,20 +2607,6 @@ public with sharing class FormBuilderController{
                 subID = formsub.Id;
                 insertRecordList.add(formsub.Id);
             }
-
-            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            List<String> toAddresses = new List<String>();
-            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            if ( owea.size() > 0 ) {
-                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            }
-            emailNotification.setToAddresses(toAddresses);
-            emailNotification.setSubject('Two Object Form');
-            emailNotification.setPlainTextBody(stringfirstobjectdata +'<MVQFSeperator>'+stringsecondobjectdata+'<MVQFSeperator>'+stringthirdobjectdata+'<MVQFSeperator>'+create_chi+'<MVQFSeperator>'+lookuplist_String+'<MVQFSeperator>'+base64att+'<MVQFSeperator>'+lookuplist2_String+'<MVQFSeperator>'+create_chi_2+'<MVQFSeperator>'+subID+'<MVQFSeperator>'+acc.Form__c);
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-
 
             // Schema.SObjectType objType = first_obj_list.getSObjectType();
             // Schema.DescribeSObjectResult describeResult = objType.getDescribe();
@@ -2746,9 +2687,9 @@ public with sharing class FormBuilderController{
             // insertRecordList.add(newSObject.Id);
 
             // if (create_chi){
-            //     for (String lookup_api : lookup_list){
-            //         newSObject2.put(lookup_api, newSObject.Id);
-            //     }
+            //     // for (String lookup_api : lookup_list){
+            //     //     newSObject2.put(lookup_api, newSObject.Id);
+            //     // }
             //     if (sobjectName2 == 'Attachment'){
             //         Object bas = base64att;
             //         String myStr = String.valueOf(bas);
@@ -2772,9 +2713,9 @@ public with sharing class FormBuilderController{
             //     }
             // }
             // if (create_chi_2){
-            //     for (String lookup_api_2 : lookup_list2){
-            //         newSObject3.put(lookup_api_2, newSObject.Id);
-            //     }
+            //     // for (String lookup_api_2 : lookup_list2){
+            //     //     newSObject3.put(lookup_api_2, newSObject.Id);
+            //     // }
             //     if (sobjectName3 == 'Attachment'){
             //         Object bas = base64att;
             //         String myStr = String.valueOf(bas);
@@ -2891,50 +2832,47 @@ public with sharing class FormBuilderController{
         /*This method is used to get lookup fildes name.*/
         try{
             String objectApiName = fsubobj;
-            System.debug(objectApiName);
             Map<String, Schema.SObjectType> objectTypes = Schema.getGlobalDescribe();
-            System.debug(objectTypes);
             Schema.SObjectType objectType = objectTypes.get(objectApiName);
-            System.debug(objectType);
             Map<String, Schema.SObjectField> fields = objectType.getDescribe().fields.getMap();
-            System.debug(fields);
             List<String> lookupFields = new List<String>();
             for (String fieldName : fields.keySet()){
-                System.debug(fieldName);
                 Schema.DescribeFieldResult fieldDescribe = fields.get(fieldName).getDescribe();
-                System.debug(fieldDescribe);
                 if (fieldDescribe.getType() == Schema.DisplayType.REFERENCE){
-                    System.debug('1');
-                    System.debug(fieldDescribe.getType());
                     if (fieldDescribe.getReferenceTo()[0].getDescribe().getName() == minobj){
-                        System.debug('2');
-                        System.debug(minobj);
-                        System.debug(fieldDescribe.getReferenceTo()[0].getDescribe().getName());
-                        System.debug(fieldDescribe.getRelationshipName());
-                        // if (fieldDescribe.getRelationshipName() == minobj){
-                            System.debug('3');
+                        if (fieldDescribe.getRelationshipName() == minobj){
                             if (fsubobj == 'Task' || fsubobj == 'Event'){
-                                System.debug('4');
                                 if (fieldDescribe.getName() != 'AccountId'){
-                                    System.debug(fieldDescribe.getName());
                                     lookupFields.add(fieldDescribe.getName());
-                                    System.debug(lookupFields);
                                 }
                             } else{
-                                System.debug(fieldDescribe.getName() + 'ELSE');
                                 lookupFields.add(fieldDescribe.getName());
-                                System.debug(lookupFields + 'ELSE');
                             }
-                        // }
+                        }
                     }
                 }
             }
-            System.debug(lookupFields);
+
             return lookupFields;
         } catch (Exception e){
-            System.debug(e + ' '+e.getLineNumber());
             return null;
         }
+    }
+
+    public class wrapformsubmission{
+       public Form_Submission__c acc {get;set;}
+       public SObject first_obj_list {get;set;}
+       public SObject list_second_obj {get;set;}
+       public SObject list_third_obj {get;set;}
+       public String sig_upload_jsone {get;set;}
+       public List<String> sig_upload_fid_list {get;set;}
+       public String file_upload_jsone {get;set;}
+       public List<String> file_upload_fid_list {get;set;}
+       public Boolean create_chi {get;set;}
+       public List<String> lookup_list {get;set;}
+       public Boolean create_chi_2 {get;set;}
+       public List<String> lookup_list2 {get;set;}
+       public String base64att {get;set;}
     }
 
 }
