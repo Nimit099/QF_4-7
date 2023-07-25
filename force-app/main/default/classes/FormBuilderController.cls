@@ -2870,6 +2870,7 @@ public with sharing class FormBuilderController{
         try{
             System.debug(minobj);
             System.debug(fsubobj);
+            
             String objectApiName = fsubobj;
             Map<String, Schema.SObjectType> objectTypes = Schema.getGlobalDescribe();
             System.debug(objectTypes);
@@ -2891,6 +2892,9 @@ public with sharing class FormBuilderController{
                         String field = fieldDescribe.getRelationshipName();
                         if(field.contains('__r')){
                            field = field.replace('__r', '');
+                        }
+                        if(minobj.contains('__c')){
+                            minobj = minobj.replace('__c', '');
                         }
                         if (field == minobj){
                             if (fsubobj == 'Task' || fsubobj == 'Event'){
