@@ -250,7 +250,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         let formbg = result.FormBgID__c;
                         this.formname = result.Name;
                         this.form_object = result.Mapped_Objects__c;
-                        console.log(JSON.stringify(this.form_object));
                         this.testtocall();
 
                         if (this.captchavalue == 'None' || this.captchavalue == '--None--' || this.captchavalue == undefined) {
@@ -640,31 +639,19 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
     testtocall() {
         try {
             
-            console.log('Test to call');
-            console.log(JSON.stringify(this.form_object));
+           
             this.obj = this.form_object;
-            console.log(JSON.stringify(this.obj));
             this.form_mapped_Objects = this.obj.split(',');
-            console.log(JSON.stringify(this.form_mapped_Objects));
             this.first_object = this.form_mapped_Objects[0];
-            console.log(JSON.stringify(this.first_object));
             this.list_first_obj.sobjectType = this.form_mapped_Objects[0];
-            console.log(JSON.stringify(this.list_first_obj.sobjectType));
             this.all_filde_value.sobjectType = this.form_mapped_Objects[0];
             this.second_object = this.form_mapped_Objects[1];
-            console.log(JSON.stringify(this.second_object));
             this.list_second_obj.sobjectType = this.form_mapped_Objects[1];
             this.all_filde_value_second.sobjectType = this.form_mapped_Objects[1];
             this.third_object = this.form_mapped_Objects[2];
-            console.log(JSON.stringify(this.third_object));
             this.list_third_obj.sobjectType = this.form_mapped_Objects[2];
             this.all_filde_value_third.sobjectType = this.form_mapped_Objects[2];
-            console.log('testtocall');
             if (this.form_mapped_Objects.length == 2) {
-                console.log('Nimit 2');
-                console.log(JSON.stringify(this.form_mapped_Objects[0]));
-                console.log(this.form_mapped_Objects[1]);
-                console.log('Nimit 2 ends');
                 findlookupfildes({
                     minobj: this.form_mapped_Objects[0],
                     fsubobj: this.form_mapped_Objects[1]
@@ -680,18 +667,12 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
     
                 
                 for (let k = 1; k < this.form_mapped_Objects.length; k++) {
-                    console.log('Nimit Start 123');
-                    console.log(JSON.stringify(this.form_mapped_Objects[0]));
-                    console.log(JSON.stringify(this.form_mapped_Objects[k]));
-                    console.log('Nimit End123');
                     findlookupfildes({
                         minobj: this.form_mapped_Objects[0],
                         fsubobj: this.form_mapped_Objects[k]
                     })
                         .then(result => {
-                            this.lookup_filde_json[k] = result;
-                            console.log(JSON.stringify(this.lookup_filde_json));   
-    
+                            this.lookup_filde_json[k] = result; 
                         })
                         .catch(e => {
                             this.message = e.message;
@@ -1186,8 +1167,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             list_submission_obj['Second_object_data__c'] = JSON.stringify(this.list_second_obj);
             list_submission_obj['Third_object_data__c'] = JSON.stringify(this.list_third_obj);
             list_submission_obj['Other_fields_data__c'] = JSON.stringify(this.list_ext_obj);
-
-            console.log(JSON.stringify(this.list_first_obj) +  'list_first_obj');
             if (this.form_mapped_Objects.length == 1) {
 
                 createrecord({
@@ -1200,17 +1179,12 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     
                 })
                     .then(data => {
-                        console.log(JSON.stringify(data));
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
                         let toast_error_msg = 'Your form is submitted successfully.';
                         this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-                        console.log('email1');
-                        console.log('sub_id : ', this.sub_id);
                         this.sendnotification(this.sub_id);
-                        console.log('email2');
-                        // this.add_sig();
                     })
                     .catch((error) => {
                         console.log(error.message);
@@ -1250,18 +1224,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     })
 
             } else if (this.form_mapped_Objects.length == 3) {
-                console.log('Nimit Start');
-                console.log(this.lookup_filde_json);
-                console.log(this.lookup_filde_json['1']);
                 this.lookup_2obj = this.lookup_filde_json['1'];
-                console.log(this.lookup_2obj);
-                console.log(JSON.stringify(this.lookup_filde_json));
-                console.log(JSON.stringify(this.lookup_filde_json['1']));
-               
                 this.lookup_3obj = this.lookup_filde_json['2'];
-                console.log(this.lookup_filde_json['2']);
-                console.log(JSON.stringify(this.lookup_filde_json['2']));
-                console.log('Nimit End');
                 this.add_lookyp_fildes();
                 this.add_lookyp_fildes_2();
                 createrecord_for_third_object({
@@ -1505,8 +1469,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
         // TO REDIRECT TO THANK YOU PAGE
     }
     sendnotification(submissionids) {
-        console.log('formIdNew : ', this.formIdNew);
-        console.log('submissionids : ', submissionids);
+       
         sendemailaftersubmission({
             formid: this.formIdNew,
             submissionid: submissionids
@@ -1696,11 +1659,10 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
     @api
     getrequestforcloserefencefield(){
         try {
-            console.log('getrequestforcloserefencefield');
+           
             var quickfields = this.template.querySelectorAll('c-quickformfieldcomponent');
             for (let index = 0; index < quickfields.length; index++) {
                 const element = quickfields[index];
-                console.log('getrequestforcloserefencefield');
                 element.changeMessage('true');
                 
             }
