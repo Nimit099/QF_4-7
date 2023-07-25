@@ -145,7 +145,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
-                Boolean bolValue = null;
+               
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
@@ -172,13 +172,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
-                    } else if (fieldType == 'BOOLEAN') {
-                        if (value == 'True') {
-                            bolValue = true;
-                        } else {
-                            bolValue = false;
-                        }
-                    }
+                    } 
                     if (intValue != null){
                         newSObject.put(key, intValue);
                     } else if(decValue != null){
@@ -189,8 +183,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject.put(key, timValue);
-                    } else if (bolValue != null) {
-                        newSObject.put(key, bolValue);
                     } else{
                         newSObject.put(key, value);
                     }
@@ -248,7 +240,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
-                Boolean bolValue = null;
+    
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
@@ -275,12 +267,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
-                    } else if (fieldType == 'BOOLEAN') {
-                        if (value == 'True') {
-                            bolValue = true;
-                        } else {
-                            bolValue = false;
-                        }
                     }
                     if (intValue != null){
                         newSObject.put(key, intValue);
@@ -292,8 +278,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject.put(key, timValue);
-                    } else if (bolValue != null) {
-                        newSObject.put(key, bolValue);
                     } else{
                         newSObject.put(key, value);
                     }
@@ -309,7 +293,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
-                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
@@ -338,13 +321,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
-                    } else if (fieldType == 'BOOLEAN') {
-                        if (value == 'True') {
-                            bolValue = true;
-                        } else {
-                            bolValue = false;
-                        }
-                    }
+                    } 
                     if (intValue != null){
                         newSObject2.put(key, intValue);
                     } else if(decValue != null){
@@ -355,8 +332,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject2.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject2.put(key, timValue);
-                    } else if (bolValue != null) {
-                        newSObject2.put(key, bolValue);
                     } else{
                         newSObject2.put(key, value);
                     }
@@ -456,7 +431,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
-                Boolean bolValue = null;
+                
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
@@ -485,13 +460,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
-                    } else if (fieldType == 'BOOLEAN') {
-                        if (value == 'True') {
-                            bolValue = true;
-                        } else {
-                            bolValue = false;
-                        }
-                    }
+                    } 
 
                     if (intValue != null){
                         newSObject.put(key, intValue);
@@ -503,9 +472,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject.put(key, timValue);
-                    } else if (bolValue != null) {
-                        newSObject.put(key, bolValue);
-                    } else{
+                    }  else{
                         newSObject.put(key, value);
                     }
                 }
@@ -519,7 +486,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
-                Boolean bolValue = null;
+                
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
@@ -548,14 +515,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
-                    }  else if (fieldType == 'BOOLEAN') {
-                        if (value == 'True') {
-                            bolValue = true;
-                        } else {
-                            bolValue = false;
-                        }
-                    }
-
+                    } 
                     if (intValue != null){
                         newSObject2.put(key, intValue);
                     } else if(decValue != null){
@@ -566,9 +526,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject2.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject2.put(key, timValue);
-                    } else if (bolValue != null) {
-                        newSObject2.put(key, bolValue);
-                    } else{
+                    }  else{
                         newSObject2.put(key, value);
                     }
                 }
@@ -582,7 +540,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
-                Boolean bolValue = null;
+                
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName3).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
@@ -611,13 +569,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
-                    }  else if (fieldType == 'BOOLEAN') {
-                        if (value == 'True') {
-                            bolValue = true;
-                        } else {
-                            bolValue = false;
-                        }
-                    }
+                    } 
 
                     if (intValue != null){
                         newSObject3.put(key, intValue);
@@ -629,9 +581,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject3.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject3.put(key, timValue);
-                    } else if (bolValue != null) {
-                        newSObject3.put(key, bolValue);
-                    } else{
+                    }  else{
                         newSObject3.put(key, value);
                     }
                 }

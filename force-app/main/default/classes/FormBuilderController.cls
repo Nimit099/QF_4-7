@@ -2229,15 +2229,50 @@ public with sharing class FormBuilderController{
 
             for (String key : firstobjectdata.keySet()){
                 Object value = firstobjectdata.get(key);
-                System.debug('value'+value);
+                System.debug(key + ' : ' + value);
                 Integer intValue = null;
+                Decimal decValue = null;
+                Date datValue = null;
+                DateTime dattimValue = null;
+                Time timValue = null;
+
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
-                    if (fieldType == 'INTEGER'){
+                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    }
+                    }else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
+                        decValue = Decimal.valueOf(String.valueOf(value));
+                    } else if (fieldType == 'DATE'){
+                        datValue= Date.valueOf(String.valueOf(value));
+                    } else if(fieldType == 'DATETIME'){
+                        String dt = String.valueOf(value);
+                        List<String> datetimes = dt.split('T');
+                        List<String> dates = (datetimes[0].split('-'));
+                        List<Integer> intdate = new List<Integer>();
+                        for(String datee : dates){
+                            intdate.add(Integer.valueOf(datee));
+                        }
+                        List<String> times = datetimes[1].split(':');
+                        Integer hours = Integer.valueOf(times[0]);
+                        Integer minutes = Integer.valueOf(times[1]);
+                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
+
+                    } else if(fieldType == 'TIME'){
+                        String startTime = String.valueOf(value);
+                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
+                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
+                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    } 
                     if (intValue != null){
                         newSObject.put(key, intValue);
+                    } else if(decValue != null){
+                        newSObject.put(key, decValue);
+                    } else if(datValue != null){
+                        newSObject.put(key, datValue);
+                    } else if(dattimValue != null){
+                        newSObject.put(key, dattimValue);
+                    } else if(timValue != null){
+                        newSObject.put(key, timValue);
                     } else{
                         newSObject.put(key, value);
                     }

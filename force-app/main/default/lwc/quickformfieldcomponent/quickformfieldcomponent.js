@@ -418,6 +418,7 @@ export default class Quickformfieldcomponent extends LightningElement {
         else if (nameArr[0] == 'chk_box') {
             var CheckBox = this.template.querySelector(`[data-name="${this.fieldmapping}"]`);
             this.bol_ver = nameArr[1];
+            console.log(this.bol_ver + '  this.bol_ver');
             if (nameArr[1] == 'true') {
                 CheckBox.checked = true;
             } else {
@@ -1668,8 +1669,16 @@ export default class Quickformfieldcomponent extends LightningElement {
 
     OnFieldClick(event) {
         if (this.submit == true) {
+            let vale = ''
+            if (event.target.dataset.check == 'checkbox') {
+                 vale = event.target.checked;
+            } else {
+                vale = event.target.value;
+            }
             let key = event.target.dataset.name;
-            let vale = event.target.value;
+            // let vale = event.target.value;
+            console.log( 'key : ' + key);
+            console.log('value : '+ vale );
             let fild_teye = event.target.type;
             if (fild_teye == 'select-one') {
                 if (vale == '--Select--') {

@@ -1186,6 +1186,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             list_submission_obj['Second_object_data__c'] = JSON.stringify(this.list_second_obj);
             list_submission_obj['Third_object_data__c'] = JSON.stringify(this.list_third_obj);
             list_submission_obj['Other_fields_data__c'] = JSON.stringify(this.list_ext_obj);
+
+            console.log(JSON.stringify(this.list_first_obj) +  'list_first_obj');
             if (this.form_mapped_Objects.length == 1) {
 
                 createrecord({
