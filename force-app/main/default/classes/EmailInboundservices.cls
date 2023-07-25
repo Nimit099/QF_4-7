@@ -51,9 +51,10 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             System.debug(object1);
             System.debug(object2);
             System.debug(object3);
-            // createrecord_for_third_object(first_obj_list, list_second_obj, list_third_obj, sig_upload_jsone, sig_upload_fid_list, file_upload_jsone, file_upload_fid_list, create_chi, lookup_list, create_chi_2, lookup_list2, base64att)
-            createrecord_for_third_object(object1, object2,object3, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap, create_chiboolean, lookup_listmap, create_chi_2boolean, lookup_list2map, base64attmap);
            
+            // createrecord_for_secod_object( object1,object2, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString , file_upload_fid_listmap,  create_chiboolean, lookup_listmap, base64attmap);
+            
+            createrecord_for_third_object(object1, object2, object3, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap, create_chiboolean, lookup_listmap, create_chi_2boolean, lookup_list2map, base64attmap);
             // // formid = email.plainTextBody.split(',')[0];
             // // submissionid = email.plainTextBody.split(',')[1];
             // Notification__c notify = new Notification__c();
@@ -115,7 +116,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             //             }
             //     }
             // }
-            return null;
+            return result;
         } catch(Exception e){
             System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
             return null;
@@ -144,11 +145,12 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 Date datValue = null;
                 DateTime dattimValue = null;
                 Time timValue = null;
+                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY'){
+                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
                         decValue = Decimal.valueOf(String.valueOf(value));
                     } else if (fieldType == 'DATE'){
                         datValue= Date.valueOf(String.valueOf(value));
@@ -170,6 +172,12 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
+                    } else if (fieldType == 'BOOLEAN') {
+                        if (value == 'True') {
+                            bolValue = true;
+                        } else {
+                            bolValue = false;
+                        }
                     }
                     if (intValue != null){
                         newSObject.put(key, intValue);
@@ -181,7 +189,9 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                         newSObject.put(key, dattimValue);
                     } else if(timValue != null){
                         newSObject.put(key, timValue);
-                    }else{
+                    } else if (bolValue != null) {
+                        newSObject.put(key, bolValue);
+                    } else{
                         newSObject.put(key, value);
                     }
                 }
@@ -221,7 +231,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
     public static void createrecord_for_secod_object( Map<String, Object> first_obj_list, Map<String, Object> list_second_obj, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, String base64att){
         try{
 
-
             String sobjectName = (String)first_obj_list.get('sobjectType');
             String sobjectName2 = (String)list_second_obj.get('sobjectType');
             Type sobjectType = Type.forName(sobjectName);
@@ -229,17 +238,62 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             Type sobjectType2 = Type.forName(sobjectName2);
             sObject newSObject2 = (sObject) sobjectType2.newInstance();
 
+            
             //For First Object
             for (String key : first_obj_list.keySet()){
                 Object value = first_obj_list.get(key);
+                System.debug(key + ' : ' +value);
                 Integer intValue = null;
+                Decimal decValue = null;
+                Date datValue = null;
+                DateTime dattimValue = null;
+                Time timValue = null;
+                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
+                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
+                        decValue = Decimal.valueOf(String.valueOf(value));
+                    } else if (fieldType == 'DATE'){
+                        datValue= Date.valueOf(String.valueOf(value));
+                    } else if(fieldType == 'DATETIME'){
+                        String dt = String.valueOf(value);
+                        List<String> datetimes = dt.split('T');
+                        List<String> dates = (datetimes[0].split('-'));
+                        List<Integer> intdate = new List<Integer>();
+                        for(String datee : dates){
+                            intdate.add(Integer.valueOf(datee));
+                        }
+                        List<String> times = datetimes[1].split(':');
+                        Integer hours = Integer.valueOf(times[0]);
+                        Integer minutes = Integer.valueOf(times[1]);
+                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
+
+                    } else if(fieldType == 'TIME'){
+                        String startTime = String.valueOf(value);
+                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
+                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
+                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    } else if (fieldType == 'BOOLEAN') {
+                        if (value == 'True') {
+                            bolValue = true;
+                        } else {
+                            bolValue = false;
+                        }
                     }
                     if (intValue != null){
                         newSObject.put(key, intValue);
+                    } else if(decValue != null){
+                        newSObject.put(key, decValue);
+                    } else if(datValue != null){
+                        newSObject.put(key, datValue);
+                    } else if(dattimValue != null){
+                        newSObject.put(key, dattimValue);
+                    } else if(timValue != null){
+                        newSObject.put(key, timValue);
+                    } else if (bolValue != null) {
+                        newSObject.put(key, bolValue);
                     } else{
                         newSObject.put(key, value);
                     }
@@ -249,17 +303,60 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             //For Second Object
             for (String key : list_second_obj.keySet()){
                 Object value = list_second_obj.get(key);
+                System.debug(key + ' : ' +value);
                 Integer intValue = null;
+                Decimal decValue = null;
+                Date datValue = null;
+                DateTime dattimValue = null;
+                Time timValue = null;
+                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    }
-                    if (fieldType == 'BASE64'){
+                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
+                        decValue = Decimal.valueOf(String.valueOf(value));
+                    } else if (fieldType == 'DATE'){
+                        datValue= Date.valueOf(String.valueOf(value));
+                    } else if(fieldType == 'DATETIME'){
+                        String dt = String.valueOf(value);
+                        List<String> datetimes = dt.split('T');
+                        List<String> dates = (datetimes[0].split('-'));
+                        List<Integer> intdate = new List<Integer>();
+                        for(String datee : dates){
+                            intdate.add(Integer.valueOf(datee));
+                        }
+                        List<String> times = datetimes[1].split(':');
+                        Integer hours = Integer.valueOf(times[0]);
+                        Integer minutes = Integer.valueOf(times[1]);
+                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
+
+                    } else if(fieldType == 'TIME'){
+                        String startTime = String.valueOf(value);
+                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
+                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
+                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
+                    } else if (fieldType == 'BOOLEAN') {
+                        if (value == 'True') {
+                            bolValue = true;
+                        } else {
+                            bolValue = false;
+                        }
                     }
                     if (intValue != null){
                         newSObject2.put(key, intValue);
+                    } else if(decValue != null){
+                        newSObject2.put(key, decValue);
+                    } else if(datValue != null){
+                        newSObject2.put(key, datValue);
+                    } else if(dattimValue != null){
+                        newSObject2.put(key, dattimValue);
+                    } else if(timValue != null){
+                        newSObject2.put(key, timValue);
+                    } else if (bolValue != null) {
+                        newSObject2.put(key, bolValue);
                     } else{
                         newSObject2.put(key, value);
                     }
@@ -275,7 +372,6 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                 for (Object lookup_api : lookup_list){
                     System.debug(lookup_api);
                     System.debug(newSObject.Id);
-                    // System.debug('lookup.   ' +lookup_api + ' , '+ newSObject.Id );
                     newSObject2.put((String)lookup_api, newSObject.Id);
                 }
                 if (sobjectName2 == 'Attachment'){
@@ -308,7 +404,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             // return ids;
 
         } catch (Exception e){
-            System.debug('errror' +String.valueOf(e));
+            System.debug('errror' +String.valueOf(e) + ' '+ e.getLineNumber());
             List<sobject> sobjlst = new List<sobject>();
             for (Id i : insertRecordList){
                 sObject q = i.getSobjectType().newSobject(i);
@@ -356,13 +452,59 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             for (String key : first_obj_list.keySet()){
                 Object value = first_obj_list.get(key);
                 Integer intValue = null;
+                Decimal decValue = null;
+                Date datValue = null;
+                DateTime dattimValue = null;
+                Time timValue = null;
+                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
+                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
+                        decValue = Decimal.valueOf(String.valueOf(value));
+                    } else if (fieldType == 'DATE'){
+                        datValue= Date.valueOf(String.valueOf(value));
+                    } else if(fieldType == 'DATETIME'){
+                        String dt = String.valueOf(value);
+                        List<String> datetimes = dt.split('T');
+                        List<String> dates = (datetimes[0].split('-'));
+                        List<Integer> intdate = new List<Integer>();
+                        for(String datee : dates){
+                            intdate.add(Integer.valueOf(datee));
+                        }
+                        List<String> times = datetimes[1].split(':');
+                        Integer hours = Integer.valueOf(times[0]);
+                        Integer minutes = Integer.valueOf(times[1]);
+                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
+
+                    } else if(fieldType == 'TIME'){
+                        String startTime = String.valueOf(value);
+                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
+                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
+                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    } else if (fieldType == 'BASE64'){
+                        value = EncodingUtil.base64Decode(base64att);
+                    } else if (fieldType == 'BOOLEAN') {
+                        if (value == 'True') {
+                            bolValue = true;
+                        } else {
+                            bolValue = false;
+                        }
                     }
+
                     if (intValue != null){
                         newSObject.put(key, intValue);
+                    } else if(decValue != null){
+                        newSObject.put(key, decValue);
+                    } else if(datValue != null){
+                        newSObject.put(key, datValue);
+                    } else if(dattimValue != null){
+                        newSObject.put(key, dattimValue);
+                    } else if(timValue != null){
+                        newSObject.put(key, timValue);
+                    } else if (bolValue != null) {
+                        newSObject.put(key, bolValue);
                     } else{
                         newSObject.put(key, value);
                     }
@@ -373,16 +515,59 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             for (String key : list_second_obj.keySet()){
                 Object value = list_second_obj.get(key);
                 Integer intValue = null;
+                Decimal decValue = null;
+                Date datValue = null;
+                DateTime dattimValue = null;
+                Time timValue = null;
+                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    }
-                    if (fieldType == 'BASE64'){
+                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
+                        decValue = Decimal.valueOf(String.valueOf(value));
+                    } else if (fieldType == 'DATE'){
+                        datValue= Date.valueOf(String.valueOf(value));
+                    } else if(fieldType == 'DATETIME'){
+                        String dt = String.valueOf(value);
+                        List<String> datetimes = dt.split('T');
+                        List<String> dates = (datetimes[0].split('-'));
+                        List<Integer> intdate = new List<Integer>();
+                        for(String datee : dates){
+                            intdate.add(Integer.valueOf(datee));
+                        }
+                        List<String> times = datetimes[1].split(':');
+                        Integer hours = Integer.valueOf(times[0]);
+                        Integer minutes = Integer.valueOf(times[1]);
+                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
+
+                    } else if(fieldType == 'TIME'){
+                        String startTime = String.valueOf(value);
+                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
+                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
+                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
+                    }  else if (fieldType == 'BOOLEAN') {
+                        if (value == 'True') {
+                            bolValue = true;
+                        } else {
+                            bolValue = false;
+                        }
                     }
+
                     if (intValue != null){
                         newSObject2.put(key, intValue);
+                    } else if(decValue != null){
+                        newSObject2.put(key, decValue);
+                    } else if(datValue != null){
+                        newSObject2.put(key, datValue);
+                    } else if(dattimValue != null){
+                        newSObject2.put(key, dattimValue);
+                    } else if(timValue != null){
+                        newSObject2.put(key, timValue);
+                    } else if (bolValue != null) {
+                        newSObject2.put(key, bolValue);
                     } else{
                         newSObject2.put(key, value);
                     }
@@ -393,16 +578,59 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             for (String key : list_third_obj.keySet()){
                 Object value = list_third_obj.get(key);
                 Integer intValue = null;
+                Decimal decValue = null;
+                Date datValue = null;
+                DateTime dattimValue = null;
+                Time timValue = null;
+                Boolean bolValue = null;
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName3).getDescribe().fields.getMap().get(key).getDescribe().getType());
                     if (fieldType == 'INTEGER'){
                         intValue = Integer.valueOf(value);
-                    }
-                    if (fieldType == 'BASE64'){
+                    } else if(fieldType == 'PERCENT' || fieldType == 'CURRENCY' || fieldType == 'DOUBLE'){
+                        decValue = Decimal.valueOf(String.valueOf(value));
+                    } else if (fieldType == 'DATE'){
+                        datValue= Date.valueOf(String.valueOf(value));
+                    } else if(fieldType == 'DATETIME'){
+                        String dt = String.valueOf(value);
+                        List<String> datetimes = dt.split('T');
+                        List<String> dates = (datetimes[0].split('-'));
+                        List<Integer> intdate = new List<Integer>();
+                        for(String datee : dates){
+                            intdate.add(Integer.valueOf(datee));
+                        }
+                        List<String> times = datetimes[1].split(':');
+                        Integer hours = Integer.valueOf(times[0]);
+                        Integer minutes = Integer.valueOf(times[1]);
+                        dattimValue = Datetime.newInstance(intdate[0], intdate[1], intdate[2],hours,minutes,0);
+
+                    } else if(fieldType == 'TIME'){
+                        String startTime = String.valueOf(value);
+                        Integer hour = Integer.valueOf(startTime.left(2)); //first 2 characters are hour
+                        Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
+                        timValue = Time.newInstance(hour, minute, 0, 0);
+                    } else if (fieldType == 'BASE64'){
                         value = EncodingUtil.base64Decode(base64att);
+                    }  else if (fieldType == 'BOOLEAN') {
+                        if (value == 'True') {
+                            bolValue = true;
+                        } else {
+                            bolValue = false;
+                        }
                     }
+
                     if (intValue != null){
                         newSObject3.put(key, intValue);
+                    } else if(decValue != null){
+                        newSObject3.put(key, decValue);
+                    } else if(datValue != null){
+                        newSObject3.put(key, datValue);
+                    } else if(dattimValue != null){
+                        newSObject3.put(key, dattimValue);
+                    } else if(timValue != null){
+                        newSObject3.put(key, timValue);
+                    } else if (bolValue != null) {
+                        newSObject3.put(key, bolValue);
                     } else{
                         newSObject3.put(key, value);
                     }
