@@ -37,6 +37,8 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             System.debug(file_upload_fid_listmap);
             System.debug(create_chiboolean);
             System.debug(lookup_listmap);
+            System.debug(create_chi_2boolean);
+            System.debug(lookup_list2map);
             System.debug(base64attmap);
 
             String acc1 = (String)accmap.get('First_object_data__c');

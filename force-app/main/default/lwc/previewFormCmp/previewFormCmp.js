@@ -672,6 +672,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         fsubobj: this.form_mapped_Objects[k]
                     })
                         .then(result => {
+                            console.log(result + 'result');
                             this.lookup_filde_json[k] = result; 
                         })
                         .catch(e => {
@@ -1226,6 +1227,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             } else if (this.form_mapped_Objects.length == 3) {
                 this.lookup_2obj = this.lookup_filde_json['1'];
                 this.lookup_3obj = this.lookup_filde_json['2'];
+                console.log(this.lookup_filde_json['2']);
+                console.log(JSON.stringify(this.lookup_3obj) + 'this.lookup_3obj');
                 this.add_lookyp_fildes();
                 this.add_lookyp_fildes_2();
                 createrecord_for_third_object({

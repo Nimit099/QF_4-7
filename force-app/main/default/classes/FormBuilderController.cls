@@ -2579,6 +2579,8 @@ public with sharing class FormBuilderController{
             wrapper.lookup_list2 = lookup_list2;
             wrapper.create_chi_2 = create_chi_2;
 
+            System.debug(wrapper);
+
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
             OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
             Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
@@ -2866,17 +2868,33 @@ public with sharing class FormBuilderController{
     public static List<String> findlookupfildes(String minobj, String fsubobj){
         /*This method is used to get lookup fildes name.*/
         try{
+            System.debug(minobj);
+            System.debug(fsubobj);
             String objectApiName = fsubobj;
             Map<String, Schema.SObjectType> objectTypes = Schema.getGlobalDescribe();
+            System.debug(objectTypes);
             Schema.SObjectType objectType = objectTypes.get(objectApiName);
+            System.debug(objectType);
             Map<String, Schema.SObjectField> fields = objectType.getDescribe().fields.getMap();
+            System.debug(fields);
             List<String> lookupFields = new List<String>();
             for (String fieldName : fields.keySet()){
+                System.debug(fieldName);
                 Schema.DescribeFieldResult fieldDescribe = fields.get(fieldName).getDescribe();
+                System.debug(fieldDescribe);
+                System.debug(fieldDescribe.getType());
+                System.debug(Schema.DisplayType.REFERENCE);
                 if (fieldDescribe.getType() == Schema.DisplayType.REFERENCE){
+                    System.debug(fieldDescribe.getReferenceTo()[0].getDescribe().getName());
                     if (fieldDescribe.getReferenceTo()[0].getDescribe().getName() == minobj){
-                        if (fieldDescribe.getRelationshipName() == minobj){
+                        System.debug(fieldDescribe.getRelationshipName());
+                        String field = fieldDescribe.getRelationshipName();
+                        if(field.contains('__r')){
+                           field = field.replace('__r', '');
+                        }
+                        if (field == minobj){
                             if (fsubobj == 'Task' || fsubobj == 'Event'){
+                                System.debug(fieldDescribe.getName());
                                 if (fieldDescribe.getName() != 'AccountId'){
                                     lookupFields.add(fieldDescribe.getName());
                                 }
@@ -2887,7 +2905,7 @@ public with sharing class FormBuilderController{
                     }
                 }
             }
-
+            System.debug(lookupFields);
             return lookupFields;
         } catch (Exception e){
             return null;
