@@ -1185,7 +1185,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sig_u_map = data.Sig_upload_map;
                         let toast_error_msg = 'Your form is submitted successfully.';
                         this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-                        this.sendnotification(this.sub_id);
                     })
                     .catch((error) => {
                         console.log(error.message);
@@ -1197,6 +1196,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             } else if (this.form_mapped_Objects.length == 2) {
 
                 this.add_lookyp_fildes();
+                
                 createrecord_for_secod_object({
                     acc: list_submission_obj,
                     first_obj_list: this.list_first_obj,
@@ -1215,8 +1215,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sig_u_map = data.Sig_upload_map;
                         let toast_error_msg = 'Your form is submitted successfully.';
                         this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-                        this.sendnotification(this.sub_id);
-                        // this.add_sig();
                     })
                     .catch(() => {
                         this.spinnerDataTable = false;
@@ -1231,6 +1229,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                 console.log(JSON.stringify(this.lookup_3obj) + 'this.lookup_3obj');
                 this.add_lookyp_fildes();
                 this.add_lookyp_fildes_2();
+
                 createrecord_for_third_object({
                     acc: list_submission_obj,
                     first_obj_list: this.list_first_obj,
@@ -1253,8 +1252,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sig_u_map = data.Sig_upload_map;
                         let toast_error_msg = 'Your form is submitted successfully.';
                         this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-                        this.sendnotification(this.sub_id);
-                        // this.add_sig();
                     })
                     .catch(() => {
                         this.spinnerDataTable = false;
