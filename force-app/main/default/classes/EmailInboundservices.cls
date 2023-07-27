@@ -20,25 +20,24 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             List<Object> lookup_list2map = (List<Object>)map1.get('lookup_list2'); 
             Boolean create_chi_2boolean = (Boolean)map1.get('create_chi_2'); 
             Integer ObjectCount = (Integer)map1.get('ObjectCount');
-            String acc1 = (String)accmap.get('First_object_data__c');
-            Map<String, Object> object1 = (Map<String, Object>)JSON.deserializeUntyped(acc1);
-            String acc2 = (String)accmap.get('Second_object_data__c');
-            Map<String, Object> object2 = (Map<String, Object>)JSON.deserializeUntyped(acc2);
-            String acc3 = (String)accmap.get('Third_object_data__c');
-            Map<String, Object> object3 = (Map<String, Object>)JSON.deserializeUntyped(acc3);
-            insertRecordList.add((Id)map1.get('SubId'));
+            String object1 = (String)accmap.get('First_object_data__c');
+            String object2 = (String)accmap.get('Second_object_data__c');
+            String object3 = (String)accmap.get('Third_object_data__c');
+            String otherfields = (String)accmap.get('Other_fields_data__c');
+            Id formid = (Id)accmap.get('Form__c');
+            // insertRecordList.add((Id)map1.get('SubId'));
 
             String success;
             if (ObjectCount == 1) {
-                success = createrecord(object1, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap);
+                success = createrecord(object1,object2,object3, otherfields,formid, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap);
             } else if (ObjectCount == 2) {
-             success =  createrecord_for_secod_object( object1,object2, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString , file_upload_fid_listmap,  create_chiboolean, lookup_listmap, base64attmap);
+             success =  createrecord_for_secod_object( object1,object2,object3, otherfields,formid, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString , file_upload_fid_listmap,  create_chiboolean, lookup_listmap, base64attmap);
            } else if (ObjectCount == 3){
-               success = createrecord_for_third_object(object1, object2, object3, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap, create_chiboolean, lookup_listmap, create_chi_2boolean, lookup_list2map, base64attmap);
+               success = createrecord_for_third_object(object1, object2, object3, otherfields,formid, sig_upload_jsoneString, sig_upload_fid_listmap, file_upload_jsoneString, file_upload_fid_listmap, create_chiboolean, lookup_listmap, create_chi_2boolean, lookup_list2map, base64attmap);
            }
             
            if (success == 'success') {
-                Id formid = (Id)accmap.get('Form__c');
+                
                 Id submissionid = (Id) map1.get('SubId');
                 Notification__c notify = new Notification__c();
                 notify = [SELECT Id,Form__r.Name, To_Recipients__c, CC_Recipients__c, BCC_Recipients__c, Subject__c, Email_Body__c, Attachment__c, Status__c
@@ -114,8 +113,63 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
      * @param file_upload_fid_list List of String
      * @return String 'success' record
      */
-    public static String createrecord( Map<String, Object> first_obj_list, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list){
+    public static String createrecord(String object1, String object2, String object3, String otherfields, Id formId, String sig_upload_jsone,  List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list){
         try{
+
+
+
+            Map<String, Object> first_obj_list = (Map<String, Object>)JSON.deserializeUntyped(object1);
+            // Map<String, Object> list_second_obj = (Map<String, Object>)JSON.deserializeUntyped(object2);            
+            // Map<String, Object> list_third_obj = (Map<String, Object>)JSON.deserializeUntyped(object3);
+
+            String signatureid;
+            String fildid;
+            Map<String, Object> file_upload_map = new Map<String, Object>();
+            Map<String, Object> sigUploadMap = new Map<String, Object>();
+            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(otherfields);
+            String subID = '';
+            Integer sig_list_len = sig_upload_fid_list.size();
+            if (sig_list_len > 0){
+                for (Object sigType : sig_upload_fid_list){
+                    String sigBaseid = (String) sigMap.get((String)sigType);
+                    signatureid = signatureSave(subID, sigBaseid);
+                    sigUploadMap.put((String)sigType, signatureid);
+                    otherobjectdata.put((String)sigType, signatureid);
+                }
+            }
+             
+
+            Integer listLen = file_upload_fid_list.size();
+            if (listLen > 0){
+                for (Object type : file_upload_fid_list){
+                    String types = (String)type;
+                    String[] address = types.split('<!QF!>');
+                    String fName = address[1];
+                    String fType = address[2];
+                    String baseid = (String) m.get(types) ;
+                    fildid = SaveFile(subID, fName, baseid, fType);
+                    file_upload_map.put(address[0], fildid);
+                    otherobjectdata.put(address[0], fildid);
+                }
+            }
+
+            Form_Submission__c formsub = new Form_Submission__c();
+
+            formsub.Form__c = formId;
+            formsub.First_object_data__c = object1;
+            formsub.Second_object_data__c = object2;
+            formsub.Third_object_data__c = object3;
+            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+                insert formsub;
+                insertRecordList.add(formsub.Id);
+                subID = formsub.Id;
+            }
+
+
 
             String sobjectName = (String)first_obj_list.get('sobjectType');
             Type sobjectType = Type.forName(sobjectName);
@@ -210,8 +264,64 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
      * @param base64att base64 String
      * @return String 'success' record
      */
-    public static String createrecord_for_secod_object( Map<String, Object> first_obj_list, Map<String, Object> list_second_obj, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, String base64att){
+    public static String createrecord_for_secod_object( String object1, String object2, String object3, String otherfields,Id formId, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, String base64att){
         try{
+
+            Map<String, Object> first_obj_list = (Map<String, Object>)JSON.deserializeUntyped(object1);
+            Map<String, Object> list_second_obj = (Map<String, Object>)JSON.deserializeUntyped(object2);            
+            // Map<String, Object> list_third_obj = (Map<String, Object>)JSON.deserializeUntyped(object3);
+
+
+
+            String signatureid;
+            String fildid;
+            Map<String, Object> file_upload_map = new Map<String, Object>();
+            Map<String, Object> sigUploadMap = new Map<String, Object>();
+            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(otherfields);
+            String subID = '';
+            Integer sig_list_len = sig_upload_fid_list.size();
+            if (sig_list_len > 0){
+                for (Object sigType : sig_upload_fid_list){
+                    String sigBaseid = (String) sigMap.get((String)sigType);
+                    signatureid = signatureSave(subID, sigBaseid);
+                    sigUploadMap.put((String)sigType, signatureid);
+                    otherobjectdata.put((String)sigType, signatureid);
+                }
+            }
+             
+
+            Integer listLen = file_upload_fid_list.size();
+            if (listLen > 0){
+                for (Object type : file_upload_fid_list){
+                    String types = (String)type;
+                    String[] address = types.split('<!QF!>');
+                    String fName = address[1];
+                    String fType = address[2];
+                    String baseid = (String) m.get(types) ;
+                    fildid = SaveFile(subID, fName, baseid, fType);
+                    file_upload_map.put(address[0], fildid);
+                    otherobjectdata.put(address[0], fildid);
+                }
+            }
+
+            Form_Submission__c formsub = new Form_Submission__c();
+
+            formsub.Form__c = formId;
+            formsub.First_object_data__c = object1;
+            formsub.Second_object_data__c = object2;
+            formsub.Third_object_data__c = object3;
+            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+                insert formsub;
+                insertRecordList.add(formsub.Id);
+                subID = formsub.Id;
+            }
+
+
+
 
             String sobjectName = (String)first_obj_list.get('sobjectType');
             String sobjectName2 = (String)list_second_obj.get('sobjectType');
@@ -412,8 +522,66 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
      */
 
 
-    public static String createrecord_for_third_object(Map<String,Object> first_obj_list,  Map<String,Object> list_second_obj,  Map<String,Object> list_third_obj, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, Boolean create_chi_2, List<Object> lookup_list2, String base64att){
+    public static String createrecord_for_third_object(String object1,  String object2,  String object3,String otherfields, Id formId, String sig_upload_jsone, List<Object> sig_upload_fid_list, String file_upload_jsone, List<Object> file_upload_fid_list, Boolean create_chi, List<Object> lookup_list, Boolean create_chi_2, List<Object> lookup_list2, String base64att){
         try{
+
+
+            Map<String, Object> first_obj_list = (Map<String, Object>)JSON.deserializeUntyped(object1);
+            Map<String, Object> list_second_obj = (Map<String, Object>)JSON.deserializeUntyped(object2);            
+            Map<String, Object> list_third_obj = (Map<String, Object>)JSON.deserializeUntyped(object3);
+
+
+
+
+            String signatureid;
+            String fildid;
+            Map<String, Object> file_upload_map = new Map<String, Object>();
+            Map<String, Object> sigUploadMap = new Map<String, Object>();
+            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(otherfields);
+            String subID = '';
+            Integer sig_list_len = sig_upload_fid_list.size();
+            if (sig_list_len > 0){
+                for (Object sigType : sig_upload_fid_list){
+                    String sigBaseid = (String) sigMap.get((String)sigType);
+                    signatureid = signatureSave(subID, sigBaseid);
+                    sigUploadMap.put((String)sigType, signatureid);
+                    otherobjectdata.put((String)sigType, signatureid);
+                }
+            }
+             
+
+            Integer listLen = file_upload_fid_list.size();
+            if (listLen > 0){
+                for (Object type : file_upload_fid_list){
+                    String types = (String)type;
+                    String[] address = types.split('<!QF!>');
+                    String fName = address[1];
+                    String fType = address[2];
+                    String baseid = (String) m.get(types) ;
+                    fildid = SaveFile(subID, fName, baseid, fType);
+                    file_upload_map.put(address[0], fildid);
+                    otherobjectdata.put(address[0], fildid);
+                }
+            }
+            
+            Form_Submission__c formsub = new Form_Submission__c();
+
+            formsub.Form__c = formId;
+            formsub.First_object_data__c = object1;
+            formsub.Second_object_data__c = object2;
+            formsub.Third_object_data__c = object3;
+            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+                insert formsub;
+                insertRecordList.add(formsub.Id);
+                subID = formsub.Id;
+            }
+
+
+
 
             String sobjectName = (String)first_obj_list.get('sobjectType');
             String sobjectName2 = (String)list_second_obj.get('sobjectType');
@@ -688,4 +856,60 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             return null;
         }
     }   
+
+        /**
+     * @description signatureSave Method
+     * @param fieldId String Value
+     * @param fieldData String Value
+     * @return String
+     */
+    @AuraEnabled
+    public static String signatureSave(String fieldId, String fieldData){
+        /*This method is used store signature in ContentVersion*/
+        try{
+
+            Integer randomNumber = (Integer)Math.floor(Math.random() * 900000) + 100000;
+            String s = fieldData.replaceFirst('data:image/png;base64,', '');
+            ContentVersion conVer = new ContentVersion();
+            conVer.title = 'Signature'+randomNumber+'.png';
+            conVer.versionData = EncodingUtil.base64decode(s);
+            conVer.PathOnClient = 'signatureImage.png';
+            if (Schema.sObjectType.ContentVersion.fields.title.IsCreateable() && Schema.sObjectType.ContentVersion.fields.PathOnClient.IsCreateable()){
+                insert conVer;
+            }
+            return conVer.Id;
+
+        } catch (Exception e){
+            System.debug('signature error' + String.valueOf(e));
+            return null;
+        }
+    }
+
+    /**
+     * @description SaveFile Method
+     * @param fieldId String Value
+     * @param fileName String Value
+     * @param base64Data String Value
+     * @param contentType String Value
+     * @return String
+     */
+    @AuraEnabled
+    public static String SaveFile(String fieldId, String fileName, String base64Data, String contentType){
+        /*This method is used store upload files in ContentVersion*/
+        try{
+            base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+            ContentVersion cv = new ContentVersion();
+            cv.Title = fileName;
+            cv.PathOnClient = fileName;
+            cv.VersionData = EncodingUtil.base64Decode(base64Data);
+            cv.IsMajorVersion = true;
+            if (Schema.sObjectType.ContentVersion.fields.Title.IsCreateable() && Schema.sObjectType.ContentVersion.fields.PathOnClient.IsCreateable() && Schema.sObjectType.ContentVersion.fields.IsMajorVersion.IsCreateable()){
+                insert cv;
+            }
+            return cv.Id;
+
+        } catch (Exception e){
+            return null;
+        }
+    }
 }

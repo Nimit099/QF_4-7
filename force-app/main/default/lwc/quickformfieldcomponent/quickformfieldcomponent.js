@@ -13,8 +13,8 @@ import multiright from '@salesforce/resourceUrl/multiright';
 import multileft from '@salesforce/resourceUrl/multileft';
 import multitick from '@salesforce/resourceUrl/multitick';
 import getScaleRating from '@salesforce/apex/FormBuilderController.getScaleRating';
-import getreferencevalue from '@salesforce/apex/FormBuilderController.getreferencevalue';
-import getpicklistvalue from '@salesforce/apex/FormBuilderController.getpicklistvalue';
+import getreferencevalue from '@salesforce/apex/previewFormcmp.getreferencevalue';
+import getpicklistvalue from '@salesforce/apex/previewFormcmp.getpicklistvalue';
 import blackcross from '@salesforce/resourceUrl/blackcross';
 import QuickBot_Cross from '@salesforce/resourceUrl/QuickBot_Cross';
 import groupRadio from '@salesforce/resourceUrl/groupRadio'

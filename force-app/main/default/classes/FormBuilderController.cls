@@ -2000,87 +2000,87 @@ public with sharing class FormBuilderController{
         }
     }
 
-    /**
-     * @description getreferencevalue Method
-     * @param id Id Value
-     * @param searchkey String Value
-     * @return referencewrapper
-     */
-    @AuraEnabled
-    public static referencewrapper getreferencevalue(Id id, String searchkey){
-        /*This method is used to pass referenc field values*/
-        try{
-            if (Schema.sObjectType.Form_Fields__c.fields.Mapped_Obj__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible()){
-                String searchkeyword = '%' + searchkey + '%';
-                String query;
-                Form_Fields__c mappedObject = [SELECT Id, Mapped_Obj__c, Field_Mapping__c
-                                               FROM Form_Fields__c
-                                               WHERE Id = :id];
-                String mappedfield = mappedObject.Field_Mapping__c.split('<!@!>')[0];
-                Schema.DescribeFieldResult f = Schema.getGlobalDescribe().get(mappedObject.Mapped_Obj__c).getDescribe().fields.getMap().get(mappedfield).getDescribe();
-                String objects;
-                for (Schema.SObjectType reference : f.getReferenceTo()){
-                    objects = reference.getDescribe().getName();
-                }
-                if (searchkey == null || searchkey == 'undefined' || searchkey == ''){
-                    query = 'SELECT Id, Name FROM ' + String.escapeSingleQuotes(objects) + ' Limit 1000';
-                } else{
-                    query = 'SELECT Id, Name FROM ' + String.escapeSingleQuotes(objects) + ' WHERE Name LIKE :searchkeyword';
-                }
-                List<sObject> objectRecords = Database.query(query);
+    // /**
+    //  * @description getreferencevalue Method
+    //  * @param id Id Value
+    //  * @param searchkey String Value
+    //  * @return referencewrapper
+    //  */
+    // @AuraEnabled
+    // public static referencewrapper getreferencevalue(Id id, String searchkey){
+    //     /*This method is used to pass referenc field values*/
+    //     try{
+    //         if (Schema.sObjectType.Form_Fields__c.fields.Mapped_Obj__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible()){
+    //             String searchkeyword = '%' + searchkey + '%';
+    //             String query;
+    //             Form_Fields__c mappedObject = [SELECT Id, Mapped_Obj__c, Field_Mapping__c
+    //                                            FROM Form_Fields__c
+    //                                            WHERE Id = :id];
+    //             String mappedfield = mappedObject.Field_Mapping__c.split('<!@!>')[0];
+    //             Schema.DescribeFieldResult f = Schema.getGlobalDescribe().get(mappedObject.Mapped_Obj__c).getDescribe().fields.getMap().get(mappedfield).getDescribe();
+    //             String objects;
+    //             for (Schema.SObjectType reference : f.getReferenceTo()){
+    //                 objects = reference.getDescribe().getName();
+    //             }
+    //             if (searchkey == null || searchkey == 'undefined' || searchkey == ''){
+    //                 query = 'SELECT Id, Name FROM ' + String.escapeSingleQuotes(objects) + ' Limit 1000';
+    //             } else{
+    //                 query = 'SELECT Id, Name FROM ' + String.escapeSingleQuotes(objects) + ' WHERE Name LIKE :searchkeyword';
+    //             }
+    //             List<sObject> objectRecords = Database.query(query);
 
-                referencewrapper rw = new referencewrapper();
-                rw.referenceval = objectRecords;
-                Map<String, String> objectIconMap = new Map<String, String>{ 'Account' => 'standard:account', 'Address' => 'standard:address', 'AlternativePaymentMethod' => 'standard:payment_gateway', 'Announcement' => 'standard:announcement', 'AppAnalyticsQueryRequest' => 'standard:care_request_reviewer', 'AppointmentTopicTimeSlot' => 'standard:timeslot', 'ApptBundleAggrDurDnscale' => 'standard:event', 'ApptBundleAggrPolicy' => 'standard:aggregation_policy', 'ApptBundleConfig' => 'standard:bundle_config', 'ApptBundlePolicy' => 'standard:bundle_policy', 'ApptBundlePolicySvcTerr' => 'standard:service_territory_policy', 'ApptBundlePropagatePolicy' => 'standard:propagation_policy', 'ApptBundleRestrictPolicy' => 'standard:restriction_policy', 'ApptBundleSortPolicy' => 'standard:sort_policy', 'Asset' => 'standard:asset_object', 'AssetDowntimePeriod' => 'standard:asset_downtime_period', 'AssetRelationship' => 'standard:asset_relationship', 'AssetWarranty' => 'standard:asset_warranty', 'AssociatedLocation' => 'standard:location', 'AttributeDefinition' => 'standard:variation_attribute_setup', 'AuthorizationForm' => 'standard:form', 'AuthorizationFormConsent' => 'standard:form', 'AuthorizationFormDataUse' => 'standard:form', 'AuthorizationFormText' => 'standard:form', 'BusinessBrand' => 'standard:store', 'CalendarView' => 'standard:date_input', 'Campaign' => 'standard:campaign', 'CampaignMember' => 'standard:campaign_members', 'CardPaymentMethod' => 'standard:contract_payment', 'Case' => 'standard:case', 'CollaborationGroup' => 'standard:live_chat', 'CollaborationGroupRecord' => 'standard:live_chat', 'CommSubscription' => 'standard:product_consumed', 'CommSubscriptionChannelType' => 'standard:channel_program_levels', 'CommSubscriptionConsent' => 'standard:product_consumed', 'CommSubscriptionTiming' => 'standard:channel_program_history', 'ConsumptionRate' => 'standard:product_consumed_state', 'ConsumptionSchedule' => 'standard:product_consumed_state', 'Contact' => 'standard:contact', 'ContactPointAddress' => 'standard:address', 'ContactPointConsent' => 'standard:address', 'ContactPointEmail' => 'standard:email', 'ContactPointPhone' => 'standard:call', 'ContactPointTypeConsent' => 'standard:contact', 'ContactRequest' => 'standard:contact_request', 'ContentVersion' => 'standard:file', 'Contract' => 'standard:contract', 'ContractGroupPlan' => 'standard:contract', 'ContractGroupPlanGroupClass' => 'standard:contract', 'ContractLineItem' => 'standard:contract_line_item', 'Customer' => 'standard:customer', 'DataUseLegalBasis' => 'standard:product_consumed', 'DataUsePurpose' => 'standard:product_consumed', 'DigitalWallet' => 'standard:connect_wallet', 'DuplicateRecordItem' => 'custom:custom49', 'DuplicateRecordSet' => 'standard:record', 'EngagementChannelType' => 'standard:channel_programs', 'Entitlement' => 'standard:entitlement', 'EntitlementContact' => 'standard:people', 'Event' => 'standard:event', 'Expense' => 'standard:expense', 'ExpenseReport' => 'standard:expense_report', 'ExpenseReportEntry' => 'standard:expense_report_entry', 'ExpressionFilter' => 'standard:filter', 'ExpressionFilterCriteria' => 'standard:filter_criteria', 'FinanceTransaction' => 'standard:crypto_transaction', 'FlowRecordRelation' => 'standard:flow', 'GroupCensus' => 'standard:groups', 'GroupCensusMember' => 'standard:groups', 'GroupCensusMemberPlan' => 'standard:groups', 'GroupClass' => 'standard:groups', 'GroupClassContribution' => 'standard:groups', 'Idea' => 'standard:solution', 'Image' => 'custom:custom38', 'Individual' => 'standard:individual', 'InsuranceContract' => 'standard:entitlement_policy', 'JobProfile' => 'standard:job_profile', 'Lead' => 'standard:lead', 'LegalEntity' => 'standard:entity', 'ListEmail' => 'standard:list_email', 'ListEmailIndividualRecipient' => 'standard:email', 'ListEmailRecipientSource' => 'standard:email', 'Location' => 'standard:location', 'LocationGroup' => 'standard:location', 'LocationGroupAssignment' => 'standard:location', 'Macro' => 'standard:macros', 'MacroInstruction' => 'standard:macros', 'MaintenanceAsset' => 'standard:maintenance_asset', 'MaintenancePlan' => 'standard:maintenance_plan', 'MaintenanceWorkRule' => 'standard:maintenance_work_rule', 'Opportunity' => 'standard:opportunity', 'Order' => 'standard:orders', 'OrgMetric' => 'standard:dashboard', 'OrgMetricScanResult' => 'standard:dashboard_ea', 'OrgMetricScanSummary' => 'standard:dashboard_component', 'PartyConsent' => 'custom:custom69', 'Payment' => 'standard:contract_payment', 'PaymentAuthAdjustment' => 'standard:contract_payment', 'PaymentAuthorization' => 'standard:contract_payment', 'PaymentGateway' => 'standard:payment_gateway', 'PaymentGatewayLog' => 'standard:payment_gateway', 'PaymentGroup' => 'standard:partner_fund_request', 'PaymentLineInvoice' => 'standard:payment_gateway', 'Pricebook2' => 'standard:pricebook', 'ProcessException' => 'standard:process_exception', 'Product2' => 'standard:product', 'ProductConsumed' => 'standard:product_consumed', 'ProductConsumptionSchedule' => 'standard:product_consumed', 'ProductItem' => 'standard:product_item', 'ProductRequest' => 'standard:product_request', 'ProductRequestLineItem' => 'standard:product_request_line_item', 'ProductRequired' => 'standard:product_required', 'ProductServiceCampaign' => 'standard:product_service_campaign', 'ProductServiceCampaignItem' => 'standard:product_service_campaign_item', 'ProductTransfer' => 'standard:product_transfer', 'ProductWarrantyTerm' => 'standard:product_warranty_term', 'ProfileSkill' => 'standard:skill', 'ProfileSkillEndorsement' => 'standard:skill_entity', 'ProfileSkillUser' => 'standard:skill_entity', 'PromptAction' => 'standard:prompt', 'PromptError' => 'standard:prompt', 'QuickText' => 'standard:quick_text', 'Recommendation' => 'standard:feedback', 'RecommendationResponse' => 'standard:feedback', 'RecordAction' => 'standard:record', 'Refund' => 'standard:contract_payment', 'RefundLinePayment' => 'standard:contract_payment', 'ResourceAbsence' => 'standard:resource_absence', 'ReturnOrder' => 'standard:return_order', 'ReturnOrderLineItem' => 'standard:return_order_line_item', 'SchedulingConstraint' => 'standard:scheduling_constraint', 'Scorecard' => 'standard:scan_card', 'ScorecardAssociation' => 'standard:scan_card', 'ScorecardMetric' => 'standard:scan_card', 'SearchPromotionRule' => 'standard:search', 'Seller' => 'standard:partner_fund_allocation', 'SerializedProduct' => 'standard:serialized_product', 'ServiceAppointment' => 'standard:service_appointment', 'ServiceContract' => 'standard:service_contract', 'ServiceCrew' => 'standard:service_crew', 'ServiceCrewMember' => 'standard:service_crew_member', 'ServiceResource' => 'standard:service_resource', 'ServiceResourcePreference' => 'standard:service_territory', 'ServiceTerritory' => 'standard:service_territory', 'ServiceTerritoryLocation' => 'standard:location', 'SetupAssistantStep' => 'standard:setup_modal', 'Shift' => 'standard:shift', 'ShiftTemplate' => 'standard:shift_template', 'Shipment' => 'standard:shipment', 'ShipmentItem' => 'standard:shipment', 'Solution' => 'standard:solution', 'Task' => 'standard:task', 'TimeSheet' => 'standard:timesheet', 'TimeSheetEntry' => 'standard:timesheet_entry', 'TravelMode' => 'standard:location', 'UnitOfMeasure' => 'custom:custom79', 'UserEmailPreferredPerson' => 'standard:people', 'WarrantyTerm' => 'standard:warranty_term', 'WorkAccess' => 'standard:work_queue', 'WorkBadge' => 'standard:skill_requirement', 'WorkBadgeDefinition' => 'standard:skill_requirement', 'WorkOrder' => 'standard:work_order', 'WorkOrderLineItem' => 'standard:work_order_item', 'WorkPlan' => 'standard:work_plan', 'WorkPlanSelectionRule' => 'standard:work_plan_rule', 'WorkPlanTemplate' => 'standard:work_plan_template', 'WorkPlanTemplateEntry' => 'standard:work_plan_template_entry', 'WorkStep' => 'standard:work_step', 'WorkStepTemplate' => 'standard:work_step_template', 'WorkThanks' => 'standard:thanks', 'WorkType' => 'standard:work_type', 'WorkTypeGroup' => 'standard:work_type_group', 'WorkTypeGroupMember' => 'standard:team_member' };
+    //             referencewrapper rw = new referencewrapper();
+    //             rw.referenceval = objectRecords;
+    //             Map<String, String> objectIconMap = new Map<String, String>{ 'Account' => 'standard:account', 'Address' => 'standard:address', 'AlternativePaymentMethod' => 'standard:payment_gateway', 'Announcement' => 'standard:announcement', 'AppAnalyticsQueryRequest' => 'standard:care_request_reviewer', 'AppointmentTopicTimeSlot' => 'standard:timeslot', 'ApptBundleAggrDurDnscale' => 'standard:event', 'ApptBundleAggrPolicy' => 'standard:aggregation_policy', 'ApptBundleConfig' => 'standard:bundle_config', 'ApptBundlePolicy' => 'standard:bundle_policy', 'ApptBundlePolicySvcTerr' => 'standard:service_territory_policy', 'ApptBundlePropagatePolicy' => 'standard:propagation_policy', 'ApptBundleRestrictPolicy' => 'standard:restriction_policy', 'ApptBundleSortPolicy' => 'standard:sort_policy', 'Asset' => 'standard:asset_object', 'AssetDowntimePeriod' => 'standard:asset_downtime_period', 'AssetRelationship' => 'standard:asset_relationship', 'AssetWarranty' => 'standard:asset_warranty', 'AssociatedLocation' => 'standard:location', 'AttributeDefinition' => 'standard:variation_attribute_setup', 'AuthorizationForm' => 'standard:form', 'AuthorizationFormConsent' => 'standard:form', 'AuthorizationFormDataUse' => 'standard:form', 'AuthorizationFormText' => 'standard:form', 'BusinessBrand' => 'standard:store', 'CalendarView' => 'standard:date_input', 'Campaign' => 'standard:campaign', 'CampaignMember' => 'standard:campaign_members', 'CardPaymentMethod' => 'standard:contract_payment', 'Case' => 'standard:case', 'CollaborationGroup' => 'standard:live_chat', 'CollaborationGroupRecord' => 'standard:live_chat', 'CommSubscription' => 'standard:product_consumed', 'CommSubscriptionChannelType' => 'standard:channel_program_levels', 'CommSubscriptionConsent' => 'standard:product_consumed', 'CommSubscriptionTiming' => 'standard:channel_program_history', 'ConsumptionRate' => 'standard:product_consumed_state', 'ConsumptionSchedule' => 'standard:product_consumed_state', 'Contact' => 'standard:contact', 'ContactPointAddress' => 'standard:address', 'ContactPointConsent' => 'standard:address', 'ContactPointEmail' => 'standard:email', 'ContactPointPhone' => 'standard:call', 'ContactPointTypeConsent' => 'standard:contact', 'ContactRequest' => 'standard:contact_request', 'ContentVersion' => 'standard:file', 'Contract' => 'standard:contract', 'ContractGroupPlan' => 'standard:contract', 'ContractGroupPlanGroupClass' => 'standard:contract', 'ContractLineItem' => 'standard:contract_line_item', 'Customer' => 'standard:customer', 'DataUseLegalBasis' => 'standard:product_consumed', 'DataUsePurpose' => 'standard:product_consumed', 'DigitalWallet' => 'standard:connect_wallet', 'DuplicateRecordItem' => 'custom:custom49', 'DuplicateRecordSet' => 'standard:record', 'EngagementChannelType' => 'standard:channel_programs', 'Entitlement' => 'standard:entitlement', 'EntitlementContact' => 'standard:people', 'Event' => 'standard:event', 'Expense' => 'standard:expense', 'ExpenseReport' => 'standard:expense_report', 'ExpenseReportEntry' => 'standard:expense_report_entry', 'ExpressionFilter' => 'standard:filter', 'ExpressionFilterCriteria' => 'standard:filter_criteria', 'FinanceTransaction' => 'standard:crypto_transaction', 'FlowRecordRelation' => 'standard:flow', 'GroupCensus' => 'standard:groups', 'GroupCensusMember' => 'standard:groups', 'GroupCensusMemberPlan' => 'standard:groups', 'GroupClass' => 'standard:groups', 'GroupClassContribution' => 'standard:groups', 'Idea' => 'standard:solution', 'Image' => 'custom:custom38', 'Individual' => 'standard:individual', 'InsuranceContract' => 'standard:entitlement_policy', 'JobProfile' => 'standard:job_profile', 'Lead' => 'standard:lead', 'LegalEntity' => 'standard:entity', 'ListEmail' => 'standard:list_email', 'ListEmailIndividualRecipient' => 'standard:email', 'ListEmailRecipientSource' => 'standard:email', 'Location' => 'standard:location', 'LocationGroup' => 'standard:location', 'LocationGroupAssignment' => 'standard:location', 'Macro' => 'standard:macros', 'MacroInstruction' => 'standard:macros', 'MaintenanceAsset' => 'standard:maintenance_asset', 'MaintenancePlan' => 'standard:maintenance_plan', 'MaintenanceWorkRule' => 'standard:maintenance_work_rule', 'Opportunity' => 'standard:opportunity', 'Order' => 'standard:orders', 'OrgMetric' => 'standard:dashboard', 'OrgMetricScanResult' => 'standard:dashboard_ea', 'OrgMetricScanSummary' => 'standard:dashboard_component', 'PartyConsent' => 'custom:custom69', 'Payment' => 'standard:contract_payment', 'PaymentAuthAdjustment' => 'standard:contract_payment', 'PaymentAuthorization' => 'standard:contract_payment', 'PaymentGateway' => 'standard:payment_gateway', 'PaymentGatewayLog' => 'standard:payment_gateway', 'PaymentGroup' => 'standard:partner_fund_request', 'PaymentLineInvoice' => 'standard:payment_gateway', 'Pricebook2' => 'standard:pricebook', 'ProcessException' => 'standard:process_exception', 'Product2' => 'standard:product', 'ProductConsumed' => 'standard:product_consumed', 'ProductConsumptionSchedule' => 'standard:product_consumed', 'ProductItem' => 'standard:product_item', 'ProductRequest' => 'standard:product_request', 'ProductRequestLineItem' => 'standard:product_request_line_item', 'ProductRequired' => 'standard:product_required', 'ProductServiceCampaign' => 'standard:product_service_campaign', 'ProductServiceCampaignItem' => 'standard:product_service_campaign_item', 'ProductTransfer' => 'standard:product_transfer', 'ProductWarrantyTerm' => 'standard:product_warranty_term', 'ProfileSkill' => 'standard:skill', 'ProfileSkillEndorsement' => 'standard:skill_entity', 'ProfileSkillUser' => 'standard:skill_entity', 'PromptAction' => 'standard:prompt', 'PromptError' => 'standard:prompt', 'QuickText' => 'standard:quick_text', 'Recommendation' => 'standard:feedback', 'RecommendationResponse' => 'standard:feedback', 'RecordAction' => 'standard:record', 'Refund' => 'standard:contract_payment', 'RefundLinePayment' => 'standard:contract_payment', 'ResourceAbsence' => 'standard:resource_absence', 'ReturnOrder' => 'standard:return_order', 'ReturnOrderLineItem' => 'standard:return_order_line_item', 'SchedulingConstraint' => 'standard:scheduling_constraint', 'Scorecard' => 'standard:scan_card', 'ScorecardAssociation' => 'standard:scan_card', 'ScorecardMetric' => 'standard:scan_card', 'SearchPromotionRule' => 'standard:search', 'Seller' => 'standard:partner_fund_allocation', 'SerializedProduct' => 'standard:serialized_product', 'ServiceAppointment' => 'standard:service_appointment', 'ServiceContract' => 'standard:service_contract', 'ServiceCrew' => 'standard:service_crew', 'ServiceCrewMember' => 'standard:service_crew_member', 'ServiceResource' => 'standard:service_resource', 'ServiceResourcePreference' => 'standard:service_territory', 'ServiceTerritory' => 'standard:service_territory', 'ServiceTerritoryLocation' => 'standard:location', 'SetupAssistantStep' => 'standard:setup_modal', 'Shift' => 'standard:shift', 'ShiftTemplate' => 'standard:shift_template', 'Shipment' => 'standard:shipment', 'ShipmentItem' => 'standard:shipment', 'Solution' => 'standard:solution', 'Task' => 'standard:task', 'TimeSheet' => 'standard:timesheet', 'TimeSheetEntry' => 'standard:timesheet_entry', 'TravelMode' => 'standard:location', 'UnitOfMeasure' => 'custom:custom79', 'UserEmailPreferredPerson' => 'standard:people', 'WarrantyTerm' => 'standard:warranty_term', 'WorkAccess' => 'standard:work_queue', 'WorkBadge' => 'standard:skill_requirement', 'WorkBadgeDefinition' => 'standard:skill_requirement', 'WorkOrder' => 'standard:work_order', 'WorkOrderLineItem' => 'standard:work_order_item', 'WorkPlan' => 'standard:work_plan', 'WorkPlanSelectionRule' => 'standard:work_plan_rule', 'WorkPlanTemplate' => 'standard:work_plan_template', 'WorkPlanTemplateEntry' => 'standard:work_plan_template_entry', 'WorkStep' => 'standard:work_step', 'WorkStepTemplate' => 'standard:work_step_template', 'WorkThanks' => 'standard:thanks', 'WorkType' => 'standard:work_type', 'WorkTypeGroup' => 'standard:work_type_group', 'WorkTypeGroupMember' => 'standard:team_member' };
 
-                if (objectIconMap.containsKey(objects)){
-                    rw.objicon = objectIconMap.get(objects);
-                } else{
-                    rw.objicon = 'custom:custom3';
-                }
-                return rw;
-            } else{
-                return null;
-            }
-        } catch (Exception e){
-            return null;
-        }
-    }
+    //             if (objectIconMap.containsKey(objects)){
+    //                 rw.objicon = objectIconMap.get(objects);
+    //             } else{
+    //                 rw.objicon = 'custom:custom3';
+    //             }
+    //             return rw;
+    //         } else{
+    //             return null;
+    //         }
+    //     } catch (Exception e){
+    //         return null;
+    //     }
+    // }
 
-    /**
-     * @description getpicklistvalue Method
-     * @param id Id Value
-     * @return Map of String as key and String as value
-     */
-    @AuraEnabled
-    public static Map<String, String> getpicklistvalue(Id id){
-        /*This method is used to pass picklist value*/
-        try{
-            if (Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Mapped_Obj__c.IsAccessible()){
-                Form_Fields__c mappedObject = [SELECT Id, Mapped_Obj__c, Field_Mapping__c
-                                               FROM Form_Fields__c
-                                               WHERE Id = :id];
-                String mappedfield = mappedObject.Field_Mapping__c.split('<!@!>')[0];
-                Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
-                Set<String> objectKeys = gd.keySet();
-                Map<String, String> picklistvalue = new Map<String, String>();
-                Schema.SObjectType systemObjectType = gd.get(mappedObject.Mapped_Obj__c);
-                Schema.DescribeSObjectResult r = systemObjectType.getDescribe();
-                Map<String, Schema.SObjectField> fieldsMap = r.fields.getMap();
-                Set<String> fieldNames = fieldsMap.keySet();
-                Schema.SObjectField field = fieldsMap.get(mappedfield);
-                Schema.DescribeFieldResult fieldDesc = field.getDescribe();
-                for (Integer i = 0; i < fieldDesc.getPicklistValues().size(); i++){
-                    picklistvalue.put(fieldDesc.getPicklistValues()[i].getLabel(), fieldDesc.getPicklistValues()[i].getValue());
-                }
-                return picklistvalue;
-            } else{
-                return null;
-            }
-        } catch (Exception e){
-            return null;
-        }
-    }
+    // /**
+    //  * @description getpicklistvalue Method
+    //  * @param id Id Value
+    //  * @return Map of String as key and String as value
+    //  */
+    // @AuraEnabled
+    // public static Map<String, String> getpicklistvalue(Id id){
+    //     /*This method is used to pass picklist value*/
+    //     try{
+    //         if (Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Mapped_Obj__c.IsAccessible()){
+    //             Form_Fields__c mappedObject = [SELECT Id, Mapped_Obj__c, Field_Mapping__c
+    //                                            FROM Form_Fields__c
+    //                                            WHERE Id = :id];
+    //             String mappedfield = mappedObject.Field_Mapping__c.split('<!@!>')[0];
+    //             Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
+    //             Set<String> objectKeys = gd.keySet();
+    //             Map<String, String> picklistvalue = new Map<String, String>();
+    //             Schema.SObjectType systemObjectType = gd.get(mappedObject.Mapped_Obj__c);
+    //             Schema.DescribeSObjectResult r = systemObjectType.getDescribe();
+    //             Map<String, Schema.SObjectField> fieldsMap = r.fields.getMap();
+    //             Set<String> fieldNames = fieldsMap.keySet();
+    //             Schema.SObjectField field = fieldsMap.get(mappedfield);
+    //             Schema.DescribeFieldResult fieldDesc = field.getDescribe();
+    //             for (Integer i = 0; i < fieldDesc.getPicklistValues().size(); i++){
+    //                 picklistvalue.put(fieldDesc.getPicklistValues()[i].getLabel(), fieldDesc.getPicklistValues()[i].getValue());
+    //             }
+    //             return picklistvalue;
+    //         } else{
+    //             return null;
+    //         }
+    //     } catch (Exception e){
+    //         return null;
+    //     }
+    // }
 
     /**
      * @description signatureSave Method
@@ -2138,17 +2138,17 @@ public with sharing class FormBuilderController{
         }
     }
 
-    /** @description referencewrapper class */
-    public class referencewrapper{
-        /** @description referenceval - List of SObject */
-        @AuraEnabled
-        public list<SObject> referenceval{ get; set; }
+    // /** @description referencewrapper class */
+    // public class referencewrapper{
+    //     /** @description referenceval - List of SObject */
+    //     @AuraEnabled
+    //     public list<SObject> referenceval{ get; set; }
 
-        /** @description objicon - String */
-        @AuraEnabled
-        public String objicon{ get; set; }
+    //     /** @description objicon - String */
+    //     @AuraEnabled
+    //     public String objicon{ get; set; }
 
-    }
+    // }
 
     /**
      * @description getFieldsRecords_page Method
@@ -2207,51 +2207,57 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord(Form_Submission__c acc, SObject first_obj_list, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list){
         try{
-            String signatureid;
-            String fildid;
-            Map<String, Object> file_upload_map = new Map<String, Object>();
-            Map<String, Object> sigUploadMap = new Map<String, Object>();
-            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
-            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
-            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
-            String subID = '';
-            Integer sig_list_len = sig_upload_fid_list.size();
-            if (sig_list_len > 0){
-                for (String sigType : sig_upload_fid_list){
-                    String sigBaseid = (String) sigMap.get(sigType);
-                    signatureid = signatureSave(subID, sigBaseid);
-                    sigUploadMap.put(sigType, signatureid);
-                    otherobjectdata.put(sigType, signatureid);
-                }
-            }
+
+            String a = String.valueOf(acc);
+            Map<String, Object> map1 = (Map<String,Object>)JSON.deserializeUntyped(a);
+            System.debug(map1);
+
+            
+            // String signatureid;
+            // String fildid;
+            // Map<String, Object> file_upload_map = new Map<String, Object>();
+            // Map<String, Object> sigUploadMap = new Map<String, Object>();
+            // Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            // Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            // Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
+            // String subID = '';
+            // Integer sig_list_len = sig_upload_fid_list.size();
+            // if (sig_list_len > 0){
+            //     for (String sigType : sig_upload_fid_list){
+            //         String sigBaseid = (String) sigMap.get(sigType);
+            //         signatureid = signatureSave(subID, sigBaseid);
+            //         sigUploadMap.put(sigType, signatureid);
+            //         otherobjectdata.put(sigType, signatureid);
+            //     }
+            // }
              
 
-            Integer listLen = file_upload_fid_list.size();
-            if (listLen > 0){
-                for (String type : file_upload_fid_list){
-                    String[] address = type.split('<!QF!>');
-                    String fName = address[1];
-                    String fType = address[2];
-                    String baseid = (String) m.get(type) ;
-                    fildid = SaveFile(subID, fName, baseid, fType);
-                    file_upload_map.put(address[0], fildid);
-                    otherobjectdata.put(address[0], fildid);
-                }
-            }
+            // Integer listLen = file_upload_fid_list.size();
+            // if (listLen > 0){
+            //     for (String type : file_upload_fid_list){
+            //         String[] address = type.split('<!QF!>');
+            //         String fName = address[1];
+            //         String fType = address[2];
+            //         String baseid = (String) m.get(type) ;
+            //         fildid = SaveFile(subID, fName, baseid, fType);
+            //         file_upload_map.put(address[0], fildid);
+            //         otherobjectdata.put(address[0], fildid);
+            //     }
+            // }
 
-            Form_Submission__c formsub = new Form_Submission__c();
+            // Form_Submission__c formsub = new Form_Submission__c();
 
-            formsub.Form__c = acc.Form__c;
-            formsub.First_object_data__c = acc.First_object_data__c;
-            formsub.Second_object_data__c = acc.Second_object_data__c;
-            formsub.Third_object_data__c = acc.Third_object_data__c;
-            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+            // formsub.Form__c = acc.Form__c;
+            // formsub.First_object_data__c = acc.First_object_data__c;
+            // formsub.Second_object_data__c = acc.Second_object_data__c;
+            // formsub.Third_object_data__c = acc.Third_object_data__c;
+            // formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
-                insert formsub;
-                insertRecordList.add(formsub.Id);
-                subID = formsub.Id;
-            }
+            // if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+            //     insert formsub;
+            //     insertRecordList.add(formsub.Id);
+            //     subID = formsub.Id;
+            // }
 
             // To pass data to the email service
             wrapformsubmission wrapper = new wrapformsubmission();
@@ -2261,7 +2267,9 @@ public with sharing class FormBuilderController{
             wrapper.file_upload_jsone = file_upload_jsone;
             wrapper.file_upload_fid_list = file_upload_fid_list;
             wrapper.ObjectCount = 1;
-            wrapper.SubId = subID;
+            wrapper.sig_upload_jsone = sig_upload_jsone;
+            wrapper.file_upload_jsone = file_upload_jsone;
+
 
             // Sending email to the email service
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
@@ -2278,12 +2286,12 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
            
             if (results[0].isSuccess()) {     
-                SubId ids = new SubId();
-                ids.SubmissionId = subID;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
+                // SubId ids = new SubId();
+                // ids.SubmissionId = subID;
+                // ids.SignatureId = signatureid;
+                // ids.Sig_upload_map = sigUploadMap;
+                // ids.File_upload_map = file_upload_map;
+                // return ids;
             }
 
         } catch (Exception e){
@@ -2316,54 +2324,55 @@ public with sharing class FormBuilderController{
     public static SubId createrecord_for_secod_object(Form_Submission__c acc, SObject first_obj_list, SObject list_second_obj, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list, Boolean create_chi, List<String> lookup_list, String base64att){
         try{
 
-            String signatureid;
-            String fildid;
-            Map<String, Object> file_upload_map = new Map<String, Object>();
-            Map<String, Object> sigUploadMap = new Map<String, Object>();
-            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
-            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            // String signatureid;
+            // String fildid;
+            // Map<String, Object> file_upload_map = new Map<String, Object>();
+            // Map<String, Object> sigUploadMap = new Map<String, Object>();
+            // Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            // Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
 
-            Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
-            Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
+            // Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
+            // Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
 
+          
 
-            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
-            String subID = '';
-            Integer sig_list_len = sig_upload_fid_list.size();
-            if (sig_list_len > 0){
-                for (String sigType : sig_upload_fid_list){
-                    String sigBaseid = (String) sigMap.get(sigType);
-                    signatureid = signatureSave(subID, sigBaseid);
-                    sigUploadMap.put(sigType, signatureid);
-                    otherobjectdata.put(sigType, signatureid);
-                }
-            }
+            // Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
+            // String subID = '';
+            // Integer sig_list_len = sig_upload_fid_list.size();
+            // if (sig_list_len > 0){
+            //     for (String sigType : sig_upload_fid_list){
+            //         String sigBaseid = (String) sigMap.get(sigType);
+            //         signatureid = signatureSave(subID, sigBaseid);
+            //         sigUploadMap.put(sigType, signatureid);
+            //         otherobjectdata.put(sigType, signatureid);
+            //     }
+            // }
 
-             Integer listLen = file_upload_fid_list.size();
-            if (listLen > 0){
-                for (String type : file_upload_fid_list){
-                    String[] address = type.split('<!QF!>');
-                    String fName = address[1];
-                    String fType = address[2];
-                    String baseid = (String) m.get(type) ;
-                    fildid = SaveFile(subID, fName, baseid, fType);
-                    file_upload_map.put(address[0], fildid);
-                    otherobjectdata.put(address[0], fildid);
-                }
-            }
+            //  Integer listLen = file_upload_fid_list.size();
+            // if (listLen > 0){
+            //     for (String type : file_upload_fid_list){
+            //         String[] address = type.split('<!QF!>');
+            //         String fName = address[1];
+            //         String fType = address[2];
+            //         String baseid = (String) m.get(type) ;
+            //         fildid = SaveFile(subID, fName, baseid, fType);
+            //         file_upload_map.put(address[0], fildid);
+            //         otherobjectdata.put(address[0], fildid);
+            //     }
+            // }
 
-            Form_Submission__c formsub = new Form_Submission__c();
-            formsub.Form__c = acc.Form__c;
-            formsub.First_object_data__c = acc.First_object_data__c;
-            formsub.Second_object_data__c = acc.Second_object_data__c;
-            formsub.Third_object_data__c = acc.Third_object_data__c;
-            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+            // Form_Submission__c formsub = new Form_Submission__c();
+            // formsub.Form__c = acc.Form__c;
+            // formsub.First_object_data__c = acc.First_object_data__c;
+            // formsub.Second_object_data__c = acc.Second_object_data__c;
+            // formsub.Third_object_data__c = acc.Third_object_data__c;
+            // formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
-                insert formsub;
-                insertRecordList.add(formsub.Id);
-                subID = formsub.Id;
-            }
+            // if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+            //     insert formsub;
+            //     insertRecordList.add(formsub.Id);
+            //     subID = formsub.Id;
+            // }
 
             // To pass data to the email service
             wrapformsubmission wrapper = new wrapformsubmission();
@@ -2376,7 +2385,6 @@ public with sharing class FormBuilderController{
             wrapper.lookup_list = lookup_list;
             wrapper.base64att = base64att;
             wrapper.ObjectCount = 2;
-            wrapper.SubId = subID;
 
             // Sending email to the email service
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
@@ -2393,12 +2401,12 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
             if (results[0].isSuccess()) {
-                SubId ids = new SubId();
-                ids.SubmissionId = subID;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
+                // SubId ids = new SubId();
+                // ids.SubmissionId = subID;
+                // ids.SignatureId = signatureid;
+                // ids.Sig_upload_map = sigUploadMap;
+                // ids.File_upload_map = file_upload_map;
+                // return ids;
             }
             
         } catch (Exception e){
@@ -2436,55 +2444,55 @@ public with sharing class FormBuilderController{
     public static SubId createrecord_for_third_object(Form_Submission__c acc, SObject first_obj_list, SObject list_second_obj, SObject list_third_obj, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list, Boolean create_chi, List<String> lookup_list, Boolean create_chi_2, List<String> lookup_list2, String base64att){
         try{
 
-            String signatureid;
-            String fildid;
-            Map<String, Object> file_upload_map = new Map<String, Object>();
-            Map<String, Object> sigUploadMap = new Map<String, Object>();
-            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
-            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            // String signatureid;
+            // String fildid;
+            // Map<String, Object> file_upload_map = new Map<String, Object>();
+            // Map<String, Object> sigUploadMap = new Map<String, Object>();
+            // Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            // Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
 
-            Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
-            Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
-            Map<String, Object> thirdobjectdata = list_third_obj.getPopulatedFieldsAsMap();
+            // Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
+            // Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
+            // Map<String, Object> thirdobjectdata = list_third_obj.getPopulatedFieldsAsMap();
 
-            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
-            String subID = '';
-            Integer sig_list_len = sig_upload_fid_list.size();
-            if (sig_list_len > 0){
-                for (String sigType : sig_upload_fid_list){
-                    String sigBaseid = (String) sigMap.get(sigType);
-                    signatureid = signatureSave(subID, sigBaseid);
-                    sigUploadMap.put(sigType, signatureid);
-                    otherobjectdata.put(sigType, signatureid);
-                }
-            }
+            // Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
+            // String subID = '';
+            // Integer sig_list_len = sig_upload_fid_list.size();
+            // if (sig_list_len > 0){
+            //     for (String sigType : sig_upload_fid_list){
+            //         String sigBaseid = (String) sigMap.get(sigType);
+            //         signatureid = signatureSave(subID, sigBaseid);
+            //         sigUploadMap.put(sigType, signatureid);
+            //         otherobjectdata.put(sigType, signatureid);
+            //     }
+            // }
 
-            Integer listLen = file_upload_fid_list.size();
-            if (listLen > 0){
-                for (String type : file_upload_fid_list){
-                    String[] address = type.split('<!QF!>');
-                    String fName = address[1];
-                    String fType = address[2];
-                    String baseid = (String) m.get(type) ;
-                    fildid = SaveFile(subID, fName, baseid, fType);
-                    file_upload_map.put(address[0], fildid);
-                    otherobjectdata.put(address[0], fildid);
-                }
-            }
+            // Integer listLen = file_upload_fid_list.size();
+            // if (listLen > 0){
+            //     for (String type : file_upload_fid_list){
+            //         String[] address = type.split('<!QF!>');
+            //         String fName = address[1];
+            //         String fType = address[2];
+            //         String baseid = (String) m.get(type) ;
+            //         fildid = SaveFile(subID, fName, baseid, fType);
+            //         file_upload_map.put(address[0], fildid);
+            //         otherobjectdata.put(address[0], fildid);
+            //     }
+            // }
             
 
-            Form_Submission__c formsub = new Form_Submission__c();
-            formsub.Form__c = acc.Form__c;
-            formsub.First_object_data__c = acc.First_object_data__c;
-            formsub.Second_object_data__c = acc.Second_object_data__c;
-            formsub.Third_object_data__c = acc.Third_object_data__c;
-            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+            // Form_Submission__c formsub = new Form_Submission__c();
+            // formsub.Form__c = acc.Form__c;
+            // formsub.First_object_data__c = acc.First_object_data__c;
+            // formsub.Second_object_data__c = acc.Second_object_data__c;
+            // formsub.Third_object_data__c = acc.Third_object_data__c;
+            // formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable()){
-                insert formsub;
-                subID = formsub.Id;
-                insertRecordList.add(formsub.Id);
-            }
+            // if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable()){
+            //     insert formsub;
+            //     subID = formsub.Id;
+            //     insertRecordList.add(formsub.Id);
+            // }
 
             // To pass data to email service class
             wrapformsubmission wrapper = new wrapformsubmission();
@@ -2499,7 +2507,6 @@ public with sharing class FormBuilderController{
             wrapper.lookup_list2 = lookup_list2;
             wrapper.create_chi_2 = create_chi_2;
             wrapper.ObjectCount = 3;
-            wrapper.SubId = subID;
 
             // Sending mail to email service 
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
@@ -2516,12 +2523,12 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
             if(results[0].isSuccess()){
-                SubId ids = new SubId();
-                ids.SubmissionId = subID;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
+                // SubId ids = new SubId();
+                // ids.SubmissionId = subID;
+                // ids.SignatureId = signatureid;
+                // ids.Sig_upload_map = sigUploadMap;
+                // ids.File_upload_map = file_upload_map;
+                // return ids;
             }
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
@@ -2633,7 +2640,6 @@ public with sharing class FormBuilderController{
        public List<String> lookup_list2 {get;set;}
        public String base64att {get;set;}
        public Integer ObjectCount {get; set;}
-       public Id SubId {get; set;}
     }
 
 }
