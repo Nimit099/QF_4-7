@@ -2138,17 +2138,17 @@ public with sharing class FormBuilderController{
         }
     }
 
-    // /** @description referencewrapper class */
-    // public class referencewrapper{
-    //     /** @description referenceval - List of SObject */
-    //     @AuraEnabled
-    //     public list<SObject> referenceval{ get; set; }
+    /** @description referencewrapper class */
+    public class referencewrapper{
+        /** @description referenceval - List of SObject */
+        @AuraEnabled
+        public list<SObject> referenceval{ get; set; }
 
-    //     /** @description objicon - String */
-    //     @AuraEnabled
-    //     public String objicon{ get; set; }
+        /** @description objicon - String */
+        @AuraEnabled
+        public String objicon{ get; set; }
 
-    // }
+    }
 
     /**
      * @description getFieldsRecords_page Method
@@ -2207,57 +2207,51 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord(Form_Submission__c acc, SObject first_obj_list, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list){
         try{
-
-            String a = String.valueOf(acc);
-            Map<String, Object> map1 = (Map<String,Object>)JSON.deserializeUntyped(a);
-            System.debug(map1);
-
-            
-            // String signatureid;
-            // String fildid;
-            // Map<String, Object> file_upload_map = new Map<String, Object>();
-            // Map<String, Object> sigUploadMap = new Map<String, Object>();
-            // Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
-            // Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
-            // Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
-            // String subID = '';
-            // Integer sig_list_len = sig_upload_fid_list.size();
-            // if (sig_list_len > 0){
-            //     for (String sigType : sig_upload_fid_list){
-            //         String sigBaseid = (String) sigMap.get(sigType);
-            //         signatureid = signatureSave(subID, sigBaseid);
-            //         sigUploadMap.put(sigType, signatureid);
-            //         otherobjectdata.put(sigType, signatureid);
-            //     }
-            // }
+            String signatureid;
+            String fildid;
+            Map<String, Object> file_upload_map = new Map<String, Object>();
+            Map<String, Object> sigUploadMap = new Map<String, Object>();
+            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
+            String subID = '';
+            Integer sig_list_len = sig_upload_fid_list.size();
+            if (sig_list_len > 0){
+                for (String sigType : sig_upload_fid_list){
+                    String sigBaseid = (String) sigMap.get(sigType);
+                    signatureid = signatureSave(subID, sigBaseid);
+                    sigUploadMap.put(sigType, signatureid);
+                    otherobjectdata.put(sigType, signatureid);
+                }
+            }
              
 
-            // Integer listLen = file_upload_fid_list.size();
-            // if (listLen > 0){
-            //     for (String type : file_upload_fid_list){
-            //         String[] address = type.split('<!QF!>');
-            //         String fName = address[1];
-            //         String fType = address[2];
-            //         String baseid = (String) m.get(type) ;
-            //         fildid = SaveFile(subID, fName, baseid, fType);
-            //         file_upload_map.put(address[0], fildid);
-            //         otherobjectdata.put(address[0], fildid);
-            //     }
-            // }
+            Integer listLen = file_upload_fid_list.size();
+            if (listLen > 0){
+                for (String type : file_upload_fid_list){
+                    String[] address = type.split('<!QF!>');
+                    String fName = address[1];
+                    String fType = address[2];
+                    String baseid = (String) m.get(type) ;
+                    fildid = SaveFile(subID, fName, baseid, fType);
+                    file_upload_map.put(address[0], fildid);
+                    otherobjectdata.put(address[0], fildid);
+                }
+            }
 
-            // Form_Submission__c formsub = new Form_Submission__c();
+            Form_Submission__c formsub = new Form_Submission__c();
 
-            // formsub.Form__c = acc.Form__c;
-            // formsub.First_object_data__c = acc.First_object_data__c;
-            // formsub.Second_object_data__c = acc.Second_object_data__c;
-            // formsub.Third_object_data__c = acc.Third_object_data__c;
-            // formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+            formsub.Form__c = acc.Form__c;
+            formsub.First_object_data__c = acc.First_object_data__c;
+            formsub.Second_object_data__c = acc.Second_object_data__c;
+            formsub.Third_object_data__c = acc.Third_object_data__c;
+            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            // if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
-            //     insert formsub;
-            //     insertRecordList.add(formsub.Id);
-            //     subID = formsub.Id;
-            // }
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+                insert formsub;
+                insertRecordList.add(formsub.Id);
+                subID = formsub.Id;
+            }
 
             // To pass data to the email service
             wrapformsubmission wrapper = new wrapformsubmission();
@@ -2267,9 +2261,7 @@ public with sharing class FormBuilderController{
             wrapper.file_upload_jsone = file_upload_jsone;
             wrapper.file_upload_fid_list = file_upload_fid_list;
             wrapper.ObjectCount = 1;
-            wrapper.sig_upload_jsone = sig_upload_jsone;
-            wrapper.file_upload_jsone = file_upload_jsone;
-
+            wrapper.SubId = subID;
 
             // Sending email to the email service
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
@@ -2286,12 +2278,12 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
            
             if (results[0].isSuccess()) {     
-                // SubId ids = new SubId();
-                // ids.SubmissionId = subID;
-                // ids.SignatureId = signatureid;
-                // ids.Sig_upload_map = sigUploadMap;
-                // ids.File_upload_map = file_upload_map;
-                // return ids;
+                SubId ids = new SubId();
+                ids.SubmissionId = subID;
+                ids.SignatureId = signatureid;
+                ids.Sig_upload_map = sigUploadMap;
+                ids.File_upload_map = file_upload_map;
+                return ids;
             }
 
         } catch (Exception e){
@@ -2324,55 +2316,54 @@ public with sharing class FormBuilderController{
     public static SubId createrecord_for_secod_object(Form_Submission__c acc, SObject first_obj_list, SObject list_second_obj, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list, Boolean create_chi, List<String> lookup_list, String base64att){
         try{
 
-            // String signatureid;
-            // String fildid;
-            // Map<String, Object> file_upload_map = new Map<String, Object>();
-            // Map<String, Object> sigUploadMap = new Map<String, Object>();
-            // Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
-            // Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            String signatureid;
+            String fildid;
+            Map<String, Object> file_upload_map = new Map<String, Object>();
+            Map<String, Object> sigUploadMap = new Map<String, Object>();
+            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
 
-            // Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
-            // Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
+            Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
+            Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
 
-          
 
-            // Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
-            // String subID = '';
-            // Integer sig_list_len = sig_upload_fid_list.size();
-            // if (sig_list_len > 0){
-            //     for (String sigType : sig_upload_fid_list){
-            //         String sigBaseid = (String) sigMap.get(sigType);
-            //         signatureid = signatureSave(subID, sigBaseid);
-            //         sigUploadMap.put(sigType, signatureid);
-            //         otherobjectdata.put(sigType, signatureid);
-            //     }
-            // }
+            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
+            String subID = '';
+            Integer sig_list_len = sig_upload_fid_list.size();
+            if (sig_list_len > 0){
+                for (String sigType : sig_upload_fid_list){
+                    String sigBaseid = (String) sigMap.get(sigType);
+                    signatureid = signatureSave(subID, sigBaseid);
+                    sigUploadMap.put(sigType, signatureid);
+                    otherobjectdata.put(sigType, signatureid);
+                }
+            }
 
-            //  Integer listLen = file_upload_fid_list.size();
-            // if (listLen > 0){
-            //     for (String type : file_upload_fid_list){
-            //         String[] address = type.split('<!QF!>');
-            //         String fName = address[1];
-            //         String fType = address[2];
-            //         String baseid = (String) m.get(type) ;
-            //         fildid = SaveFile(subID, fName, baseid, fType);
-            //         file_upload_map.put(address[0], fildid);
-            //         otherobjectdata.put(address[0], fildid);
-            //     }
-            // }
+             Integer listLen = file_upload_fid_list.size();
+            if (listLen > 0){
+                for (String type : file_upload_fid_list){
+                    String[] address = type.split('<!QF!>');
+                    String fName = address[1];
+                    String fType = address[2];
+                    String baseid = (String) m.get(type) ;
+                    fildid = SaveFile(subID, fName, baseid, fType);
+                    file_upload_map.put(address[0], fildid);
+                    otherobjectdata.put(address[0], fildid);
+                }
+            }
 
-            // Form_Submission__c formsub = new Form_Submission__c();
-            // formsub.Form__c = acc.Form__c;
-            // formsub.First_object_data__c = acc.First_object_data__c;
-            // formsub.Second_object_data__c = acc.Second_object_data__c;
-            // formsub.Third_object_data__c = acc.Third_object_data__c;
-            // formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+            Form_Submission__c formsub = new Form_Submission__c();
+            formsub.Form__c = acc.Form__c;
+            formsub.First_object_data__c = acc.First_object_data__c;
+            formsub.Second_object_data__c = acc.Second_object_data__c;
+            formsub.Third_object_data__c = acc.Third_object_data__c;
+            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            // if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
-            //     insert formsub;
-            //     insertRecordList.add(formsub.Id);
-            //     subID = formsub.Id;
-            // }
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+                insert formsub;
+                insertRecordList.add(formsub.Id);
+                subID = formsub.Id;
+            }
 
             // To pass data to the email service
             wrapformsubmission wrapper = new wrapformsubmission();
@@ -2385,6 +2376,7 @@ public with sharing class FormBuilderController{
             wrapper.lookup_list = lookup_list;
             wrapper.base64att = base64att;
             wrapper.ObjectCount = 2;
+            wrapper.SubId = subID;
 
             // Sending email to the email service
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
@@ -2401,12 +2393,12 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
             if (results[0].isSuccess()) {
-                // SubId ids = new SubId();
-                // ids.SubmissionId = subID;
-                // ids.SignatureId = signatureid;
-                // ids.Sig_upload_map = sigUploadMap;
-                // ids.File_upload_map = file_upload_map;
-                // return ids;
+                SubId ids = new SubId();
+                ids.SubmissionId = subID;
+                ids.SignatureId = signatureid;
+                ids.Sig_upload_map = sigUploadMap;
+                ids.File_upload_map = file_upload_map;
+                return ids;
             }
             
         } catch (Exception e){
@@ -2444,55 +2436,55 @@ public with sharing class FormBuilderController{
     public static SubId createrecord_for_third_object(Form_Submission__c acc, SObject first_obj_list, SObject list_second_obj, SObject list_third_obj, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list, Boolean create_chi, List<String> lookup_list, Boolean create_chi_2, List<String> lookup_list2, String base64att){
         try{
 
-            // String signatureid;
-            // String fildid;
-            // Map<String, Object> file_upload_map = new Map<String, Object>();
-            // Map<String, Object> sigUploadMap = new Map<String, Object>();
-            // Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
-            // Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
+            String signatureid;
+            String fildid;
+            Map<String, Object> file_upload_map = new Map<String, Object>();
+            Map<String, Object> sigUploadMap = new Map<String, Object>();
+            Map<String, Object> sigMap = (Map<String, Object>)JSON.deserializeUntyped(sig_upload_jsone);
+            Map<String, Object> m = (Map<String, Object>)JSON.deserializeUntyped(file_upload_jsone);
 
-            // Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
-            // Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
-            // Map<String, Object> thirdobjectdata = list_third_obj.getPopulatedFieldsAsMap();
+            Map<String, Object> firstobjectdata = first_obj_list.getPopulatedFieldsAsMap();
+            Map<String, Object> secondobjectdata = list_second_obj.getPopulatedFieldsAsMap();
+            Map<String, Object> thirdobjectdata = list_third_obj.getPopulatedFieldsAsMap();
 
-            // Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
-            // String subID = '';
-            // Integer sig_list_len = sig_upload_fid_list.size();
-            // if (sig_list_len > 0){
-            //     for (String sigType : sig_upload_fid_list){
-            //         String sigBaseid = (String) sigMap.get(sigType);
-            //         signatureid = signatureSave(subID, sigBaseid);
-            //         sigUploadMap.put(sigType, signatureid);
-            //         otherobjectdata.put(sigType, signatureid);
-            //     }
-            // }
+            Map<String, Object> otherobjectdata = (Map<String, Object>) JSON.deserializeUntyped(acc.Other_fields_data__c);
+            String subID = '';
+            Integer sig_list_len = sig_upload_fid_list.size();
+            if (sig_list_len > 0){
+                for (String sigType : sig_upload_fid_list){
+                    String sigBaseid = (String) sigMap.get(sigType);
+                    signatureid = signatureSave(subID, sigBaseid);
+                    sigUploadMap.put(sigType, signatureid);
+                    otherobjectdata.put(sigType, signatureid);
+                }
+            }
 
-            // Integer listLen = file_upload_fid_list.size();
-            // if (listLen > 0){
-            //     for (String type : file_upload_fid_list){
-            //         String[] address = type.split('<!QF!>');
-            //         String fName = address[1];
-            //         String fType = address[2];
-            //         String baseid = (String) m.get(type) ;
-            //         fildid = SaveFile(subID, fName, baseid, fType);
-            //         file_upload_map.put(address[0], fildid);
-            //         otherobjectdata.put(address[0], fildid);
-            //     }
-            // }
+            Integer listLen = file_upload_fid_list.size();
+            if (listLen > 0){
+                for (String type : file_upload_fid_list){
+                    String[] address = type.split('<!QF!>');
+                    String fName = address[1];
+                    String fType = address[2];
+                    String baseid = (String) m.get(type) ;
+                    fildid = SaveFile(subID, fName, baseid, fType);
+                    file_upload_map.put(address[0], fildid);
+                    otherobjectdata.put(address[0], fildid);
+                }
+            }
             
 
-            // Form_Submission__c formsub = new Form_Submission__c();
-            // formsub.Form__c = acc.Form__c;
-            // formsub.First_object_data__c = acc.First_object_data__c;
-            // formsub.Second_object_data__c = acc.Second_object_data__c;
-            // formsub.Third_object_data__c = acc.Third_object_data__c;
-            // formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
+            Form_Submission__c formsub = new Form_Submission__c();
+            formsub.Form__c = acc.Form__c;
+            formsub.First_object_data__c = acc.First_object_data__c;
+            formsub.Second_object_data__c = acc.Second_object_data__c;
+            formsub.Third_object_data__c = acc.Third_object_data__c;
+            formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            // if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable()){
-            //     insert formsub;
-            //     subID = formsub.Id;
-            //     insertRecordList.add(formsub.Id);
-            // }
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable()){
+                insert formsub;
+                subID = formsub.Id;
+                insertRecordList.add(formsub.Id);
+            }
 
             // To pass data to email service class
             wrapformsubmission wrapper = new wrapformsubmission();
@@ -2507,6 +2499,7 @@ public with sharing class FormBuilderController{
             wrapper.lookup_list2 = lookup_list2;
             wrapper.create_chi_2 = create_chi_2;
             wrapper.ObjectCount = 3;
+            wrapper.SubId = subID;
 
             // Sending mail to email service 
             EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
@@ -2523,12 +2516,12 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
             if(results[0].isSuccess()){
-                // SubId ids = new SubId();
-                // ids.SubmissionId = subID;
-                // ids.SignatureId = signatureid;
-                // ids.Sig_upload_map = sigUploadMap;
-                // ids.File_upload_map = file_upload_map;
-                // return ids;
+                SubId ids = new SubId();
+                ids.SubmissionId = subID;
+                ids.SignatureId = signatureid;
+                ids.Sig_upload_map = sigUploadMap;
+                ids.File_upload_map = file_upload_map;
+                return ids;
             }
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
@@ -2640,6 +2633,7 @@ public with sharing class FormBuilderController{
        public List<String> lookup_list2 {get;set;}
        public String base64att {get;set;}
        public Integer ObjectCount {get; set;}
+       public Id SubId {get; set;}
     }
 
 }

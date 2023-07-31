@@ -7,7 +7,7 @@
 /**
  * @description PDFGeneratorController class for generating pdf of submission record.
  */
-public with  sharing class PDFGeneratorController{
+public with sharing class PDFGeneratorController{
     /** @description formSubmissionData variable */
     public Form_Submission__c fromSubmisionData{ get; set; }
 
@@ -33,11 +33,13 @@ public with  sharing class PDFGeneratorController{
     public boolean isFileupload{ get; set; }
 
     /** @description PDFGeneratorController */
+    
     public PDFGeneratorController(){
         getPagesOfForm();
     }
-
+    
     /** @description getPagesOfForm method to get the number of pages of the form. */
+
     public void getPagesOfForm(){
 
         fromSubmisionData = new Form_Submission__c();

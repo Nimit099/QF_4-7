@@ -16,7 +16,7 @@ import formpagedetails from '@salesforce/apex/previewFormcmp.formpagedetails';
 import processDecryption from '@salesforce/apex/EncryptDecryptController.processDecryption';
 import bgimages from '@salesforce/apex/previewFormcmp.bgimages';
 import getthankyoupage from '@salesforce/apex/previewFormcmp.getthankyoupage';
-import sendemailaftersubmission from '@salesforce/apex/previewFormcmp.sendemailaftersubmission';
+// import sendemailaftersubmission from '@salesforce/apex/previewFormcmp.sendemailaftersubmission';
 import BackButton from '@salesforce/resourceUrl/BackButton';
 import getFieldsRecords_page from '@salesforce/apex/FormBuilderController.getFieldsRecords_page';
 import createrecord from '@salesforce/apex/FormBuilderController.createrecord';
@@ -1468,21 +1468,21 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             });
         // TO REDIRECT TO THANK YOU PAGE
     }
-    sendnotification(submissionids) {
+    // sendnotification(submissionids) {
        
-        sendemailaftersubmission({
-            formid: this.formIdNew,
-            submissionid: submissionids
-        })
-            .then((result) => {
-                console.log(JSON.stringify(result));
-            }).catch(e => {
-                console.log('error send notification : ', e.message);
-                this.message = 'Something Went Wrong In preview Page' + e.message;
-                this.showerror();
-                this.spinnerDataTable = false;
-            })
-    }
+    //     sendemailaftersubmission({
+    //         formid: this.formIdNew,
+    //         submissionid: submissionids
+    //     })
+    //         .then((result) => {
+    //             console.log(JSON.stringify(result));
+    //         }).catch(e => {
+    //             console.log('error send notification : ', e.message);
+    //             this.message = 'Something Went Wrong In preview Page' + e.message;
+    //             this.showerror();
+    //             this.spinnerDataTable = false;
+    //         })
+    // }
     convertedDataURIsin(event) {
         this.sin_data_id = event.detail.con_id;
         this.sig_filde_id = event.detail.filde_id;
