@@ -1554,7 +1554,7 @@ public with sharing class FormBuilderController{
                                     String Label = '';
                                     field.Field_Mapping__c = fieldMap.get(fieldName) + '<!@!>' + type;
                                     field.Name = leb + ',' + 'DATETIME' + ',isrequired';
-                                    field.Field_Label__c = 'Name';
+                                    field.Field_Label__c = leb;
                                     Label = field.Field_Label__c;
                                     field.Form__c = FormDetail.Id;
                                     field.Form_Page__c = page_Id.Id;
@@ -2514,7 +2514,8 @@ public with sharing class FormBuilderController{
             emailNotification.setSubject('Three Object Form');
             emailNotification.setPlainTextBody(JSON.serialize(wrapper));
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-
+            System.debug(results);
+            System.debug(results[0].isSuccess());
             if(results[0].isSuccess()){
                 SubId ids = new SubId();
                 ids.SubmissionId = subID;
@@ -2635,5 +2636,4 @@ public with sharing class FormBuilderController{
        public Integer ObjectCount {get; set;}
        public Id SubId {get; set;}
     }
-
 }

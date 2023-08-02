@@ -29,9 +29,9 @@
         <div class="captcha-main-div" if:true={Maths_Captcha}>
             <div class="math_show_captcha_text" onload={ch_onload}>
                 <input type="text" class="math-generated-captcha"  value={mat_captcha_1} disabled/>
-                <b>+</b>
+                <b class="clsrkvalue">+</b>
                 <input type="text" class="math-generated-captcha"  value={mat_captcha_2} disabled/>
-                <b>=</b>
+                <b class="clsrkvalue">=</b>
                 <input type="text" data-id="math_captch_usr_input" name="user_input" class="math_captchainput" value={set_math_captcha_value}/>
             </div>
                 <button type="button" class="captchabutton captchabtn1" onclick={verify_math_captcha} >
@@ -50,10 +50,10 @@
         <!-- Start Captcha 3 Slider Captcha -->
         <div class="captcha-main-div" if:true={Slider_Captcha}>
             <div class="captcha-header">
-                <p class="slider_captcha_label">If you are human, adjust the slider to <b>{slider_captcha_1}</b>.</p>
+                <p class="slider_captcha_label clsrkvalue">If you are human, adjust the slider to <b class="clsrkvalue">{slider_captcha_1}</b>.</p>
                 <div class="slds-slider" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow={value}>
                     <input class="slider_captcha_input" type="range" min="0" max="50" step="1" value={value} oninput={testch} onchange={handleValueChange} />
-                    <span class="slds-slider-value" aria-hidden="true"><b>{value}</b></span>
+                    <span class="slds-slider-value" aria-hidden="true"><b class="clsrkvalue">{value}</b></span>
                 </div>
             </div>
             <div class="captcha-footer">

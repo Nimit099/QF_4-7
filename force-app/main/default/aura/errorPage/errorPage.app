@@ -1,3 +1,3 @@
 <aura:application>
-    <c:pageNotFound/>
+    <!-- <c:pageNotFound/> -->
 </aura:application>

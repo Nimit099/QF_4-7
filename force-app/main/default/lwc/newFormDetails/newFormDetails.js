@@ -80,7 +80,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     connectedCallback() {
         this.spinnerDataTable = true;
         this.global_options = [];
-        this.getParentObject();        
+        this.getParentObject();       
 
     }
     renderedCallback() {
@@ -550,7 +550,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
                     this.objecterror = false;
                     this.saveerror = true;
                     this.errorModal = true;
-                    let toast_error_msg_object = 'Please first select object 1';
+                    let toast_error_msg_object = 'Please select the object';
                     this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
                 }
 
@@ -597,7 +597,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
                     this.objecterror = false;
                     this.saveerror = true;
                     this.errorModal = true;
-                    let toast_error_msg_object = 'Please first select object 1';
+                    let toast_error_msg_object = 'Please select the object ';
                     this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
                     this.spinnerDataTable = false;
                     }
@@ -612,7 +612,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
         } else {
             this.spinnerDataTable = false;
             this.isModalOpen_3 = true;
-            let toast_error_msg_object = 'Please first select object 1';
+            let toast_error_msg_object = 'Please select the object';
             this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
         }
 

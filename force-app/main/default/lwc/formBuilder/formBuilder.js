@@ -37,6 +37,8 @@ import editFormSubmit from '@salesforce/apex/FormBuilderController.editFormSubmi
 
 // Importing Apec Metods
 import reOrderField from '@salesforce/apex/FormBuilderController.reOrderField';
+import date_timecss from '@salesforce/resourceUrl/date_timecss';
+
 import formdetails from '@salesforce/apex/FormBuilderController.formdetails';
 import {
     loadStyle,
@@ -185,6 +187,7 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
         this.activesidebar = true;
         this.reloadform();
         loadStyle(this, helptextcss);
+        // loadStyle(this, date_timecss);
     }
 
     reloadform() {

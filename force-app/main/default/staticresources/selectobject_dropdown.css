@@ -1,4 +1,4 @@
-.slds-dropdown-trigger_click .slds-dropdown, .slds-dropdown-trigger_click:hover .slds-dropdown, .slds-dropdown-trigger--click .slds-dropdown, .slds-dropdown-trigger--click:hover .slds-dropdown {
+.ligcombobox .slds-dropdown-trigger_click .slds-dropdown, .ligcombobox .slds-dropdown-trigger_click:hover .slds-dropdown, .ligcombobox .slds-dropdown-trigger--click .slds-dropdown, .ligcombobox .slds-dropdown-trigger--click:hover .slds-dropdown {
     max-height: 150px !important;
 }
 @media only screen and (max-width: 1440px) {

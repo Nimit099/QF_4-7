@@ -27,6 +27,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             String acc3 = (String)accmap.get('Third_object_data__c');
             Map<String, Object> object3 = (Map<String, Object>)JSON.deserializeUntyped(acc3);
             insertRecordList.add((Id)map1.get('SubId'));
+            Id submissionid = (Id) map1.get('SubId');
 
             String success;
             if (ObjectCount == 1) {
@@ -39,7 +40,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             
            if (success == 'success') {
                 Id formid = (Id)accmap.get('Form__c');
-                Id submissionid = (Id) map1.get('SubId');
+                
                 Notification__c notify = new Notification__c();
                 notify = [SELECT Id,Form__r.Name, To_Recipients__c, CC_Recipients__c, BCC_Recipients__c, Subject__c, Email_Body__c, Attachment__c, Status__c
                         FROM Notification__c
@@ -96,8 +97,12 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                     }
                 }
                 return result;
+            } else {
+              Form_Submission__c sub = [SELECT Id, First_object_data__c FROM Form_Submission__c ];
+              sub.First_object_data__c = null;
+              update sub;
+              return null;
             }
-           return null;
         } catch(Exception e){
             System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
             return null;
