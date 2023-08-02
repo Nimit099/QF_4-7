@@ -2278,12 +2278,13 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
            
             if (results[0].isSuccess()) {     
-                SubId ids = new SubId();
-                ids.SubmissionId = subID;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
+            
+                    SubId ids = new SubId();
+                    ids.SubmissionId = formsub.Id;
+                    ids.SignatureId = signatureid;
+                    ids.Sig_upload_map = sigUploadMap;
+                    ids.File_upload_map = file_upload_map;
+                    return ids;
             }
 
         } catch (Exception e){
@@ -2392,14 +2393,16 @@ public with sharing class FormBuilderController{
             emailNotification.setPlainTextBody(JSON.serialize(wrapper));
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
-            if (results[0].isSuccess()) {
-                SubId ids = new SubId();
-                ids.SubmissionId = subID;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
-            }
+            if (results[0].isSuccess()) {     
+             
+                     SubId ids = new SubId();
+                     ids.SubmissionId = formsub.Id;
+                     ids.SignatureId = signatureid;
+                     ids.Sig_upload_map = sigUploadMap;
+                     ids.File_upload_map = file_upload_map;
+                     return ids;
+                
+             }
             
         } catch (Exception e){
             System.debug('errror' +String.valueOf(e));
@@ -2516,14 +2519,18 @@ public with sharing class FormBuilderController{
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
             System.debug(results);
             System.debug(results[0].isSuccess());
-            if(results[0].isSuccess()){
-                SubId ids = new SubId();
-                ids.SubmissionId = subID;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
+
+            if (results[0].isSuccess()) {     
+             
+                     SubId ids = new SubId();
+                     ids.SubmissionId = formsub.Id;
+                     ids.SignatureId = signatureid;
+                     ids.Sig_upload_map = sigUploadMap;
+                     ids.File_upload_map = file_upload_map;
+                     return ids;
+                
             }
+
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
             List<sobject> sobjlst = new List<sobject>();
@@ -2619,6 +2626,19 @@ public with sharing class FormBuilderController{
             return lookupFields;
         } catch (Exception e){
             return null;
+        }
+    }
+
+    @AuraEnabled
+    public static Boolean checkformsub(Id subId){
+        try {
+            if ([SELECT COUNT() FROM Form_Submission__c WHERE Id =: subId] > 0){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
     }
 

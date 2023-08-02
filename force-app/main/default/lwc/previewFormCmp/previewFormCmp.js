@@ -19,6 +19,7 @@ import getthankyoupage from '@salesforce/apex/previewFormcmp.getthankyoupage';
 // import sendemailaftersubmission from '@salesforce/apex/previewFormcmp.sendemailaftersubmission';
 import BackButton from '@salesforce/resourceUrl/BackButton';
 import getFieldsRecords_page from '@salesforce/apex/FormBuilderController.getFieldsRecords_page';
+import checkformsub from '@salesforce/apex/FormBuilderController.checkformsub';
 import createrecord from '@salesforce/apex/FormBuilderController.createrecord';
 import createrecord_for_secod_object from '@salesforce/apex/FormBuilderController.createrecord_for_secod_object';
 import createrecord_for_third_object from '@salesforce/apex/FormBuilderController.createrecord_for_third_object';
@@ -1183,8 +1184,9 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
-                        let toast_error_msg = 'Your form is submitted successfully.';
-                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+                        this.checkformsub(this.sub_id);
+                        // let toast_error_msg = 'Your form is submitted successfully.';
+                        // this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch((error) => {
                         console.log(error.message);
@@ -1213,8 +1215,9 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
-                        let toast_error_msg = 'Your form is submitted successfully.';
-                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+                        this.checkformsub(this.sub_id);
+                        // let toast_error_msg = 'Your form is submitted successfully.';
+                        // this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch(() => {
                         this.spinnerDataTable = false;
@@ -1250,8 +1253,9 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
-                        let toast_error_msg = 'Your form is submitted successfully.';
-                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+                        this.checkformsub(this.sub_id);
+                        // let toast_error_msg = 'Your form is submitted successfully.';
+                        // this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch(() => {
                         this.spinnerDataTable = false;
@@ -1670,5 +1674,18 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             console.error(error.message);
         }
         
+    }
+    checkformsub(subId){
+        checkformsub({
+            subId: subId
+        }).then(result => {
+            if(result == true){
+                let toast_error_msg = 'Your form is submitted successfully.';
+                this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+            } else {
+                let toast_error_msg = 'Your Form Submission was unsuccessful. Please try again';
+                this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+            }
+        });
     }
 }
