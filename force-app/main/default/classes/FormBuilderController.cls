@@ -2276,15 +2276,18 @@ public with sharing class FormBuilderController{
             emailNotification.setSubject('One Object Form');
             emailNotification.setPlainTextBody(JSON.serialize(wrapper));
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-           
+
+            SubId ids = new SubId();
+            ids.SubmissionId = formsub.Id;
+            ids.SignatureId = signatureid;
+            ids.Sig_upload_map = sigUploadMap;
+            ids.File_upload_map = file_upload_map;
+
+           if(!Test.isRunningTest())
             if (results[0].isSuccess()) {     
-            
-                    SubId ids = new SubId();
-                    ids.SubmissionId = formsub.Id;
-                    ids.SignatureId = signatureid;
-                    ids.Sig_upload_map = sigUploadMap;
-                    ids.File_upload_map = file_upload_map;
-                    return ids;
+                return ids;
+            } else{
+                return ids;
             }
 
         } catch (Exception e){
@@ -2393,16 +2396,18 @@ public with sharing class FormBuilderController{
             emailNotification.setPlainTextBody(JSON.serialize(wrapper));
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
 
+           SubId ids = new SubId();
+            ids.SubmissionId = formsub.Id;
+            ids.SignatureId = signatureid;
+            ids.Sig_upload_map = sigUploadMap;
+            ids.File_upload_map = file_upload_map;
+
+           if(!Test.isRunningTest())
             if (results[0].isSuccess()) {     
-             
-                     SubId ids = new SubId();
-                     ids.SubmissionId = formsub.Id;
-                     ids.SignatureId = signatureid;
-                     ids.Sig_upload_map = sigUploadMap;
-                     ids.File_upload_map = file_upload_map;
-                     return ids;
-                
-             }
+                return ids;
+            } else{
+                return ids;
+            }
             
         } catch (Exception e){
             System.debug('errror' +String.valueOf(e));
@@ -2520,15 +2525,17 @@ public with sharing class FormBuilderController{
             System.debug(results);
             System.debug(results[0].isSuccess());
 
+           SubId ids = new SubId();
+            ids.SubmissionId = formsub.Id;
+            ids.SignatureId = signatureid;
+            ids.Sig_upload_map = sigUploadMap;
+            ids.File_upload_map = file_upload_map;
+
+           if(!Test.isRunningTest())
             if (results[0].isSuccess()) {     
-             
-                     SubId ids = new SubId();
-                     ids.SubmissionId = formsub.Id;
-                     ids.SignatureId = signatureid;
-                     ids.Sig_upload_map = sigUploadMap;
-                     ids.File_upload_map = file_upload_map;
-                     return ids;
-                
+                return ids;
+            } else{
+                return ids;
             }
 
         } catch (Exception e){

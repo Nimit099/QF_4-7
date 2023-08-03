@@ -98,12 +98,14 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                     }
                 }
                 return result;
-            } else {
-              Form_Submission__c sub = [SELECT Id, First_object_data__c FROM Form_Submission__c];
-              sub.First_object_data__c = null;
-              delete sub;
-              return null;
-            }
+           }
+           return null;
+            // } else {
+            //   Form_Submission__c sub = [SELECT Id, First_object_data__c FROM Form_Submission__c];
+            //   sub.First_object_data__c = null;
+            //   delete sub;
+            //   return null;
+            // }
         } catch(Exception e){
             System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
             return null;

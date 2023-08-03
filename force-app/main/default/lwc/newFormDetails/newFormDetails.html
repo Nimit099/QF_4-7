@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="slds-col slds-size_6-of-12 dropdown_object">
                                     <lightning-combobox name="ProgressIndicator" value={Progressbarvalue}
-                                        variant="label-hidden" placeholder="Select Progress Indicator" style="max-height: 150px;"
+                                        variant="label-hidden" placeholder="Select Progress Indicator" style="max-height: 150px"
                                         options={TypeOptions} onchange={changeProgressIndicator} class="slds-is-open">
                                     </lightning-combobox>
                                 </div>
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="slds-col slds-size_6-of-12">
                                     <lightning-combobox name="CaptchaType" variant="label-hidden"
-                                        value={captchTypeparent} placeholder="Select Captcha Type" style="max-height: 150px;"
+                                        value={captchTypeparent} placeholder="Select Captcha Type"
                                         options={TypeOptions_2} onchange={changeCaptchaType} class="slds-is-open">
                                     </lightning-combobox>
                                 </div>
@@ -207,7 +207,7 @@
                                     <template if:true={temp_One}>
                                         <div class="one">
                                             <div class="one_contener slds-align_absolute-center">
-                                                <lightning-combobox style="max-height: 150px;"
+                                                <lightning-combobox
                                                     class="slds-is-open slds-has-flexi-truncate ligcombobox"
                                                     name="object1" placeholder="Select Object" value={value1}
                                                     onchange={object1} options={options_object1}>
@@ -225,7 +225,7 @@
                                                                 <div class="templeat3-combobox">
                                                                     <lightning-combobox name="object2.1"
                                                                         variant="label-hidden" value={value1}
-                                                                        placeholder="Select Parent Object" style="max-height: 150px;"
+                                                                        placeholder="Select Parent Object"
                                                                         options={options_object1} onchange={object1}
                                                                         class="slds-is-open slds-has-flexi-truncate ligcombobox testval">
                                                                     </lightning-combobox>
@@ -236,12 +236,11 @@
                                                             <div class="tf-nc2">
                                                                 <div class="templeat3-combobox">
                                                                     <lightning-combobox
-                                                                        style="max-height: 150px;"
                                                                         class="templet3_object3 slds-is-open slds-has-flexi-truncate ligcombobox"
                                                                         name="object2.2" placeholder="Select Child Object"
                                                                         value={value2} onchange={object2_1}
                                                                         onfocus={selcel_object_errormsg}
-                                                                        dropdown-alignment="bottom-left" 
+                                                                        dropdown-alignment="bottom-left"
                                                                         options={options_object2}>
                                                                     </lightning-combobox>
                                                                     <div class="sec_obj_error_main">
@@ -265,7 +264,7 @@
                                                                 <lightning-combobox
                                                                     class="templeat3 slds-is-open slds-has-flexi-truncate ligcombobox"
                                                                     name="object3.1" placeholder="Select Parent Object"
-                                                                    value={value1} onchange={object1} style="max-height: 150px;"
+                                                                    value={value1} onchange={object1}
                                                                     options={options_object1}></lightning-combobox>
                                                             </div>
                                                         </div>
@@ -275,7 +274,7 @@
                                                                     <div class="templeat3-combobox">
                                                                         <lightning-combobox
                                                                             class="slds-is-open slds-has-flexi-truncate ligcombobox"
-                                                                            name="Object 3.2.1" style="max-height: 150px;"
+                                                                            name="Object 3.2.1"
                                                                             placeholder="Select Child Object 1"
                                                                             value={value2} onchange={object2_1}
                                                                             dropdown-alignment="bottom-left"
@@ -293,7 +292,7 @@
                                                                     <div class="templeat3-combobox">
                                                                         <lightning-combobox
                                                                             class="templet3_object3 slds-is-open slds-has-flexi-truncate ligcombobox"
-                                                                            name="Object 3.2.2" style="max-height: 150px;"
+                                                                            name="Object 3.2.2"
                                                                             placeholder="Select Child Object 2"
                                                                             value={value3} onchange={object2_2}
                                                                             dropdown-alignment="bottom-left"
