@@ -16,10 +16,8 @@ import formpagedetails from '@salesforce/apex/previewFormcmp.formpagedetails';
 import processDecryption from '@salesforce/apex/EncryptDecryptController.processDecryption';
 import bgimages from '@salesforce/apex/previewFormcmp.bgimages';
 import getthankyoupage from '@salesforce/apex/previewFormcmp.getthankyoupage';
-// import sendemailaftersubmission from '@salesforce/apex/previewFormcmp.sendemailaftersubmission';
 import BackButton from '@salesforce/resourceUrl/BackButton';
 import getFieldsRecords_page from '@salesforce/apex/FormBuilderController.getFieldsRecords_page';
-import checkformsub from '@salesforce/apex/FormBuilderController.checkformsub';
 import createrecord from '@salesforce/apex/FormBuilderController.createrecord';
 import createrecord_for_secod_object from '@salesforce/apex/FormBuilderController.createrecord_for_secod_object';
 import createrecord_for_third_object from '@salesforce/apex/FormBuilderController.createrecord_for_third_object';
@@ -1184,9 +1182,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
-                        this.checkformsub(this.sub_id);
-                        // let toast_error_msg = 'Your form is submitted successfully.';
-                        // this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+                        let toast_error_msg = 'Your form is submitted successfully.';
+                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch((error) => {
                         console.log(error.message);
@@ -1215,9 +1212,9 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
-                        this.checkformsub(this.sub_id);
-                        // let toast_error_msg = 'Your form is submitted successfully.';
-                        // this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+
+                        let toast_error_msg = 'Your form is submitted successfully.';
+                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch(() => {
                         this.spinnerDataTable = false;
@@ -1228,8 +1225,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             } else if (this.form_mapped_Objects.length == 3) {
                 this.lookup_2obj = this.lookup_filde_json['1'];
                 this.lookup_3obj = this.lookup_filde_json['2'];
-                console.log(this.lookup_filde_json['2']);
-                console.log(JSON.stringify(this.lookup_3obj) + 'this.lookup_3obj');
                 this.add_lookyp_fildes();
                 this.add_lookyp_fildes_2();
 
@@ -1253,9 +1248,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.sub_id = data.SubmissionId;
                         this.file_u_map = data.File_upload_map;
                         this.sig_u_map = data.Sig_upload_map;
-                        this.checkformsub(this.sub_id);
-                        // let toast_error_msg = 'Your form is submitted successfully.';
-                        // this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+                        let toast_error_msg = 'Your form is submitted successfully.';
+                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch(() => {
                         this.spinnerDataTable = false;
@@ -1472,21 +1466,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             });
         // TO REDIRECT TO THANK YOU PAGE
     }
-    // sendnotification(submissionids) {
-       
-    //     sendemailaftersubmission({
-    //         formid: this.formIdNew,
-    //         submissionid: submissionids
-    //     })
-    //         .then((result) => {
-    //             console.log(JSON.stringify(result));
-    //         }).catch(e => {
-    //             console.log('error send notification : ', e.message);
-    //             this.message = 'Something Went Wrong In preview Page' + e.message;
-    //             this.showerror();
-    //             this.spinnerDataTable = false;
-    //         })
-    // }
+
     convertedDataURIsin(event) {
         this.sin_data_id = event.detail.con_id;
         this.sig_filde_id = event.detail.filde_id;
@@ -1565,17 +1545,22 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
     }
 
     add_lookyp_fildes() {
-        var apis_of_2obj = Object.keys(this.list_second_obj);
-        for (let i = 0; i < apis_of_2obj.length; i++) {
-
-            for (let j = 0; j < this.lookup_2obj.length; j++) {
-                if (apis_of_2obj[i] == this.lookup_2obj[j]) {
-                    let filde_api = apis_of_2obj[i];
-                    if (this.list_second_obj[filde_api] != null && this.list_second_obj[filde_api] != undefined && this.list_second_obj[filde_api] != '') {
-                        this.create_chi = false;
+        try {
+            
+            var apis_of_2obj = Object.keys(this.list_second_obj);
+            for (let i = 0; i < apis_of_2obj.length; i++) {
+    
+                for (let j = 0; j < this.lookup_2obj.length; j++) {
+                    if (apis_of_2obj[i] == this.lookup_2obj[j]) {
+                        let filde_api = apis_of_2obj[i];
+                        if (this.list_second_obj[filde_api] != null && this.list_second_obj[filde_api] != undefined && this.list_second_obj[filde_api] != '') {
+                            this.create_chi = false;
+                        }
                     }
                 }
             }
+        } catch (error) {
+            console.error(error.message);
         }
     }
     add_lookyp_fildes_2() {
@@ -1674,18 +1659,5 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             console.error(error.message);
         }
         
-    }
-    checkformsub(subId){
-        checkformsub({
-            subId: subId
-        }).then(result => {
-            if(result == true){
-                let toast_error_msg = 'Your form is submitted successfully.';
-                this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-            } else {
-                let toast_error_msg = 'Your Form Submission was unsuccessful. Please try again';
-                this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
-            }
-        });
     }
 }

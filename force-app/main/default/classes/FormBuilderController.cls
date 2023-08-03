@@ -2207,6 +2207,8 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord(Form_Submission__c acc, SObject first_obj_list, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list){
         try{
+
+
             String signatureid;
             String fildid;
             Map<String, Object> file_upload_map = new Map<String, Object>();
@@ -2263,33 +2265,16 @@ public with sharing class FormBuilderController{
             wrapper.ObjectCount = 1;
             wrapper.SubId = subID;
 
-            // Sending email to the email service
-            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            List<String> toAddresses = new List<String>();
-            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            if ( owea.size() > 0 ) {
-                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            }
-            emailNotification.setToAddresses(toAddresses);
-            emailNotification.setSubject('One Object Form');
-            emailNotification.setPlainTextBody(JSON.serialize(wrapper));
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        
+            sendemailforformsubmission(wrapper);
 
             SubId ids = new SubId();
             ids.SubmissionId = formsub.Id;
             ids.SignatureId = signatureid;
             ids.Sig_upload_map = sigUploadMap;
             ids.File_upload_map = file_upload_map;
-
-           if(!Test.isRunningTest())
-            if (results[0].isSuccess()) {     
-                return ids;
-            } else{
-                return ids;
-            }
-
+            return ids;
+            
         } catch (Exception e){
             List<sobject> sobjlst = new List<sobject>();
             for (Id i : insertRecordList){
@@ -2299,7 +2284,6 @@ public with sharing class FormBuilderController{
             delete sobjlst;
             return null;
         }
-        return null;
     }
 
     /**
@@ -2382,35 +2366,18 @@ public with sharing class FormBuilderController{
             wrapper.ObjectCount = 2;
             wrapper.SubId = subID;
 
-            // Sending email to the email service
-            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            List<String> toAddresses = new List<String>();
-            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            if ( owea.size() > 0 ) {
-                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            }
-            emailNotification.setToAddresses(toAddresses);
-            emailNotification.setSubject('Two Object Form');
-            emailNotification.setPlainTextBody(JSON.serialize(wrapper));
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+            sendemailforformsubmission(wrapper);
 
-           SubId ids = new SubId();
-            ids.SubmissionId = formsub.Id;
-            ids.SignatureId = signatureid;
-            ids.Sig_upload_map = sigUploadMap;
-            ids.File_upload_map = file_upload_map;
-
-           if(!Test.isRunningTest())
-            if (results[0].isSuccess()) {     
+                SubId ids = new SubId();
+                ids.SubmissionId = formsub.Id;
+                ids.SignatureId = signatureid;
+                ids.Sig_upload_map = sigUploadMap;
+                ids.File_upload_map = file_upload_map;
                 return ids;
-            } else{
-                return ids;
-            }
+          
             
         } catch (Exception e){
-            System.debug('errror' +String.valueOf(e));
+            System.debug('errror' +String.valueOf(e) + e.getLineNumber());
             List<sobject> sobjlst = new List<sobject>();
             for (Id i : insertRecordList){
                 sObject q = i.getSobjectType().newSobject(i);
@@ -2419,7 +2386,6 @@ public with sharing class FormBuilderController{
             delete sobjlst;
             return null;
         }
-        return null;
     }
 
     /**
@@ -2509,34 +2475,14 @@ public with sharing class FormBuilderController{
             wrapper.ObjectCount = 3;
             wrapper.SubId = subID;
 
-            // Sending mail to email service 
-            EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-            OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
-            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-            List<String> toAddresses = new List<String>();
-            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-            if ( owea.size() > 0 ) {
-                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-            }
-            emailNotification.setToAddresses(toAddresses);
-            emailNotification.setSubject('Three Object Form');
-            emailNotification.setPlainTextBody(JSON.serialize(wrapper));
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
-            System.debug(results);
-            System.debug(results[0].isSuccess());
+            sendemailforformsubmission(wrapper);
 
-           SubId ids = new SubId();
-            ids.SubmissionId = formsub.Id;
-            ids.SignatureId = signatureid;
-            ids.Sig_upload_map = sigUploadMap;
-            ids.File_upload_map = file_upload_map;
-
-           if(!Test.isRunningTest())
-            if (results[0].isSuccess()) {     
+                SubId ids = new SubId();
+                ids.SubmissionId = formsub.Id;
+                ids.SignatureId = signatureid;
+                ids.Sig_upload_map = sigUploadMap;
+                ids.File_upload_map = file_upload_map;
                 return ids;
-            } else{
-                return ids;
-            }
 
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
@@ -2548,7 +2494,21 @@ public with sharing class FormBuilderController{
             delete sobjlst;
             return null;
         }
-        return null;
+    }
+
+    public static void sendemailforformsubmission(wrapformsubmission wrapper) {
+         EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
+         OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
+         Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+         List<String> toAddresses = new List<String>();
+         toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
+         if ( owea.size() > 0 ) {
+             emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+         }
+         emailNotification.setToAddresses(toAddresses);
+         emailNotification.setSubject('Three Object Form');
+         emailNotification.setPlainTextBody(JSON.serialize(wrapper));
+         Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
     }
 
     /**

@@ -14,7 +14,7 @@ public with sharing class error_handler {
         @param methodname to stored the method name  
         @description insert error data into the obeject as record
     */
-    public static void insert_errordata(Exception e,String classname, String methodname) {
+    public static Id insert_errordata(Exception e,String classname, String methodname) {
         class_name = classname;
         method_name = methodname;
         
@@ -31,7 +31,9 @@ public with sharing class error_handler {
             && Schema.sObjectType.Error_Handler__c.fields.Line_Number__c.isCreateable() && Schema.sObjectType.Error_Handler__c.fields.More_Details__c.isCreateable()
             && Schema.sObjectType.Error_Handler__c.fields.Method_Name__c.isCreateable() && Schema.sObjectType.Error_Handler__c.fields.Class_Name__c.isCreateable()
             ) {
-                insert error;        
+                insert error;  
+                return error.Id;       
             }
+            return null;
     }
 }

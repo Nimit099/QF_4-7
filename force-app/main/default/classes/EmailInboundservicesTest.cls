@@ -10,6 +10,11 @@ private class EmailInboundservicesTest {
         Form__c testForm2 = new Form__c(Name = 'Test1');
         insert testForm2;
 
+        Form__c testForm3 = new Form__c(Name = 'Test2');
+        insert testForm3;
+
+        Form__c testForm4 = new Form__c(Name = 'Test3');
+        insert testForm4;
 
         Notification__c testNotification = new Notification__c(
             Form__c = testForm.Id,
@@ -26,7 +31,7 @@ private class EmailInboundservicesTest {
         Form_Submission__c sub = new Form_Submission__c();
         sub.Form__c = testForm.ID;
         sub.First_object_data__c  = '{"sobjectType":"Account","Name":"Testing", "AnnualRevenue":"12032","NumberOfEmployees":"20"}';
-        sub.Second_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","LastCURequestDate":"'+System.now()+'","HasOptedOutOfFax":"false"}';
+        sub.Second_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
         sub.Third_object_data__c  = '{"sobjectType":"Case","Status":"New"}';
         sub.Other_fields_data__c = '{}';
         insert sub;
@@ -38,6 +43,22 @@ private class EmailInboundservicesTest {
         sub1.Third_object_data__c = '{}';
         sub1.Other_fields_data__c = '{}';
         insert sub1;
+
+        Form_Submission__c sub2 = new Form_Submission__c();
+        sub2.Form__c = testForm3.ID;
+        sub2.First_object_data__c  = '{"sobjectType":"Account","Name":"Testing", "AnnualRevenue":"12032","NumberOfEmployees":"20"}';
+        sub2.Second_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
+        sub2.Third_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
+        sub2.Other_fields_data__c = '{}';
+        insert sub2;
+
+        Form_Submission__c sub3 = new Form_Submission__c();
+        sub3.Form__c = testForm4.ID;
+        sub3.First_object_data__c  = '{"sobjectType":"Account","Name":"Testing", "AnnualRevenue":"12032","NumberOfEmployees":"20"}';
+        sub3.Second_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
+        sub3.Third_object_data__c  = '{"sobjectType":"Opportunity","Name":"New", "CloseDate":"'+System.today()+'", "Stage":"Prospecting", "IsPrivate":"true"}';
+        sub3.Other_fields_data__c = '{}';
+        insert sub3;
 
     }
         public class wrapformsubmission{
@@ -158,4 +179,80 @@ private class EmailInboundservicesTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void testHandleInboundEmail3() {
+
+        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test2' ];
+
+
+        String sigUploadJsone = '{"signature1":"abc123"}';
+        String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
+        List<String> sigUploadFidList = new List<String>{'signature1'};
+        List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
+
+            wrapformsubmission wrapper = new wrapformsubmission();
+            wrapper.acc = testformsub;
+            wrapper.sig_upload_jsone = sigUploadJsone;
+            wrapper.sig_upload_fid_list = sigUploadFidList;
+            wrapper.file_upload_jsone = fileUploadJsone;
+            wrapper.file_upload_fid_list = fileUploadFidList;
+            wrapper.ObjectCount = 3;
+            wrapper.SubId = testformsub.Id;
+            wrapper.create_chi = true;
+            wrapper.create_chi_2 = true;
+
+        Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
+        testEmail.subject = 'Test Email';
+        testEmail.plainTextBody = JSON.serialize(wrapper);
+
+        Test.startTest();
+
+        EmailInboundservices emailHandler = new EmailInboundservices();
+        Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
+
+        // System.assertEquals(true, result.success);
+
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testHandleInboundEmail4() {
+
+        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test3' ];
+
+        List<String> lookup = new List<String>();
+        lookup.add('AccountId');
+        List<String> lookup1 = new List<String>();
+        lookup1.add('AccountId');
+        String sigUploadJsone = '{"signature1":"abc123"}';
+        String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
+        List<String> sigUploadFidList = new List<String>{'signature1'};
+        List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
+
+            wrapformsubmission wrapper = new wrapformsubmission();
+            wrapper.acc = testformsub;
+            wrapper.sig_upload_jsone = sigUploadJsone;
+            wrapper.sig_upload_fid_list = sigUploadFidList;
+            wrapper.file_upload_jsone = fileUploadJsone;
+            wrapper.file_upload_fid_list = fileUploadFidList;
+            wrapper.ObjectCount = 3;
+            wrapper.SubId = testformsub.Id;
+            wrapper.create_chi = true;
+            wrapper.create_chi_2 = true;
+            wrapper.lookup_list = lookup;
+            wrapper.lookup_list2 = lookup1;
+
+        Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
+        testEmail.subject = 'Test Email';
+        testEmail.plainTextBody = JSON.serialize(wrapper);
+
+        Test.startTest();
+
+        EmailInboundservices emailHandler = new EmailInboundservices();
+        Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
+
+        // System.assertEquals(true, result.success);
+
+        Test.stopTest();
+    }
 }

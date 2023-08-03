@@ -2,6 +2,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
 
 
     public static List<Id> insertRecordList = new List<Id>();
+    public static string formId;
 
     global Messaging.InboundEmailResult handleInboundEmail(Messaging.InboundEmail email, Messaging.InboundEnvelope envelope) {
           try{
@@ -28,6 +29,7 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             Map<String, Object> object3 = (Map<String, Object>)JSON.deserializeUntyped(acc3);
             insertRecordList.add((Id)map1.get('SubId'));
             Id submissionid = (Id) map1.get('SubId');
+            formId = (String)accmap.get('Form__c');
 
             String success;
             if (ObjectCount == 1) {
@@ -98,14 +100,8 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
                     }
                 }
                 return result;
-           }
+           }  
            return null;
-            // } else {
-            //   Form_Submission__c sub = [SELECT Id, First_object_data__c FROM Form_Submission__c];
-            //   sub.First_object_data__c = null;
-            //   delete sub;
-            //   return null;
-            // }
         } catch(Exception e){
             System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
             return null;
@@ -194,12 +190,8 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             return 'success';
 
         } catch (Exception e){
-            List<sobject> sobjlst = new List<sobject>();
-            for (Id i : insertRecordList){
-                sObject q = i.getSobjectType().newSobject(i);
-                sobjlst.add(q);
-            }
-            delete sobjlst;
+            Id errorId = error_handler.insert_errordata(e,'EmailInboundservice','createrecord');
+            erroremail(errorId);
             return null;
         }
     }
@@ -361,9 +353,12 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             insertRecordList.add(newSObject.Id);
 
             if (create_chi){
-                System.debug(lookup_list);
                 for (Object lookup_api : lookup_list){
-                    newSObject2.put((String)lookup_api, newSObject.Id);
+                    if (sobjectName == 'Contact' && sobjectName2 == 'Opportunity') {
+                        newSObject2.put('ContactId', newSObject.Id);
+                    } else {
+                        newSObject2.put((String)lookup_api, newSObject.Id);
+                    }
                 }
                 if (sobjectName2 == 'Attachment'){
                     Object bas = base64att;
@@ -389,13 +384,9 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             }
             return 'success';
         } catch (Exception e){
+            Id errorId = error_handler.insert_errordata(e,'EmailInboundservice','createrecord_secod_object');
+            erroremail(errorId);
             System.debug('errror' +String.valueOf(e) + ' '+ e.getLineNumber());
-            List<sobject> sobjlst = new List<sobject>();
-            for (Id i : insertRecordList){
-                sObject q = i.getSobjectType().newSobject(i);
-                sobjlst.add(q);
-            }
-            delete sobjlst;
             return null;
         }
     }
@@ -629,7 +620,11 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
 
             if (create_chi){
                 for (Object lookup_api : lookup_list){
-                    newSObject2.put((String)lookup_api, newSObject.Id);
+                    if (sobjectName == 'Contact' && sobjectName2 == 'Opportunity') {
+                        newSObject2.put('ContactId', newSObject.Id);
+                    } else {
+                        newSObject2.put((String)lookup_api, newSObject.Id);
+                    }
                 }
                 if (sobjectName2 == 'Attachment'){
                     Object bas = base64att;
@@ -655,7 +650,11 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             }
             if (create_chi_2){
                 for (Object lookup_api_2 : lookup_list2){
-                    newSObject3.put((String)lookup_api_2, newSObject.Id);
+                    if (sobjectName == 'Contact' && sobjectName2 == 'Opportunity') {
+                        newSObject3.put('ContactId', newSObject.Id);
+                    } else {
+                        newSObject3.put((String)lookup_api_2, newSObject.Id);
+                    }
                 }
                 if (sobjectName3 == 'Attachment'){
                     Object bas = base64att;
@@ -686,14 +685,26 @@ global class EmailInboundservices implements Messaging.InboundEmailHandler {
             }
             return 'success';
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
-            List<sobject> sobjlst = new List<sobject>();
-            for (Id i : insertRecordList){
-                sObject q = i.getSobjectType().newSobject(i);
-                sobjlst.add(q);
-            }
-            delete sobjlst;
+            
+            Id errorId = error_handler.insert_errordata(e,'EmailInboundservice','createrecord_third_object');
+            erroremail(errorId);
             return null;
         }
     }   
+
+    public static void erroremail(Id errorId) {
+
+        String errormessage = '<p>We apologize, but there was an issue processing your form submission '+insertRecordList[0]+'. Error Id is '+errorId+'. Please try again later</p><p><br></p><p>If you continue to experience problems with the form, or if you have any urgent inquiries, please contact on QuickBot We appreciate your understanding and cooperation.</p><p><br></p><p>Thank you,</p><p><br></p><p>The QuickForm Team</p>';
+         OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
+        Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+        List<String> toAddresses = new List<String>();
+        toAddresses.add(owea[0].Address);
+        if ( owea.size() > 0 ) {
+            emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+        }
+        emailNotification.setToAddresses(toAddresses);
+        emailNotification.setSubject('Form Submission Failed');
+        emailNotification.setHtmlBody(errormessage);
+        Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+    }
 }
