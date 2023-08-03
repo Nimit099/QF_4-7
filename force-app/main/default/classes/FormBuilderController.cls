@@ -2596,18 +2596,6 @@ public with sharing class FormBuilderController{
         }
     }
 
-    @AuraEnabled
-    public static Boolean checkformsub(Id subId){
-        try {
-            if ([SELECT COUNT() FROM Form_Submission__c WHERE Id =: subId] > 0){
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
-    }
 
     public class wrapformsubmission{
        public Form_Submission__c acc {get;set;}
