@@ -148,7 +148,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
         this.formIdNew = this.formid;
         loadStyle(this, prevpreviewcss);
         let page;
-        let accessKey = '';
         if (this.pageURL == null || this.pageURL == undefined) {
             page = window.location.href;
         }

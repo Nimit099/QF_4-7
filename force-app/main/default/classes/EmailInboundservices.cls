@@ -30,7 +30,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
             List<Object> lookupListmap = (List<Object>)map1.get('lookup_list'); 
             List<Object> lookupList2map = (List<Object>)map1.get('lookup_list2'); 
             Boolean createChi2boolean = (Boolean)map1.get('create_chi_2'); 
-            Integer objectCount = (Integer)map1.get('objectCount');
+            Integer objectCount = (Integer)map1.get('ObjectCount');
             String acc1 = (String)accmap.get('First_object_data__c');
             Map<String, Object> object1 = (Map<String, Object>)JSON.deserializeUntyped(acc1);
             String acc2 = (String)accmap.get('Second_object_data__c');
@@ -240,6 +240,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                 DateTime dattimValue = null;
                 Time timValue = null;
                 Boolean bolValue = null;
+                Blob blobvalue = null;
     
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
@@ -273,6 +274,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         } else {
                             bolValue = false;
                         }
+                    } else if (fieldType == 'BASE64'){
+                        blobvalue = EncodingUtil.base64Decode(base64att);
                     }
 
                     if (intValue != null){
@@ -287,6 +290,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         newSObject.put(key, bolValue);
                     } else if(timValue != null){
                         newSObject.put(key, timValue);
+                    } else if (blobvalue != null) {
+                        newSObject.put(key, blobvalue);
                     } else{
                         newSObject.put(key, value);
                     }
@@ -302,6 +307,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                 DateTime dattimValue = null;
                 Time timValue = null;
                 Boolean bolValue = null;
+                Blob blobvalue = null;
 
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
@@ -332,7 +338,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
-                        value = EncodingUtil.base64Decode(base64att);
+                        blobvalue = EncodingUtil.base64Decode(base64att);
                     } else if (fieldType == 'BOOLEAN') {
                         if (value == 'True') {
                             bolValue = true;
@@ -352,6 +358,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         newSObject2.put(key, bolValue);
                     } else if(timValue != null){
                         newSObject2.put(key, timValue);
+                    } else if(blobvalue != null){
+                        newSObject2.put(key, blobvalue);
                     } else{
                         newSObject2.put(key, value);
                     }
@@ -439,6 +447,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                 DateTime dattimValue = null;
                 Time timValue = null;
                 Boolean bolValue = null;
+                Blob blobvalue = null;
                 
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName).getDescribe().fields.getMap().get(key).getDescribe().getType());
@@ -467,7 +476,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
-                        value = EncodingUtil.base64Decode(base64att);
+                        blobvalue = EncodingUtil.base64Decode(base64att);
                     } else if (fieldType == 'BOOLEAN') {
                         if (value == 'True') {
                             bolValue = true;
@@ -488,6 +497,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         newSObject.put(key, timValue);
                     } else if (bolValue != null) {
                         newSObject.put(key, bolValue);
+                    } else if (blobvalue != null) {
+                        newSObject.put(key, blobvalue);
                     } else{
                         newSObject.put(key, value);
                     }
@@ -503,6 +514,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                 DateTime dattimValue = null;
                 Time timValue = null;
                 Boolean bolValue = null;
+                Blob blobvalue = null;
                 
                 if (key != 'sobjectType'){
                     String fieldType = String.valueOf(Schema.getGlobalDescribe().get(sobjectName2).getDescribe().fields.getMap().get(key).getDescribe().getType());
@@ -531,7 +543,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
-                        value = EncodingUtil.base64Decode(base64att);
+                        blobvalue = EncodingUtil.base64Decode(base64att);
                     } else if (fieldType == 'BOOLEAN') {
                         if (value == 'True') {
                             bolValue = true;
@@ -551,6 +563,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         newSObject2.put(key, timValue);
                     } else if (bolValue != null) {
                         newSObject2.put(key, bolValue);
+                    } else if (blobvalue != null) {
+                        newSObject.put(key, blobvalue);
                     } else{
                         newSObject2.put(key, value);
                     }
@@ -566,6 +580,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                 DateTime dattimValue = null;
                 Time timValue = null;
                 Boolean bolValue = null;
+                Blob blobvalue = null;
                 
                 
                 if (key != 'sobjectType'){
@@ -595,7 +610,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         Integer minute = Integer.valueOf(startTime.substringBetween(':',':')); // between both : in String
                         timValue = Time.newInstance(hour, minute, 0, 0);
                     } else if (fieldType == 'BASE64'){
-                        value = EncodingUtil.base64Decode(base64att);
+                        blobvalue = EncodingUtil.base64Decode(base64att);
                     } else if (fieldType == 'BOOLEAN') {
                         if (value == 'True') {
                             bolValue = true;
@@ -616,7 +631,9 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                         newSObject3.put(key, bolValue);
                     } else if(timValue != null){
                         newSObject3.put(key, timValue);
-                    }  else{
+                    } else if (blobvalue != null) {
+                        newSObject.put(key, blobvalue);
+                    } else{
                         newSObject3.put(key, value);
                     }
                 }

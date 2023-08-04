@@ -1,5 +1,5 @@
 ({
-	doInit : function(component, event, helper) {
+	doInit : function() {
         var el = document.getElementById("auraErrorMessage");
         console.log('el --> ',el);
         if(el != null && el != undefined) {

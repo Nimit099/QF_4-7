@@ -1,8 +1,7 @@
 import {
     LightningElement,
     api,
-    track,
-    wire
+    track
 } from 'lwc';
 import EmojiRating1 from '@salesforce/resourceUrl/EmojiRating1';
 import EmojiRating5 from '@salesforce/resourceUrl/EmojiRating5';
