@@ -16,6 +16,9 @@ private class EmailInboundservicesTest {
         Form__c testForm4 = new Form__c(Name = 'Test3');
         insert testForm4;
 
+        Form__c testForm5 = new Form__c(Name = 'Test4');
+        insert testForm5;
+
         Notification__c testNotification = new Notification__c(
             Form__c = testForm.Id,
             To_Recipients__c = 'test1@example.com,test2@example.com',
@@ -32,7 +35,7 @@ private class EmailInboundservicesTest {
         sub.Form__c = testForm.ID;
         sub.First_object_data__c  = '{"sobjectType":"Account","Name":"Testing", "AnnualRevenue":"12032","NumberOfEmployees":"20"}';
         sub.Second_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
-        sub.Third_object_data__c  = '{"sobjectType":"Case","Status":"New"}';
+        sub.Third_object_data__c  = '{"sobjectType":"Opprtunity","Stage":"Prospecting","CloseDate":"'+System.today()+'","Amount":"124","IsPrivate":"True"}';
         sub.Other_fields_data__c = '{}';
         insert sub;
 
@@ -54,11 +57,20 @@ private class EmailInboundservicesTest {
 
         Form_Submission__c sub3 = new Form_Submission__c();
         sub3.Form__c = testForm4.ID;
-        sub3.First_object_data__c  = '{"sobjectType":"Account","Name":"Testing", "AnnualRevenue":"12032","NumberOfEmployees":"20"}';
-        sub3.Second_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
-        sub3.Third_object_data__c  = '{"sobjectType":"Opportunity","Name":"New", "CloseDate":"'+System.today()+'", "Stage":"Prospecting", "IsPrivate":"true"}';
+        sub3.First_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
+        sub3.Second_object_data__c  = '{"sobjectType":"Event","EndDateTime":"2023-07-25T00:45:00.000+0000","StartDateTime":"2023-07-25T00:45:00.000+0000","IsPrivate":"True","Description":"Test"}';
+        sub3.Third_object_data__c  = '{"sobjectType":"Attachment","Name":"New", "Body":"XXXX", "ContentType":"png", "IsPrivate":"true"}';
         sub3.Other_fields_data__c = '{}';
         insert sub3;
+
+        Form_Submission__c sub4 = new Form_Submission__c();
+        sub4.Form__c = testForm5.ID;
+        sub4.First_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing", "MobilePhone":"12032","Birthdate":"'+System.today()+'", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
+        sub4.Second_object_data__c  = '{"sobjectType":"Event","EndDateTime":"2023-07-25T00:45:00.000+0000","StartDateTime":"2023-07-25T00:45:00.000+0000","IsPrivate":"True","Description":"Test"}';
+        sub4.Third_object_data__c  = '{}';
+        sub4.Other_fields_data__c = '{}';
+        insert sub4;
+
 
     }
         public class wrapformsubmission{
@@ -121,6 +133,7 @@ private class EmailInboundservicesTest {
         String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
         List<String> sigUploadFidList = new List<String>{'signature1'};
         List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
+        
 
             wrapformsubmission wrapper = new wrapformsubmission();
             wrapper.acc = testformsub;
@@ -148,8 +161,9 @@ private class EmailInboundservicesTest {
   @isTest
     static void testHandleInboundEmail2() {
 
-        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test' ];
-
+        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test4' ];
+        List<String> lookup = new List<String>();
+        lookup.add('WhoId');
 
         String sigUploadJsone = '{"signature1":"abc123"}';
         String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
@@ -164,12 +178,98 @@ private class EmailInboundservicesTest {
             wrapper.file_upload_fid_list = fileUploadFidList;
             wrapper.ObjectCount = 2;
             wrapper.SubId = testformsub.Id;
+            wrapper.create_chi = true;
+            wrapper.lookup_list = lookup;
 
         Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
         testEmail.subject = 'Test Email';
         testEmail.plainTextBody = JSON.serialize(wrapper);
 
         Test.startTest();
+
+        EmailInboundservices emailHandler = new EmailInboundservices();
+        Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
+
+        // System.assertEquals(true, result.success);
+
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testHandleInboundEmail4() {
+
+        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test3' ];
+        Test.startTest();
+        
+        List<String> lookup = new List<String>();
+        lookup.add('WhoId');
+        List<String> lookup1 = new List<String>();
+        lookup1.add('ParentId');
+        String sigUploadJsone = '{"signature1":"abc123"}';
+        String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
+        List<String> sigUploadFidList = new List<String>{'signature1'};
+        List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
+
+            wrapformsubmission wrapper = new wrapformsubmission();
+            wrapper.acc = testformsub;
+            wrapper.sig_upload_jsone = sigUploadJsone;
+            wrapper.sig_upload_fid_list = sigUploadFidList;
+            wrapper.file_upload_jsone = fileUploadJsone;
+            wrapper.file_upload_fid_list = fileUploadFidList;
+            wrapper.ObjectCount = 3;
+            wrapper.SubId = testformsub.Id;
+            wrapper.create_chi = true;
+            wrapper.create_chi_2 = true;
+            wrapper.lookup_list = lookup;
+            wrapper.lookup_list2 = lookup1;
+
+        Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
+        testEmail.subject = 'Test Email';
+        testEmail.plainTextBody = JSON.serialize(wrapper);
+
+       
+
+        EmailInboundservices emailHandler = new EmailInboundservices();
+        Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
+
+        // System.assertEquals(true, result.success);
+
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testHandleInboundEmail5() {
+
+        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test' ];
+        Test.startTest();
+        
+        List<String> lookup = new List<String>();
+        lookup.add('AccountId');
+        List<String> lookup1 = new List<String>();
+        lookup1.add('AccountId');
+        String sigUploadJsone = '{"signature1":"abc123"}';
+        String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
+        List<String> sigUploadFidList = new List<String>{'signature1'};
+        List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
+
+            wrapformsubmission wrapper = new wrapformsubmission();
+            wrapper.acc = testformsub;
+            wrapper.sig_upload_jsone = sigUploadJsone;
+            wrapper.sig_upload_fid_list = sigUploadFidList;
+            wrapper.file_upload_jsone = fileUploadJsone;
+            wrapper.file_upload_fid_list = fileUploadFidList;
+            wrapper.ObjectCount = 3;
+            wrapper.SubId = testformsub.Id;
+            wrapper.create_chi = true;
+            wrapper.create_chi_2 = true;
+            wrapper.lookup_list = lookup;
+            wrapper.lookup_list2 = lookup1;
+
+        Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
+        testEmail.subject = 'Test Email';
+        testEmail.plainTextBody = JSON.serialize(wrapper);
+
+       
 
         EmailInboundservices emailHandler = new EmailInboundservices();
         Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
@@ -200,47 +300,6 @@ private class EmailInboundservicesTest {
             wrapper.SubId = testformsub.Id;
             wrapper.create_chi = true;
             wrapper.create_chi_2 = true;
-
-        Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
-        testEmail.subject = 'Test Email';
-        testEmail.plainTextBody = JSON.serialize(wrapper);
-
-        Test.startTest();
-
-        EmailInboundservices emailHandler = new EmailInboundservices();
-        Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
-
-        // System.assertEquals(true, result.success);
-
-        Test.stopTest();
-    }
-
-    @isTest
-    static void testHandleInboundEmail4() {
-
-        Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test3' ];
-
-        List<String> lookup = new List<String>();
-        lookup.add('AccountId');
-        List<String> lookup1 = new List<String>();
-        lookup1.add('AccountId');
-        String sigUploadJsone = '{"signature1":"abc123"}';
-        String fileUploadJsone = '{"file1<!QF!>file1.txt<!QF!>pdf":"xyz456"}';
-        List<String> sigUploadFidList = new List<String>{'signature1'};
-        List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
-
-            wrapformsubmission wrapper = new wrapformsubmission();
-            wrapper.acc = testformsub;
-            wrapper.sig_upload_jsone = sigUploadJsone;
-            wrapper.sig_upload_fid_list = sigUploadFidList;
-            wrapper.file_upload_jsone = fileUploadJsone;
-            wrapper.file_upload_fid_list = fileUploadFidList;
-            wrapper.ObjectCount = 3;
-            wrapper.SubId = testformsub.Id;
-            wrapper.create_chi = true;
-            wrapper.create_chi_2 = true;
-            wrapper.lookup_list = lookup;
-            wrapper.lookup_list2 = lookup1;
 
         Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
         testEmail.subject = 'Test Email';
