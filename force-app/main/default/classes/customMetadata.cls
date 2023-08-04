@@ -1,27 +1,54 @@
-public without sharing class customMetadata {
-    Public static String formid{get;set;}
-    Public static String test_form_id;
+/**
+ * @description FormBuilderController Class
+ */
+public with sharing class customMetadata {
+
+    /** @description formid variable */
+    public static String formid{get;set;}
+
+    /** @description test_form_id variable */
+    public static String test_form_id;
+
+    /** @description urlvalue variable */
     public string urlvalue{get;set;}
+
+    /**
+     * @description customMetadata Constructor
+     */
     public customMetadata() {
         urlvalue=Apexpages.currentPage().getParameters().get('formid');
     }
+
+    /**
+     * @description getProgressindicator Method
+     * @return List of Progress_Indicator__mdt
+     */
     @AuraEnabled(cacheable=true)
     public static List<Progress_Indicator__mdt> getProgressindicator(){
         return Progress_Indicator__mdt.getAll().values();
        
     }
+
+    /**
+     * @description getCaptchatype Method
+     * @return List of Captcha_Type__mdt
+     */
     @AuraEnabled(cacheable=true)
     public static List<	Captcha_Type__mdt> getCaptchatype(){
         return Captcha_Type__mdt.getAll().values();
        
     }
+
+    /**
+     * @description f_Get_Types Method
+     * @return List of Progress_Indicator__mdt
+     */
     @AuraEnabled(cacheable=true)
     public static List<Progress_Indicator__mdt> f_Get_Types(){
         try {
             List<Progress_Indicator__mdt> l_Types = new List<Progress_Indicator__mdt>();
              
             l_Types = [SELECT DeveloperName,Label,sr__c FROM Progress_Indicator__mdt ORDER BY sr__c ASC]; // Can include multiple fields, 
-            System.debug(l_Types);
             
             // You can also use any standard or custom object
             // You can get values from custom setting also.
@@ -34,14 +61,18 @@ public without sharing class customMetadata {
             return null;
         }
     }
-    @AuraEnabled(cacheable=true)
 
+
+    /**
+     * @description Get_Captcha_Types Method
+     * @return List of Captcha_Type__mdt
+     */
+    @AuraEnabled(cacheable=true)
     public static List<Captcha_Type__mdt> Get_Captcha_Types(){
         try {
             List<Captcha_Type__mdt> Captcha_Types = new List<Captcha_Type__mdt>();
              
             Captcha_Types = [SELECT DeveloperName,Label,sr__c FROM Captcha_Type__mdt ORDER BY sr__c ASC]; // Can include multiple fields, 
-            System.debug(Captcha_Types);
             
             // You can also use any standard or custom object
             // You can get values from custom setting also.
@@ -54,30 +85,27 @@ public without sharing class customMetadata {
             return null;
         }
     }
-    // @AuraEnabled
-    // public static void getformid(String currentformid){
-    //     System.debug('u r in get form id');
-    //     System.debug('Exception form url in get form id: '+ currentformid);
-    //     formid = currentformid;
 
-    // }
+    /**
+     * @description siteUrl Method
+     * @param Formid
+     * @return String
+     */
     @AuraEnabled
     public static String siteUrl(String Formid){
         String publishedURL = '';
         try {
-            System.debug('Method Name : customMetadata.siteUrl');
-            System.debug('Form ID: '+ Formid);
-            List<Form__c> formRecord = new List<Form__c>([SELECT Id, Name, Form_Published_URL__c FROM Form__c WHERE Id = :Formid]);
+            List<Form__c> formRecord = new List<Form__c>();
+        if (Schema.sObjectType.Form__c.fields.Name.isAccessible() && Schema.sObjectType.Form__c.fields.Form_Published_URL__c.isAccessible()){
+            formRecord = new List<Form__c>([SELECT Id, Name, Form_Published_URL__c FROM Form__c WHERE Id = :Formid]);
+        }
             QuickForm_Administration__c customsetting = QuickForm_Administration__c.getInstance();
-            System.debug('-> '+customsetting.SecureUrl__c); 
-            
             if(String.isBlank(customsetting.SecureUrl__c)) {
                 publishedURL = 'Please select site from User Configuration tab to publish form.';
             }else if(formRecord.size() > 0 && !String.isBlank(formRecord[0].Form_Published_URL__c) && formRecord[0].Form_Published_URL__c.contains(customsetting.SecureUrl__c)) {
                 publishedURL = formRecord[0].Form_Published_URL__c;
             }else if(!String.isBlank(customsetting.SecureUrl__c)) {
                 String modifiedSecureURL = customsetting.SecureUrl__c;
-                System.debug('modifiedSecureURL --> '+modifiedSecureURL);
 
                 // Form Id Encryption 
                 String encryptedData = EncryptDecryptController.processEncryption(Formid);
@@ -85,13 +113,14 @@ public without sharing class customMetadata {
                 System.debug(publishedURL);
                 Form__c formRec = new Form__c(Id = Formid);
                 formRec.Form_Published_URL__c = publishedURL;
-                update formRec;
+
+                if (Schema.sObjectType.Form__c.fields.Form_Published_URL__c.isUpdateable() && Schema.sObjectType.Form__c.fields.Form_Published_URL__c.isAccessible() && Schema.sObjectType.Form__c.fields.Id.isAccessible()){
+                    update formRec;
+                }
             }else {
                 publishedURL = 'Please select site from User Configuration tab to publish form.';
             }
         } catch (Exception e) {
-            // error_handler.insert_errordata(e,'customMetadata','siteUrl');
-            // System.debug(e.getMessage());
             System.debug('An exception occurred: ' + e.getMessage());
             return null;
         }

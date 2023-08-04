@@ -44,7 +44,8 @@ public with sharing class qfthankyou {
                 Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isUpdateable() &&
                 Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isUpdateable() &&
                 Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isUpdateable() &&
-                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isUpdateable() )
+                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Id.isAccessible())
             {
                 insertrecord = new Thankyou_Page__c( Name = name, Form__c = formId, ThankYou_Label__c = label, Thank_you_URL__c = url, Thankyou_Text__c = classtext, Thankyou_Page_Type__c = picklist, Id = currentthankyouid ); 
                 Database.upsert(insertrecord);
@@ -65,8 +66,8 @@ public with sharing class qfthankyou {
     public static Thankyou_Page__c getrecordslist(Id currentformid){
         try {
             if(currentformid != null){
-                Thankyou_Page__c Thakyou_form_id = [SELECT Id, Name, Form__c,Thank_you_URL__c, Thankyou_Page_Type__c, Thankyou_Text__c, ThankYou_Label__c	FROM Thankyou_Page__c WHERE Form__c =: currentformid WITH SECURITY_ENFORCED];
-                return Thakyou_form_id;
+                Thankyou_Page__c thankyouformId = [SELECT Id, Name, Form__c,Thank_you_URL__c, Thankyou_Page_Type__c, Thankyou_Text__c, ThankYou_Label__c	FROM Thankyou_Page__c WHERE Form__c =: currentformid WITH SECURITY_ENFORCED];
+                return thankyouformId;
             }
             else {
                 return null;

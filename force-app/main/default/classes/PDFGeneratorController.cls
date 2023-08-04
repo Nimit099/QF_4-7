@@ -302,7 +302,7 @@ public with sharing class PDFGeneratorController{
                             label = 'LAST NAME';
                         } else{
                             label = 'Unknown Label';
-            }
+                        }
                     }
                     objLabelMap.put(key, label);
                 }

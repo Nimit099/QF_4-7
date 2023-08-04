@@ -214,7 +214,9 @@ public with sharing class FormBuilderController{
                 nform.Page_CSS__c += ';';
             }
             nform.PageBgID__c = cv.id;
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.PageBgID__c.isUpdateable() && Schema.sObjectType.Form__c.fields.Page_CSS__c.isUpdateable() && Schema.sObjectType.Form__c.fields.PageBgID__c.isAccessible() && Schema.sObjectType.Form__c.fields.Page_CSS__c.isAccessible()){  
+                update nform;
+            }
             return nform.Page_CSS__c + ',' + url;
         } catch (Exception e){
             return null;
@@ -250,7 +252,9 @@ public with sharing class FormBuilderController{
             str = String.join(arr, ';');
             nform.Form_Styling__c = str;
             nform.FormBgID__c = null;
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.Form_Styling__c.isUpdateable() && Schema.sObjectType.Form__c.fields.Form_Styling__c.isAccessible() && Schema.sObjectType.Form__c.fields.FormBgID__c.isUpdateable() && Schema.sObjectType.Form__c.fields.FormBgID__c.isAccessible()){
+                update nform;
+            }
             return nform.Form_Styling__c;
         } catch (Exception e){
             return null;
@@ -292,7 +296,10 @@ public with sharing class FormBuilderController{
             str = String.join(arr, ';');
             nform.Page_CSS__c = str;
             nform.PageBgID__c = null;
-            update nform;
+
+            if (Schema.sObjectType.Form__c.fields.Page_CSS__c.isUpdateable() && Schema.sObjectType.Form__c.fields.Page_CSS__c.isAccessible() && Schema.sObjectType.Form__c.fields.PageBgID__c.isUpdateable() && Schema.sObjectType.Form__c.fields.PageBgID__c.isAccessible()){
+                update nform;
+            }
             return nform.Page_CSS__c;
         } catch (Exception e){
             return null;
@@ -340,7 +347,9 @@ public with sharing class FormBuilderController{
             if ((nform.Button_CSS__c).substring(nform.Button_CSS__c.length() - 1, nform.Button_CSS__c.length()) != ';'){
                 nform.Button_CSS__c += ';';
             }
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.Button_CSS__c.isUpdateable() && Schema.sObjectType.Form__c.fields.Button_CSS__c.isAccessible()){
+                update nform;
+            }
             result = nform.Button_CSS__c;
         } catch (Exception e){
             error_handler.insert_errordata(e, 'FormBuilderController', 'StoreBtnStyles');
@@ -415,7 +424,9 @@ public with sharing class FormBuilderController{
             if ((nform.Label_CSS__c).substring(nform.Label_CSS__c.length() - 1, nform.Label_CSS__c.length()) != ';'){
                 nform.Label_CSS__c += ';';
             }
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.Label_CSS__c.IsAccessible() && Schema.sObjectType.Form__c.fields.Label_CSS__c.IsUpdateable()){
+                update nform;
+            }
             result = nform.Label_CSS__c;
         } catch (Exception e){
             result = e.getMessage();
@@ -464,7 +475,9 @@ public with sharing class FormBuilderController{
             if ((nform.Form_Styling__c).substring(nform.Form_Styling__c.length() - 1, nform.Form_Styling__c.length()) != ';'){
                 nform.Form_Styling__c += ';';
             }
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.Form_Styling__c.IsAccessible() && Schema.sObjectType.Form__c.fields.Form_Styling__c.IsUpdateable()){
+                update nform;
+            }
             result = nform.Form_Styling__c;
         } catch (Exception e){
             error_handler.insert_errordata(e, 'FormBuilderController', 'StoreFormStyles');
@@ -514,7 +527,9 @@ public with sharing class FormBuilderController{
             if ((nform.Page_CSS__c).substring(nform.Page_CSS__c.length() - 1, nform.Page_CSS__c.length()) != ';'){
                 nform.Page_CSS__c += ';';
             }
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.Page_CSS__c.isUpdateable() && Schema.sObjectType.Form__c.fields.Page_CSS__c.isAccessible()){
+                update nform;
+            }
             result = nform.Page_CSS__c;
         } catch (Exception e){
             error_handler.insert_errordata(e, 'FormBuilderController', 'StorePageStyles');
@@ -563,7 +578,10 @@ public with sharing class FormBuilderController{
             if ((nform.All_Field_Styling__c).substring(nform.All_Field_Styling__c.length() - 1, nform.All_Field_Styling__c.length()) != ';'){
                 nform.All_Field_Styling__c += ';';
             }
-            update nform;
+
+            if (Schema.sObjectType.Form__c.fields.All_Field_Styling__c.isUpdateable() && Schema.sObjectType.Form__c.fields.All_Field_Styling__c.isAccessible()){
+                update nform;
+            }
             result = nform.All_Field_Styling__c;
         } catch (Exception e){
             error_handler.insert_errordata(e, 'FormBuilderController', 'StoreStyles');
@@ -632,7 +650,9 @@ public with sharing class FormBuilderController{
             if ((nform.All_Field_Hover__c).substring(nform.All_Field_Hover__c.length() - 1, nform.All_Field_Hover__c.length()) != ';'){
                 nform.All_Field_Hover__c += ';';
             }
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.All_Field_Hover__c.isUpdateable() && Schema.sObjectType.Form__c.fields.All_Field_Hover__c.isAccessible()){
+                update nform;
+            }
             result = nform.All_Field_Hover__c;
         } catch (Exception e){
             error_handler.insert_errordata(e, 'FormBuilderController', 'StoreHoverStyles');
@@ -681,7 +701,9 @@ public with sharing class FormBuilderController{
             if ((nform.All_Field_Focus__c).substring(nform.All_Field_Focus__c.length() - 1, nform.All_Field_Focus__c.length()) != ';'){
                 nform.All_Field_Focus__c += ';';
             }
-            update nform;
+            if (Schema.sObjectType.Form__c.fields.All_Field_Focus__c.isUpdateable() && Schema.sObjectType.Form__c.fields.All_Field_Focus__c.isAccessible()){
+                update nform;
+            }
             result = nform.All_Field_Focus__c;
         } catch (Exception e){
             error_handler.insert_errordata(e, 'FormBuilderController', 'StoreFocusStyles');
@@ -835,7 +857,7 @@ public with sharing class FormBuilderController{
                                               WITH SECURITY_ENFORCED
                                               ORDER BY Field_Order__c ASC];
             if (Field_Page_Id != ''){
-                Form_Fields__c field_which_page_changed = [SELECT Id, Name, Form__c, Form_Page__c, Field_Order__c, Field_Mapping__c
+                Form_Fields__c field_which_page_changed = [SELECT Id, Form_Page__c
                                                            FROM Form_Fields__c
                                                            WHERE Id = :Name
                                                            WITH SECURITY_ENFORCED
@@ -859,7 +881,7 @@ public with sharing class FormBuilderController{
                     updateList.add(it);
                 }
             }
-            if (!updateList.isEmpty() && Schema.sObjectType.Form_Fields__c.fields.Field_Order__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Order__c.IsUpdateable()){
+            if (!updateList.isEmpty() && Schema.sObjectType.Form_Fields__c.fields.Field_Order__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Order__c.IsUpdateable() && Schema.sObjectType.Form_Fields__c.fields.Form_Page__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Form_Page__c.IsUpdateable() &&  Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsUpdateable() && Schema.sObjectType.Form_Fields__c.fields.Form__c.IsAccessible() ){
                 update updateList;
             }
             if (!isold){
@@ -1893,7 +1915,7 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static pageWrapper deletePage(Id FormId, Id PageId){
         try{
-            if (Schema.sObjectType.Form_Fields__c.fields.Name.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Order__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Validations__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Form__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Form_Page__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Form__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Name.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Page_Number__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Page_Number__c.IsUpdateable() && Form_Page__c.SObjectType.getDescribe().isDeletable()){
+            if (Schema.sObjectType.Form_Fields__c.fields.Name.IsAccessible()  && Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Order__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Validations__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Form__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Form_Page__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Form__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Name.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Page_Number__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Page_Number__c.IsUpdateable() && Form_Page__c.SObjectType.getDescribe().isDeletable()){
                 Form_Page__c deletePage = [SELECT Id, Page_Number__c
                                            from Form_Page__c
                                            where Id = :PageId];
@@ -2207,7 +2229,7 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord(Form_Submission__c acc, SObject first_obj_list, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list){
         try{
-
+            /*This method is used create form submission*/
 
             String signatureid;
             String fildid;
@@ -2249,7 +2271,7 @@ public with sharing class FormBuilderController{
             formsub.Third_object_data__c = acc.Third_object_data__c;
             formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isAccessible()){
                 insert formsub;
                 insertRecordList.add(formsub.Id);
                 subID = formsub.Id;
@@ -2277,11 +2299,6 @@ public with sharing class FormBuilderController{
             
         } catch (Exception e){
             List<sobject> sobjlst = new List<sobject>();
-            for (Id i : insertRecordList){
-                sObject q = i.getSobjectType().newSobject(i);
-                sobjlst.add(q);
-            }
-            delete sobjlst;
             return null;
         }
     }
@@ -2303,7 +2320,7 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord_for_secod_object(Form_Submission__c acc, SObject first_obj_list, SObject list_second_obj, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list, Boolean create_chi, List<String> lookup_list, String base64att){
         try{
-
+            /*This method is used create form submission*/
             String signatureid;
             String fildid;
             Map<String, Object> file_upload_map = new Map<String, Object>();
@@ -2347,7 +2364,7 @@ public with sharing class FormBuilderController{
             formsub.Third_object_data__c = acc.Third_object_data__c;
             formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable()){
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isAccessible()){
                 insert formsub;
                 insertRecordList.add(formsub.Id);
                 subID = formsub.Id;
@@ -2378,12 +2395,6 @@ public with sharing class FormBuilderController{
             
         } catch (Exception e){
             System.debug('errror' +String.valueOf(e) + e.getLineNumber());
-            List<sobject> sobjlst = new List<sobject>();
-            for (Id i : insertRecordList){
-                sObject q = i.getSobjectType().newSobject(i);
-                sobjlst.add(q);
-            }
-            delete sobjlst;
             return null;
         }
     }
@@ -2409,7 +2420,7 @@ public with sharing class FormBuilderController{
     @AuraEnabled
     public static SubId createrecord_for_third_object(Form_Submission__c acc, SObject first_obj_list, SObject list_second_obj, SObject list_third_obj, String sig_upload_jsone, List<String> sig_upload_fid_list, String file_upload_jsone, List<String> file_upload_fid_list, Boolean create_chi, List<String> lookup_list, Boolean create_chi_2, List<String> lookup_list2, String base64att){
         try{
-
+            /*This method is used create form submission*/
             String signatureid;
             String fildid;
             Map<String, Object> file_upload_map = new Map<String, Object>();
@@ -2454,7 +2465,7 @@ public with sharing class FormBuilderController{
             formsub.Third_object_data__c = acc.Third_object_data__c;
             formsub.Other_fields_data__c = JSON.serialize(otherobjectdata);
 
-            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable()){
+            if (Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isCreateable() && Schema.sObjectType.Form_Submission__c.fields.First_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Second_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Third_object_data__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Form__c.isAccessible() && Schema.sObjectType.Form_Submission__c.fields.Other_fields_data__c.isAccessible()){
                 insert formsub;
                 subID = formsub.Id;
                 insertRecordList.add(formsub.Id);
@@ -2486,17 +2497,17 @@ public with sharing class FormBuilderController{
 
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
-            List<sobject> sobjlst = new List<sobject>();
-            for (Id i : insertRecordList){
-                sObject q = i.getSobjectType().newSobject(i);
-                sobjlst.add(q);
-            }
-            delete sobjlst;
             return null;
         }
     }
 
+    /**
+     * @description sendemailforformsubmission Method
+     * @param wrapper wrapformsubmission
+     */
     public static void sendemailforformsubmission(wrapformsubmission wrapper) {
+        /*This method is used Send email to email service class*/
+
          EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
          OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
          Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
@@ -2596,19 +2607,44 @@ public with sharing class FormBuilderController{
         }
     }
 
-
+   /** @description wrapformsubmission class */
     public class wrapformsubmission{
+
+         /** @description acc - Form_Submission_Record record as value */
        public Form_Submission__c acc {get;set;}
+
+        /** @description sig_upload_jsone - String of Base64 as value */
        public String sig_upload_jsone {get;set;}
+
+        /** @description sig_upload_fid_list - List of String as value */
        public List<String> sig_upload_fid_list {get;set;}
+
+        /** @description file_upload_jsone - String of Base64 as value */
        public String file_upload_jsone {get;set;}
+
+        /** @description file_upload_fid_list - List of String as value */
        public List<String> file_upload_fid_list {get;set;}
+
+        /** @description create_chi - Boolean to check create child as value */
        public Boolean create_chi {get;set;}
+
+        /** @description lookup_list - List of String as value */
        public List<String> lookup_list {get;set;}
+
+        /** @description create_chi_2 -Boolean to check create child as value */
        public Boolean create_chi_2 {get;set;}
+
+        /** @description lookup_list2 - List of String as value */
        public List<String> lookup_list2 {get;set;}
+
+        /** @description base64att - String of Base64 as value */
        public String base64att {get;set;}
+
+        /** @description ObjectCount - Integer as value */
        public Integer ObjectCount {get; set;}
+
+        /** @description SubId - Submission Id as value */
        public Id SubId {get; set;}
+
     }
 }
