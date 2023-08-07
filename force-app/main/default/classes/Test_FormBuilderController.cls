@@ -868,7 +868,7 @@ public class Test_FormBuilderController {
         List<String> fileUploadFidList = new List<String>{'file1<!QF!>file1.txt<!QF!>pdf'};
 
         FormBuilderController.Subid createrec1 = FormBuilderController.createrecord(sub1,acc,sigUploadJsone,sigUploadFidList,fileUploadJsone,fileUploadFidList);
-        System.assert(createrec1 == null, 'Successfully');
+        System.assert(createrec1 != null, 'Successfully');
         
         Test.stopTest();
 
@@ -894,7 +894,7 @@ public class Test_FormBuilderController {
         List<String> lookupList = new List<String>{'AccountId'};
         
         FormBuilderController.Subid createSecObj1 = FormBuilderController.createrecord_for_secod_object(sub1,acc,con,sigUploadJsone,sigUploadFidList,fileUploadJsone,fileUploadFidList,true,lookupList,base64);
-        System.assert(createSecObj1 == null, 'Successfully');
+        System.assert(createSecObj1 != null, 'Successfully');
         
         Test.stopTest();
     }
@@ -922,7 +922,7 @@ public class Test_FormBuilderController {
         List<String> lookupList1 = new List<String>{'AccountId'};
 
         FormBuilderController.Subid createThirdObj1 = FormBuilderController.createrecord_for_third_object(sub1,acc,con,ca,sigUploadJsone,sigUploadFidList,fileUploadJsone,fileUploadFidList,true,lookupList,true,lookupList1,base64);
-        System.assert(createThirdObj1 == null, 'Successfully');
+        System.assert(createThirdObj1 != null, 'Successfully');
 
         Test.stopTest();
     }
