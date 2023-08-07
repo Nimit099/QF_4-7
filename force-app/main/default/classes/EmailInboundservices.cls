@@ -52,8 +52,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
             
            if (success == 'success') {
                 Id formid = (Id)accmap.get('Form__c');
-                 if (Schema.sObjectType.Notification__c.fields.To_Recipients__c.isAccessible() && Schema.sObjectType.Notification__c.fields.CC_Recipients__c.isAccessible() && Schema.sObjectType.Notification__c.fields.BCC_Recipients__c.isAccessible()&& Schema.sObjectType.Notification__c.fields.Email_Body__c.isAccessible()&& Schema.sObjectType.Notification__c.fields.Subject__c.isAccessible()&& Schema.sObjectType.Notification__c.fields.Attachment__c.isAccessible()&& Schema.sObjectType.Notification__c.fields.Status__c.isAccessible()&& Schema.sObjectType.Notification__c.fields.Name.isAccessible()){
-                    if ([SELECT Count() FROM Notification__c WHERE Form__c =: formid] > 0) {  
+                 
+                    if ([SELECT Count() FROM Notification__c WHERE Form__c =: formid WITH SECURITY_ENFORCED] > 0) {  
                         Notification__c notify = new Notification__c();
                         notify = [SELECT Id,Form__r.Name, To_Recipients__c, CC_Recipients__c, BCC_Recipients__c, Subject__c, Email_Body__c, Attachment__c, Status__c
                                 FROM Notification__c
@@ -109,7 +109,6 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                                 }
                             }
                         }
-                    }
                 return result;
            }  
            return null;
@@ -722,7 +721,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
     public static void erroremail(Id errorId) {
 
         String errormessage = '<p>We apologize, but there was an issue processing your form submission '+insertRecordList[0]+'. Error Id is '+errorId+'. Please try again later</p><p><br></p><p>If you continue to experience problems with the form, or if you have any urgent inquiries, please contact on QuickBot We appreciate your understanding and cooperation.</p><p><br></p><p>Thank you,</p><p><br></p><p>The QuickForm Team</p>';
-         OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
+        List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED  LIMIT 1];
         Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
         List<String> toAddresses = new List<String>();
         toAddresses.add(owea[0].Address);

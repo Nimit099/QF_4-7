@@ -1939,7 +1939,7 @@ public with sharing class FormBuilderController{
                     for (Form_Page__c p : pagesToUpdate){
                         p.Page_Number__c -= 1;
                     }
-                    if (Schema.sObjectType.Form_Page__c.fields.Page_Number__c.IsUpdateable() && Schema.sObjectType.Form_Page__c.fields.Form__c.IsAccessible() && Schema.sObjectType.Form_Page__c.fields.Form__c.IsCreateable()){
+                    if (Schema.sObjectType.Form_Page__c.fields.Page_Number__c.isAccessible() && Schema.sObjectType.Form_Page__c.fields.Page_Number__c.IsUpdateable() && Schema.sObjectType.Form_Page__c.fields.Form__c.IsAccessible()){
                         update pagesToUpdate;
                     }
                 }
@@ -2508,8 +2508,10 @@ public with sharing class FormBuilderController{
     public static void sendemailforformsubmission(wrapformsubmission wrapper) {
         /*This method is used Send email to email service class*/
 
-         EmailServicesAddress esa = [SELECT Id, EmailDomainName, IsActive, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1]; 
-         OrgWideEmailAddress[] owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  LIMIT 1];
+        
+        EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' WITH SECURITY_ENFORCED Limit 1 ]; 
+        List<OrgWideEmailAddress> owea  = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  WITH SECURITY_ENFORCED LIMIT 1 ];
+         
          Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
          List<String> toAddresses = new List<String>();
          toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);

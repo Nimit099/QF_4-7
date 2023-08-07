@@ -73,20 +73,47 @@ private class EmailInboundservicesTest {
 
 
     }
-        public class wrapformsubmission{
-            public Form_Submission__c acc {get;set;}
-            public String sig_upload_jsone {get;set;}
-            public List<String> sig_upload_fid_list {get;set;}
-            public String file_upload_jsone {get;set;}
-            public List<String> file_upload_fid_list {get;set;}
-            public Boolean create_chi {get;set;}
-            public List<String> lookup_list {get;set;}
-            public Boolean create_chi_2 {get;set;}
-            public List<String> lookup_list2 {get;set;}
-            public String base64att {get;set;}
-            public Integer ObjectCount {get; set;}
-            public Id SubId {get; set;}
-        }
+
+         /** @description wrapformsubmission class */
+    public class wrapformsubmission{
+
+        /** @description acc - Form_Submission_Record record as value */
+      public Form_Submission__c acc {get;set;}
+
+       /** @description sig_upload_jsone - String of Base64 as value */
+      public String sig_upload_jsone {get;set;}
+
+       /** @description sig_upload_fid_list - List of String as value */
+      public List<String> sig_upload_fid_list {get;set;}
+
+       /** @description file_upload_jsone - String of Base64 as value */
+      public String file_upload_jsone {get;set;}
+
+       /** @description file_upload_fid_list - List of String as value */
+      public List<String> file_upload_fid_list {get;set;}
+
+       /** @description create_chi - Boolean to check create child as value */
+      public Boolean create_chi {get;set;}
+
+       /** @description lookup_list - List of String as value */
+      public List<String> lookup_list {get;set;}
+
+       /** @description create_chi_2 -Boolean to check create child as value */
+      public Boolean create_chi_2 {get;set;}
+
+       /** @description lookup_list2 - List of String as value */
+      public List<String> lookup_list2 {get;set;}
+
+       /** @description base64att - String of Base64 as value */
+      public String base64att {get;set;}
+
+       /** @description ObjectCount - Integer as value */
+      public Integer ObjectCount {get; set;}
+
+       /** @description SubId - Submission Id as value */
+      public Id SubId {get; set;}
+
+   }
     
         @isTest
         public  static void createrecordTest() {

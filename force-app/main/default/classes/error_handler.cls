@@ -12,6 +12,7 @@ public with sharing class error_handler {
         @param e to stored the Exception 
         @param classname to stored the class name
         @param methodname to stored the method name  
+        @return Id of error object
         @description insert error data into the obeject as record
     */
     public static Id insert_errordata(Exception e,String classname, String methodname) {
