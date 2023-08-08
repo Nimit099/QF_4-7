@@ -35,20 +35,47 @@ public with sharing class qfthankyou {
     * @return Thankyou_Page__c record.
     */
     @AuraEnabled
-    public static Thankyou_Page__c  insertrecord(String name,String picklist, String label, String classtext, String formId, String url, Id currentthankyouid){
+    public static Thankyou_Page__c  insertrecord(String name,String picklist, String label, String classtext, String formId, String url){
         Thankyou_Page__c insertrecord = new Thankyou_Page__c();
         try {
-            if(Schema.sObjectType.Thankyou_Page__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.isUpdateable() &&
-                Schema.sObjectType.Thankyou_Page__c.fields.Name.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Name.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Name.isUpdateable() &&
+            if(Schema.sObjectType.Thankyou_Page__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.isCreateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Name.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Name.isCreateable() &&
                 Schema.sObjectType.Thankyou_Page__c.fields.Form__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Form__c.isCreateable() &&
-                Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isUpdateable() &&
-                Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isUpdateable() &&
-                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isUpdateable() &&
-                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isCreateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isCreateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isCreateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isCreateable() &&
                 Schema.sObjectType.Thankyou_Page__c.fields.Id.isAccessible())
             {
-                insertrecord = new Thankyou_Page__c( Name = name, Form__c = formId, ThankYou_Label__c = label, Thank_you_URL__c = url, Thankyou_Text__c = classtext, Thankyou_Page_Type__c = picklist, Id = currentthankyouid ); 
-                Database.upsert(insertrecord);
+                insertrecord = new Thankyou_Page__c( Name = name, Form__c = formId, ThankYou_Label__c = label, Thank_you_URL__c = url, Thankyou_Text__c = classtext, Thankyou_Page_Type__c = picklist ); 
+                Database.insert(insertrecord);
+            }    
+        } catch (Exception e) {
+            error_handler.insert_errordata(e,'qfthankyou','insertrecord');
+        }
+    return insertrecord;
+    }
+
+     /**
+    * Method Name : insertrecord
+    * @description : insertrecord
+    * @param name String value. @param picklist String value. @param label String value. @param classtext String value. @param formId String value. @param url String value. @param currentthankyouid Id value.
+    * @return Thankyou_Page__c record.
+    */
+    @AuraEnabled
+    public static Thankyou_Page__c  updaterecord(String name,String picklist, String label, String classtext, String url, Id currentthankyouid){
+        Thankyou_Page__c insertrecord = new Thankyou_Page__c();
+        try {
+            if(Schema.sObjectType.Thankyou_Page__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Name.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Name.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.ThankYou_Label__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thank_you_URL__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isCreateable() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Text__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isAccessible() && Schema.sObjectType.Thankyou_Page__c.fields.Thankyou_Page_Type__c.isUpdateable() &&
+                Schema.sObjectType.Thankyou_Page__c.fields.Id.isAccessible())
+            {
+                insertrecord = new Thankyou_Page__c( Name = name, ThankYou_Label__c = label, Thank_you_URL__c = url, Thankyou_Text__c = classtext, Thankyou_Page_Type__c = picklist, Id = currentthankyouid ); 
+                Database.update(insertrecord);
             }    
         } catch (Exception e) {
             error_handler.insert_errordata(e,'qfthankyou','insertrecord');
@@ -57,7 +84,8 @@ public with sharing class qfthankyou {
     }
 
     /**
-    * Method Name : getrecordslist
+    * Method Name : 
+    list
     * @description : getrecordslist
     * @param currentformid Id value.
     * @return Thankyou_Page__c record.
