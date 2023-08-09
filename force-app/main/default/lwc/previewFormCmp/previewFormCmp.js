@@ -147,6 +147,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
         this.spinnerDataTable = true;
         this.formIdNew = this.formid;
         loadStyle(this, prevpreviewcss);
+        // this.template.querySelector('.fieldDiv1').scrollTop = 0;
+
         let page;
         if (this.pageURL == null || this.pageURL == undefined) {
             page = window.location.href;
@@ -561,71 +563,80 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
     }
 
     handlepagination(event) {
-        this.current_bt = event.currentTarget.dataset.name;
 
-        if (event.currentTarget.dataset.name == 'previous') {
-            this.checkbool = true;
-            this.spinnerDataTable = true;
-            if (this.error_josn_key_list.length == 0) {
-                if (this.pageindex == 1) {
-                    this.isIndexZero = true;
-                } else if (this.PageList.length > this.pageindex) {
-                    this.pageindex--;
+        try {
+
+            this.current_bt = event.currentTarget.dataset.name;
+            let a = this.template.querySelector('.mainbody');
+            a.scrollTo('top',0,0);
+            document.body.scrollIntoView();
+            if (event.currentTarget.dataset.name == 'previous') {
+                this.checkbool = true;
+                this.spinnerDataTable = true;
+                if (this.error_josn_key_list.length == 0) {
                     if (this.pageindex == 1) {
-                        this.isIndexLast = false;
                         this.isIndexZero = true;
-                    }
-                } else if (this.PageList.length == this.pageindex) {
-                    this.pageindex--;
-                    this.isIndexLast = false;
-                    if (this.pageindex == 1) {
+                    } else if (this.PageList.length > this.pageindex) {
+                        this.pageindex--;
+                        if (this.pageindex == 1) {
+                            this.isIndexLast = false;
+                            this.isIndexZero = true;
+                        }
+                    } else if (this.PageList.length == this.pageindex) {
+                        this.pageindex--;
                         this.isIndexLast = false;
-                        this.isIndexZero = true;
+                        if (this.pageindex == 1) {
+                            this.isIndexLast = false;
+                            this.isIndexZero = true;
+                        }
                     }
+                    this.page = this.Mainlist[this.pageindex - 1];
+                    this.spinnerDataTable = false;
+                    this.template.querySelector('c-progress-indicator').calculation(this.Progressbarvalue, this.pageindex, this.PageList.length);
+
                 }
-                this.page = this.Mainlist[this.pageindex - 1];
-                this.spinnerDataTable = false;
-                this.template.querySelector('c-progress-indicator').calculation(this.Progressbarvalue, this.pageindex, this.PageList.length);
+            } else if (event.currentTarget.dataset.name == 'next') {
 
-            }
-        } else if (event.currentTarget.dataset.name == 'next') {
-            if (this.error_josn_key_list.length == 0) {
-                this.spinnerDataTable = true;
-                getFieldsRecords_page({
-                    id: this.PageList[this.pageindex - 1].Id
-                })
-                    .then(result => {
-                        this.PageFieldList = result;
-                        this.check_validation();
-                        this.spinnerDataTable = false;
+                if (this.error_josn_key_list.length == 0) {
+                    this.spinnerDataTable = true;
+                    getFieldsRecords_page({
+                        id: this.PageList[this.pageindex - 1].Id
                     })
-                    .catch(() => {
-                        this.spinnerDataTable = false;
-                        this.message = 'Something Went Wrong In preview Page';
-                        this.showerror();
-                    });
+                        .then(result => {
+                            this.PageFieldList = result;
+                            this.check_validation();
+                            this.spinnerDataTable = false;
+                        })
+                        .catch(() => {
+                            this.spinnerDataTable = false;
+                            this.message = 'Something Went Wrong In preview Page';
+                            this.showerror();
+                        });
 
 
-            }
+                }
 
-        } else if (event.currentTarget.dataset.name == 'submit') {
-            if (this.error_josn_key_list.length == 0) {
-                this.spinnerDataTable = true;
+            } else if (event.currentTarget.dataset.name == 'submit') {
+                if (this.error_josn_key_list.length == 0) {
+                    this.spinnerDataTable = true;
 
-                getFieldsRecords_page({
-                    id: this.PageList[this.pageindex - 1].Id
-                })
-                    .then(result => {
-                        this.PageFieldList = result;
-                        this.check_validation();
-                        this.spinnerDataTable = false;
+                    getFieldsRecords_page({
+                        id: this.PageList[this.pageindex - 1].Id
                     })
-                    .catch(() => {
-                        this.spinnerDataTable = false;
-                        this.message = 'Something Went Wrong In preview Page';
-                        this.showerror();
-                    });
+                        .then(result => {
+                            this.PageFieldList = result;
+                            this.check_validation();
+                            this.spinnerDataTable = false;
+                        })
+                        .catch(() => {
+                            this.spinnerDataTable = false;
+                            this.message = 'Something Went Wrong In preview Page';
+                            this.showerror();
+                        });
+                }
             }
+        } catch (error) {
+            console.error(e.message);
         }
     }
 
