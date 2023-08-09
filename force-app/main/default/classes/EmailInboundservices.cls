@@ -720,8 +720,10 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
      */
     public static void erroremail(Id errorId) {
 
-        String errormessage = '<p>We apologize, but there was an issue processing your form submission '+insertRecordList[0]+'. Error Id is '+errorId+'. Please try again later</p><p><br></p><p>If you continue to experience problems with the form, or if you have any urgent inquiries, please contact on QuickBot We appreciate your understanding and cooperation.</p><p><br></p><p>Thank you,</p><p><br></p><p>The QuickForm Team</p>';
-        List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED  LIMIT 1];
+        Form__c form = [SELECT Id,Name FROM Form__c WHERE Id =: formId WITH SECURITY_ENFORCED ];
+        // User u = [SELECT Name FROM User WHERE Profile.Name =: 'System Administrator' WITH SECURITY_ENFORCED LIMIT 1];
+        String errormessage = '<p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Dear '+UserInfo.getName()+',</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">We regret to inform you that there has been an issue with the submission of the ' +form.Name+'. The details of the failed submission are as follows:</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Submission ID: '+insertRecordList[0]+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Name: '+form.Name+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Error ID: '+errorId+'</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(21, 21, 21); font-family: verdana;">Please contact admin if you have any questions or need further assistance.</span></p>';
+        List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED LIMIT 1];
         Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
         List<String> toAddresses = new List<String>();
         toAddresses.add(owea[0].Address);
@@ -729,7 +731,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
             emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
         }
         emailNotification.setToAddresses(toAddresses);
-        emailNotification.setSubject('Form Submission Failed');
+        emailNotification.setSubject('Form Submission Failure - '+form.Name);
         emailNotification.setHtmlBody(errormessage);
         Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
     }

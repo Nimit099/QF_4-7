@@ -636,8 +636,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
     // add by yash
     testtocall() {
         try {
-            
-           
+
+
             this.obj = this.form_object;
             this.form_mapped_Objects = this.obj.split(',');
             this.first_object = this.form_mapped_Objects[0];
@@ -660,10 +660,10 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     .catch(e => {
                         this.message = e.message;
                     });
-    
+
             } else if (this.form_mapped_Objects.length == 3) {
-    
-                
+
+
                 for (let k = 1; k < this.form_mapped_Objects.length; k++) {
                     findlookupfildes({
                         minobj: this.form_mapped_Objects[0],
@@ -671,13 +671,12 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     })
                         .then(result => {
                             console.log(result + 'result');
-                            this.lookup_filde_json[k] = result; 
+                            this.lookup_filde_json[k] = result;
                         })
                         .catch(e => {
                             this.message = e.message;
                         });
                 }
-                 
             }
         } catch (error) {
             console.log(error.message);
@@ -1175,7 +1174,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     sig_upload_fid_list: this.sig_fildeid,
                     file_upload_jsone: JSON.stringify(this.file_upload),
                     file_upload_fid_list: this.file_upload_fildeid,
-                    
+
                 })
                     .then(data => {
                         this.sub_id = data.SubmissionId;
@@ -1194,7 +1193,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
             } else if (this.form_mapped_Objects.length == 2) {
 
                 this.add_lookyp_fildes();
-                
+
                 createrecord_for_secod_object({
                     acc: list_submission_obj,
                     first_obj_list: this.list_first_obj,
@@ -1241,7 +1240,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     create_chi_2: this.create_chi_2,
                     lookup_list2: this.lookup_3obj,
                     base64att: this.base64Att,
-                    
+
                 })
                     .then(data => {
                         this.sub_id = data.SubmissionId;
@@ -1545,10 +1544,10 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
 
     add_lookyp_fildes() {
         try {
-            
+
             var apis_of_2obj = Object.keys(this.list_second_obj);
             for (let i = 0; i < apis_of_2obj.length; i++) {
-    
+
                 for (let j = 0; j < this.lookup_2obj.length; j++) {
                     if (apis_of_2obj[i] == this.lookup_2obj[j]) {
                         let filde_api = apis_of_2obj[i];
@@ -1645,18 +1644,18 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
 
     }
     @api
-    getrequestforcloserefencefield(){
+    getrequestforcloserefencefield() {
         try {
-           
+
             var quickfields = this.template.querySelectorAll('c-quickformfieldcomponent');
             for (let index = 0; index < quickfields.length; index++) {
                 const element = quickfields[index];
                 element.changeMessage('true');
-                
+
             }
         } catch (error) {
             console.error(error.message);
         }
-        
+
     }
 }

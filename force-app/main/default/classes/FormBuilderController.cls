@@ -1935,7 +1935,7 @@ public with sharing class FormBuilderController{
                     delete deletePage;
                     List<Form_Page__c> pagesToUpdate = [SELECT Id, Page_Number__c
                                                         FROM Form_Page__c
-                                                        WHERE Form__c = :FormId AND Page_Number__c > :deletePage.Page_Number__c];
+                                                        WHERE Form__c = :FormId AND Page_Number__c > :deletePage.Page_Number__c WITH SECURITY_ENFORCED];
                     for (Form_Page__c p : pagesToUpdate){
                         p.Page_Number__c -= 1;
                     }
@@ -2509,8 +2509,8 @@ public with sharing class FormBuilderController{
         /*This method is used Send email to email service class*/
 
         
-        EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' WITH SECURITY_ENFORCED Limit 1 ]; 
-        List<OrgWideEmailAddress> owea  = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA'  WITH SECURITY_ENFORCED LIMIT 1 ];
+        EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1 ]; 
+        List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1 ];
          
          Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
          List<String> toAddresses = new List<String>();

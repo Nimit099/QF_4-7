@@ -6,7 +6,6 @@ import {
 import thankyoulogo from '@salesforce/resourceUrl/Thankyoulogo';
 import whitepen from '@salesforce/resourceUrl/whitepen';
 import records from '@salesforce/apex/qfthankyou.insertrecord';
-import updaterecord from '@salesforce/apex/qfthankyou.updaterecord';
 import getrecords from '@salesforce/apex/qfthankyou.getthankyoupage';
 import changelabel from '@salesforce/apex/qfthankyou.changelabel';
 
@@ -71,7 +70,6 @@ export default class ThankyouComponent extends NavigationMixin(LightningElement)
             this.error_popupNewValue = this.error_popup;
             this.spinner = true;
             if (this.editing == true) {
-                console.log(this.currentformid);
                 getrecords({
                     currentformid: this.currentformid
                 }).then(result => {
@@ -79,7 +77,6 @@ export default class ThankyouComponent extends NavigationMixin(LightningElement)
                     this.labelNewValue = result.ThankYou_Label__c;
                     this.changelabelNewValue = result.ThankYou_Label__c;
                     this.currentthankyouidNewValue = result.Id;
-                    console.log(this.currentthankyouidNewValue + 'curenet');
                     if (result.Thankyou_Page_Type__c == 'Show Text') {
                         this.classtext = result.Thankyou_Text__c;
                         this.textNewValue = result.Thankyou_Text__c;
@@ -197,182 +194,12 @@ export default class ThankyouComponent extends NavigationMixin(LightningElement)
             this.classurl = this.urlNewValue;
             var regexp = new RegExp('^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$');
             if (regexp.test(this.urlNewValue)) {
-                console.log(this.currentthankyouidNewValue);
-                if (this.currentthankyouidNewValue != undefined && this.currentthankyouidNewValue != null && this.currentthankyouidNewValue.trim() != '') {
-                 console.log(this.currentthankyouidNewValue);
-                    records({
-                        name: this.formname,
-                        picklist: this.picklist,
-                        label: this.labelNewValue,
-                        classtext: this.classtext,
-                        formId: this.currentformid,
-                        url: this.urlNewValue,
-                    }).then(result => {
-                        this.template.querySelector('c-toast-component').showToast('success', 'Successlly Changed', 3000);
-                        this.thankyoutypeNewValue = result.Thankyou_Page_Type__c;
-                        this.labelNewValue = result.ThankYou_Label__c;
-                        this.changelabelNewValue = result.ThankYou_Label__c;
-                        this.currentthankyouidNewValue = result.Id;
-                        if (result.Thankyou_Page_Type__c == 'Show Text') {
-                            this.classtext = result.Thankyou_Text__c;
-                            this.textNewValue = result.Thankyou_Text__c;
-                            this.textfunc();
-                            this.template.querySelector(".text").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'Redirect to a webpage') {
-                            this.urlNewValue = result.Thank_you_URL__c;
-                            this.classurl = this.urlNewValue;
-                            this.urlfunc();
-                            this.template.querySelector(".url").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'Show text, then redirect to web page') {
-                            this.urlNewValue = result.Thank_you_URL__c;
-                            this.classtext = result.Thankyou_Text__c;
-                            this.textNewValue = result.Thankyou_Text__c;
-                            this.classurl = this.urlNewValue;
-                            this.text_urlfunc();
-                            this.template.querySelector(".text_url").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'Show HTML block') {
-                            this.classtext = result.Thankyou_Text__c;
-                            this.richtextNewValue = result.Thankyou_Text__c;
-                            this.richtextfun();
-                            this.template.querySelector(".richtext").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'None') {
-                            this.nonefunc();
-                        }
-                        this.template.querySelector('.thanksPreviewDiv').style.background = '#E5E5E5';
-                        this.template.querySelector('.thanksMainDiv').style = 'justify-content= none';
-                        this.spinner = false;
-                    }).catch(() => {
-                        this.message = 'Something Went Wrong In Thank You Page';
-                        this.showerror();
-                    })
-
-                } else {
-
-                    updaterecord({
-                        name: this.formname,
-                        picklist: this.picklist,
-                        label: this.labelNewValue,
-                        classtext: this.classtext,
-                        url: this.urlNewValue,
-                        currentthankyouid: this.currentthankyouidNewValue
-                    }).then(result => {
-                        this.template.querySelector('c-toast-component').showToast('success', 'Successlly Changed', 3000);
-                        this.thankyoutypeNewValue = result.Thankyou_Page_Type__c;
-                        this.labelNewValue = result.ThankYou_Label__c;
-                        this.changelabelNewValue = result.ThankYou_Label__c;
-                        this.currentthankyouidNewValue = result.Id;
-                        if (result.Thankyou_Page_Type__c == 'Show Text') {
-                            this.classtext = result.Thankyou_Text__c;
-                            this.textNewValue = result.Thankyou_Text__c;
-                            this.textfunc();
-                            this.template.querySelector(".text").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'Redirect to a webpage') {
-                            this.urlNewValue = result.Thank_you_URL__c;
-                            this.classurl = this.urlNewValue;
-                            this.urlfunc();
-                            this.template.querySelector(".url").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'Show text, then redirect to web page') {
-                            this.urlNewValue = result.Thank_you_URL__c;
-                            this.classtext = result.Thankyou_Text__c;
-                            this.textNewValue = result.Thankyou_Text__c;
-                            this.classurl = this.urlNewValue;
-                            this.text_urlfunc();
-                            this.template.querySelector(".text_url").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'Show HTML block') {
-                            this.classtext = result.Thankyou_Text__c;
-                            this.richtextNewValue = result.Thankyou_Text__c;
-                            this.richtextfun();
-                            this.template.querySelector(".richtext").style = "display:block";
-    
-                        } else if (result.Thankyou_Page_Type__c == 'None') {
-                            this.nonefunc();
-                        }
-                        this.template.querySelector('.thanksPreviewDiv').style.background = '#E5E5E5';
-                        this.template.querySelector('.thanksMainDiv').style = 'justify-content= none';
-                        this.spinner = false;
-                    }).catch(() => {
-                        this.message = 'Something Went Wrong In Thank You Page';
-                        this.showerror();
-                    })
-
-                }
-                return true;
-            } else {
-                this.spinner = false;
-                this.template.querySelector('c-toast-component').showToast('error', 'Enter Correct URL', 3000);
-            }
-        } else {
-            if (this.ThankYou_RichText == true) {
-                this.classtext = this.richtextNewValue;
-            } else {
-                this.classtext = this.textNewValue;
-            }
-            if (this.currentthankyouidNewValue != undefined && this.currentthankyouidNewValue != null && this.currentthankyouidNewValue.trim() != '') {
-                 
                 records({
                     name: this.formname,
                     picklist: this.picklist,
                     label: this.labelNewValue,
                     classtext: this.classtext,
                     formId: this.currentformid,
-                    url: this.urlNewValue,
-                }).then(result => {
-                    this.template.querySelector('c-toast-component').showToast('success', 'Successlly Changed', 3000);
-                    this.thankyoutypeNewValue = result.Thankyou_Page_Type__c;
-                    this.labelNewValue = result.ThankYou_Label__c;
-                    this.changelabelNewValue = result.ThankYou_Label__c;
-                    this.currentthankyouidNewValue = result.Id;
-                    if (result.Thankyou_Page_Type__c == 'Show Text') {
-                        this.classtext = result.Thankyou_Text__c;
-                        this.textNewValue = result.Thankyou_Text__c;
-                        this.textfunc();
-                        this.template.querySelector(".text").style = "display:block";
-
-                    } else if (result.Thankyou_Page_Type__c == 'Redirect to a webpage') {
-                        this.urlNewValue = result.Thank_you_URL__c;
-                        this.classurl = this.urlNewValue;
-                        this.urlfunc();
-                        this.template.querySelector(".url").style = "display:block";
-
-                    } else if (result.Thankyou_Page_Type__c == 'Show text, then redirect to web page') {
-                        this.urlNewValue = result.Thank_you_URL__c;
-                        this.classtext = result.Thankyou_Text__c;
-                        this.textNewValue = result.Thankyou_Text__c;
-                        this.classurl = this.urlNewValue;
-                        this.text_urlfunc();
-                        this.template.querySelector(".text_url").style = "display:block";
-
-                    } else if (result.Thankyou_Page_Type__c == 'Show HTML block') {
-                        this.classtext = result.Thankyou_Text__c;
-                        this.richtextNewValue = result.Thankyou_Text__c;
-                        this.richtextfun();
-                        this.template.querySelector(".richtext").style = "display:block";
-
-                    } else if (result.Thankyou_Page_Type__c == 'None') {
-                        this.nonefunc();
-                    }
-                    this.template.querySelector('.thanksPreviewDiv').style.background = '#E5E5E5';
-                    this.template.querySelector('.thanksMainDiv').style = 'justify-content= none';
-                    this.spinner = false;
-                }).catch(() => {
-                    this.message = 'Something Went Wrong In Thank You Page';
-                    this.showerror();
-                })
-
-            } else {
-
-                updaterecord({
-                    name: this.formname,
-                    picklist: this.picklist,
-                    label: this.labelNewValue,
-                    classtext: this.classtext,
                     url: this.urlNewValue,
                     currentthankyouid: this.currentthankyouidNewValue
                 }).then(result => {
@@ -417,8 +244,68 @@ export default class ThankyouComponent extends NavigationMixin(LightningElement)
                     this.message = 'Something Went Wrong In Thank You Page';
                     this.showerror();
                 })
-
+                return true;
+            } else {
+                this.spinner = false;
+                this.template.querySelector('c-toast-component').showToast('error', 'Enter Correct URL', 3000);
             }
+        } else {
+            if (this.ThankYou_RichText == true) {
+                this.classtext = this.richtextNewValue;
+            } else {
+                this.classtext = this.textNewValue;
+            }
+            records({
+                name: this.formname,
+                picklist: this.picklist,
+                label: this.labelNewValue,
+                classtext: this.classtext,
+                formId: this.currentformid,
+                url: this.urlNewValue,
+                currentthankyouid: this.currentthankyouidNewValue
+            }).then(result => {
+                this.template.querySelector('c-toast-component').showToast('success', 'Successfully changed', 3000);
+                this.thankyoutypeNewValue = result.Thankyou_Page_Type__c;
+                this.labelNewValue = result.ThankYou_Label__c;
+                this.changelabelNewValue = result.ThankYou_Label__c;
+                this.currentthankyouidNewValue = result.Id;
+                if (result.Thankyou_Page_Type__c == 'Show Text') {
+                    this.classtext = result.Thankyou_Text__c;
+                    this.textNewValue = result.Thankyou_Text__c;
+                    this.textfunc();
+                    this.template.querySelector(".text").style = "display:block";
+
+                } else if (result.Thankyou_Page_Type__c == 'Redirect to a webpage') {
+                    this.urlNewValue = result.Thank_you_URL__c;
+                    this.urlfunc();
+                    this.template.querySelector(".url").style = "display:block"
+
+                } else if (result.Thankyou_Page_Type__c == 'Show text, then redirect to web page') {
+                    this.urlNewValue = result.Thank_you_URL__c;
+                    this.classtext = result.Thankyou_Text__c;
+                    this.textNewValue = result.Thankyou_Text__c;
+                    this.text_urlfunc();
+                    this.template.querySelector(".text_url").style = "display:block";
+
+                } else if (result.Thankyou_Page_Type__c == 'Show HTML block') {
+                    this.classtext = result.Thankyou_Text__c;
+                    this.richtextNewValue = result.Thankyou_Text__c;
+                    this.richtextfun();
+                    this.template.querySelector(".richtext").style = "display:block";
+
+                } else if (result.Thankyou_Page_Type__c == 'None') {
+                    this.nonefunc();
+                } else if (result.Thankyou_Page_Type__c == 'Show report of User data') {
+                    this.reportfunc();
+                    this.template.querySelector(".report").style = "display:block";
+                }
+                this.template.querySelector('.thanksPreviewDiv').style.background = '#E5E5E5';
+                this.template.querySelector('.thanksMainDiv').style = 'justify-content= none';
+                this.spinner = false;
+            }).catch(() => {
+                this.message = 'Something Went Wrong In Thank You Page';
+                this.showerror();
+            })
             this.spinner = false;
         }
     }
