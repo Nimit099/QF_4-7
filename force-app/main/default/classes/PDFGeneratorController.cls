@@ -276,12 +276,8 @@ public with sharing class PDFGeneratorController{
                     for (Form_Fields__c ff : formFildsList){
                         if (ff.Mapped_Obj__c == objectDataMap.get('sobjectType')){
                             String[] splitString = ff.Field_Mapping__c.split('<!@!>');
-                            if (splitString[0] == key){
-                                if(splitString[0] == 'LastName' && (splitString[1] == 'Contact' || splitString[1] == 'Lead')){
-                                    label = 'LAST NAME';
-                                } else {
-                                    label = ff.Field_Label__c;
-                                }
+                            if (splitString[0] == key && ff.Name.split(',')[1] != 'QFFULLNAME'){
+                                label = ff.Field_Label__c;
                                 break;
                         }
                     }
