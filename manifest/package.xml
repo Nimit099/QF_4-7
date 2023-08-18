@@ -6,11 +6,11 @@
     </types>
     <types>
         <members>*</members>
-        <name>ApexComponent</name>
-    </types>
-    <types>
-        <members>*</members>
         <name>LightningComponentBundle</name>
+    </types>
+        <types>
+        <members>*</members>
+        <name>StaticResource</name>
     </types>
     <version>57.0</version>
 </Package>
