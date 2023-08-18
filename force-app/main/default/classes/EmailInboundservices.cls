@@ -193,7 +193,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     }
                 }
             }
-            insert newSObject;
+            insert as User newSObject;
             insertRecordList.add(newSObject.Id);
 
             return 'success';
@@ -366,7 +366,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
             }
             
             // Check if the current user has permission to create records for the dynamic sObject type
-            insert newSObject;
+            insert as User newSObject;
             insertRecordList.add(newSObject.Id);
 
             if (createChi){
@@ -383,19 +383,19 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     Blob myBlob = EncodingUtil.base64Decode(myStr);
                     newSObject2.put('ParentId', newSObject.Id);
                     newSObject2.put('Body', myBlob);
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 } else{
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 }
             } else{
                 if (sobjectName2 == 'Attachment'){
                     newSObject2.put('ParentId', newSObject.Id);
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 } else{
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 }
             }
@@ -637,7 +637,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     }
                 }
             }
-            insert newSObject;
+            insert as User newSObject;
             insertRecordList.add(newSObject.Id);
 
             if (createChi){
@@ -654,19 +654,19 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     Blob myBlob = EncodingUtil.base64Decode(myStr);
                     newSObject2.put('ParentId', newSObject.Id);
                     newSObject2.put('Body', myBlob);
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 } else{
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 }
             } else{
                 if (sobjectName2 == 'Attachment'){
                     newSObject2.put('ParentId', newSObject.Id);
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 } else{
-                    insert newSObject2;
+                    insert as User newSObject2;
                     insertRecordList.add(newSObject2.Id);
                 }
             }
@@ -684,10 +684,10 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     Blob myBlob = EncodingUtil.base64Decode(myStr);
                     newSObject3.put('ParentId', newSObject.Id);
                     newSObject3.put('Body', myBlob);
-                    insert newSObject3;
+                    insert as User newSObject3;
                     insertRecordList.add(newSObject3.Id);
                 } else{
-                    insert newSObject3;
+                    insert as User newSObject3;
                     insertRecordList.add(newSObject3.Id);
                 }
             } else{
@@ -698,10 +698,10 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     Blob myBlob = EncodingUtil.base64Decode(myStr);
                     newSObject3.put('ParentId', newSObject.Id);
                     newSObject3.put('Body', myBlob);
-                    insert newSObject3;
+                    insert as User newSObject3;
                     insertRecordList.add(newSObject3.Id);
                 } else{
-                    insert newSObject3;
+                    insert as User newSObject3;
                     insertRecordList.add(newSObject3.Id);
                 }
             }

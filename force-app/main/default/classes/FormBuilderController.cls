@@ -2509,8 +2509,8 @@ public with sharing class FormBuilderController{
         /*This method is used Send email to email service class*/
 
         
-        EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' Limit 1 ]; 
-        List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1 ];
+        EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' LIMIT 1 ]; 
+        List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1  ];
          
          Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
          List<String> toAddresses = new List<String>();
