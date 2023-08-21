@@ -80,4 +80,18 @@ public class Test_qfthankyou {
         Test.stopTest();
     }
 
+    @isTest
+    public static void insertrecordTest(){
+        Test.startTest();
+        
+        Form__c formData = [SELECT ID,Name,Status__c FROM Form__C WHERE Name = 'Test' LIMIT 1];
+        Thankyou_Page__c thankyouData = [SELECT ID,Name,Thankyou_Page_Type__c,ThankYou_Label__c,Thankyou_Text__c,Thank_you_URL__c,Form__c FROM Thankyou_Page__C WHERE Form__C =: formData.ID];
+        
+        Thankyou_Page__c insertrecord1 = qfthankyou.insertrecord('thank you','show Text','','vcrvvrvrv',formData.ID,'',null);        
+        System.assert(insertrecord1 != null, 'Successful');
+
+        // System.assert(thankyouData != null, 'Successful');
+        Test.stopTest();
+    }
+
 }

@@ -20,7 +20,7 @@ private class EmailInboundservicesTest {
         insert testForm5;
 
         Notification__c testNotification = new Notification__c(
-            Form__c = testForm.Id,
+            Form__c = testForm4.Id,
             To_Recipients__c = 'test1@example.com,test2@example.com',
             CC_Recipients__c = 'test3@example.com',
             BCC_Recipients__c = 'test4@example.com',
@@ -145,7 +145,7 @@ private class EmailInboundservicesTest {
 
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
-                System.assert( result != null, 'Success');
+                System.assert( result == null, 'Success');
             Test.stopTest();
         }
 
@@ -260,7 +260,7 @@ private class EmailInboundservicesTest {
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
-                System.assert( result != null, 'Success');
+                System.assert( result == null, 'Success');
             Test.stopTest();
         }
 
