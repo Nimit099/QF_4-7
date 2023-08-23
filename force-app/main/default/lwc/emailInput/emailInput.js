@@ -20,15 +20,12 @@ export default class EmailInput extends LightningElement {
     message;
 
     renderedCallback(){
-        // console.log('print to list',this.listto);
     
         Promise.all([
             loadStyle( this, notification_css )
             ]).then(() => {
-                // console.log( 'icon' );
             })
             .catch(error => {
-                // console.log( error.body.message );
                 this.message = 'Something Went Wrong In Email Input Page';
                 this.showerror(this.message);
         });

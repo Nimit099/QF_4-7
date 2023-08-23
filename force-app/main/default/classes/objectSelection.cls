@@ -1,7 +1,7 @@
 /**
  * @description :This is a public class named objectSelection.
  */
-public without sharing class objectSelection{
+public with sharing class objectSelection{
 
     /**
      * @description :This method fetches a list of parent objects.

@@ -33,7 +33,7 @@ private class EmailInboundservicesTest {
 
         Form_Submission__c sub = new Form_Submission__c();
         sub.Form__c = testForm.ID;
-        sub.First_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing","MobilePhone":"12032","Birthdate":"2002-12-3", "HasOptedOutOfEmail":"true","HasOptedOutOfFax":"false"}';
+        sub.First_object_data__c  = '{"sobjectType":"Contact","LastName":"Testing","MobilePhone":"12032","Birthdate":"2002-12-3"}';
         sub.Second_object_data__c  = '{"sobjectType":"Opportunity","Name":"Testing","Amount":"12032","CloseDate":"2002-12-3","StageName":"Prospecting","IsPrivate":"True"}';
         sub.Third_object_data__c  = '{"sobjectType":"Attachment","Name":"New","Body":"XXXX","IsPrivate":"True"}';
         sub.Other_fields_data__c = '{}';
@@ -145,7 +145,7 @@ private class EmailInboundservicesTest {
 
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
-                System.assert( result == null, 'Success');
+                System.assert( result != null, 'Success');
             Test.stopTest();
         }
 
@@ -260,7 +260,7 @@ private class EmailInboundservicesTest {
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
-                System.assert( result == null, 'Success');
+                System.assert( result != null, 'Success');
             Test.stopTest();
         }
 

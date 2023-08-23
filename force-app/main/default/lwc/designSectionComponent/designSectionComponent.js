@@ -572,13 +572,13 @@ export default class DesignSectionComponent extends LightningElement {
         }
 
         this.inputfontweight = (((str.split('font-weight:'))[1].split(';'))[0]);
-        
+
         if (this.inputfontweight == null || this.inputfontweight == undefined) {
             this.inputfontweight = 'Normal';
         }
 
         this.inputfontstyle = (((str.split('font-style:'))[1].split(';'))[0]);
-        
+
         if (this.inputfontstyle == null || this.inputfontstyle == undefined) {
             this.inputfontstyle = 'Normal';
         }
@@ -637,7 +637,7 @@ export default class DesignSectionComponent extends LightningElement {
         }
 
         this.btnborderstyle = (((str.split('border-style:'))[1].split(';'))[0]);
-        
+
         if (this.btnborderstyle == null || this.btnborderstyle == undefined) {
             this.btnborderstyle = 'Solid';
         }
@@ -708,7 +708,7 @@ export default class DesignSectionComponent extends LightningElement {
     FocusCSS() {
 
         let str = this.focusproperties;
-        
+
 
         this.fieldfocusbg = (((str.split('background-color:'))[1].split(';'))[0]);
         if (this.fieldfocusbg == null || this.fieldfocusbg == undefined) {
@@ -733,17 +733,17 @@ export default class DesignSectionComponent extends LightningElement {
         const imageevent = new CustomEvent("imagespinner", {
             detail: Array[0]
         });
-        
+
         this.dispatchEvent(imageevent);
 
         const file = event.target.files[0];
         if (!file) {
-            
+
             return;
         }
 
         if (file.size > 4194304) {
-            
+
             const cssevent = new CustomEvent("stopspinner", {});
             this.dispatchEvent(cssevent);
             const cssevents = new CustomEvent("formerrormsg", {});
@@ -755,39 +755,39 @@ export default class DesignSectionComponent extends LightningElement {
         const reader = new FileReader();
         reader.onload = () => {
             const base64 = reader.result.split(',')[1];
-            
+
             this.fileData = {
                 'filename': file.name,
                 'base64': base64,
                 'recordId': this.recordId
             }
-            
-            const ftype = this.fileData.filename.split('.')[1];
-            
 
-                UploadPageImage({
-                    id: this.recordid,
-                    body: this.fileData.base64,
-                    FName: this.fileData.filename,
-                    Type: ftype
-                }).then(result => {
-                
-                    let Array = result.split(',');
-                    const cssevent = new CustomEvent("getpagecss", {
-                        detail: Array[0]
-                    });
-                    
-                    this.dispatchEvent(cssevent);
-                    
-                    this.pageimageurl = Array[1];
-                    this.pageimage = true;
-                    
-                }).catch(() => {                
-                    this.spinnerdatatable = false;   
-                    this.message = 'Something went wrong in Upload Page Image';
-                    this.showerrorpopup();
-                    const cssevent = new CustomEvent("stopspinner", {});
-                    this.dispatchEvent(cssevent);
+            const ftype = this.fileData.filename.split('.')[1];
+
+
+            UploadPageImage({
+                id: this.recordid,
+                body: this.fileData.base64,
+                FName: this.fileData.filename,
+                Type: ftype
+            }).then(result => {
+
+                let Array = result.split(',');
+                const cssevent = new CustomEvent("getpagecss", {
+                    detail: Array[0]
+                });
+
+                this.dispatchEvent(cssevent);
+
+                this.pageimageurl = Array[1];
+                this.pageimage = true;
+
+            }).catch(() => {
+                this.spinnerdatatable = false;
+                this.message = 'Something went wrong in Upload Page Image';
+                this.showerrorpopup();
+                const cssevent = new CustomEvent("stopspinner", {});
+                this.dispatchEvent(cssevent);
             })
         }
         reader.readAsDataURL(file);
@@ -797,7 +797,7 @@ export default class DesignSectionComponent extends LightningElement {
         const imageevent = new CustomEvent("imagespinner", {
             detail: Array[0]
         });
-        
+
         this.dispatchEvent(imageevent);
 
         const file = event.target.files[0];
@@ -806,7 +806,7 @@ export default class DesignSectionComponent extends LightningElement {
         }
 
         if (file.size > 4194304) {
-            
+
             const cssevent = new CustomEvent("stopspinner", {});
             this.dispatchEvent(cssevent);
             const cssevents = new CustomEvent("formerrormsg", {});
@@ -818,40 +818,40 @@ export default class DesignSectionComponent extends LightningElement {
         const reader = new FileReader();
         reader.onload = () => {
             const base64 = reader.result.split(',')[1];
-            
+
             this.fileData1 = {
                 'filename': file.name,
                 'base64': base64,
                 'recordId': this.recordId
             }
-            
-            const ftype = this.fileData1.filename.split('.')[1];
-            
 
-                UploadFormImage({
-                    id: this.recordid,
-                    body: this.fileData1.base64,
-                    FName: this.fileData1.filename,
-                    Type: ftype
-                }).then(result => {
-                
-                    let Array = result.split(',');
-                    const cssevent = new CustomEvent("getformcss", {
-                        detail: Array[0]
-                    });
-                    this.dispatchEvent(cssevent);
-                    
-                    this.formimageurl = Array[1];
-                    this.formimage = true;
-                
-                }).catch(() => {                    
-                    this.spinnerdatatable = false;   
-                    this.message = 'Something went wrong in Upload Form Image(A).';
-                    this.showerrorpopup();
-                    const cssevent = new CustomEvent("stopspinner", {});
-                    this.dispatchEvent(cssevent);
+            const ftype = this.fileData1.filename.split('.')[1];
+
+
+            UploadFormImage({
+                id: this.recordid,
+                body: this.fileData1.base64,
+                FName: this.fileData1.filename,
+                Type: ftype
+            }).then(result => {
+
+                let Array = result.split(',');
+                const cssevent = new CustomEvent("getformcss", {
+                    detail: Array[0]
+                });
+                this.dispatchEvent(cssevent);
+
+                this.formimageurl = Array[1];
+                this.formimage = true;
+
+            }).catch(() => {
+                this.spinnerdatatable = false;
+                this.message = 'Something went wrong in Upload Form Image(A).';
+                this.showerrorpopup();
+                const cssevent = new CustomEvent("stopspinner", {});
+                this.dispatchEvent(cssevent);
             })
-            }
+        }
         reader.readAsDataURL(file);
     }
 
@@ -863,8 +863,8 @@ export default class DesignSectionComponent extends LightningElement {
         });
         this.dispatchEvent(imageevent);
         RemoveFormImage({
-                id: this.recordid
-            })
+            id: this.recordid
+        })
             .then(result => {
                 this.fileData1 = null;
                 const cssevent = new CustomEvent("getformcss", {
@@ -874,7 +874,7 @@ export default class DesignSectionComponent extends LightningElement {
                 this.formimageurl = '';
                 this.formimage = false;
             }).catch(() => {
-                this.spinnerdatatable = false;                
+                this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Remove Form Image(A).';
                 this.showerrorpopup();
                 const cssevents = new CustomEvent("stopspinner", {});
@@ -892,26 +892,26 @@ export default class DesignSectionComponent extends LightningElement {
         this.dispatchEvent(imageevent);
 
         RemovePageImage({
-                id: this.recordid
-            })
+            id: this.recordid
+        })
             .then(result => {
                 this.fileData = null;
-                
+
                 const cssevent = new CustomEvent("getpagecss", {
                     detail: result
                 });
-                
+
                 this.dispatchEvent(cssevent);
 
                 this.pageimageurl = '';
                 this.pageimage = false;
-                
+
             }).catch(() => {
-                this.spinnerdatatable = false;   
+                this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Remove Page Image(A).';
                 this.showerrorpopup();
                 const cssevents = new CustomEvent("stopspinner", {});
-                this.dispatchEvent(cssevents);                
+                this.dispatchEvent(cssevents);
             })
 
     }
@@ -924,13 +924,13 @@ export default class DesignSectionComponent extends LightningElement {
     // Creation of Combobox for Design part
     optionsCreater(Props) {
         try {
-            let options = [];            
+            let options = [];
             for (let i = 0; i < Props.length; i++) {
 
                 options.push({
                     value: Props[i].Label,
                     label: Props[i].Label
-                });                
+                });
             }
             options.sort();
 
@@ -947,15 +947,15 @@ export default class DesignSectionComponent extends LightningElement {
         let value = event.target.value;
         let str = Name + value + ';';
         StoreHoverStyles({
-                Value: str,
-                id: this.recordid
-            })
+            Value: str,
+            id: this.recordid
+        })
             .then(result => {
                 const cssevent = new CustomEvent("hovercss", {
                     detail: result
                 });
                 this.dispatchEvent(cssevent);
-            }).catch(() => {                
+            }).catch(() => {
                 this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Field Hover(A).';
                 this.showerrorpopup();
@@ -967,15 +967,15 @@ export default class DesignSectionComponent extends LightningElement {
         let value = event.target.value;
         let str = Name + value + ';';
         StoreFocusStyles({
-                Value: str,
-                id: this.recordid
-            })
+            Value: str,
+            id: this.recordid
+        })
             .then(result => {
                 const cssevent = new CustomEvent("focuscss", {
                     detail: result
                 });
                 this.dispatchEvent(cssevent);
-            }).catch(() => {                
+            }).catch(() => {
                 this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Field Focus(A).';
                 this.showerrorpopup();
@@ -1001,15 +1001,15 @@ export default class DesignSectionComponent extends LightningElement {
                     }
                 } else {
 
-                if (value >= 100) {
-                    this.formWidth = 100;
-                    value = 100;
-                    event.target.value = 100;
-                }
+                    if (value >= 100) {
+                        this.formWidth = 100;
+                        value = 100;
+                        event.target.value = 100;
+                    }
                     if (value < 0) {
                         this.formWidth = 0;
-                    value = 0;
-                    event.target.value = 0;
+                        value = 0;
+                        event.target.value = 0;
                     }
                 }
                 if (Name == 'width:') {
@@ -1023,15 +1023,15 @@ export default class DesignSectionComponent extends LightningElement {
 
         let str = Name + value + ';';
         StoreFormStyles({
-                Value: str,
-                id: this.recordid
-            })
+            Value: str,
+            id: this.recordid
+        })
             .then(result => {
                 const cssevent = new CustomEvent("getformcss", {
                     detail: result
                 });
                 this.dispatchEvent(cssevent);
-            }).catch(() => {                
+            }).catch(() => {
                 this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Store Form Style(A).';
                 this.showerrorpopup();
@@ -1061,9 +1061,9 @@ export default class DesignSectionComponent extends LightningElement {
         }
         let str = Name + value + ';';
         StorePageStyles({
-                Value: str,
-                id: this.recordid
-            })
+            Value: str,
+            id: this.recordid
+        })
             .then(result => {
                 const cssevent = new CustomEvent("getpagecss", {
                     detail: result
@@ -1071,7 +1071,7 @@ export default class DesignSectionComponent extends LightningElement {
                 this.dispatchEvent(cssevent);
 
             }).catch(() => {
-                this.spinnerdatatable = false;                
+                this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Store Page Style(A).';
                 this.showerrorpopup();
             })
@@ -1090,16 +1090,16 @@ export default class DesignSectionComponent extends LightningElement {
 
         let str = Name + value + ';';
         StoreLabelStyles({
-                Value: str,
-                id: this.recordid
-            })
-            .then(result => {                
+            Value: str,
+            id: this.recordid
+        })
+            .then(result => {
                 const cssevent = new CustomEvent("getlabelcss", {
                     detail: result
                 });
                 this.dispatchEvent(cssevent);
 
-            }).catch(() => {                
+            }).catch(() => {
                 this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Store Label Style(A).';
                 this.showerrorpopup();
@@ -1124,37 +1124,37 @@ export default class DesignSectionComponent extends LightningElement {
         if (Name == 'font-size:' || Name == 'border-width:' || Name == 'border-radius:' || Name == 'padding2' || Name == 'padding1' || Name == 'border-style:' || Name == 'font-family:' || Name == 'font-weight:' || Name == 'font-style:') {
 
             StoreHoverStyles({
-                    Value: str,
-                    id: this.recordid
-                })
+                Value: str,
+                id: this.recordid
+            })
                 .then(() => {
-                }).catch(() => {                    
+                }).catch(() => {
                     this.spinnerdatatable = false;
                     this.message = 'Something went wrong in Store Hover Style(A).';
                     this.showerrorpopup();
                 })
 
             StoreFocusStyles({
-                    Value: str,
-                    id: this.recordid
-                })
+                Value: str,
+                id: this.recordid
+            })
                 .then(() => {
-                }).catch(() => {                    
+                }).catch(() => {
                     this.spinnerdatatable = false;
                     this.message = 'Something went wrong in Store Focus Style(A).';
                     this.showerrorpopup();
                 })
         }
         StoreStyles({
-                Value: str,
-                id: this.recordid
-            })
+            Value: str,
+            id: this.recordid
+        })
             .then(result => {
                 const cssevent = new CustomEvent("getnewcss", {
                     detail: result
                 });
                 this.dispatchEvent(cssevent);
-            }).catch(() => {                
+            }).catch(() => {
                 this.spinnerdatatable = false;
                 this.message = 'Something went wrong in Store Style(A).';
                 this.showerrorpopup();
@@ -1175,15 +1175,15 @@ export default class DesignSectionComponent extends LightningElement {
             }
             str = Name + value + ';';
             StoreBtnposition({
-                    Value: str,
-                    id: this.recordid
-                })
+                Value: str,
+                id: this.recordid
+            })
                 .then(result => {
                     const cssevent = new CustomEvent("btnposition", {
                         detail: result
                     });
                     this.dispatchEvent(cssevent);
-                }).catch(() => {                    
+                }).catch(() => {
                     this.spinnerdatatable = false;
                     this.message = 'Something went wrong in StoreButton Position(A).';
                     this.showerrorpopup();
@@ -1198,9 +1198,9 @@ export default class DesignSectionComponent extends LightningElement {
             }
             str = Name + value + ';';
             StoreBtnStyles({
-                    Value: str,
-                    id: this.recordid
-                })
+                Value: str,
+                id: this.recordid
+            })
                 .then(result => {
                     const cssevent = new CustomEvent("getbuttoncss", {
                         detail: result
@@ -1213,9 +1213,9 @@ export default class DesignSectionComponent extends LightningElement {
                 })
         }
     }
- 
+
     showerrorpopup() {
-        this.template.querySelector('c-errorpopup').errormessagee('DesignSection Component Error',this.message);
+        this.template.querySelector('c-errorpopup').errormessagee('DesignSection Component Error', this.message);
     }
 
 

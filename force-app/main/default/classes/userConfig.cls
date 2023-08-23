@@ -7,11 +7,7 @@
 **/
 public with sharing class userConfig {
 
-    // Public Id selectedSite;
 
-    public userConfig() {
-
-    }
 
 
     @AuraEnabled
@@ -21,9 +17,7 @@ public with sharing class userConfig {
 
     @AuraEnabled
     public static void saveSecureUrl(Id selectedSiteid) {
-        System.debug('siteID : '+selectedSiteid);
         SiteDetail siteDetail = [SELECT Id, SecureUrl FROM SiteDetail WHERE DurableId = :selectedSiteid];
-        System.debug('SecureUrl : '+siteDetail);
         Site_Details__c customSetting = Site_Details__c.getInstance();
         customSetting.SiteUrl__c = siteDetail.SecureUrl;
         upsert customSetting;
@@ -42,13 +36,4 @@ public with sharing class userConfig {
         return sitePrefixes;
     }
 
-
-    // @AuraEnabled
-    // public static void saveSecureUrl(String siteId, String secureUrl) {
-    //     Site_Details__c setting = new Site_Details__c();
-    //     // setting.SiteName__c = siteId;
-    //     setting.SiteUrl__c = secureUrl;
-    //     upsert setting SiteUrl__c;
-    //     // upsert setting SiteName__c;
-    // }
 }

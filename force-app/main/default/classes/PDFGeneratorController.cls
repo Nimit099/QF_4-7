@@ -180,7 +180,6 @@ public with sharing class PDFGeneratorController{
                     for (Form_Fields__c ff : formFildsList){
                         if (ff.Id == key && ff.Name.Contains('QFSIGNATURE')){
                             mapofSignatureData.put(key, mapofOtherObjectData.get(key));
-                            System.debug('NIMIT Debug : ' + key+ ',' + mapofOtherObjectData.get(key));
                             isSignature = true;
                         } else if (ff.Id == key && ff.Name.Contains('QFFILEUPLOAD')){
                             mapofFileUploadData.put(key, mapofOtherObjectData.get(key));

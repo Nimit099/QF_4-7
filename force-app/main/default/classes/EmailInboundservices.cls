@@ -563,7 +563,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     } else if (bolValue != null) {
                         newSObject2.put(key, bolValue);
                     } else if (blobvalue != null) {
-                        newSObject.put(key, blobvalue);
+                        newSObject2.put(key, blobvalue);
                     } else{
                         newSObject2.put(key, value);
                     }
@@ -631,7 +631,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                     } else if(timValue != null){
                         newSObject3.put(key, timValue);
                     } else if (blobvalue != null) {
-                        newSObject.put(key, blobvalue);
+                        newSObject3.put(key, blobvalue);
                     } else{
                         newSObject3.put(key, value);
                     }
@@ -721,7 +721,6 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
     public static void erroremail(Id errorId) {
 
         Form__c form = [SELECT Id,Name FROM Form__c WHERE Id =: formId WITH SECURITY_ENFORCED ];
-        // User u = [SELECT Name FROM User WHERE Profile.Name =: 'System Administrator' WITH SECURITY_ENFORCED LIMIT 1];
         String errormessage = '<p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Dear '+UserInfo.getName()+',</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">We regret to inform you that there has been an issue with the submission of the ' +form.Name+'. The details of the failed submission are as follows:</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Submission ID: '+insertRecordList[0]+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Name: '+form.Name+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Error ID: '+errorId+'</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(21, 21, 21); font-family: verdana;">Please contact admin if you have any questions or need further assistance.</span></p>';
         List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED LIMIT 1];
         Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        

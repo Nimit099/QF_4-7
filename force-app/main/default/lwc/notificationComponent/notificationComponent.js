@@ -414,7 +414,6 @@ export default class NotificationComponent extends LightningElement {
                             acc: listObj
                         })
                         .then( data=> {
-                            console.log(data);
                             this.toast_error_msg = 'The Notification data has been Saved successfully';
                             this.template.querySelector('c-toast-component').showToast('success', this.toast_error_msg, 3000);
                             this.Cancel();
@@ -450,7 +449,7 @@ export default class NotificationComponent extends LightningElement {
                         })
                         .catch(error => {
                             this.spinnerDataTable = false;
-                            console.log({
+                            console.error({
                                 error
                             });
                             this.error_message = 'Something Went Wrong In Notification Page';

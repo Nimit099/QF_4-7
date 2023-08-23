@@ -305,7 +305,7 @@ export default class Quickformfieldcomponent extends LightningElement {
                         this.initialize();
                     })
                     .catch(error => {
-                        console.log(error, ' NIMIT');
+                        console.error(error.message);
                     });
 
         this.s_address();
@@ -417,7 +417,6 @@ export default class Quickformfieldcomponent extends LightningElement {
         else if (nameArr[0] == 'chk_box') {
             var CheckBox = this.template.querySelector(`[data-name="${this.fieldmapping}"]`);
             this.bol_ver = nameArr[1];
-            console.log(this.bol_ver + '  this.bol_ver');
             if (nameArr[1] == 'true') {
                 CheckBox.checked = true;
             } else {
@@ -1316,15 +1315,6 @@ export default class Quickformfieldcomponent extends LightningElement {
         ctx.closePath();
     }
 
-    // draw_signature(event) {
-    //     let field_id = event.target.dataset.name;
-    //     canvasElement = this.template.querySelector(`[data-name="${field_id}"]`);
-    //     ctx = canvasElement.getContext("2d");
-    //     this.template.addEventListener('mousemove', this.handleMouseMove.bind(this));
-    //     this.template.addEventListener('mousedown', this.handleMouseDown.bind(this));
-    //     this.template.addEventListener('mouseup', this.handleMouseUp.bind(this));
-    //     this.template.addEventListener('mouseout', this.handleMouseOut.bind(this));
-    // }
 
     get_signature(event) {
         if (this.submit == true) {
@@ -1335,7 +1325,6 @@ export default class Quickformfieldcomponent extends LightningElement {
             ctx.fillStyle = "#FFF"; //white
             ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
             this.dataURL = canvasElement.toDataURL("image/png"); //convert to png image as dataURL
-            console.log(this.dataURL, "Mitraj Singh");
             this.convertedDataURI = this.dataURL.replace(/^data:image\/(png|jpg);base64,/, ""); //convert that as base64 encoding
             let key = event.target.dataset.name;
             var sig_fildeArr = key.split('<!@!>');
@@ -1675,9 +1664,6 @@ export default class Quickformfieldcomponent extends LightningElement {
                 vale = event.target.value;
             }
             let key = event.target.dataset.name;
-            // let vale = event.target.value;
-            console.log( 'key : ' + key);
-            console.log('value : '+ vale );
             let fild_teye = event.target.type;
             if (fild_teye == 'select-one') {
                 if (vale == '--Select--') {
@@ -2371,7 +2357,7 @@ export default class Quickformfieldcomponent extends LightningElement {
             this.signaturePad = new window.SignaturePad(canvas);
 
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 }

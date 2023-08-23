@@ -46,8 +46,6 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     
     global_options =[];
     
-    // captchatype;
-
     section_One_img = section_One;
     section_Two_img = section_Two;
     section_Three_img = section_Three;
@@ -162,10 +160,6 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
         }
 
     }
-
-
-
-
 
     openModal() {
         this.isModalOpen = true;

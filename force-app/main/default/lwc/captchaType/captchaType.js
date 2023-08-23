@@ -36,28 +36,28 @@ export default class CaptchaType extends LightningElement {
     @track message;
     varifyvar = false;
 
-    connectedCallback() {        
-        this.generate_new_math_captcha();        
+    connectedCallback() {
+        this.generate_new_math_captcha();
         this.generate_new_slider_captcha();
         this.getrendomcolore();
         this.createNewNormalCaptcha();
         if (this.captypetypes != undefined) {
             this.preview_chptchatype(this.captypetypes);
-        }        
+        }
     }
 
-    renderedCallback() {        
+    renderedCallback() {
         if (this.Normal_Captcha && this.isFirstLoadedNormalCaptcha) {
             this.isFirstLoadedNormalCaptcha = false;
             this.createNewNormalCaptcha();
         }
         if (this.Normal_Captcha && this.varifyvar == false) {
             this.createNewNormalCaptcha();
-        }        
+        }
     }
 
     createNewNormalCaptcha() {
-        try {            
+        try {
             //to generate random 6 characters for captcha
             var charsArray = "0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
             var lengthOtp = 6;
@@ -111,8 +111,8 @@ export default class CaptchaType extends LightningElement {
             this.varifyvar = true;
             // this.get_normal_captcha_value = event.target.value;
             this.get_normal_captcha_value = this.template.querySelector('input[data-id=normal_captch_usr_input]').value;
-                        
-            if (this.get_normal_captcha_value == this.normal_captcha) {                
+
+            if (this.get_normal_captcha_value == this.normal_captcha) {
                 this.msg_verified_captcha = true;
                 this.msg_invalid_captcha = false;
                 this.set_normal_captcha_value = this.get_normal_captcha_value;
@@ -122,7 +122,7 @@ export default class CaptchaType extends LightningElement {
                 });
                 // Dispatches the event.
                 this.dispatchEvent(selectedEvent);
-            } else {                                
+            } else {
                 this.createNewNormalCaptcha();
                 this.msg_invalid_captcha = true;
                 this.msg_verified_captcha = false;
@@ -189,8 +189,8 @@ export default class CaptchaType extends LightningElement {
     verify_math_captcha() {
         try {
             this.get_math_captcha_value = this.template.querySelector('input[data-id=math_captch_usr_input]').value;
-                        
-            if (this.get_math_captcha_value == this.sum_mat_captcha) {                
+
+            if (this.get_math_captcha_value == this.sum_mat_captcha) {
                 this.msg_verified_captcha = true;
                 this.msg_invalid_captcha = false;
                 this.set_math_captcha_value = this.get_math_captcha_value;
@@ -200,7 +200,7 @@ export default class CaptchaType extends LightningElement {
                 // Dispatches the event.
                 this.dispatchEvent(selectedEvent);
             } else {
-                this.generate_new_math_captcha();                
+                this.generate_new_math_captcha();
                 this.msg_invalid_captcha = true;
                 this.msg_verified_captcha = false;
                 this.set_math_captcha_value = null;
@@ -227,9 +227,9 @@ export default class CaptchaType extends LightningElement {
         this.value = event.target.value;
 
     }
-    handleValueChange() {        
+    handleValueChange() {
 
-        if (this.value == this.slider_captcha_1) {            
+        if (this.value == this.slider_captcha_1) {
             this.msg_verified_captcha = true;
             this.msg_invalid_captcha = false;
             const selectedEvent = new CustomEvent("captchaverification", {
@@ -237,7 +237,7 @@ export default class CaptchaType extends LightningElement {
             });
             // Dispatches the event.
             this.dispatchEvent(selectedEvent);
-        } else {            
+        } else {
             this.msg_invalid_captcha = true;
             this.msg_verified_captcha = false;
             const selectedEvent = new CustomEvent("captchaverification", {
@@ -256,12 +256,12 @@ export default class CaptchaType extends LightningElement {
     @api getrendomcolore() {
         try {
             this.pickListValueList = [];
-            for (var i = 1; i <= 8; i++) {                
+            for (var i = 1; i <= 8; i++) {
                 const letter = "0123456789ABCDEF";
                 this.color = "#";
                 for (let j = 0; j < 6; j++) {
                     this.color += letter[Math.floor(Math.random() * 16)];
-                }                
+                }
                 this.BackgroundColor = 'background-color:' + this.color;
 
                 this.pickListValueList.push(this.BackgroundColor);
@@ -283,7 +283,7 @@ export default class CaptchaType extends LightningElement {
     verfication_color_captcha(event) {
         try {
             this.test = event.target.dataset.name;
-            if (this.test == this.rendomcolor) {                
+            if (this.test == this.rendomcolor) {
                 this.msg_verified_captcha = true;
                 this.msg_invalid_captcha = false;
                 const selectedEvent = new CustomEvent("captchaverification", {
@@ -291,7 +291,7 @@ export default class CaptchaType extends LightningElement {
                 });
                 // Dispatches the event.
                 this.dispatchEvent(selectedEvent);
-            } else {                
+            } else {
                 this.msg_invalid_captcha = true;
                 this.msg_verified_captcha = false;
                 this.getrendomcolore();
@@ -313,7 +313,7 @@ export default class CaptchaType extends LightningElement {
 
     @api preview_chptchatype(strString) {
         try {
-            this.getprogreshbar = strString;            
+            this.getprogreshbar = strString;
             if (this.getprogreshbar == 'Select') {
                 this.Captcha = false;
                 this.Slider_Captcha = false;

@@ -90,7 +90,6 @@ public class Test_qfthankyou {
         Thankyou_Page__c insertrecord1 = qfthankyou.insertrecord('thank you','show Text','','vcrvvrvrv',formData.ID,'',null);        
         System.assert(insertrecord1 != null, 'Successful');
 
-        // System.assert(thankyouData != null, 'Successful');
         Test.stopTest();
     }
 

@@ -681,7 +681,6 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         fsubobj: this.form_mapped_Objects[k]
                     })
                         .then(result => {
-                            console.log(result + 'result');
                             this.lookup_filde_json[k] = result;
                         })
                         .catch(e => {
@@ -690,7 +689,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                 }
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
     show_required_fields_error() {
@@ -1195,7 +1194,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                     })
                     .catch((error) => {
-                        console.log(error.message);
+                        console.error(error.message);
                         this.spinnerDataTable = false;
                         let toast_error_msg = 'Your Form Submission was unsuccessful. Please try again';
                         this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
@@ -1266,8 +1265,8 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                         this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
                     })
             }
+            this.redirecttothankyou();
         }
-        this.redirecttothankyou();
         this.regeneratecaptcha();
     }
 
