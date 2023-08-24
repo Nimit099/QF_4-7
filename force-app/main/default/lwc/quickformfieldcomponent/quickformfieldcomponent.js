@@ -364,8 +364,12 @@ export default class Quickformfieldcomponent extends LightningElement {
         //This condition is used to set the value of the picklist field.
         if (this.fildval == 'select-one') {
             let pic_val = nameArr[1];
+            setTimeout(() => {
             let p_list = this.template.querySelector(`[data-id="${pic_val}"]`);
-            p_list.selected = true;
+               console.log(p_list);
+               p_list.selected = true;
+            }, 450);
+            
         }
         //This condition is used to set the value of the multi picklist field.
         else if (nameArr[0] == 'm_pick') {

@@ -812,7 +812,7 @@
                                 onchange={OnFieldClick} disabled={isdisabled}>
                                 <option>--Select--</option>
                                 <template for:each={picklistvalue} for:item="value">
-                                    <option data-id={value.value} value={value.value} key={value}>{value.key}</option>
+                                    <option data-id={value.key} value={value.value} key={value}>{value.key}</option>
                                 </template>
                             </select>
                         </div>
