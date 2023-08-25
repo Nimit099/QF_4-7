@@ -260,8 +260,6 @@ export default class FieldsSectionComponent extends LightningElement {
             });
     }
 
-    renderedCallback() {
-    }
 
     get hasMainObj() {
         return this.accfields.length != 0;

@@ -243,6 +243,9 @@ public with sharing class FormBuilderController{
                                   FROM ContentDocument
                                   WHERE Id = :cv.ContentDocumentId
                                   WITH SECURITY_ENFORCED];
+            if (ContentDocument.sObjectType.getDescribe().isDeletable()){
+                delete cd;
+            }
             String str = nform.Form_Styling__c;
             List<String> arr = str.split(';background-image:');
             List<string> arr2 = arr[1].split(';');
@@ -1444,25 +1447,25 @@ public with sharing class FormBuilderController{
                                         if (fieldMap.get(fieldName).getDescribe().getLength() > 0){
                                             if (fieldMap.get(fieldName).getDescribe().getLabel().toUpperCase() == 'LAST NAME'){
                                                 field.Field_Validations__c = 'isRequired<!@!>true' + 
-                                         '?$`~isDisabled<!@!>false' + 
-                                         '?$`~isLabel<!@!>true' + 
-                                         '?$`~isHelpText<!@!>false' + 
-                                         '?$`~Label<!@!>' + 'Name' + 
-                                         '?$`~HelpText<!@!>' + 
-                                         '?$`~isPlaceholder<!@!>false' + 
-                                         '?$`~Placeholder<!@!>' + 
-                                         '?$`~Minimum<!@!>0' + 
-                                         '?$`~Maximum<!@!>' + fieldMap.get(fieldName).getDescribe().getLength() + 
-                                         '?$`~isPrefix<!@!>false' + 
-                                         '?$`~Prefix<!@!>' + 
-                                         '?$`~Decimal<!@!>' + 
-                                         '?$`~Richtext<!@!>' + 
-                                         '?$`~MinimumTime<!@!>' + 
-                                         '?$`~MaximumTime<!@!>' + 
-                                         '?$`~MinimumDateTime<!@!>' + 
-                                         '?$`~MaximumDateTime<!@!>' + 
-                                         '?$`~MinimumDate<!@!>' + 
-                                         '?$`~MaximumDate<!@!>';
+                                                '?$`~isDisabled<!@!>false' + 
+                                                '?$`~isLabel<!@!>true' + 
+                                                '?$`~isHelpText<!@!>false' + 
+                                                '?$`~Label<!@!>' + 'Name' + 
+                                                '?$`~HelpText<!@!>' + 
+                                                '?$`~isPlaceholder<!@!>false' + 
+                                                '?$`~Placeholder<!@!>' + 
+                                                '?$`~Minimum<!@!>0' + 
+                                                '?$`~Maximum<!@!>' + fieldMap.get(fieldName).getDescribe().getLength() + 
+                                                '?$`~isPrefix<!@!>false' + 
+                                                '?$`~Prefix<!@!>' + 
+                                                '?$`~Decimal<!@!>' + 
+                                                '?$`~Richtext<!@!>' + 
+                                                '?$`~MinimumTime<!@!>' + 
+                                                '?$`~MaximumTime<!@!>' + 
+                                                '?$`~MinimumDateTime<!@!>' + 
+                                                '?$`~MaximumDateTime<!@!>' + 
+                                                '?$`~MinimumDate<!@!>' + 
+                                                '?$`~MaximumDate<!@!>';
                                                 for (String fieldNames : fieldMap.keySet()){
                                                     if (fieldNames == 'salutation'){
                                                         Schema.DescribeFieldResult fieldDesc = (fieldMap.get(fieldNames).getDescribe());
@@ -1471,59 +1474,55 @@ public with sharing class FormBuilderController{
                                                         }
                                                     }
                                                 }
-
-
                                             } else{
                                                 field.Field_Validations__c = 'isRequired<!@!>true' + 
-                                                                                                                   '?$`~isDisabled<!@!>false' + 
-                                                                                                                   '?$`~isLabel<!@!>true' + 
-                                                                                                                   '?$`~isHelpText<!@!>false' + 
-                                                                                                                   '?$`~Label<!@!>' + fieldMap.get(fieldName).getDescribe().getLabel().toUpperCase() + 
-                                                                                                                   '?$`~HelpText<!@!>' + 
-                                                                                                                   '?$`~isPlaceholder<!@!>false' + 
-                                                                                                                   '?$`~Placeholder<!@!>' + 
-                                                                                                                   '?$`~Minimum<!@!>0' + 
-                                                                                                                   '?$`~Maximum<!@!>' + fieldMap.get(fieldName).getDescribe().getLength() + 
-                                                                                                                   '?$`~isPrefix<!@!>false' + 
-                                                                                                                   '?$`~Prefix<!@!>' + 
-                                                                                                                   '?$`~Decimal<!@!>' + 
-                                                                                                                   '?$`~Richtext<!@!>' + 
-                                                                                                                   '?$`~MinimumTime<!@!>' + 
-                                                                                                                   '?$`~MaximumTime<!@!>' + 
-                                                                                                                   '?$`~MinimumDateTime<!@!>' + 
-                                                                                                                   '?$`~MaximumDateTime<!@!>' + 
-                                                                                                                   '?$`~MinimumDate<!@!>' + 
-                                                                                                                   '?$`~MaximumDate<!@!>' + 
-                                                                                                                   '?$`~Salutation<!@!>';
+                                                '?$`~isDisabled<!@!>false' + 
+                                                '?$`~isLabel<!@!>true' + 
+                                                '?$`~isHelpText<!@!>false' + 
+                                                '?$`~Label<!@!>' + fieldMap.get(fieldName).getDescribe().getLabel().toUpperCase() + 
+                                                '?$`~HelpText<!@!>' + 
+                                                '?$`~isPlaceholder<!@!>false' + 
+                                                '?$`~Placeholder<!@!>' + 
+                                                '?$`~Minimum<!@!>0' + 
+                                                '?$`~Maximum<!@!>' + fieldMap.get(fieldName).getDescribe().getLength() + 
+                                                '?$`~isPrefix<!@!>false' + 
+                                                '?$`~Prefix<!@!>' + 
+                                                '?$`~Decimal<!@!>' + 
+                                                '?$`~Richtext<!@!>' + 
+                                                '?$`~MinimumTime<!@!>' + 
+                                                '?$`~MaximumTime<!@!>' + 
+                                                '?$`~MinimumDateTime<!@!>' + 
+                                                '?$`~MaximumDateTime<!@!>' + 
+                                                '?$`~MinimumDate<!@!>' + 
+                                                '?$`~MaximumDate<!@!>' + 
+                                                '?$`~Salutation<!@!>';
                                             }
                                         } else{
                                             field.Field_Validations__c = 'isRequired<!@!>true' + 
-                                                                                                                   '?$`~isDisabled<!@!>false' + 
-                                                                                                                   '?$`~isLabel<!@!>true' + 
-                                                                                                                   '?$`~isHelpText<!@!>false' + 
-                                                                                                                   '?$`~Label<!@!>' + fieldMap.get(fieldName).getDescribe().getLabel().toUpperCase() + 
-                                                                                                                   '?$`~HelpText<!@!>' + 
-                                                                                                                   '?$`~isPlaceholder<!@!>false' + 
-                                                                                                                   '?$`~Placeholder<!@!>' + 
-                                                                                                                   '?$`~Minimum<!@!>0' + 
-                                                                                                                   '?$`~Maximum<!@!>128' + 
-                                                                                                                   '?$`~isPrefix<!@!>false' + 
-                                                                                                                   '?$`~Prefix<!@!>' + 
-                                                                                                                   '?$`~Decimal<!@!>' + 
-                                                                                                                   '?$`~Richtext<!@!>' + 
-                                                                                                                   '?$`~MinimumTime<!@!>' + 
-                                                                                                                   '?$`~MaximumTime<!@!>' + 
-                                                                                                                   '?$`~MinimumDateTime<!@!>' + 
-                                                                                                                   '?$`~MaximumDateTime<!@!>' + 
-                                                                                                                   '?$`~MinimumDate<!@!>' + 
-                                                                                                                   '?$`~MaximumDate<!@!>' + 
-                                                                                                                   '?$`~Salutation<!@!>';
+                                            '?$`~isDisabled<!@!>false' + 
+                                            '?$`~isLabel<!@!>true' + 
+                                            '?$`~isHelpText<!@!>false' + 
+                                            '?$`~Label<!@!>' + fieldMap.get(fieldName).getDescribe().getLabel().toUpperCase() + 
+                                            '?$`~HelpText<!@!>' + 
+                                            '?$`~isPlaceholder<!@!>false' + 
+                                            '?$`~Placeholder<!@!>' + 
+                                            '?$`~Minimum<!@!>0' + 
+                                            '?$`~Maximum<!@!>128' + 
+                                            '?$`~isPrefix<!@!>false' + 
+                                            '?$`~Prefix<!@!>' + 
+                                            '?$`~Decimal<!@!>' + 
+                                            '?$`~Richtext<!@!>' + 
+                                            '?$`~MinimumTime<!@!>' + 
+                                            '?$`~MaximumTime<!@!>' + 
+                                            '?$`~MinimumDateTime<!@!>' + 
+                                            '?$`~MaximumDateTime<!@!>' + 
+                                            '?$`~MinimumDate<!@!>' + 
+                                            '?$`~MaximumDate<!@!>' + 
+                                            '?$`~Salutation<!@!>';
                                         }
                                     }
                                     fields.add(field);
                                 }
-
-
                             } else if (fieldName == 'AccountId'){
                                 if (type == 'Asset' || type == 'Order'){
                                     Position = Position + 1;
@@ -1559,9 +1558,7 @@ public with sharing class FormBuilderController{
                                                              '?$`~MaximumDate<!@!>' + 
                                                              '?$`~Salutation<!@!>';
                                     fields.add(field);
-
                                 }
-
                             } else if (fieldName == 'StartDateTime' || fieldName == 'EndDateTime'){
                                 if (type == 'Event'){
                                     String leb;
@@ -1603,9 +1600,7 @@ public with sharing class FormBuilderController{
                                                              '?$`~MaximumDate<!@!>' + 
                                                              '?$`~Salutation<!@!>';
                                     fields.add(field);
-
                                 }
-
                             }
                         }
                         iteration = iteration + 1;
@@ -2166,7 +2161,6 @@ public with sharing class FormBuilderController{
                     otherobjectdata.put(sigType, signatureid);
                 }
             }
-             
 
             Integer listLen = file_upload_fid_list.size();
             if (listLen > 0){
@@ -2204,7 +2198,6 @@ public with sharing class FormBuilderController{
             wrapper.file_upload_fid_list = file_upload_fid_list;
             wrapper.ObjectCount = 1;
             wrapper.SubId = subID;
-
         
             sendemailforformsubmission(wrapper);
 
@@ -2303,13 +2296,12 @@ public with sharing class FormBuilderController{
 
             sendemailforformsubmission(wrapper);
 
-                SubId ids = new SubId();
-                ids.SubmissionId = formsub.Id;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
-          
+            SubId ids = new SubId();
+            ids.SubmissionId = formsub.Id;
+            ids.SignatureId = signatureid;
+            ids.Sig_upload_map = sigUploadMap;
+            ids.File_upload_map = file_upload_map;
+            return ids;
             
         } catch (Exception e){
             System.debug('errror' +String.valueOf(e) + e.getLineNumber());
@@ -2406,12 +2398,12 @@ public with sharing class FormBuilderController{
 
             sendemailforformsubmission(wrapper);
 
-                SubId ids = new SubId();
-                ids.SubmissionId = formsub.Id;
-                ids.SignatureId = signatureid;
-                ids.Sig_upload_map = sigUploadMap;
-                ids.File_upload_map = file_upload_map;
-                return ids;
+            SubId ids = new SubId();
+            ids.SubmissionId = formsub.Id;
+            ids.SignatureId = signatureid;
+            ids.Sig_upload_map = sigUploadMap;
+            ids.File_upload_map = file_upload_map;
+            return ids;
 
         } catch (Exception e){
             System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
@@ -2430,16 +2422,16 @@ public with sharing class FormBuilderController{
         EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' LIMIT 1 ]; 
         List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1  ];
          
-         Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-         List<String> toAddresses = new List<String>();
-         toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-         if ( owea.size() > 0 ) {
-             emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
-         }
-         emailNotification.setToAddresses(toAddresses);
-         emailNotification.setSubject('Three Object Form');
-         emailNotification.setPlainTextBody(JSON.serialize(wrapper));
-         Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+        List<String> toAddresses = new List<String>();
+        toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
+        if ( owea.size() > 0 ) {
+            emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+        }
+        emailNotification.setToAddresses(toAddresses);
+        emailNotification.setSubject('Three Object Form');
+        emailNotification.setPlainTextBody(JSON.serialize(wrapper));
+        Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
     }
 
     /**

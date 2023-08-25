@@ -13,46 +13,46 @@ public with sharing class fieldvalidation {
        try {
             Form_Fields__c fieldvalidation = new Form_Fields__c();
             fieldvalidation = [SELECT Id,Name,Field_Validations__c,Field_Mapping__c FROM Form_Fields__c WHERE Id =: fieldId WITH SECURITY_ENFORCED];
-           String obj = fieldvalidation.Field_Mapping__c.split('<!@!>')[1];
-           String field = fieldvalidation.Field_Mapping__c.split('<!@!>')[0];
-           fieldvalidationwrapper wrapp = new fieldvalidationwrapper();
-           if(!fieldvalidation.Name.split(',')[0].Contains('QF')) {
-               Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
-               Schema.SObjectType leadSchema = schemaMap.get(obj) ;
-               Map<String, Schema.SObjectField> fieldMap = leadSchema.getDescribe().fields.getMap();
-               if(fieldvalidation.Name.split(',')[1] == 'CURRENCY' || fieldvalidation.Name.split(',')[1] == 'DOUBLE' || fieldvalidation.Name.split(',')[1] == 'PERCENT') {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = fieldMap.get(field).getDescribe().getPrecision();
-               } else if (fieldvalidation.Name.split(',')[1] == 'ENCRYPTEDSTRING' || fieldvalidation.Name.split(',')[1] == 'STRING' ) {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = fieldMap.get(field).getDescribe().getLength();
-               } else if(fieldvalidation.Name.split(',')[1] == 'TEXTAREA') {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = fieldMap.get(field).getDescribe().getLength();
-                   wrapp.filterable = fieldMap.get(field).getDescribe().isFilterable();
-               } else {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldmapping = fieldvalidation.Field_Mapping__c;
-                   wrapp.fieldlength = 255;
-               }
-           } else {
-               if(fieldvalidation.Name.split(',')[0] == 'QFNAME') {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = 50;
-               } else if(fieldvalidation.Name.split(',')[0] == 'QFSHORTTEXT') {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = 255;
-               } else if( fieldvalidation.Name.split(',')[0] == 'QFLONGTEXT') {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = 131072;
-               } else if( fieldvalidation.Name.split(',')[0] == 'QFNUMBER' || fieldvalidation.Name.split(',')[0] == 'QFPRICE') {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = 18;
-               } else {
-                   wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
-                   wrapp.fieldlength = 255;
-               }
-           }
+            String obj = fieldvalidation.Field_Mapping__c.split('<!@!>')[1];
+            String field = fieldvalidation.Field_Mapping__c.split('<!@!>')[0];
+            fieldvalidationwrapper wrapp = new fieldvalidationwrapper();
+            if(!fieldvalidation.Name.split(',')[0].Contains('QF')) {
+                Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+                Schema.SObjectType leadSchema = schemaMap.get(obj) ;
+                Map<String, Schema.SObjectField> fieldMap = leadSchema.getDescribe().fields.getMap();
+                if(fieldvalidation.Name.split(',')[1] == 'CURRENCY' || fieldvalidation.Name.split(',')[1] == 'DOUBLE' || fieldvalidation.Name.split(',')[1] == 'PERCENT') {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = fieldMap.get(field).getDescribe().getPrecision();
+                } else if (fieldvalidation.Name.split(',')[1] == 'ENCRYPTEDSTRING' || fieldvalidation.Name.split(',')[1] == 'STRING' ) {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = fieldMap.get(field).getDescribe().getLength();
+                } else if(fieldvalidation.Name.split(',')[1] == 'TEXTAREA') {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = fieldMap.get(field).getDescribe().getLength();
+                    wrapp.filterable = fieldMap.get(field).getDescribe().isFilterable();
+                } else {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldmapping = fieldvalidation.Field_Mapping__c;
+                    wrapp.fieldlength = 255;
+                }
+            } else {
+                if(fieldvalidation.Name.split(',')[0] == 'QFNAME') {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = 50;
+                } else if(fieldvalidation.Name.split(',')[0] == 'QFSHORTTEXT') {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = 255;
+                } else if( fieldvalidation.Name.split(',')[0] == 'QFLONGTEXT') {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = 131072;
+                } else if( fieldvalidation.Name.split(',')[0] == 'QFNUMBER' || fieldvalidation.Name.split(',')[0] == 'QFPRICE') {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = 18;
+                } else {
+                    wrapp.fieldvalidations = fieldvalidation.Field_Validations__c;
+                    wrapp.fieldlength = 255;
+                }
+            }
            return wrapp;
        } catch (Exception e) {
            fieldvalidationwrapper wrapp = new fieldvalidationwrapper();
@@ -68,10 +68,10 @@ public with sharing class fieldvalidation {
    @AuraEnabled
    public static void deletefield(Id fieldId) {
        try {
-           Form_Fields__c formFieldToDelete = [SELECT Id FROM Form_Fields__c WHERE Id =: fieldId WITH SECURITY_ENFORCED];
-           if (Schema.sObjectType.Form_Fields__c.isDeletable()) {
-               delete formFieldToDelete;
-           }
+            Form_Fields__c formFieldToDelete = [SELECT Id FROM Form_Fields__c WHERE Id =: fieldId WITH SECURITY_ENFORCED];
+            if (Schema.sObjectType.Form_Fields__c.isDeletable()) {
+                delete formFieldToDelete;
+            }
        } catch (Exception e) {
            error_handler.insert_errordata(e,'fieldvalidation','deletefield');
        }
@@ -86,14 +86,14 @@ public with sharing class fieldvalidation {
    @AuraEnabled
    public static void savevalidation(Id fieldId, String fieldValidation,String Label) {
        try {
-           fieldValidation = fieldValidation;
-           if (Schema.sObjectType.Form_Fields__c.fields.Field_Validations__c.isAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Validations__c.isUpdateable()
-               && Schema.sObjectType.Form_Fields__c.fields.Field_Label__c.isAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Label__c.isUpdateable()) {
-               Form_Fields__c field = [SELECT Id,Field_Validations__c	FROM Form_Fields__c WHERE Id =: fieldId];
-               field.Field_Validations__c = fieldValidation;
-               field.Field_Label__c = Label;
-               update field;
-           }
+            fieldValidation = fieldValidation;
+            if (Schema.sObjectType.Form_Fields__c.fields.Field_Validations__c.isAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Validations__c.isUpdateable()
+                && Schema.sObjectType.Form_Fields__c.fields.Field_Label__c.isAccessible() && Schema.sObjectType.Form_Fields__c.fields.Field_Label__c.isUpdateable()) {
+                Form_Fields__c field = [SELECT Id,Field_Validations__c	FROM Form_Fields__c WHERE Id =: fieldId];
+                field.Field_Validations__c = fieldValidation;
+                field.Field_Label__c = Label;
+                update field;
+            }
        } catch (Exception e) {
            error_handler.insert_errordata(e,'fieldvalidation','savevalidation');
        }

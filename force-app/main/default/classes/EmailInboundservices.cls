@@ -15,7 +15,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
      * @return Messaging.InboundEmailResult
      */
     global Messaging.InboundEmailResult handleInboundEmail(Messaging.InboundEmail email, Messaging.InboundEnvelope envelope) {
-          try{
+        try{
             Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
         
             String passeddata = email.plainTextBody;
@@ -106,12 +106,12 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
                                     }
                                     Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
                                 }
-                                }
                             }
                         }
-                return result;
-           }  
-           return null;
+                    }
+                    return result;
+                }  
+            return null;
         } catch(Exception e){
             System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
             return null;

@@ -42,7 +42,7 @@ export default class NotificationComponent extends LightningElement {
     @track toast_error_msg;
     @api form_id;
     @track Notification_id;
-    @track list_length;
+    @track list_length = 0;
     @track to;
     @track cc;
     @track bcc;
@@ -472,6 +472,8 @@ export default class NotificationComponent extends LightningElement {
                 formid: this.form_id
             })
             .then(result => {
+                console.log(result);
+                console.log(JSON.stringify(result));
                  this.selectedValuesMap.clear();
                 this.selectedValues_2Map.clear();
                 this.selectedValues_3Map.clear();
@@ -479,6 +481,7 @@ export default class NotificationComponent extends LightningElement {
                 this.selectedValues_2 = '';
                 this.selectedValues_3 = '';
                 this.list_length = result.length;
+                console.log(JSON.stringify(this.list_length));
                 this.to = result[0].To_Recipients__c;
                 this.to_email(this.to);
                 this.cc = result[0].CC_Recipients__c;
@@ -497,6 +500,7 @@ export default class NotificationComponent extends LightningElement {
                 this.showerrorpopup();
             });
         if (this.list_length < 1) {
+            console.log('oy');
             this.toAddress = '';
             this.ccAddress = '';
             this.Subject = '';

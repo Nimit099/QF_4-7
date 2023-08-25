@@ -106,8 +106,7 @@ public with sharing class objectSelection{
                     }
                 }
                 return sObjectMap;
-    
-    
+
             } catch (Exception e){
                 error_handler.insert_errordata(e, 'objectSelection', 'fetchChildObject1');
                 return null;
@@ -179,7 +178,6 @@ public with sharing class objectSelection{
      * @param FormDesc           The description of the form.
      * @param ProgressIndicator  The progress indicator for the form.
      * @param CaptchaType        The type of captcha for the form.
-     *
      * @return                   The ID of the saved form.
      */   
         @AuraEnabled
@@ -223,8 +221,6 @@ public with sharing class objectSelection{
                    ){
                     Database.insert (form);
                   }
-                // Form__c form = new Form__c(Name = FormTitle, Mapped_Objects__c = Mapped_Objects, Captcha_Type__c = CaptchaType, Form_Description__c = FormDesc, Progress_Indicator__c = ProgressIndicator, Form_Styling__c = styles, All_Field_Styling__c = fieldStyle, Page_CSS__c = pageStyle, Label_CSS__c = labelStyle, All_Field_Focus__c = focusStyle, All_Field_Hover__c = hoverStyle, Button_CSS__c = buttonStyle, Button_Position__c = 'justify-content:Center;');
-                // Database.insert (form);
                 List<String> lst = Mapped_Objects.split(',');
                 List<Form_Page__c> formPages = new List<Form_Page__c>();
                 Integer pageNum = 1;
@@ -238,7 +234,6 @@ public with sharing class objectSelection{
                     Database.insert(formPages);
                 }
                 
-    
                 Thankyou_Page__c thankyoupage = new Thankyou_Page__c(Name = form.Name, Form__c = form.Id, Thankyou_Page_Type__c = 'None', ThankYou_Label__c = '<p style="text-align: center;"><strong style="font-size: 28px;">Thank You</strong><span style="font-size: 28px;">﻿</span></p>');
                 if (Schema.sObjectType.Thankyou_Page__c.fields.Name.isAccessible() &&
                     Schema.sObjectType.Thankyou_Page__c.fields.Form__c.isAccessible() &&

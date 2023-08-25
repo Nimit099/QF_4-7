@@ -19,7 +19,7 @@ import QuickBot_Cross from '@salesforce/resourceUrl/QuickBot_Cross';
 import groupRadio from '@salesforce/resourceUrl/groupRadio'
 import helptextcss from '@salesforce/resourceUrl/helptextcss'
 import {
-    loadStyle,loadScript
+    loadStyle, loadScript
 } from 'lightning/platformResourceLoader';
 import signaturePadURL from '@salesforce/resourceUrl/signature_pad';
 
@@ -200,15 +200,29 @@ export default class Quickformfieldcomponent extends LightningElement {
         this.focuscssproperty1 = this.focuscssproperty;
         this.fieldstype = this.tView1.split(',')[1];
         this.tView1 = this.tView1.split(',')[0];
-        if (this.fieldstype == 'PICKLIST' || this.fieldstype == 'COMBOBOX') {
+        if (this.fieldstype == 'PICKLIST' || this.fieldstype == 'COMBOBOX' || this.fieldstype == 'MULTIPICKLIST') {
             this.picklistvalues();
-        } else if (this.fieldstype == 'MULTIPICKLIST') {
-            this.picklistvalues();
-        }
+        } 
         this.getScaleRatingValue();
         this.onfocus = false;
         loadStyle(this, groupRadio);
         loadStyle(this, helptextcss);
+
+         // Added By NIMIT
+        if (this.sigPadInitialized) {
+            return;
+        }
+        this.sigPadInitialized = true;
+
+        Promise.all([
+            loadScript(this, signaturePadURL)
+        ])
+            .then(() => {
+                this.initialize();
+            })
+            .catch(error => {
+                console.error(error.message);
+            });
 
     }
 
@@ -292,21 +306,7 @@ export default class Quickformfieldcomponent extends LightningElement {
             this.dispatchEvent(event1);
         }
 
-                // Added By NIMIT
-                if (this.sigPadInitialized) {
-                    return;
-                }
-                this.sigPadInitialized = true;
-        
-                Promise.all([
-                    loadScript(this, signaturePadURL)
-                ])
-                    .then(() => {
-                        this.initialize();
-                    })
-                    .catch(error => {
-                        console.error(error.message);
-                    });
+
 
         this.s_address();
         this.apply_val();
@@ -364,12 +364,8 @@ export default class Quickformfieldcomponent extends LightningElement {
         //This condition is used to set the value of the picklist field.
         if (this.fildval == 'select-one') {
             let pic_val = nameArr[1];
-            setTimeout(() => {
             let p_list = this.template.querySelector(`[data-id="${pic_val}"]`);
-               console.log(p_list);
-               p_list.selected = true;
-            }, 450);
-            
+            p_list.selected = true;
         }
         //This condition is used to set the value of the multi picklist field.
         else if (nameArr[0] == 'm_pick') {
@@ -576,7 +572,8 @@ export default class Quickformfieldcomponent extends LightningElement {
                         } else if (this.fildval == 'chkbox') {
                             for (let k = 2; k < nameArr.length; k++) {
                                 var chk_val = nameArr[k];
-                                var CheckBox = this.template.querySelector(`[data-id="${chk_val}"]`)
+                                this.chexk_val_list.push(chk_val);
+                                var CheckBox = this.template.querySelector(`[data-id="${chk_val}"]`);
                                 CheckBox.checked = true;
                             }
                         } else if (this.fildval == 'select-one') {
@@ -1166,7 +1163,7 @@ export default class Quickformfieldcomponent extends LightningElement {
 
                         }
                     }
-
+                    this.apply_val();
 
                 }).catch(() => {
                     this.messagetrack = 'Something went wrong in Get Picklist Value(A)';
@@ -1402,6 +1399,9 @@ export default class Quickformfieldcomponent extends LightningElement {
                         toast_error_msg: 'File size limit exceeded. Choose a smaller file.',
                         msg_type: 'error'
                     };
+                    console.log('hii');
+                    this.fileuploadrk = false;
+                    this.fileuploadrkAtt = false;
                     const showpop = new CustomEvent("openpop", {
                         detail: pera_file_upload
                     });
@@ -1663,7 +1663,7 @@ export default class Quickformfieldcomponent extends LightningElement {
         if (this.submit == true) {
             let vale = ''
             if (event.target.dataset.check == 'checkbox') {
-                 vale = event.target.checked;
+                vale = event.target.checked;
             } else {
                 vale = event.target.value;
             }
@@ -2160,16 +2160,17 @@ export default class Quickformfieldcomponent extends LightningElement {
     check_box(event) {
         if (this.submit == true) {
             let radio_val = event.target.value;
-            let add_var = 'yes';
-            for (let i = 0; i < this.chexk_val_list.length; i++) {
-                if (this.chexk_val_list[i] == radio_val) {
-                    add_var = 'No';
-                    this.chexk_val_list.splice(i, 1);
+
+              if (event.target.checked) {
+                    this.chexk_val_list.push(radio_val);
+                } else {
+                    this.chexk_val_list.forEach((element, index) => {
+                        if (radio_val == element) {
+                            this.chexk_val_list.splice(index, 1);
+                        }
+                    });                    
                 }
-            }
-            if (add_var == 'yes') {
-                this.chexk_val_list.push(radio_val);
-            }
+
             let full_cheh_val;
             let new_full_cheh_val;
             for (let i = 0; i < this.chexk_val_list.length; i++) {
@@ -2215,8 +2216,8 @@ export default class Quickformfieldcomponent extends LightningElement {
             this.usrViewBool = false;
             let key = event.target.dataset.id;
             let splitparetan = '<!@!>';
-            let fulldata = key + splitparetan + null;
-            let new_fulldata = key + splitparetan + null;
+            let fulldata = key + splitparetan + '';
+            let new_fulldata = key + splitparetan + '';
             const csseventaddval = new CustomEvent("addinputvaljosn", {
                 detail: new_fulldata
             });

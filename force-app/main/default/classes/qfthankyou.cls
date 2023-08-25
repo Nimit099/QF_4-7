@@ -91,8 +91,8 @@ public with sharing class qfthankyou {
     }   
 
     /** @description Used to Update or insert thank you page
-        @param label String Value.
-        @param currentthankyouid Id Value.
+    @param label String Value.
+    @param currentthankyouid Id Value.
     */
     @AuraEnabled
     public static void changelabel(String label, Id currentthankyouid){

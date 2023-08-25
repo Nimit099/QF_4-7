@@ -33,7 +33,7 @@ public without sharing class previewFormcmp{
                 if (baseUrl != customsetting.SecureUrl__c){
                     nform.Status__c = false;
                 }
-            } else if (webUrl == null || webUrl == ''){
+            } else if (String.isBlank(webUrl)){
                 nform.Status__c = true;
             }
         } catch (Exception e){
@@ -217,7 +217,7 @@ public without sharing class previewFormcmp{
     }
 
     
-      /**
+    /**
      * @description getpicklistvalue Method
      * @param id Id Value
      * @return Map of String as key and String as value
@@ -226,10 +226,9 @@ public without sharing class previewFormcmp{
     public static Map<String, String> getpicklistvalue(Id id){
         /*This method is used to pass picklist value*/
         try{
-            if (Schema.sObjectType.Form_Fields__c.fields.Field_Mapping__c.IsAccessible() && Schema.sObjectType.Form_Fields__c.fields.Mapped_Obj__c.IsAccessible()){
-                Form_Fields__c mappedObject = [SELECT Id, Mapped_Obj__c, Field_Mapping__c
+                Form_Fields__c mappedObject = [SELECT Mapped_Obj__c, Field_Mapping__c
                                                FROM Form_Fields__c
-                                               WHERE Id = :id];
+                                               WHERE Id = :id WITH SECURITY_ENFORCED];
                 String mappedfield = mappedObject.Field_Mapping__c.split('<!@!>')[0];
                 Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
                 Set<String> objectKeys = gd.keySet();
@@ -237,16 +236,12 @@ public without sharing class previewFormcmp{
                 Schema.SObjectType systemObjectType = gd.get(mappedObject.Mapped_Obj__c);
                 Schema.DescribeSObjectResult r = systemObjectType.getDescribe();
                 Map<String, Schema.SObjectField> fieldsMap = r.fields.getMap();
-                Set<String> fieldNames = fieldsMap.keySet();
                 Schema.SObjectField field = fieldsMap.get(mappedfield);
                 Schema.DescribeFieldResult fieldDesc = field.getDescribe();
                 for (Integer i = 0; i < fieldDesc.getPicklistValues().size(); i++){
                     picklistvalue.put(fieldDesc.getPicklistValues()[i].getLabel(), fieldDesc.getPicklistValues()[i].getValue());
                 }
                 return picklistvalue;
-            } else{
-                return null;
-            }
         } catch (Exception e){
             return null;
         }

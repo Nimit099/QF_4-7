@@ -3,6 +3,21 @@
 */
 public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,update or Delete. */
 
+    /**    
+        @description Public Variable formid to store the id of the form
+    */
+    public static String formid{ get; set; }
+    /**    
+        @description Public Variable urlvalue to store the publicurl of the form
+    */
+    public string urlvalue{ get; set; }
+     /**    
+        @description QuickFormHome constructor
+    */
+    public QuickFormHome(){
+        urlvalue = Apexpages.currentPage().getParameters().get('formid');
+    }
+
     /**
      * @description return the list of form objects records
      * @return list of form object records
@@ -17,10 +32,10 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
     }
 
     /**
-        Method Name : searchForms 
-        @param searchkey to finde the form name
-        @description searchForms to return based onthe serch the form name all record to store into the Form object
-        * @return list of form object records according to search key
+    Method Name : searchForms 
+    @param searchkey to finde the form name
+    @description searchForms to return based onthe serch the form name all record to store into the Form object
+    * @return list of form object records according to search key
     */  
     @AuraEnabled
     public static List<Formwrapper> searchForms(String searchkey){ /*searchForms to return based onthe serch the form name all record to store into the Form object */
@@ -34,16 +49,15 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
         } catch (Exception e){
             return null;
         }
-    }    
-    /**
-        Method Name : getFormsByStatus 
-        @param id to finde the form name 
-        @param searchkey to finde the form        
-        @description getFormsByStatus to return the form is Active or not
-        @return returns formstatus by using id and search key parameter
-        
-    */
+    }  
 
+    /**
+    Method Name : getFormsByStatus 
+    @param id to finde the form name 
+    @param searchkey to finde the form        
+    @description getFormsByStatus to return the form is Active or not
+    @return returns formstatus by using id and search key parameter
+    */
     @AuraEnabled
     public static List<Formwrapper> getFormsByStatus(Id id, String searchkey){/*getFormsByStatus to return the form is Active or not */
         try{            
@@ -68,13 +82,12 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
     }
     
     /**
-        Method Name : deleteFormRecord 
-        @param id to finde the form name 
-        @param searchkey to finde the form        
-        @description deleteFormRecord to delete a form
-        @return returns list after delete form record
+    Method Name : deleteFormRecord 
+    @param id to finde the form name 
+    @param searchkey to finde the form        
+    @description deleteFormRecord to delete a form
+    @return returns list after delete form record
     */
-
     @AuraEnabled
     public static List<Formwrapper> deleteFormRecord(Id id, String searchkey){    /*deleteFormRecord to delete a form */
         try{
@@ -105,19 +118,18 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
     }
 
     /**
-        Method Name : renameFormRecord 
-        @param id to stored the new formName 
-        @param rename to stored the formName to find the form
-        @param searchkey to finde the form    
-        @description renameFormRecord to rename the form name
-        @return form records after renaming the form
+    Method Name : renameFormRecord 
+    @param id to stored the new formName 
+    @param rename to stored the formName to find the form
+    @param searchkey to finde the form    
+    @description renameFormRecord to rename the form name
+    @return form records after renaming the form
     */
-
     @AuraEnabled
     public static List<Formwrapper> renameFormRecord(Id id, String rename, String searchkey){ /* renameFormRecord to rename the form name */
         try{                        
             if (Schema.sObjectType.Form__c.fields.Name.IsAccessible() && Schema.sObjectType.Form__c.fields.Name.isUpdateable()) {
-              Form__c form = [SELECT Name FROM Form__c WHERE Id = :id Limit 1];
+                Form__c form = [SELECT Name FROM Form__c WHERE Id = :id Limit 1];
                 form.Name = rename;
                 update form;
                 return commonquery(searchkey);                    
@@ -131,17 +143,16 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
     }
 
     /**
-        Method Name : sendemail 
-        @param name to stored the username 
-        @param email to stored the user email address 
-        @param subject to stored the subject name  
-        @param body to stored the email body user requrmaint or feedback 
-        @param fname to stored the files Name 
-        @param fbase64 to stored the files data 
-        @return String
-        @description sendemail send the email uisng QuickBot data
+    Method Name : sendemail 
+    @param name to stored the username 
+    @param email to stored the user email address 
+    @param subject to stored the subject name  
+    @param body to stored the email body user requrmaint or feedback 
+    @param fname to stored the files Name 
+    @param fbase64 to stored the files data 
+    @return String
+    @description sendemail send the email uisng QuickBot data
     */
-    
     @AuraEnabled
     public static String sendemail(String name, String email, String subject, String body, List<String> fname, List<String> fbase64){/*sendemail send the email uisng QuickBot data */
         try{
@@ -155,7 +166,6 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
             }             
             List<Messaging.Emailfileattachment> fileAttachments = new List<Messaging.Emailfileattachment>();
             for (Integer i = 0; i < fname.size(); i++){
-
                 Messaging.Emailfileattachment efat = new Messaging.Emailfileattachment();
                 efat.setFileName(fname[i]);
                 String fdata = fbase64[i];
@@ -180,38 +190,22 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
         }
     }
 
-    /**    
-        @description Public Variable formid to store the id of the form
-    */
-    Public static String formid{ get; set; }
-    
-    /**    
-        @description Public Variable urlvalue to store the publicurl of the form
-    */
-    public string urlvalue{ get; set; }
 
-     /**    
-        @description QuickFormHome constructor
-    */
-    public QuickFormHome(){
-        urlvalue = Apexpages.currentPage().getParameters().get('formid');
-    }
 
     /**
-        Method Name : getProgressindicator         
-        @description getProgressindicator get the progress bar using form metadata
-        @return progress indicator metadata values
+    Method Name : getProgressindicator         
+    @description getProgressindicator get the progress bar using form metadata
+    @return progress indicator metadata values
     */
     @AuraEnabled(cacheable = true)
     public static List<Progress_Indicator__mdt> getProgressindicator(){/* getProgressindicator get the progress bar using form object*/
         return Progress_Indicator__mdt.getAll().values();
-       
     }
 
     /**
-        Method Name : getCaptchatype 
-        @return Captcha_Type__mdt return the metadata value
-        @description getCaptchatype get the captchatype based on the form metadata
+    Method Name : getCaptchatype 
+    @return Captcha_Type__mdt return the metadata value
+    @description getCaptchatype get the captchatype based on the form metadata
     */
     @AuraEnabled(cacheable=true)
     public static List<	Captcha_Type__mdt> getCaptchatype(){/*getCaptchatype get the captchatype based on the form object*/
@@ -220,9 +214,9 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
     }
 
     /**
-        Method Name : f_Get_Types 
-        @return lTypes return all metadata values
-        @description f_Get_Types return the progree bar based onthe store the progress bar type
+    Method Name : f_Get_Types 
+    @return lTypes return all metadata values
+    @description f_Get_Types return the progree bar based onthe store the progress bar type
     */
     @AuraEnabled(cacheable=true)
     public static List<Progress_Indicator__mdt> f_Get_Types(){/* f_Get_Types return the progree bar based onthe store the progress bar type*/
@@ -238,10 +232,11 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
             return null;
         }
     }
+
     /**
-        Method Name : Get_Captcha_Types 
-        @return captchaTypes return all metadata values
-        @description Get_Captcha_Types return the progree bar based onthe store the Captcha type
+    Method Name : Get_Captcha_Types 
+    @return captchaTypes return all metadata values
+    @description Get_Captcha_Types return the progree bar based onthe store the Captcha type
     */
     @AuraEnabled(cacheable=true)
     public static List<Captcha_Type__mdt> Get_Captcha_Types(){/*Get_Captcha_Types return the progree bar based onthe store the Captcha type*/
@@ -249,7 +244,7 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
             List<Captcha_Type__mdt> captchaTypes = new List<Captcha_Type__mdt>();
             if (Schema.sObjectType.Captcha_Type__mdt.fields.DeveloperName.IsAccessible() && Schema.sObjectType.Captcha_Type__mdt.fields.Label.IsAccessible() && Schema.sObjectType.Captcha_Type__mdt.fields.sr__c.IsAccessible()) {
                 captchaTypes = [SELECT DeveloperName,Label,sr__c FROM Captcha_Type__mdt ORDER BY sr__c ASC]; 
-              return captchaTypes;
+                return captchaTypes;
             }else{
                 return null;
             }
@@ -297,6 +292,7 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
         }
         return publishedURL;
     }
+
     /**                 
         @param searchkey find the form list based onthe serckkey value 
         @description return the form list based onthe the pass value
@@ -334,17 +330,17 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
         */
         @AuraEnabled
         public Integer submissionCount{ get; set; }
-
         /**
             *@description wrapperclass variable to store formlist record
         */
         @AuraEnabled
         public Form__c formlist{ get; set; }
+
         /** 
-            check the form obejct value
-            @param count return total submistion onthe form 
-            @param form return the form value
-            @description return the Data and total number of Submisson this form
+        check the form obejct value
+        @param count return total submistion onthe form 
+        @param form return the form value
+        @description return the Data and total number of Submisson this form
         */    
         public formWrapper(Integer count, Form__c form){/* return the Data and total number of Submisson this form */
             try{
@@ -354,7 +350,5 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
                 error_handler.insert_errordata(e,'QuickFormHome','formWrapper');
             }
         }
-
     }
-
 }

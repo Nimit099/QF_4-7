@@ -189,8 +189,8 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
     reloadform() {
         GetFormPage({
-                Form_Id: this.ParentMessage
-            })
+            Form_Id: this.ParentMessage
+        })
             .then(result => {
                 this.PageList = result;
 
@@ -202,8 +202,8 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
                 this.showerror();
             });
         getFieldsRecords({
-                id: this.ParentMessage
-            })
+            id: this.ParentMessage
+        })
             .then(result => {
 
                 this.FieldList = result;
@@ -627,10 +627,10 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
 
                 reOrderField({
-                        dropFieldId: dropFieldId,
-                        currentFieldId: this.startFielId,
-                        dropPageId: dropPageId
-                    })
+                    dropFieldId: dropFieldId,
+                    currentFieldId: this.startFielId,
+                    dropPageId: dropPageId
+                })
                     .then((result) => {
 
                         this.spinnerDataTable = false;
@@ -748,12 +748,12 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
         try {
 
             addPageBreak({
-                    FormId: this.ParentMessage,
-                    Name: FieldName,
-                    Position: position,
-                    Form_Page_Id: pageId,
-                    dropFieldId: dropFieldId
-                })
+                FormId: this.ParentMessage,
+                Name: FieldName,
+                Position: position,
+                Form_Page_Id: pageId,
+                dropFieldId: dropFieldId
+            })
                 .then(result => {
                     this.FieldList = result.fieldList;
 
@@ -1561,6 +1561,23 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
                 } else {
                     let toast_error_msg = 'Page is deleted successfully.';
                     this.error_toast = true;
+
+                    let cmpDef = {
+                        componentDef: "c:formBuilder",
+                        attributes: {
+                            ParentMessage: this.ParentMessage != "" ? this.ParentMessage : "No Record Created",
+                            FormName: this.FormNamevalue != "" ? this.FormNamevalue : "No Name Given"
+                        }
+                    };
+                    let encodedDef = btoa(JSON.stringify(cmpDef));
+                    this[NavigationMixin.Navigate]({
+                        type: "standard__webPage",
+                        attributes: {
+                            url: "/one/one.app#" + encodedDef
+                        }
+                    });
+
+
                     this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
                 }
             }).catch(e => {
@@ -1616,7 +1633,7 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     @api
-    getrequestforcloserefencefield(){
+    getrequestforcloserefencefield() {
         try {
             var quickfields = this.template.querySelectorAll('c-quickformfieldcomponent');
             for (let index = 0; index < quickfields.length; index++) {
@@ -1626,7 +1643,7 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
         } catch (error) {
             console.error(error.message);
         }
-        
+
     }
 
 }

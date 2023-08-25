@@ -11,12 +11,7 @@ public with sharing class qf_guide2_Controller {
     @AuraEnabled
     public static List<Site> getSites() {
         try {
-            if (Site.SObjectType.getDescribe().isAccessible()) {
-                return [SELECT Id, Name, MasterLabel, Subdomain, SiteType, Status, GuestUserId FROM Site WHERE Status = 'Active' AND SiteType = 'Visualforce' WITH SECURITY_ENFORCED];
-            }else{
-                return null;
-            }
-            
+            return [SELECT Id, Name, MasterLabel, Subdomain, SiteType, Status, GuestUserId FROM Site WHERE Status = 'Active' AND SiteType = 'Visualforce' WITH SECURITY_ENFORCED];
         } catch (Exception e) {
             return null;
         }
@@ -50,12 +45,12 @@ public with sharing class qf_guide2_Controller {
                 update userToUpdate;
             }
         }
+
     /** Method Name : saveSecureUrl
      * @description : saveSecureUrl data
      * @param selectedSiteid Id value
      * @return String of UserEmail
      */
-
     @AuraEnabled
     public static String saveSecureUrl(Id selectedSiteid) {
         try {
@@ -146,7 +141,7 @@ public with sharing class qf_guide2_Controller {
             
             PermissionSet permissionset = new PermissionSet();
             if (Schema.sObjectType.PermissionSet.IsAccessible()) {
-              permissionset = [SELECT Id, Name FROM PermissionSet WHERE Name = 'QuickForm_Site_User_Access'];            
+                permissionset = [SELECT Id, Name FROM PermissionSet WHERE Name = 'QuickForm_Site_User_Access'];            
             if(Test.isRunningTest()){
                 permissionset = [SELECT Id, Name FROM PermissionSet WHERE Name = 'TestQuickform'];            
             } 

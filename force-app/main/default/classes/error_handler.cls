@@ -7,13 +7,13 @@ public with sharing class error_handler {
      /** @description method_name variable */
     public Static String method_name = '';
 
-     /**
-        Method Name : insert_errordata 
-        @param e to stored the Exception 
-        @param classname to stored the class name
-        @param methodname to stored the method name  
-        @return Id of error object
-        @description insert error data into the obeject as record
+    /**
+    Method Name : insert_errordata 
+    @param e to stored the Exception 
+    @param classname to stored the class name
+    @param methodname to stored the method name  
+    @return Id of error object
+    @description insert error data into the obeject as record
     */
     public static Id insert_errordata(Exception e,String classname, String methodname) {
         class_name = classname;
