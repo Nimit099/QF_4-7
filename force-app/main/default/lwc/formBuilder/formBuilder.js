@@ -230,52 +230,55 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-
-        this.tempararyfun();
-        if (this.formcss != undefined && this.formcss != null) {
-
-
-            let array = this.template.querySelector('.myform');
-            let str = this.formcss;
-            array.style = str;
-        }
-
-        if (this.btncss != undefined && this.btncss != null) {
-            let str = this.btncss;
-            let arr = this.template.querySelectorAll('.btn1');
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                element.style = str;
+        try {
+            this.tempararyfun();
+            if (this.formcss != undefined && this.formcss != null) {
+    
+    
+                let array = this.template.querySelector('.myform');
+                let str = this.formcss;
+                array.style = str;
             }
-            let arr2 = this.template.querySelectorAll('.footer');
-            let str2 = this.btnpos;
-
-            for (let i = 0; i < arr2.length; i++) {
-                const element = arr2[i];
-                element.style = str2;
+    
+            if (this.btncss != undefined && this.btncss != null) {
+                let str = this.btncss;
+                let arr = this.template.querySelectorAll('.btn1');
+                for (let i = 0; i < arr.length; i++) {
+                    const element = arr[i];
+                    element.style = str;
+                }
+                let arr2 = this.template.querySelectorAll('.footer');
+                let str2 = this.btnpos;
+    
+                for (let i = 0; i < arr2.length; i++) {
+                    const element = arr2[i];
+                    element.style = str2;
+                }
+    
             }
-
-        }
-
-        if (this.lcss != undefined && this.lcss != null) {
-            let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
-            for (let i = 0; i < Arr.length; i++) {
-                const element = Arr[i];
-
-                element.LabelCSSUpdate(this.lcss);
+    
+            if (this.lcss != undefined && this.lcss != null) {
+                let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
+                for (let i = 0; i < Arr.length; i++) {
+                    const element = Arr[i];
+    
+                    element.LabelCSSUpdate(this.lcss);
+                }
             }
-        }
-
-        if (this.pagecss != undefined && this.pagecss != null) {
-
-
-            let array = this.template.querySelectorAll('.page');
-            let str = this.pagecss;
-            for (let i = 0; i < array.length; i++) {
-                const element = array[i];
-
-                element.style = str;
+    
+            if (this.pagecss != undefined && this.pagecss != null) {
+    
+    
+                let array = this.template.querySelectorAll('.page');
+                let str = this.pagecss;
+                for (let i = 0; i < array.length; i++) {
+                    const element = array[i];
+    
+                    element.style = str;
+                }
             }
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -974,9 +977,13 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     tempararyfun() {
-        for (let i = 0; i < this.removeObjFields.length; i++) {
-
-            this.template.querySelector("c-fields-section-component").removeField(this.removeObjFields[i]);
+        try {
+            for (let i = 0; i < this.removeObjFields.length; i++) {
+    
+                this.template.querySelector("c-fields-section-component").removeField(this.removeObjFields[i]);
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
