@@ -1046,7 +1046,7 @@ export default class PreviewFormCmp extends NavigationMixin(LightningElement) {
                     }
 
                 }
-                this.list_first_obj[this.third_list[j]] = full_m_val;
+                this.list_third_obj[this.third_list[j]] = full_m_val;
 
             } else if (first_val == 'chk_box') {
                 this.list_third_obj[this.third_list[j]] = f_valArr[1];
