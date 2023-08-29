@@ -719,19 +719,22 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
      * @param errorId Id
      */
     public static void erroremail(Id errorId) {
-
-        Form__c form = [SELECT Id,Name FROM Form__c WHERE Id =: formId WITH SECURITY_ENFORCED ];
-        String errormessage = '<p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Dear '+UserInfo.getName()+',</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">We regret to inform you that there has been an issue with the submission of the ' +form.Name+'. The details of the failed submission are as follows:</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Submission ID: '+insertRecordList[0]+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Name: '+form.Name+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Error ID: '+errorId+'</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(21, 21, 21); font-family: verdana;">Please contact admin if you have any questions or need further assistance.</span></p>';
-        List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED LIMIT 1];
-        Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-        List<String> toAddresses = new List<String>();
-        toAddresses.add(owea[0].Address);
-        if ( owea.size() > 0 ) {
-            emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+        try {
+            Form__c form = [SELECT Id,Name FROM Form__c WHERE Id =: formId WITH SECURITY_ENFORCED ];
+            String errormessage = '<p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Dear '+UserInfo.getName()+',</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">We regret to inform you that there has been an issue with the submission of the ' +form.Name+'. The details of the failed submission are as follows:</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Submission ID: '+insertRecordList[0]+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Name: '+form.Name+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Error ID: '+errorId+'</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(21, 21, 21); font-family: verdana;">Please contact admin if you have any questions or need further assistance.</span></p>';
+            List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED LIMIT 1];
+            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+            List<String> toAddresses = new List<String>();
+            toAddresses.add(owea[0].Address);
+            if ( owea.size() > 0 ) {
+                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+            }
+            emailNotification.setToAddresses(toAddresses);
+            emailNotification.setSubject('Form Submission Failure - '+form.Name);
+            emailNotification.setHtmlBody(errormessage);
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        } catch (Exception e) {
+            System.debug(e);
         }
-        emailNotification.setToAddresses(toAddresses);
-        emailNotification.setSubject('Form Submission Failure - '+form.Name);
-        emailNotification.setHtmlBody(errormessage);
-        Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
     }
 }

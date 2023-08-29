@@ -16,7 +16,7 @@ import ParentObjectTemp3 from '@salesforce/apex/objectSelection.temp3';
 import fetchChildObject from '@salesforce/apex/objectSelection.fetchChildObject';
 import saveMapped_object from '@salesforce/apex/objectSelection.saveMapped_object';
 import { NavigationMixin } from "lightning/navigation";
-import {loadStyle} from 'lightning/platformResourceLoader';
+import { loadStyle } from 'lightning/platformResourceLoader';
 import selectobject_dropdown from '@salesforce/resourceUrl/selectobject_dropdown';
 
 
@@ -29,7 +29,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     @track objectselection = false;
     @wire(getProgressindicator) records;
     @wire(getCaptchatype) captcharecords;
-    @track formtitle; 
+    @track formtitle;
     @track ispreview_show_msg_captcha = true;
     @track ispreview_show_msg = false;
     @track testtest = false;
@@ -38,14 +38,14 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     @track l_All_Types;
     @track TypeOptions;
     @track description;
-    
+
     @track l_All_Types_2;
     @track TypeOptions_2;
     @track Progressbarvalue = 'Standard_Steps';
     @track captchTypeparent = 'Normal_Captcha';
-    
-    global_options =[];
-    
+
+    global_options = [];
+
     section_One_img = section_One;
     section_Two_img = section_Two;
     section_Three_img = section_Three;
@@ -78,17 +78,21 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     connectedCallback() {
         this.spinnerDataTable = true;
         this.global_options = [];
-        this.getParentObject();       
+        this.getParentObject();
 
     }
     renderedCallback() {
-        Promise.all([
+        try {
+            Promise.all([
                 loadStyle(this, selectobject_dropdown)
-            ]).then(() => {})
-            .catch(() => {
-                this.message = 'Something Went Wrong In New Form Detail Page';
-                this.showerror();
-            });
+            ]).then(() => { })
+                .catch(() => {
+                    this.message = 'Something Went Wrong In New Form Detail Page';
+                    this.showerror();
+                });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     @wire(Objects_Type, {})
@@ -113,7 +117,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
                     (teamA, teamB) => teamA.sr - teamB.sr,
                 )
 
-            
+
             } catch (error) {
                 this.message = 'Something Went Wrong In NewFormDetails';
                 this.showerror();
@@ -165,10 +169,18 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
         this.isModalOpen = true;
     }
     closeModal() {
-        this.dispatchEvent(new CustomEvent('popupclose'));
+        try {
+            this.dispatchEvent(new CustomEvent('popupclose'));
+        } catch (error) {
+            console.log(error);
+        }
     }
     submitDetails() {
-        this.dispatchEvent(new CustomEvent('popupclose'));
+        try {
+            this.dispatchEvent(new CustomEvent('popupclose'));
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     changeFormTitle(event) {
@@ -226,37 +238,50 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
         }
 
     }
+
     handleValidation() {
-        let nameCmp = this.template.querySelector(".nameCls");
-        let fName = nameCmp.value;
-        if (!nameCmp.value || nameCmp.value.trim().length == 0) {
-            nameCmp.setCustomValidity("Form Title is required");
-        } else if (fName.length >= 80) {
-            nameCmp.setCustomValidity("Input must be no longer than 80 characters.");
-        } else {
-            nameCmp.setCustomValidity("");
-            this.formdetails = false;
-            this.objectselection = true;
-        }
-        nameCmp.reportValidity();
-    }
-    handleFocus() {
-        let nameCmp = this.template.querySelector(".nameCls");
-        nameCmp.setCustomValidity("");
-    }
-    next_bt() {
-        if (this.formtitle != '' && this.formtitle != null) {
-            if (this.formtitle.length > 0 && this.formtitle.replaceAll(' ', '').length > 0) {
+        try {
+            let nameCmp = this.template.querySelector(".nameCls");
+            let fName = nameCmp.value;
+            if (!nameCmp.value || nameCmp.value.trim().length == 0) {
+                nameCmp.setCustomValidity("Form Title is required");
+            } else if (fName.length >= 80) {
+                nameCmp.setCustomValidity("Input must be no longer than 80 characters.");
+            } else {
+                nameCmp.setCustomValidity("");
                 this.formdetails = false;
                 this.objectselection = true;
+            }
+            nameCmp.reportValidity();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    handleFocus() {
+        try {
+            let nameCmp = this.template.querySelector(".nameCls");
+            nameCmp.setCustomValidity("");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    next_bt() {
+        try {
+            if (this.formtitle != '' && this.formtitle != null) {
+                if (this.formtitle.length > 0 && this.formtitle.replaceAll(' ', '').length > 0) {
+                    this.formdetails = false;
+                    this.objectselection = true;
+                } else {
+                    this.isModalOpen_2 = true;
+                    this.template.querySelector('c-toast-component').showToast('error', this.toast_error_msg, 3000);
+                }
+
             } else {
                 this.isModalOpen_2 = true;
                 this.template.querySelector('c-toast-component').showToast('error', this.toast_error_msg, 3000);
             }
-
-        } else {
-            this.isModalOpen_2 = true;
-            this.template.querySelector('c-toast-component').showToast('error', this.toast_error_msg, 3000);
+        } catch (error) {
+            console.log(error);
         }
     }
     Previouus_bt() {
@@ -267,16 +292,20 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     }
 
     getParentObject() {
-        ParentObject()
-            .then(result => {                
-                this.global_options = result                
-                this.spinnerDataTable = false;
-            })
-            .catch(() => {
-                this.spinnerDataTable = false;
-                this.message = 'Something Went Wrong In NewFormDetails';
-                this.showerror();
-            })
+        try {
+            ParentObject()
+                .then(result => {
+                    this.global_options = result
+                    this.spinnerDataTable = false;
+                })
+                .catch(() => {
+                    this.spinnerDataTable = false;
+                    this.message = 'Something Went Wrong In NewFormDetails';
+                    this.showerror();
+                })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     selcel_object_errormsg() {
@@ -294,125 +323,25 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     }
 
     firstTemp() {
-        this.value1 = '';
-        this.value2 = '';
-        this.value3 = '';
-        this.options_object1 = [];
-        this.options_object2 = [];
-        this.options_object2_2 = [];
-        this.temp_One = true;
-        this.temp_Two = false;
-        this.temp_Third = false;
-        this.spinnerDataTable = true;
-        this.isselect_msg = false;
-        this.popup_2 = true;
-        this.sec_obj_error = false;
-        this.tep3_sec_obj_error_2 = false;
-        this.options_object1 = this.global_options;
-        
-        ParentObject()
-            .then(result => {
-                let opp = [];
-                for (var i = 0; i < result.length; i++) {
-                    opp.push({
-                        label: result[i],
-                        value: result[i]
-                    });
-                }
-                this.options_object1 = opp;                
-                this.spinnerDataTable = false;
-            })
-            .catch(() => {
-                this.spinnerDataTable = false;
-                this.message = 'Something Went Wrong In NewFormDetails';
-                this.showerror();
-            })
-    }
+        try {
+            this.value1 = '';
+            this.value2 = '';
+            this.value3 = '';
+            this.options_object1 = [];
+            this.options_object2 = [];
+            this.options_object2_2 = [];
+            this.temp_One = true;
+            this.temp_Two = false;
+            this.temp_Third = false;
+            this.spinnerDataTable = true;
+            this.isselect_msg = false;
+            this.popup_2 = true;
+            this.sec_obj_error = false;
+            this.tep3_sec_obj_error_2 = false;
+            this.options_object1 = this.global_options;
 
-    secondTemp() {
-        this.value1 = '';
-        this.value2 = '';
-        this.value3 = '';        
-        this.options_object2 = [];
-        this.options_object2_2 = [];
-        this.temp_One = false;
-        this.temp_Two = true;
-        this.temp_Third = false;
-        this.spinnerDataTable = true;
-        this.isselect_msg = false;
-        this.popup_2 = true;
-        this.sec_obj_error = false;
-        this.tep3_sec_obj_error_2 = false;
-        this.options_object1 = this.global_options;
-        ParentObjectTemp2({
-            parent: this.global_options
-        })
-        .then(result => {                
-                let opp = [];                
-                for (var i = 0; i < result.length; i++) {
-                    opp.push({
-                        label: result[i],
-                        value: result[i]
-                    });
-                }                
-                this.options_object1 = opp;
-                this.spinnerDataTable = false;                
-            }).catch(() => {
-                this.spinnerDataTable = false;
-                this.message = 'Something Went Wrong In Form BUilder Page';
-                this.showerror();
-            })
-    }
-
-    thirdTemp() {
-        this.value1 = '';
-        this.value2 = '';
-        this.value3 = '';        
-        this.options_object2 = [];
-        this.options_object2_2 = [];
-        this.temp_One = false;
-        this.temp_Two = false;
-        this.temp_Third = true;
-        this.spinnerDataTable = true;
-        this.isselect_msg = false;
-        this.popup_2 = true;
-        this.sec_obj_error = false;
-        this.tep3_sec_obj_error_2 = false;
-        this.options_object1 = this.global_options;
-        ParentObjectTemp3({
-                parent: this.global_options
-            })
-            .then(result => {
-                let opp = [];
-                for (var i = 0; i < result.length; i++) {
-                    opp.push({
-                        label: result[i],
-                        value: result[i]
-                    });
-                }
-                this.options_object1 = opp;
-                this.spinnerDataTable = false;
-            })
-            .catch(() => {
-                this.spinnerDataTable = false;
-                this.message = 'Something Went Wrong In NewFormDetails';
-                this.showerror();
-            })
-    }
-
-    object1(event) {        
-        this.sec_obj_error = false;
-        this.tep3_sec_obj_error_2 = false;
-        this.value1 = event.detail.value;
-        this.spinnerDataTable = true;
-        if (this.value1 != '') {
-            
-            fetchChildObject({
-                    parent: this.value1
-                })
+            ParentObject()
                 .then(result => {
-                    this.value2 = null;
-                    this.value3 = null;
                     let opp = [];
                     for (var i = 0; i < result.length; i++) {
                         opp.push({
@@ -420,21 +349,137 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
                             value: result[i]
                         });
                     }
-                    this.options_object2 = opp;
-                    this.options_object2_2 = opp;
+                    this.options_object1 = opp;
                     this.spinnerDataTable = false;
                 })
-                .catch(() => {                    
+                .catch(() => {
                     this.spinnerDataTable = false;
                     this.message = 'Something Went Wrong In NewFormDetails';
                     this.showerror();
                 })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    secondTemp() {
+        try {
+            this.value1 = '';
+            this.value2 = '';
+            this.value3 = '';
+            this.options_object2 = [];
+            this.options_object2_2 = [];
+            this.temp_One = false;
+            this.temp_Two = true;
+            this.temp_Third = false;
+            this.spinnerDataTable = true;
+            this.isselect_msg = false;
+            this.popup_2 = true;
+            this.sec_obj_error = false;
+            this.tep3_sec_obj_error_2 = false;
+            this.options_object1 = this.global_options;
+            ParentObjectTemp2({
+                parent: this.global_options
+            })
+                .then(result => {
+                    let opp = [];
+                    for (var i = 0; i < result.length; i++) {
+                        opp.push({
+                            label: result[i],
+                            value: result[i]
+                        });
+                    }
+                    this.options_object1 = opp;
+                    this.spinnerDataTable = false;
+                }).catch(() => {
+                    this.spinnerDataTable = false;
+                    this.message = 'Something Went Wrong In Form BUilder Page';
+                    this.showerror();
+                })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    thirdTemp() {
+        try {
+            this.value1 = '';
+            this.value2 = '';
+            this.value3 = '';
+            this.options_object2 = [];
+            this.options_object2_2 = [];
+            this.temp_One = false;
+            this.temp_Two = false;
+            this.temp_Third = true;
+            this.spinnerDataTable = true;
+            this.isselect_msg = false;
+            this.popup_2 = true;
+            this.sec_obj_error = false;
+            this.tep3_sec_obj_error_2 = false;
+            this.options_object1 = this.global_options;
+            ParentObjectTemp3({
+                parent: this.global_options
+            })
+                .then(result => {
+                    let opp = [];
+                    for (var i = 0; i < result.length; i++) {
+                        opp.push({
+                            label: result[i],
+                            value: result[i]
+                        });
+                    }
+                    this.options_object1 = opp;
+                    this.spinnerDataTable = false;
+                })
+                .catch(() => {
+                    this.spinnerDataTable = false;
+                    this.message = 'Something Went Wrong In NewFormDetails';
+                    this.showerror();
+                })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    object1(event) {
+        try {
+            this.sec_obj_error = false;
+            this.tep3_sec_obj_error_2 = false;
+            this.value1 = event.detail.value;
+            this.spinnerDataTable = true;
+            if (this.value1 != '') {
+
+                fetchChildObject({
+                    parent: this.value1
+                })
+                    .then(result => {
+                        this.value2 = null;
+                        this.value3 = null;
+                        let opp = [];
+                        for (var i = 0; i < result.length; i++) {
+                            opp.push({
+                                label: result[i],
+                                value: result[i]
+                            });
+                        }
+                        this.options_object2 = opp;
+                        this.options_object2_2 = opp;
+                        this.spinnerDataTable = false;
+                    })
+                    .catch(() => {
+                        this.spinnerDataTable = false;
+                        this.message = 'Something Went Wrong In NewFormDetails';
+                        this.showerror();
+                    })
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     object2_1(event) {
         this.value2 = event.detail.value;
-        if (this.value2 == this.value3){
+        if (this.value2 == this.value3) {
             this.sameobjecterror = true;
         } else {
             this.sameobjecterror = false;
@@ -444,7 +489,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
 
     object2_2(event) {
         this.value3 = event.detail.value;
-        if (this.value2 == this.value3){
+        if (this.value2 == this.value3) {
             this.sameobjecterror = true;
         } else {
             this.sameobjecterror = false;
@@ -453,164 +498,167 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     }
 
     save() {
-        this.spinnerDataTable = true;
-        if (this.temp_One == true || this.temp_Two == true || this.temp_Third == true) {
-            if (this.temp_One == true) {
-                if (this.value1 != null && this.value1 != '') {
-                    const Mapped_Objects = this.value1;
-                    saveMapped_object({
+        try {
+            this.spinnerDataTable = true;
+            if (this.temp_One == true || this.temp_Two == true || this.temp_Third == true) {
+                if (this.temp_One == true) {
+                    if (this.value1 != null && this.value1 != '') {
+                        const Mapped_Objects = this.value1;
+                        saveMapped_object({
                             Mapped_Objects: Mapped_Objects,
                             FormTitle: this.formtitle,
                             FormDesc: this.description,
                             ProgressIndicator: this.Progressbarvalue,
                             CaptchaType: this.captchTypeparent
                         })
-                        .then(result => {
-                            this.spinnerDataTable = true;
-                            this.recordid = result;
-                            let cmpDef = {
-                                componentDef: "c:formBuilder",
-                                attributes: {
-                                    ParentMessage: this.recordid != "" ? this.recordid : "No Record Created",
-                                    FormName: this.formtitle != "" ? this.formtitle : "No Name"
-                                }
-                            };
-                            let toast_error_msg_object = 'Your Form is Created Successfully';
-                            this.template.querySelector('c-toast-component').showToast('success', toast_error_msg_object, 3000);
-                            let encodedDef = btoa(JSON.stringify(cmpDef));
+                            .then(result => {
+                                this.spinnerDataTable = true;
+                                this.recordid = result;
+                                let cmpDef = {
+                                    componentDef: "c:formBuilder",
+                                    attributes: {
+                                        ParentMessage: this.recordid != "" ? this.recordid : "No Record Created",
+                                        FormName: this.formtitle != "" ? this.formtitle : "No Name"
+                                    }
+                                };
+                                let toast_error_msg_object = 'Your Form is Created Successfully';
+                                this.template.querySelector('c-toast-component').showToast('success', toast_error_msg_object, 3000);
+                                let encodedDef = btoa(JSON.stringify(cmpDef));
 
-                            this[NavigationMixin.Navigate]({
-                                type: "standard__webPage",
-                                attributes: {
-                                    url: "/one/one.app#" + encodedDef
-                                }
-                            });
-                            this.spinnerDataTable = false;
-                            this.dispatchEvent(new CustomEvent('popupclose'));
-                        }).catch(() => {
-                            this.spinnerDataTable = false;
-                            this.message = 'Something Went Wrong In NewFormDetails';
-                            this.showerror();
-                        });
-
-
-                } else {
-                    this.spinnerDataTable = false;
-                    this.objecterror = false;
-                    this.saveerror = true;
-                    this.errorModal = true;
-                    let toast_error_msg_object = 'Please select the object first';
-                    this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
-                }
-            } else if (this.temp_Two == true) {
-                if (this.value1 != null && this.value2 != null && this.value1 != '' && this.valu2 != '') {
-                    const Mapped_Objects = this.value1 + ',' + this.value2;
-                    saveMapped_object({
-                            Mapped_Objects: Mapped_Objects,
-                            FormTitle: this.formtitle,
-                            FormDesc: this.description,
-                            ProgressIndicator: this.Progressbarvalue,
-                            CaptchaType: this.captchTypeparent
-                        })
-                        .then(result => {
-                            this.spinnerDataTable = true;
-                            this.recordid = result;
-                            let cmpDef = {
-                                componentDef: "c:formBuilder",
-                                attributes: {
-                                    ParentMessage: this.recordid != "" ? this.recordid : "No Record Created",
-                                    FormName: this.formtitle != "" ? this.formtitle : "No Name"
-                                }
-                            };
-                            let toast_error_msg_object = 'Your Form is Created Successfully';
-                            this.template.querySelector('c-toast-component').showToast('success', toast_error_msg_object, 3000);
-                            let encodedDef = btoa(JSON.stringify(cmpDef));
-                            this[NavigationMixin.Navigate]({
-                                type: "standard__webPage",
-                                attributes: {
-                                    url: "/one/one.app#" + encodedDef
-                                }
-                            });
-                            this.spinnerDataTable = false;
-                            this.dispatchEvent(new CustomEvent('popupclose'));
-                        }).catch(() => {
-                            this.spinnerDataTable = false;
-                            this.message = 'Something Went Wrong In NewFormDetails';
-                            this.showerror();
-                        });
-
-                } else {
-                    this.spinnerDataTable = false;
-                    this.objecterror = false;
-                    this.saveerror = true;
-                    this.errorModal = true;
-                    let toast_error_msg_object = 'Please select the object';
-                    this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
-                }
-
-            } else if (this.temp_Third == true) {
-                if (this.sameobjecterror == false){
-
-                if (this.value1 != null && this.value2 != null && this.value3 != null && this.value1 != '' && this.value2 != '' && this.value3 != '') {
-                    const Mapped_Objects = this.value1 + ',' + this.value2 + ',' + this.value3;
-                    saveMapped_object({
-                            Mapped_Objects: Mapped_Objects,
-                            FormTitle: this.formtitle,
-                            FormDesc: this.description,
-                            ProgressIndicator: this.Progressbarvalue,
-                            CaptchaType: this.captchTypeparent
-                        })
-                        .then(result => {
-                            this.spinnerDataTable = true;
-                            this.recordid = result;
-                            let cmpDef = {
-                                componentDef: "c:formBuilder",
-                                attributes: {
-                                    ParentMessage: this.recordid != "" ? this.recordid : "No Record Created",
-                                    FormName: this.formtitle != "" ? this.formtitle : "No Name"
-                                }
-                            };
-                            let toast_error_msg_object = 'Your Form is Created Successfully';
-                            this.template.querySelector('c-toast-component').showToast('success', toast_error_msg_object, 3000);
-                            let encodedDef = btoa(JSON.stringify(cmpDef));
-                            this[NavigationMixin.Navigate]({
-                                type: "standard__webPage",
-                                attributes: {
-                                    url: "/one/one.app#" + encodedDef
-                                }
+                                this[NavigationMixin.Navigate]({
+                                    type: "standard__webPage",
+                                    attributes: {
+                                        url: "/one/one.app#" + encodedDef
+                                    }
+                                });
+                                this.spinnerDataTable = false;
+                                this.dispatchEvent(new CustomEvent('popupclose'));
+                            }).catch(() => {
+                                this.spinnerDataTable = false;
+                                this.message = 'Something Went Wrong In NewFormDetails';
+                                this.showerror();
                             });
 
-                            this.spinnerDataTable = false;
-                            this.dispatchEvent(new CustomEvent('popupclose'));
-                        }).catch(() => {
-                            this.spinnerDataTable = false;
-                            this.message = 'Something Went Wrong In NewFormDetails';
-                            this.showerror();
-                        });
-                } else {
-                    this.objecterror = false;
-                    this.saveerror = true;
-                    this.errorModal = true;
-                    let toast_error_msg_object = 'Please select the object ';
-                    this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
-                    this.spinnerDataTable = false;
+
+                    } else {
+                        this.spinnerDataTable = false;
+                        this.objecterror = false;
+                        this.saveerror = true;
+                        this.errorModal = true;
+                        let toast_error_msg_object = 'Please select the object first';
+                        this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
                     }
-                } else {
-                    this.saveerror = true;
-                    this.spinnerDataTable = false;
-                    this.errorModal = true;
-                    let toast_error_msg_object = 'Please ensure that you choose two distinct objects for your selection.';
-                    this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
+                } else if (this.temp_Two == true) {
+                    if (this.value1 != null && this.value2 != null && this.value1 != '' && this.valu2 != '') {
+                        const Mapped_Objects = this.value1 + ',' + this.value2;
+                        saveMapped_object({
+                            Mapped_Objects: Mapped_Objects,
+                            FormTitle: this.formtitle,
+                            FormDesc: this.description,
+                            ProgressIndicator: this.Progressbarvalue,
+                            CaptchaType: this.captchTypeparent
+                        })
+                            .then(result => {
+                                this.spinnerDataTable = true;
+                                this.recordid = result;
+                                let cmpDef = {
+                                    componentDef: "c:formBuilder",
+                                    attributes: {
+                                        ParentMessage: this.recordid != "" ? this.recordid : "No Record Created",
+                                        FormName: this.formtitle != "" ? this.formtitle : "No Name"
+                                    }
+                                };
+                                let toast_error_msg_object = 'Your Form is Created Successfully';
+                                this.template.querySelector('c-toast-component').showToast('success', toast_error_msg_object, 3000);
+                                let encodedDef = btoa(JSON.stringify(cmpDef));
+                                this[NavigationMixin.Navigate]({
+                                    type: "standard__webPage",
+                                    attributes: {
+                                        url: "/one/one.app#" + encodedDef
+                                    }
+                                });
+                                this.spinnerDataTable = false;
+                                this.dispatchEvent(new CustomEvent('popupclose'));
+                            }).catch(() => {
+                                this.spinnerDataTable = false;
+                                this.message = 'Something Went Wrong In NewFormDetails';
+                                this.showerror();
+                            });
+
+                    } else {
+                        this.spinnerDataTable = false;
+                        this.objecterror = false;
+                        this.saveerror = true;
+                        this.errorModal = true;
+                        let toast_error_msg_object = 'Please select the object';
+                        this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
+                    }
+
+                } else if (this.temp_Third == true) {
+                    if (this.sameobjecterror == false) {
+
+                        if (this.value1 != null && this.value2 != null && this.value3 != null && this.value1 != '' && this.value2 != '' && this.value3 != '') {
+                            const Mapped_Objects = this.value1 + ',' + this.value2 + ',' + this.value3;
+                            saveMapped_object({
+                                Mapped_Objects: Mapped_Objects,
+                                FormTitle: this.formtitle,
+                                FormDesc: this.description,
+                                ProgressIndicator: this.Progressbarvalue,
+                                CaptchaType: this.captchTypeparent
+                            })
+                                .then(result => {
+                                    this.spinnerDataTable = true;
+                                    this.recordid = result;
+                                    let cmpDef = {
+                                        componentDef: "c:formBuilder",
+                                        attributes: {
+                                            ParentMessage: this.recordid != "" ? this.recordid : "No Record Created",
+                                            FormName: this.formtitle != "" ? this.formtitle : "No Name"
+                                        }
+                                    };
+                                    let toast_error_msg_object = 'Your Form is Created Successfully';
+                                    this.template.querySelector('c-toast-component').showToast('success', toast_error_msg_object, 3000);
+                                    let encodedDef = btoa(JSON.stringify(cmpDef));
+                                    this[NavigationMixin.Navigate]({
+                                        type: "standard__webPage",
+                                        attributes: {
+                                            url: "/one/one.app#" + encodedDef
+                                        }
+                                    });
+
+                                    this.spinnerDataTable = false;
+                                    this.dispatchEvent(new CustomEvent('popupclose'));
+                                }).catch(() => {
+                                    this.spinnerDataTable = false;
+                                    this.message = 'Something Went Wrong In NewFormDetails';
+                                    this.showerror();
+                                });
+                        } else {
+                            this.objecterror = false;
+                            this.saveerror = true;
+                            this.errorModal = true;
+                            let toast_error_msg_object = 'Please select the object ';
+                            this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
+                            this.spinnerDataTable = false;
+                        }
+                    } else {
+                        this.saveerror = true;
+                        this.spinnerDataTable = false;
+                        this.errorModal = true;
+                        let toast_error_msg_object = 'Please ensure that you choose two distinct objects for your selection.';
+                        this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
+                    }
                 }
+            } else {
+                this.spinnerDataTable = false;
+                this.isModalOpen_3 = true;
+                let toast_error_msg_object = 'Please select the object';
+                this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
             }
-        } else {
-            this.spinnerDataTable = false;
-            this.isModalOpen_3 = true;
-            let toast_error_msg_object = 'Please select the object';
-            this.template.querySelector('c-toast-component').showToast('error', toast_error_msg_object, 3000);
+
+        } catch (error) {
+            console.log(error);
         }
-
-
     }
 
     closeModalerror() {
@@ -622,7 +670,7 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     closeerror() {
         this.errorModal = false;
     }
-    
+
     handleTypeChange(event) {
         this.value = event.detail.value;
     }
@@ -634,14 +682,18 @@ export default class NewFormDetails extends NavigationMixin(LightningElement) {
     }
 
     showerror() {
-        let errorData = {
-            header_type: 'New Form Details Page',
-            Message: this.message
-        };
-        const showPopup = new CustomEvent('showerrorpopup', {
-            detail: errorData
-        });
-        this.dispatchEvent(showPopup);
+        try {
+            let errorData = {
+                header_type: 'New Form Details Page',
+                Message: this.message
+            };
+            const showPopup = new CustomEvent('showerrorpopup', {
+                detail: errorData
+            });
+            this.dispatchEvent(showPopup);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     showerrorpopup(event) {

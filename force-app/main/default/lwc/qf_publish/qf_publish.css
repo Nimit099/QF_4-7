@@ -106,7 +106,7 @@
 
 .PublishForm {
     width: 80%;
-    height: 100vh;
+    height: 100%;
     padding: 0 6%;
     background-image: url("/resource/bg");
     background-repeat: no-repeat;
@@ -399,6 +399,12 @@
     font-family: sans-serif;
     margin: 13% 0 6% 5%;
 }
+.PublishForm::-webkit-scrollbar {
+    display: none;
+}
+.divtag::-webkit-scrollbar {
+    display: none;
+}
 
 @media only screen and (max-width:1669px) {
     .iframeCode {
@@ -424,6 +430,15 @@
 
     .PublishForm {
         width: 80%;
+        height: 90vh;
+        overflow-y: scroll;
+        padding: 0 5%;
+    }
+    .formLinkTitle{
+        padding-top: 25px;
+    }
+    .publishUsing{
+        height: 3%;
     }
 }
 
@@ -476,6 +491,8 @@
 
     .PublishForm {
         width: 77%;
+        height: 80vh;
+        overflow-y: scroll;
         padding: 0 5%;
     }
 

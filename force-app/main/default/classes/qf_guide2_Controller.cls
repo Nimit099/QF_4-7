@@ -39,12 +39,17 @@ public with sharing class qf_guide2_Controller {
      */
     @AuraEnabled
     public static void updateUserEmail(String newEmail, String userId) {
+        try {
             User userToUpdate = [SELECT Email FROM User WHERE Id = :userId WITH SECURITY_ENFORCED];
             userToUpdate.Email = newEmail;
             if (Schema.sObjectType.User.fields.Email.IsCreateable() && Schema.sObjectType.User.fields.Email.IsUpdateable() && Schema.sObjectType.User.fields.Email.IsAccessible()){
                 update userToUpdate;
             }
+            
+        } catch (Exception e) {       
+            System.debug(e);
         }
+    }
 
     /** Method Name : saveSecureUrl
      * @description : saveSecureUrl data

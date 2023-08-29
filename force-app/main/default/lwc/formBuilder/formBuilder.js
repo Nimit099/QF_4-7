@@ -158,88 +158,96 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     @track randomString;
 
     connectedCallback() {
-        this.submit = false;
-        this.FormNamevalue = this.FormName;
-        this.error_popup1 = this.error_popup;
-        this.randomString = this.generateRandomString();
+        try {
+            this.submit = false;
+            this.FormNamevalue = this.FormName;
+            this.error_popup1 = this.error_popup;
+            this.randomString = this.generateRandomString();
 
-        formdetails({
+            formdetails({
                 id: this.ParentMessage
             })
-            .then(result => {
-                this.formcss = result.Form_Styling__c;
-                this.btncss = result.Button_CSS__c;
-                this.pagecss = result.Page_CSS__c;
-                this.hovercss = result.All_Field_Hover__c;
-                this.focuscss = result.All_Field_Focus__c
-                this.fcss = result.All_Field_Styling__c;
-                this.lcss = result.Label_CSS__c;
-                this.btnpos = result.Button_Position__c;
+                .then(result => {
+                    this.formcss = result.Form_Styling__c;
+                    this.btncss = result.Button_CSS__c;
+                    this.pagecss = result.Page_CSS__c;
+                    this.hovercss = result.All_Field_Hover__c;
+                    this.focuscss = result.All_Field_Focus__c
+                    this.fcss = result.All_Field_Styling__c;
+                    this.lcss = result.Label_CSS__c;
+                    this.btnpos = result.Button_Position__c;
 
-            }).catch(e => {
-                this.spinnerDataTable = false;
-                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-                this.showerror();
-            })
-        this.spinnerDataTable = true;
-        this.activesidebar = true;
-        this.reloadform();
-        loadStyle(this, helptextcss);
+                }).catch(e => {
+                    this.spinnerDataTable = false;
+                    this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+                    this.showerror();
+                })
+            this.spinnerDataTable = true;
+            this.activesidebar = true;
+            this.reloadform();
+            loadStyle(this, helptextcss);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     reloadform() {
-        GetFormPage({
-            Form_Id: this.ParentMessage
-        })
-            .then(result => {
-                this.PageList = result;
+        try {
+            GetFormPage({
+                Form_Id: this.ParentMessage
+            })
+                .then(result => {
+                    this.PageList = result;
 
 
-            }).catch(e => {
+                }).catch(e => {
 
-                this.spinnerDataTable = false;
-                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-                this.showerror();
-            });
-        getFieldsRecords({
-            id: this.ParentMessage
-        })
-            .then(result => {
+                    this.spinnerDataTable = false;
+                    this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+                    this.showerror();
+                });
+            getFieldsRecords({
+                id: this.ParentMessage
+            })
+                .then(result => {
 
-                this.FieldList = result;
-                this.setPageField(result);
-                if (this.tab == 'tab-2') {
+                    this.FieldList = result;
+                    this.setPageField(result);
+                    if (this.tab == 'tab-2') {
+                        var allDiv = this.template.querySelector('.tab-2');
+                        allDiv.style = 'background-color: #8EBFF0;padding: 12%;border-radius: 50%;';
+                    }
+
+                })
+                .catch(e => {
+                    this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
                     var allDiv = this.template.querySelector('.tab-2');
                     allDiv.style = 'background-color: #8EBFF0;padding: 12%;border-radius: 50%;';
-                }
+                });
 
-            })
-            .catch(e => {
-                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-                var allDiv = this.template.querySelector('.tab-2');
-                allDiv.style = 'background-color: #8EBFF0;padding: 12%;border-radius: 50%;';
-            });
-
-        if (this.tab == 'tab-2') {
-            this.activesidebar = true;
-        } else if (this.tab == 'tab-3') {
-            this.activeDesignsidebar = true;
+            if (this.tab == 'tab-2') {
+                this.activesidebar = true;
+            } else if (this.tab == 'tab-3') {
+                this.activeDesignsidebar = true;
+            }
+            this.isFieldView = true;
+            this.filesignread = true;
+        } catch (error) {
+            console.log(error);
         }
-        this.isFieldView = true;
-        this.filesignread = true;
     }
 
     renderedCallback() {
         try {
             this.tempararyfun();
             if (this.formcss != undefined && this.formcss != null) {
-    
-    
+
+
                 let array = this.template.querySelector('.myform');
                 let str = this.formcss;
                 array.style = str;
             }
-    
+
             if (this.btncss != undefined && this.btncss != null) {
                 let str = this.btncss;
                 let arr = this.template.querySelectorAll('.btn1');
@@ -249,31 +257,31 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
                 }
                 let arr2 = this.template.querySelectorAll('.footer');
                 let str2 = this.btnpos;
-    
+
                 for (let i = 0; i < arr2.length; i++) {
                     const element = arr2[i];
                     element.style = str2;
                 }
-    
+
             }
-    
+
             if (this.lcss != undefined && this.lcss != null) {
                 let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
                 for (let i = 0; i < Arr.length; i++) {
                     const element = Arr[i];
-    
+
                     element.LabelCSSUpdate(this.lcss);
                 }
             }
-    
+
             if (this.pagecss != undefined && this.pagecss != null) {
-    
-    
+
+
                 let array = this.template.querySelectorAll('.page');
                 let str = this.pagecss;
                 for (let i = 0; i < array.length; i++) {
                     const element = array[i];
-    
+
                     element.style = str;
                 }
             }
@@ -306,40 +314,49 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     handlelabelcss(event) {
-        this.newCSS = event.detail;
-        this.lcss = event.detail;
+        try {
+            this.newCSS = event.detail;
+            this.lcss = event.detail;
 
-        let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
-        for (let i = 0; i < Arr.length; i++) {
-            const element = Arr[i];
+            let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
+            for (let i = 0; i < Arr.length; i++) {
+                const element = Arr[i];
 
-            element.LabelCSSUpdate(this.newCSS);
+                element.LabelCSSUpdate(this.newCSS);
+            }
+        } catch (error) {
+            console.log(error);
         }
-
     }
 
     handlehovercss(event) {
+        try {
+            this.hovercss = event.detail;
+            let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
+            for (let i = 0; i < Arr.length; i++) {
+                const element = Arr[i];
 
-        this.hovercss = event.detail;
-        let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
-        for (let i = 0; i < Arr.length; i++) {
-            const element = Arr[i];
-
-            element.handleeffect('hover', event.detail);
+                element.handleeffect('hover', event.detail);
+            }
+        } catch (error) {
+            console.log(error);
         }
 
     }
 
     handlefocuscss(event) {
-        this.focuscss = event.detail;
+        try {
+            this.focuscss = event.detail;
 
-        let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
-        for (let i = 0; i < Arr.length; i++) {
-            const element = Arr[i];
+            let Arr = this.template.querySelectorAll("c-quickformfieldcomponent");
+            for (let i = 0; i < Arr.length; i++) {
+                const element = Arr[i];
 
-            element.handleeffect('focus', event.detail);
+                element.handleeffect('focus', event.detail);
+            }
+        } catch (error) {
+            console.log(error);
         }
-
     }
 
     handlepagecss(event) {
@@ -389,40 +406,48 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
 
     handlebtnpos(event) {
-        var str = event.detail;
-        if (str != undefined || str != '' || str != null) {
-            this.btnpos = str;
-        } else {
-            str = this.btnpos;
-        }
+        try {
+            var str = event.detail;
+            if (str != undefined || str != '' || str != null) {
+                this.btnpos = str;
+            } else {
+                str = this.btnpos;
+            }
 
-        let Arr = this.template.querySelectorAll(".footer");
+            let Arr = this.template.querySelectorAll(".footer");
 
-        for (let i = 0; i < Arr.length; i++) {
-            const element = Arr[i];
+            for (let i = 0; i < Arr.length; i++) {
+                const element = Arr[i];
 
-            element.style = str;
+                element.style = str;
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     handlebtncss(event) {
-        var str = event.detail;
-        if (event.detail == null || event.detail == undefined) {
-            str = this.btncss;
-        } else {
-            this.btncss = str;
-        }
-        let arr = this.template.querySelectorAll('.btn1');
-        for (let i = 0; i < arr.length; i++) {
-            const element = arr[i];
-            element.style = str;
-        }
-        let arr2 = this.template.querySelectorAll('.footer');
-        let str2 = this.btnpos;
+        try {
+            var str = event.detail;
+            if (event.detail == null || event.detail == undefined) {
+                str = this.btncss;
+            } else {
+                this.btncss = str;
+            }
+            let arr = this.template.querySelectorAll('.btn1');
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                element.style = str;
+            }
+            let arr2 = this.template.querySelectorAll('.footer');
+            let str2 = this.btnpos;
 
-        for (let i = 0; i < arr2.length; i++) {
-            const element = arr2[i];
-            element.style = str2;
+            for (let i = 0; i < arr2.length; i++) {
+                const element = arr2[i];
+                element.style = str2;
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -452,131 +477,130 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
 
     handleActive(event) {
-        this.tab = event.currentTarget.dataset.title;
-        var divid = '.' + event.currentTarget.dataset.title;
+        try {
+            this.tab = event.currentTarget.dataset.title;
+            var divid = '.' + event.currentTarget.dataset.title;
 
-        var allDiv = this.template.querySelectorAll('.image-tab');
+            var allDiv = this.template.querySelectorAll('.image-tab');
 
-        for (var i = 0; i < allDiv.length; i++) {
-            allDiv[i].style = 'background-color:none';
-        }
-        var Div = this.template.querySelector(divid);
-
-        Div.style = 'background-color: #8EBFF0;padding: 12%;border-radius: 50%;';
-
-
-
-        if (event.currentTarget.dataset.title == 'tab-1') {
-
-            let cmpDef = {
-                componentDef: "c:qf_home",
-            };
-            let encodedDef = btoa(JSON.stringify(cmpDef));
-
-            this[NavigationMixin.Navigate]({
-                type: "standard__webPage",
-                attributes: {
-                    url: "/one/one.app#" + encodedDef
-                }
-            });
-        } else if (event.currentTarget.dataset.title == 'tab-2' || event.currentTarget.dataset.title == 'tab-3') {
-
-
-            if (event.currentTarget.dataset.title == 'tab-2') {
-                if (this.fieldvalidationdiv == true) {
-                    this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
-                    this.fieldvalidationdiv = false;
-                }
-                if (this.activesidebar == false) {
-                    this.spinnerDataTable = true;
-                }
-                this.activeDropZone = true
-
-                this.activesidebar = true;
-                this.activeDesignsidebar = false;
-                this.activeNotification = false;
-                this.activethankyou = false;
-
-            } else if (event.currentTarget.dataset.title == 'tab-3') {
-                if (this.fieldvalidationdiv == true) {
-                    this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
-                    this.fieldvalidationdiv = false;
-                }
-                this.activeDesignsidebar = true;
-                this.activesidebar = false;
-                this.activeNotification = false;
-                this.activethankyou = false;
-                this.activeDropZone = true;
+            for (var i = 0; i < allDiv.length; i++) {
+                allDiv[i].style = 'background-color:none';
             }
+            var Div = this.template.querySelector(divid);
+
+            Div.style = 'background-color: #8EBFF0;padding: 12%;border-radius: 50%;';
 
 
 
-            this.activepreview = false;
-            this.activeqf_publish = false;
-            this.activeDropZone = true;
+            if (event.currentTarget.dataset.title == 'tab-1') {
 
-        } else if (event.currentTarget.dataset.title == 'tab-4') {
+                let cmpDef = {
+                    componentDef: "c:qf_home",
+                };
+                let encodedDef = btoa(JSON.stringify(cmpDef));
 
-            this.fieldvalidationdiv = false;
-            this.activeDesignsidebar = false;
-            this.activesidebar = false;
-            this.activeDropZone = false;
-            this.activeNotification = true;
-            this.activethankyou = false;
-            this.activepreview = false;
-            this.activeqf_publish = false;
-        } else if (event.currentTarget.dataset.title == 'tab-5') {
-            this.fieldvalidationdiv = false;
-            this.activeDesignsidebar = false;
-            this.activesidebar = false;
-            this.activeDropZone = false;
-            this.activeNotification = false;
-            this.activethankyou = true;
-            this.activepreview = false;
-            this.activeqf_publish = false;
-        } else if (event.currentTarget.dataset.title == 'tab-6') {
-            this.fieldvalidationdiv = false;
-            this.activeDesignsidebar = false;
-            this.activesidebar = false;
-            this.activeDropZone = false;
-            this.activeNotification = false;
-            this.activethankyou = false;
-            this.activepreview = false;
-            this.activeqf_publish = false;
-        } else if (event.currentTarget.dataset.title == 'tab-7') {
-            this.fieldvalidationdiv = false;
-            this.activepreview = true;
-            this.activeqf_publish = false;
-            this.activeDesignsidebar = false;
-            this.activesidebar = false;
-            this.activeDropZone = false;
-            this.activeNotification = false;
-            this.activethankyou = false;
-        } else if (event.currentTarget.dataset.title == 'tab-8') {
-            this.fieldvalidationdiv = false;
-            this.activeDesignsidebar = false;
-            this.activesidebar = false;
-            this.activeDropZone = false;
-            this.activeNotification = false;
-            this.activethankyou = false;
-            this.activepreview = false;
-            this.activeqf_publish = true;
-        } else {
-            this.fieldvalidationdiv = false;
-            this.activesidebar = false;
-            this.activeDropZone = false;
-            this.activeDesignsidebar = false;
+                this[NavigationMixin.Navigate]({
+                    type: "standard__webPage",
+                    attributes: {
+                        url: "/one/one.app#" + encodedDef
+                    }
+                });
+            } else if (event.currentTarget.dataset.title == 'tab-2' || event.currentTarget.dataset.title == 'tab-3') {
 
+
+                if (event.currentTarget.dataset.title == 'tab-2') {
+                    if (this.fieldvalidationdiv == true) {
+                        this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
+                        this.fieldvalidationdiv = false;
+                    }
+                    if (this.activesidebar == false) {
+                        this.spinnerDataTable = true;
+                    }
+                    this.activeDropZone = true
+
+                    this.activesidebar = true;
+                    this.activeDesignsidebar = false;
+                    this.activeNotification = false;
+                    this.activethankyou = false;
+
+                } else if (event.currentTarget.dataset.title == 'tab-3') {
+                    if (this.fieldvalidationdiv == true) {
+                        this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
+                        this.fieldvalidationdiv = false;
+                    }
+                    this.activeDesignsidebar = true;
+                    this.activesidebar = false;
+                    this.activeNotification = false;
+                    this.activethankyou = false;
+                    this.activeDropZone = true;
+                }
+
+
+
+                this.activepreview = false;
+                this.activeqf_publish = false;
+                this.activeDropZone = true;
+
+            } else if (event.currentTarget.dataset.title == 'tab-4') {
+
+                this.fieldvalidationdiv = false;
+                this.activeDesignsidebar = false;
+                this.activesidebar = false;
+                this.activeDropZone = false;
+                this.activeNotification = true;
+                this.activethankyou = false;
+                this.activepreview = false;
+                this.activeqf_publish = false;
+            } else if (event.currentTarget.dataset.title == 'tab-5') {
+                this.fieldvalidationdiv = false;
+                this.activeDesignsidebar = false;
+                this.activesidebar = false;
+                this.activeDropZone = false;
+                this.activeNotification = false;
+                this.activethankyou = true;
+                this.activepreview = false;
+                this.activeqf_publish = false;
+            } else if (event.currentTarget.dataset.title == 'tab-6') {
+                this.fieldvalidationdiv = false;
+                this.activeDesignsidebar = false;
+                this.activesidebar = false;
+                this.activeDropZone = false;
+                this.activeNotification = false;
+                this.activethankyou = false;
+                this.activepreview = false;
+                this.activeqf_publish = false;
+            } else if (event.currentTarget.dataset.title == 'tab-7') {
+                this.fieldvalidationdiv = false;
+                this.activepreview = true;
+                this.activeqf_publish = false;
+                this.activeDesignsidebar = false;
+                this.activesidebar = false;
+                this.activeDropZone = false;
+                this.activeNotification = false;
+                this.activethankyou = false;
+            } else if (event.currentTarget.dataset.title == 'tab-8') {
+                this.fieldvalidationdiv = false;
+                this.activeDesignsidebar = false;
+                this.activesidebar = false;
+                this.activeDropZone = false;
+                this.activeNotification = false;
+                this.activethankyou = false;
+                this.activepreview = false;
+                this.activeqf_publish = true;
+            } else {
+                this.fieldvalidationdiv = false;
+                this.activesidebar = false;
+                this.activeDropZone = false;
+                this.activeDesignsidebar = false;
+
+            }
+        } catch (error) {
+            console.log(error);
         }
-    }
-
-    dragLeave() {
-
     }
 
     onDragOver(event) {
         try {
-
             event.preventDefault();
         } catch (error) {
 
@@ -610,139 +634,124 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     async onDrop(event) {
-
-        const newdata = event.dataTransfer.getData('fielddivId');
-        let myList = JSON.parse(newdata);
-        const formId = myList.formId;
-        const randomStrin = myList.randomStr;
-        if (formId == this.ParentMessage && randomStrin == this.randomString) {
-            if (this.isReorderingDrag) {
-                this.spinnerDataTable = true;
-                var dropFieldId = event.target.dataset.fieldId;
-                var dropPageId = event.target.dataset.pageRecord;
-                this.isReorderingDrag = false;
-                // Checking variable is undefined or not if undifined that it will be replaced with empty string.
-                dropFieldId = typeof dropFieldId === 'undefined' ? '' : dropFieldId;
-                if (this.activeDesignsidebar == false && this.activesidebar == false) {
-                    this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
-                    this.reloadform();
-                }
-
-
-                reOrderField({
-                    dropFieldId: dropFieldId,
-                    currentFieldId: this.startFielId,
-                    dropPageId: dropPageId
-                })
-                    .then((result) => {
-
-                        this.spinnerDataTable = false;
-                        this.setPageField(result);
-
-                    })
-                    .catch(e => {
-
-                        this.spinnerDataTable = false;
-                        this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-                        this.showerror();
-                    });
-
-            } else {
-                this.spinnerDataTable = true;
-                let dropzone = this.template.querySelectorAll('.example-dropzone');
-                for (let i = 0; i < dropzone.length; i++) {
-                    let field = dropzone[i].querySelectorAll('.field');
-                    if (field.length == 0) {
-                        dropzone[i].style = "opacity:1.0;background-image:none;height:auto";
-                    } else {
-                        dropzone[i].style = "opacity:1.0";
-                    }
-                }
-
-                let Fieldid = event.dataTransfer.getData('fielddivId');
-                let FieldLabel = JSON.parse(Fieldid);
-                var classname = event.target.className;
-                var pageIdOfField = '';
-                var PageRecordId = event.target.dataset.pageRecord;
-                var position = 0;
-                var OldFieldSend = false;
-                let fieldLabelOfRemovedFeild = FieldLabel.record;
-                var object = FieldLabel.name;
-
-
-
-                let isPageBreak = false;
-
-                if (FieldLabel.record == 'QFPAGEBREAK') {
-                    isPageBreak = true;
-                }
-
-                if (classname == 'field') {
-                    if (FieldLabel.type == 'field') {
-                        OldFieldSend = true;
-
-                        pageIdOfField = FieldLabel.PageId;
-                        position = event.target.dataset.orderId - 1;
-
-                    } else {
-                        position = event.target.dataset.orderId;
-                    }
-
-                }
-
-                if (classname == '') {
-                    classname = event.target.parentElement.className;
-                    PageRecordId = event.target.parentElement.dataset.pageRecord;
-                    if (FieldLabel.type == 'field') {
-                        OldFieldSend = true;
-                        pageIdOfField = FieldLabel.PageId;
-
-                        position = event.target.parentElement.dataset.orderId - 1;
-
-                    } else {
-                        position = event.target.parentElement.dataset.orderId;
-                    }
-
-
-                }
-
-
-                var FieldName = FieldLabel.record;
-
-
-                if (FieldLabel.type != 'Extra' && FieldLabel.type != 'field') {
-                    FieldName = FieldName + ',' + FieldLabel.type;
-
-                }
-
-                if (FieldLabel.type == 'Extra') {
-
-                    this.checkCount(FieldName);
-
-                    FieldName = FieldName + ',' + FieldLabel.type + ',' + this.count;
-
-
-
-
-                }
-
-
-                if (isPageBreak) {
-                    dropFieldId = event.target.dataset.fieldId;
-
+        try {
+            const newdata = event.dataTransfer.getData('fielddivId');
+            let myList = JSON.parse(newdata);
+            const formId = myList.formId;
+            const randomStrin = myList.randomStr;
+            if (formId == this.ParentMessage && randomStrin == this.randomString) {
+                if (this.isReorderingDrag) {
+                    this.spinnerDataTable = true;
+                    var dropFieldId = event.target.dataset.fieldId;
+                    var dropPageId = event.target.dataset.pageRecord;
+                    this.isReorderingDrag = false;
+                    // Checking variable is undefined or not if undifined that it will be replaced with empty string.
                     dropFieldId = typeof dropFieldId === 'undefined' ? '' : dropFieldId;
+                    if (this.activeDesignsidebar == false && this.activesidebar == false) {
+                        this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
+                        this.reloadform();
+                    }
 
 
-                    await this.makePageBreak(FieldName, PageRecordId, position, dropFieldId);
+                    reOrderField({
+                        dropFieldId: dropFieldId,
+                        currentFieldId: this.startFielId,
+                        dropPageId: dropPageId
+                    })
+                        .then((result) => {
+
+                            this.spinnerDataTable = false;
+                            this.setPageField(result);
+
+                        })
+                        .catch(e => {
+
+                            this.spinnerDataTable = false;
+                            this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+                            this.showerror();
+                        });
+
                 } else {
-                    await this.SaveFields(FieldName, PageRecordId, position, OldFieldSend, pageIdOfField, fieldLabelOfRemovedFeild, object);
+                    this.spinnerDataTable = true;
+                    let dropzone = this.template.querySelectorAll('.example-dropzone');
+                    for (let i = 0; i < dropzone.length; i++) {
+                        let field = dropzone[i].querySelectorAll('.field');
+                        if (field.length == 0) {
+                            dropzone[i].style = "opacity:1.0;background-image:none;height:auto";
+                        } else {
+                            dropzone[i].style = "opacity:1.0";
+                        }
+                    }
 
+                    let Fieldid = event.dataTransfer.getData('fielddivId');
+                    let FieldLabel = JSON.parse(Fieldid);
+                    var classname = event.target.className;
+                    var pageIdOfField = '';
+                    var PageRecordId = event.target.dataset.pageRecord;
+                    var position = 0;
+                    var OldFieldSend = false;
+                    let fieldLabelOfRemovedFeild = FieldLabel.record;
+                    var object = FieldLabel.name;
+
+
+
+                    let isPageBreak = false;
+
+                    if (FieldLabel.record == 'QFPAGEBREAK') {
+                        isPageBreak = true;
+                    }
+
+                    if (classname == 'field') {
+                        if (FieldLabel.type == 'field') {
+                            OldFieldSend = true;
+
+                            pageIdOfField = FieldLabel.PageId;
+                            position = event.target.dataset.orderId - 1;
+
+                        } else {
+                            position = event.target.dataset.orderId;
+                        }
+                    }
+
+                    if (classname == '') {
+                        classname = event.target.parentElement.className;
+                        PageRecordId = event.target.parentElement.dataset.pageRecord;
+                        if (FieldLabel.type == 'field') {
+                            OldFieldSend = true;
+                            pageIdOfField = FieldLabel.PageId;
+
+                            position = event.target.parentElement.dataset.orderId - 1;
+
+                        } else {
+                            position = event.target.parentElement.dataset.orderId;
+                        }
+                    }
+
+                    var FieldName = FieldLabel.record;
+                    if (FieldLabel.type != 'Extra' && FieldLabel.type != 'field') {
+                        FieldName = FieldName + ',' + FieldLabel.type;
+                    }
+                    if (FieldLabel.type == 'Extra') {
+                        this.checkCount(FieldName);
+                        FieldName = FieldName + ',' + FieldLabel.type + ',' + this.count;
+                    }
+
+                    if (isPageBreak) {
+                        dropFieldId = event.target.dataset.fieldId;
+                        dropFieldId = typeof dropFieldId === 'undefined' ? '' : dropFieldId;
+                        await this.makePageBreak(FieldName, PageRecordId, position, dropFieldId);
+                    } else {
+                        await this.SaveFields(FieldName, PageRecordId, position, OldFieldSend, pageIdOfField, fieldLabelOfRemovedFeild, object);
+
+
+                    }
+                    this.spinnerDataTable = false;
 
                 }
-                this.spinnerDataTable = false;
 
             }
-
+        } catch (error) {
+            console.log(error);
         }
 
     }
@@ -781,60 +790,67 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
     async SaveFields(FieldName, pageId, position, OldFieldSend, fieldPageId, fieldlabelname, object) {
 
+        try {
+            CreateFieldRecord({
+                Form_Id: this.ParentMessage,
+                Name: FieldName,
+                Form_Page_Id: pageId,
+                Field_Page_Id: fieldPageId,
+                Position: position,
+                isold: OldFieldSend,
+                obj: object
+            }).then(result => {
+                this.FieldList = result;
+                this.setPageField(result);
 
-        CreateFieldRecord({
-            Form_Id: this.ParentMessage,
-            Name: FieldName,
-            Form_Page_Id: pageId,
-            Field_Page_Id: fieldPageId,
-            Position: position,
-            isold: OldFieldSend,
-            obj: object
-        }).then(result => {
-            this.FieldList = result;
-            this.setPageField(result);
+            }).catch(e => {
 
-        }).catch(e => {
+                this.spinnerDataTable = false;
+                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+                this.showerror();
+            });
 
-            this.spinnerDataTable = false;
-            this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-            this.showerror();
-        });
+            let fielddetail = [];
+            fielddetail.push({
+                Name: fieldlabelname,
+                Object: object
+            });
 
-        let fielddetail = [];
-        fielddetail.push({
-            Name: fieldlabelname,
-            Object: object
-        });
-
-        this.template.querySelector("c-fields-section-component").removeField(fielddetail[0]);
+            this.template.querySelector("c-fields-section-component").removeField(fielddetail[0]);
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 
     passToParent(event) {
-        if (event.detail == true) {
+        try {
+            if (event.detail == true) {
 
-            let dropzone = this.template.querySelectorAll('.example-dropzone');
-            for (let i = 0; i < dropzone.length; i++) {
-                let field = dropzone[i].querySelectorAll('.field');
-                if (field.length <= 0) {
-                    dropzone[i].style = "background-image: url('/resource/dropHere');background-size: contain;background-repeat: no-repeat;height:160px; weight:300px !important;";
-                } else {
-                    dropzone[i].style = "opacity:0.4";
+                let dropzone = this.template.querySelectorAll('.example-dropzone');
+                for (let i = 0; i < dropzone.length; i++) {
+                    let field = dropzone[i].querySelectorAll('.field');
+                    if (field.length <= 0) {
+                        dropzone[i].style = "background-image: url('/resource/dropHere');background-size: contain;background-repeat: no-repeat;height:160px; weight:300px !important;";
+                    } else {
+                        dropzone[i].style = "opacity:0.4";
+                    }
+                }
+            } else {
+
+                let dropzone = this.template.querySelectorAll('.example-dropzone');
+                for (let i = 0; i < dropzone.length; i++) {
+                    let field = dropzone[i].querySelectorAll('.field');
+                    if (field.length == 0) {
+
+                        dropzone[i].style = 'background-image:none;height:auto;opacity:1.0';
+                    } else {
+                        dropzone[i].style = "opacity:1.0";
+                    }
                 }
             }
-        } else {
-
-            let dropzone = this.template.querySelectorAll('.example-dropzone');
-            for (let i = 0; i < dropzone.length; i++) {
-                let field = dropzone[i].querySelectorAll('.field');
-                if (field.length == 0) {
-
-                    dropzone[i].style = 'background-image:none;height:auto;opacity:1.0';
-                } else {
-                    dropzone[i].style = "opacity:1.0";
-                }
-            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -979,7 +995,7 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     tempararyfun() {
         try {
             for (let i = 0; i < this.removeObjFields.length; i++) {
-    
+
                 this.template.querySelector("c-fields-section-component").removeField(this.removeObjFields[i]);
             }
         } catch (error) {
@@ -988,114 +1004,130 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     checkCount(fieldname) {
+        try {
+            let fieldAttributeList = [];
+            let count1 = 0;
+            for (let i = 0; i < this.FieldList.length; i++) {
+                var tmmp = this.FieldList[i].Name;
+                fieldAttributeList = tmmp.split(',');
+                if (fieldAttributeList.length == 3) {
 
-        let fieldAttributeList = [];
-        let count1 = 0;
-        for (let i = 0; i < this.FieldList.length; i++) {
-            var tmmp = this.FieldList[i].Name;
-            fieldAttributeList = tmmp.split(',');
-            if (fieldAttributeList.length == 3) {
-
-                if (fieldAttributeList[0] == fieldname) {
-                    count1 = count1 + 1;
+                    if (fieldAttributeList[0] == fieldname) {
+                        count1 = count1 + 1;
+                    }
                 }
             }
-        }
 
-        this.count = count1;
+            this.count = count1;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     editPageName(event) {
-        this.newFormName = event.currentTarget.dataset.record;
+        try {
+            this.newFormName = event.currentTarget.dataset.record;
 
 
-        this.template.querySelector("div[data-record-id =" + event.currentTarget.dataset.id + "]").style.display = 'none';
-        this.template.querySelector("div[data-name =" + event.currentTarget.dataset.id + "]").style.display = 'flex';
-        event.stopPropagation();
-        return false;
+            this.template.querySelector("div[data-record-id =" + event.currentTarget.dataset.id + "]").style.display = 'none';
+            this.template.querySelector("div[data-name =" + event.currentTarget.dataset.id + "]").style.display = 'flex';
+            event.stopPropagation();
+            return false;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     renameForm(event) {
+        try {
+            this.template.querySelector("div[data-record-id =" + event.currentTarget.dataset.id + "]").style.display = 'block';
 
-        this.template.querySelector("div[data-record-id =" + event.currentTarget.dataset.id + "]").style.display = 'block';
+            this.template.querySelector("div[data-name =" + event.currentTarget.dataset.id + "]").style.display = 'none';
 
-        this.template.querySelector("div[data-name =" + event.currentTarget.dataset.id + "]").style.display = 'none';
+            if (this.newFormName.length > 0 && this.newFormName.replaceAll(' ', '').length > 0) {
+                renameform({
+                    id: event.currentTarget.dataset.id,
+                    rename: this.newFormName,
+                    FormId: this.ParentMessage
+                }).then(result => {
+                    this.FieldList = result.fieldList;
 
-        if (this.newFormName.length > 0 && this.newFormName.replaceAll(' ', '').length > 0) {
-            renameform({
-                id: event.currentTarget.dataset.id,
-                rename: this.newFormName,
-                FormId: this.ParentMessage
-            }).then(result => {
-                this.FieldList = result.fieldList;
-
-                this.PageList = result.pageList;
-                this.setPageField(result.fieldList);
+                    this.PageList = result.pageList;
+                    this.setPageField(result.fieldList);
 
 
-            }).catch(e => {
+                }).catch(e => {
 
-                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-                this.showerror();
-                this.spinnerDataTable = false;
-            })
+                    this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+                    this.showerror();
+                    this.spinnerDataTable = false;
+                })
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     rename(event) {
-
         this.newFormName = event.target.value;
     }
 
     cancleRenameForm(event) {
-
-        this.template.querySelector("div[data-record-id =" + event.currentTarget.dataset.id + "]").style.display = 'block';
-        this.template.querySelector("div[data-name =" + event.currentTarget.dataset.id + "]").style.display = 'none';
+        try {
+            this.template.querySelector("div[data-record-id =" + event.currentTarget.dataset.id + "]").style.display = 'block';
+            this.template.querySelector("div[data-name =" + event.currentTarget.dataset.id + "]").style.display = 'none';
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     handleeditForm() {
-        this.isModalOpen = true;
-        formdetails({
-            id: this.ParentMessage
-        }).then(result => {
-            this.FormDetails = result;
-            if (this.FormDetails.Name != null) {
-                this.formtitle = this.FormDetails.Name;
-                this.FormNamevalue = this.FormDetails.Name;
-            }
-            if (this.FormDetails.hasOwnProperty.call(this.FormDetails, "Captcha_Type__c")) {
-                this.captchTypeparent = this.FormDetails.Captcha_Type__c;
-                if (this.captchTypeparent == 'None') {
-                    this.testtest = true;
-                    this.ct = false;
+        try {
+            this.isModalOpen = true;
+            formdetails({
+                id: this.ParentMessage
+            }).then(result => {
+                this.FormDetails = result;
+                if (this.FormDetails.Name != null) {
+                    this.formtitle = this.FormDetails.Name;
+                    this.FormNamevalue = this.FormDetails.Name;
                 }
-                this.template.querySelector('c-captcha-type').preview_chptchatype(this.captchTypeparent);
-            } else {
-                this.captchTypeparent = 'None';
-                if (this.captchTypeparent == 'None') {
-                    this.testtest = true;
-                    this.ct = false;
-                }
-            }
-
-            if (this.FormDetails.hasOwnProperty.call(this.FormDetails, "Progress_Indicator__c")) {
-                this.Progressbarvalue = this.FormDetails.Progress_Indicator__c;
-                if (this.Progressbarvalue == 'None') {
-                    this.ispreview_show_msg = true;
-                    this.pi = false;
+                if (this.FormDetails.hasOwnProperty.call(this.FormDetails, "Captcha_Type__c")) {
+                    this.captchTypeparent = this.FormDetails.Captcha_Type__c;
+                    if (this.captchTypeparent == 'None') {
+                        this.testtest = true;
+                        this.ct = false;
+                    }
+                    this.template.querySelector('c-captcha-type').preview_chptchatype(this.captchTypeparent);
                 } else {
-                    this.template.querySelector('c-progress-indicator').tesmethod(this.Progressbarvalue);
+                    this.captchTypeparent = 'None';
+                    if (this.captchTypeparent == 'None') {
+                        this.testtest = true;
+                        this.ct = false;
+                    }
                 }
-            } else {
-                this.Progressbarvalue = 'None';
-            }
-            if (this.FormDetails.hasOwnProperty.call(this.FormDetails, "Form_Description__c")) {
-                this.description = this.FormDetails.Form_Description__c;
-            }
-        }).catch(e => {
-            this.spinnerDataTable = false;
-            this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-        })
+
+                if (this.FormDetails.hasOwnProperty.call(this.FormDetails, "Progress_Indicator__c")) {
+                    this.Progressbarvalue = this.FormDetails.Progress_Indicator__c;
+                    if (this.Progressbarvalue == 'None') {
+                        this.ispreview_show_msg = true;
+                        this.pi = false;
+                    } else {
+                        this.template.querySelector('c-progress-indicator').tesmethod(this.Progressbarvalue);
+                    }
+                } else {
+                    this.Progressbarvalue = 'None';
+                }
+                if (this.FormDetails.hasOwnProperty.call(this.FormDetails, "Form_Description__c")) {
+                    this.description = this.FormDetails.Form_Description__c;
+                }
+            }).catch(e => {
+                this.spinnerDataTable = false;
+                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -1112,55 +1144,60 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
 
     openmodal2(event) {
+        try {
+            this.isModalOpen2 = true;
 
-        this.isModalOpen2 = true;
+            this.IdId = event.currentTarget.dataset.id;
+            pageDetails({
+                FormId: this.ParentMessage,
+                PageId: event.currentTarget.dataset.id
+            }).then(result => {
 
-        this.IdId = event.currentTarget.dataset.id;
-        pageDetails({
-            FormId: this.ParentMessage,
-            PageId: event.currentTarget.dataset.id
-        }).then(result => {
+                this.PageDetails = result;
 
-            this.PageDetails = result;
+                if (this.PageDetails.Name != null) {
+                    this.pagetitle2 = this.PageDetails.Name;
 
-            if (this.PageDetails.Name != null) {
-                this.pagetitle2 = this.PageDetails.Name;
+                }
+                if (this.PageDetails.hasOwnProperty.call(this.PageDetails, "Page_Number__c")) {
 
-            }
-            if (this.PageDetails.hasOwnProperty.call(this.PageDetails, "Page_Number__c")) {
+                    this.pagenumber2 = this.PageDetails.Page_Number__c;
+                    this.pageeeee = this.PageDetails.Page_Number__c;
 
-                this.pagenumber2 = this.PageDetails.Page_Number__c;
-                this.pageeeee = this.PageDetails.Page_Number__c;
+                }
+            }).catch(() => {
 
-            }
-        }).catch(() => {
-
-            this.spinnerDataTable = false;
-            this.error_message = 'Something Went Wrong In Form Builder Page';
-            this.showerror();
-        })
+                this.spinnerDataTable = false;
+                this.error_message = 'Something Went Wrong In Form Builder Page';
+                this.showerror();
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     changePageTitle(event) {
         this.pagetitle = event.target.value;
-
     }
 
     changePageTitle2(event) {
-
         this.pagetitle2 = event.target.value;
 
     }
 
     changePageNo(event) {
-        let value = parseInt(event.target.value);
-        if (value <= 0) {
-            let nameCmp1 = this.template.querySelector(".rkerrorclass");
-            nameCmp1.setCustomValidity("Please enter a value greater than zero");
-        } else {
-            this.pagenumber = value;
-            let nameCmp2 = this.template.querySelector(".rkerrorclass");
-            nameCmp2.setCustomValidity("");
+        try {
+            let value = parseInt(event.target.value);
+            if (value <= 0) {
+                let nameCmp1 = this.template.querySelector(".rkerrorclass");
+                nameCmp1.setCustomValidity("Please enter a value greater than zero");
+            } else {
+                this.pagenumber = value;
+                let nameCmp2 = this.template.querySelector(".rkerrorclass");
+                nameCmp2.setCustomValidity("");
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -1170,47 +1207,54 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     handleeditPage() {
+        try {
+            if (this.pagenumber2 < this.pageeeee) {
+                this.pagenumber2 = this.pagenumber2 - 1;
+            }
+            updatePage({
+                formId: this.ParentMessage,
+                pageId: this.IdId,
+                pageTitle: this.pagetitle2,
+                pageNumber: this.pagenumber2
+            }).then(result => {
+                this.FieldList = result.fieldList;
+                this.PageList = result.pageList;
+                this.setPageField(result.fieldList);
+                let toast_error_msg = 'Form Page is updated Successfully';
+                this.error_toast = true;
+                this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+            }).catch(() => {
 
-        if (this.pagenumber2 < this.pageeeee) {
-            this.pagenumber2 = this.pagenumber2 - 1;
+                this.spinnerDataTable = false;
+                let toast_error_msg = 'Error while updating in the form page, Please try again later';
+                this.error_toast = true;
+                this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+            })
+            this.isModalOpen2 = false;
+        } catch (error) {
+            console.log(error);
         }
-        updatePage({
-            formId: this.ParentMessage,
-            pageId: this.IdId,
-            pageTitle: this.pagetitle2,
-            pageNumber: this.pagenumber2
-        }).then(result => {
-            this.FieldList = result.fieldList;
-            this.PageList = result.pageList;
-            this.setPageField(result.fieldList);
-            let toast_error_msg = 'Form Page is updated Successfully';
-            this.error_toast = true;
-            this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-        }).catch(() => {
-
-            this.spinnerDataTable = false;
-            let toast_error_msg = 'Error while updating in the form page, Please try again later';
-            this.error_toast = true;
-            this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
-        })
-        this.isModalOpen2 = false;
     }
 
     handleValidation() {
-        let nameCmp = this.template.querySelector(".nameCls");
+        try {
+            let nameCmp = this.template.querySelector(".nameCls");
 
 
-        let FName = nameCmp.value;
-        if (!nameCmp.value || nameCmp.value.trim().length == 0) {
+            let FName = nameCmp.value;
+            if (!nameCmp.value || nameCmp.value.trim().length == 0) {
 
-            nameCmp.setCustomValidity("Form Title is required");
-        } else if (FName.length >= 80) {
-            nameCmp.setCustomValidity("Input must be no longer than 80 characters.");
-        } else {
-            nameCmp.setCustomValidity(""); // clear previous value
-            this.submitDetails();
+                nameCmp.setCustomValidity("Form Title is required");
+            } else if (FName.length >= 80) {
+                nameCmp.setCustomValidity("Input must be no longer than 80 characters.");
+            } else {
+                nameCmp.setCustomValidity(""); // clear previous value
+                this.submitDetails();
+            }
+            nameCmp.reportValidity();
+        } catch (error) {
+            console.log(error);
         }
-        nameCmp.reportValidity();
     }
 
     handleValidation1() {
@@ -1236,21 +1280,25 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     handleValidation2() {
-        let nameCmp1 = this.template.querySelector(".nameCls2");
-        let nameCmp2 = this.template.querySelector(".rkerrorclass1");
-        if (!nameCmp1.value || nameCmp1.value.trim().length == 0) {
-            nameCmp1.setCustomValidity("Page Title is required");
-        } else {
-            nameCmp1.setCustomValidity(""); // clear previous value            
-
-            if (nameCmp2.value != '' && nameCmp2.value != null && nameCmp2.value != undefined && nameCmp2.value <= 0) {
-                nameCmp2.setCustomValidity("Please enter a value greater than zero");
+        try {
+            let nameCmp1 = this.template.querySelector(".nameCls2");
+            let nameCmp2 = this.template.querySelector(".rkerrorclass1");
+            if (!nameCmp1.value || nameCmp1.value.trim().length == 0) {
+                nameCmp1.setCustomValidity("Page Title is required");
             } else {
-                nameCmp2.setCustomValidity("");
-                this.handleeditPage();
+                nameCmp1.setCustomValidity(""); // clear previous value            
+
+                if (nameCmp2.value != '' && nameCmp2.value != null && nameCmp2.value != undefined && nameCmp2.value <= 0) {
+                    nameCmp2.setCustomValidity("Please enter a value greater than zero");
+                } else {
+                    nameCmp2.setCustomValidity("");
+                    this.handleeditPage();
+                }
             }
+            nameCmp2.reportValidity();
+        } catch (error) {
+            console.log(error);
         }
-        nameCmp2.reportValidity();
     }
 
     handlecreatePage() {
@@ -1299,12 +1347,16 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     showToast(title, variant) {
-        const event = new ShowToastEvent({
-            title: title,
-            variant: variant,
-            mode: 'dismissable'
-        });
-        this.dispatchEvent(event);
+        try {
+            const event = new ShowToastEvent({
+                title: title,
+                variant: variant,
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     startspinner() {
@@ -1320,14 +1372,11 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
 
     changeFormTitle(event) {
         this.formtitle = event.target.value;
-
         this.isModalOpen_2 = false;
     }
 
     changeDescription(event) {
         this.description = event.target.value;
-
-
     }
 
     changeProgressIndicator(event) {
@@ -1457,86 +1506,100 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     submitDetails() {
         // to close modal set isModalOpen tarck value as false
         //Add your code to call apex method or do some processing
+        try {
+            this.FormNamevalue = this.formtitle;
+            editFormSubmit({
+                id: this.ParentMessage,
+                name: this.formtitle,
+                progressIn: this.Progressbarvalue,
+                captcha: this.captchTypeparent
+            }).then(() => {
 
-        this.FormNamevalue = this.formtitle;
-        editFormSubmit({
-            id: this.ParentMessage,
-            name: this.formtitle,
-            progressIn: this.Progressbarvalue,
-            captcha: this.captchTypeparent
-        }).then(() => {
+                let toast_error_msg = 'Form Changes Done Successfully';
+                this.error_toast = true;
+                this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
 
-            let toast_error_msg = 'Form Changes Done Successfully';
-            this.error_toast = true;
-            this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+            }).catch(() => {
 
-        }).catch(() => {
-
-            this.spinnerDataTable = false;
-            let toast_error_msg = 'Error while changes in the form, Please try again later';
-            this.error_toast = true;
-            this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
-        });
-        this.isModalOpen = false;
+                this.spinnerDataTable = false;
+                let toast_error_msg = 'Error while changes in the form, Please try again later';
+                this.error_toast = true;
+                this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+            });
+            this.isModalOpen = false;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     openfieldvalidation(event) {
-        this.fieldId = event.currentTarget.dataset.id;
-        this.fieldName = event.currentTarget.dataset.fieldName;
-        this.activesidebar = false;
-        this.activeDesignsidebar = false
-        this.fieldvalidationdiv = true;
-        this.template.querySelector('.fieldvalidationdiv').style = "display:block;";
-        var array = this.template.querySelectorAll('.field');
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-            if (event.currentTarget.dataset.id == element.dataset.id) {
-                element.style = "background-color:rgba(210,201,201,0.4); border-radius:4px";
-            } else {
-                element.style = "background-color:none;";
+        try {
+            this.fieldId = event.currentTarget.dataset.id;
+            this.fieldName = event.currentTarget.dataset.fieldName;
+            this.activesidebar = false;
+            this.activeDesignsidebar = false
+            this.fieldvalidationdiv = true;
+            this.template.querySelector('.fieldvalidationdiv').style = "display:block;";
+            var array = this.template.querySelectorAll('.field');
+            for (let index = 0; index < array.length; index++) {
+                const element = array[index];
+                if (event.currentTarget.dataset.id == element.dataset.id) {
+                    element.style = "background-color:rgba(210,201,201,0.4); border-radius:4px";
+                } else {
+                    element.style = "background-color:none;";
+                }
             }
+            this.template.querySelector('c-field-validation').openvalidation(this.tab, this.fieldId, this.fieldName);
+        } catch (error) {
+            console.log(error);
         }
-        this.template.querySelector('c-field-validation').openvalidation(this.tab, this.fieldId, this.fieldName);
     }
 
     closevalidation(event) {
-        this.spinnerDataTable = true;
-        this.tab = event.detail;
-        this.activeDesignsidebar = false;
-        this.activeNotification = false;
-        this.activethankyou = false;
-        this.fieldvalidationdiv = false;
-        this.reloadform();
-        if (this.tab == 'tab-2') {
-            this.activesidebar = true;
-        } else if (this.tab == 'tab-3') {
-            this.activeDesignsidebar = true;
+        try {
+            this.spinnerDataTable = true;
+            this.tab = event.detail;
+            this.activeDesignsidebar = false;
+            this.activeNotification = false;
+            this.activethankyou = false;
+            this.fieldvalidationdiv = false;
+            this.reloadform();
+            if (this.tab == 'tab-2') {
+                this.activesidebar = true;
+            } else if (this.tab == 'tab-3') {
+                this.activeDesignsidebar = true;
+            }
+            this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
+            var array = this.template.querySelectorAll('.field');
+            for (let index = 0; index < array.length; index++) {
+                const element = array[index];
+                element.style = "background-color:none;";
+            }
+            this.spinnerDataTable = false;
+        } catch (error) {
+            console.log(error);
         }
-        this.template.querySelector('.fieldvalidationdiv').style = "display:none;";
-        var array = this.template.querySelectorAll('.field');
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-            element.style = "background-color:none;";
-        }
-        this.spinnerDataTable = false;
     }
 
     afterfielddelete() {
-        let cmpDef = {
-            componentDef: "c:formBuilder",
-            attributes: {
-                ParentMessage: this.ParentMessage != "" ? this.ParentMessage : "No Record Created",
-                FormName: this.FormNamevalue != "" ? this.FormNamevalue : "No Name Given"
-            }
-        };
-        let encodedDef = btoa(JSON.stringify(cmpDef));
-        this[NavigationMixin.Navigate]({
-            type: "standard__webPage",
-            attributes: {
-                url: "/one/one.app#" + encodedDef
-            }
-        });
-
+        try {
+            let cmpDef = {
+                componentDef: "c:formBuilder",
+                attributes: {
+                    ParentMessage: this.ParentMessage != "" ? this.ParentMessage : "No Record Created",
+                    FormName: this.FormNamevalue != "" ? this.FormNamevalue : "No Name Given"
+                }
+            };
+            let encodedDef = btoa(JSON.stringify(cmpDef));
+            this[NavigationMixin.Navigate]({
+                type: "standard__webPage",
+                attributes: {
+                    url: "/one/one.app#" + encodedDef
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     bin = iconsZip + '/Iconfolder/bin.png';
@@ -1549,55 +1612,59 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     deleteyes() {
-        this.spinnerDataTable = true;
-        if (this.PageList.length > 1) {
-            this.deletepopup = false;
-            deletePage({
-                FormId: this.ParentMessage,
-                PageId: this.pageIds
-            }).then(result => {
+        try {
+            this.spinnerDataTable = true;
+            if (this.PageList.length > 1) {
+                this.deletepopup = false;
+                deletePage({
+                    FormId: this.ParentMessage,
+                    PageId: this.pageIds
+                }).then(result => {
+                    this.spinnerDataTable = false;
+                    this.FieldList = result.fieldList;
+                    var pagelength = result.pageList.length == this.PageList.length;
+                    this.PageList = result.pageList;
+                    this.setPageField(result.fieldList);
+                    if (pagelength) {
+                        let toast_error_msg = 'You cannot delete the page.';
+                        this.error_toast = true;
+                        this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+                    } else {
+                        let toast_error_msg = 'Page is deleted successfully.';
+                        this.error_toast = true;
+
+                        let cmpDef = {
+                            componentDef: "c:formBuilder",
+                            attributes: {
+                                ParentMessage: this.ParentMessage != "" ? this.ParentMessage : "No Record Created",
+                                FormName: this.FormNamevalue != "" ? this.FormNamevalue : "No Name Given"
+                            }
+                        };
+                        let encodedDef = btoa(JSON.stringify(cmpDef));
+                        this[NavigationMixin.Navigate]({
+                            type: "standard__webPage",
+                            attributes: {
+                                url: "/one/one.app#" + encodedDef
+                            }
+                        });
+
+
+                        this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+                    }
+                }).catch(e => {
+                    this.spinnerDataTable = false;
+                    this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
+                    this.showerror();
+                })
+            } else {
                 this.spinnerDataTable = false;
-                this.FieldList = result.fieldList;
-                var pagelength = result.pageList.length == this.PageList.length;
-                this.PageList = result.pageList;
-                this.setPageField(result.fieldList);
-                if (pagelength) {
-                    let toast_error_msg = 'You cannot delete the page.';
-                    this.error_toast = true;
-                    this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
-                } else {
-                    let toast_error_msg = 'Page is deleted successfully.';
-                    this.error_toast = true;
-
-                    let cmpDef = {
-                        componentDef: "c:formBuilder",
-                        attributes: {
-                            ParentMessage: this.ParentMessage != "" ? this.ParentMessage : "No Record Created",
-                            FormName: this.FormNamevalue != "" ? this.FormNamevalue : "No Name Given"
-                        }
-                    };
-                    let encodedDef = btoa(JSON.stringify(cmpDef));
-                    this[NavigationMixin.Navigate]({
-                        type: "standard__webPage",
-                        attributes: {
-                            url: "/one/one.app#" + encodedDef
-                        }
-                    });
-
-
-                    this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
-                }
-            }).catch(e => {
-                this.spinnerDataTable = false;
-                this.error_message = 'Something Went Wrong In Form Builder Page' + e.message;
-                this.showerror();
-            })
-        } else {
-            this.spinnerDataTable = false;
-            this.deletepopup = false;
-            let toast_error_msg = 'A Form must contain atleast one page.';
-            this.error_toast = true;
-            this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+                this.deletepopup = false;
+                let toast_error_msg = 'A Form must contain atleast one page.';
+                this.error_toast = true;
+                this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -1611,15 +1678,19 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     @api showerror() {
-        this.error_popup1 = true;
+        try {
+            this.error_popup1 = true;
 
-        let errordata = {
-            header_type: 'Form Builder ',
-            Message: this.error_message
-        };
-        this.showerrorpopup({
-            detail: errordata
-        })
+            let errordata = {
+                header_type: 'Form Builder ',
+                Message: this.error_message
+            };
+            this.showerrorpopup({
+                detail: errordata
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     @api showerrorpopup(event) {
@@ -1631,12 +1702,16 @@ export default class FormBuilder extends NavigationMixin(LightningElement) {
     }
 
     generateRandomString() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let randomString = '';
-        for (let i = 0; i < 15; i++) {
-            randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+        try {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let randomString = '';
+            for (let i = 0; i < 15; i++) {
+                randomString += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return randomString;
+        } catch (error) {
+            console.log(error);
         }
-        return randomString;
     }
 
     @api

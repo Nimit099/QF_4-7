@@ -102,15 +102,18 @@ export default class NotificationComponent extends LightningElement {
 
 
     connectedCallback() {
-
-        Promise.all([
+        try {
+            Promise.all([
                 loadStyle(this, notification_css)
-            ]).then(() => {})
-            .catch(() => {
-                this.message = 'Something went wrong while loading style';
-                this.showerrorpopup();
-            });
-        this.get_records();
+            ]).then(() => { })
+                .catch(() => {
+                    this.message = 'Something went wrong while loading style';
+                    this.showerrorpopup();
+                });
+            this.get_records();
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 
@@ -118,8 +121,8 @@ export default class NotificationComponent extends LightningElement {
         try {
             this.spinnerDataTable = true;
             getContactList({
-                    formid: this.form_id
-                })
+                formid: this.form_id
+            })
                 .then(result => {
                     if ((result != null) && (result.length > 0) && (result != undefined)) {
 
@@ -186,12 +189,16 @@ export default class NotificationComponent extends LightningElement {
         return this._selectedValues;
     }
     set selectedValues(value) {
-        this._selectedValues = value;
-        this.handleToAddressChange({
-            detail: {
-                selectedValues: this._selectedValues
-            }
-        })
+        try {
+            this._selectedValues = value;
+            this.handleToAddressChange({
+                detail: {
+                    selectedValues: this._selectedValues
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -199,12 +206,16 @@ export default class NotificationComponent extends LightningElement {
         return this._selectedValues_2;
     }
     set selectedValues_2(value) {
-        this._selectedValues_2 = value;
-        this.handleCcAddressChange({
-            detail: {
-                selectedValues_2: this._selectedValues_2
-            }
-        })
+        try {
+            this._selectedValues_2 = value;
+            this.handleCcAddressChange({
+                detail: {
+                    selectedValues_2: this._selectedValues_2
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -212,12 +223,16 @@ export default class NotificationComponent extends LightningElement {
         return this._selectedValues_3;
     }
     set selectedValues_3(value) {
-        this._selectedValues_3 = value;
-        this.handleBccAddressChange({
-            detail: {
-                selectedValues_3: this._selectedValues_3
-            }
-        })
+        try {
+            this._selectedValues_3 = value;
+            this.handleBccAddressChange({
+                detail: {
+                    selectedValues_3: this._selectedValues_3
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     handleToAddressChange(event) {
@@ -257,11 +272,11 @@ export default class NotificationComponent extends LightningElement {
     }
 
     handleValidation() {
-        try {            
+        try {
             this.template.querySelector('c-email-input').handleValidationtest();
             let nameCmp = this.template.querySelector(".nameCls");
 
-            if (!nameCmp.value) {                
+            if (!nameCmp.value) {
                 nameCmp.setCustomValidity("Form Title is required");
             } else {
                 nameCmp.setCustomValidity(""); // clear previous value
@@ -310,10 +325,10 @@ export default class NotificationComponent extends LightningElement {
         try {
             if (this.Notification_id != null || this.Notification_id != '' || this.Notification_id != undefined) {
                 status({
-                        formid: this.form_id,
-                        status: this.isChecked
-                    })
-                    .then(result => {                                                
+                    formid: this.form_id,
+                    status: this.isChecked
+                })
+                    .then(result => {
                         this.spinnerDataTable = false;
                         if (result.length <= 0) {
                             this.enable_disable();
@@ -330,207 +345,223 @@ export default class NotificationComponent extends LightningElement {
     }
 
     handleSave() {
-        let toValue = this.inputValue;
-        let ccValue = this.inputValue1;
-        let bccValue = this.inputValue2;
+        try {
+            let toValue = this.inputValue;
+            let ccValue = this.inputValue1;
+            let bccValue = this.inputValue2;
 
-        if ((toValue === '' || toValue === undefined) && (ccValue === '' || ccValue === undefined) && (bccValue === '' || bccValue === undefined)) {
-            // All email fields are empty, proceed to save
-            this.save();
-            this.inputValue = '';
-            this.inputValue1 = '';
-            this.inputValue2 = '';
-        } else {
-            let isToValid = this.isEmailValid(toValue);
-            let isCcValid = this.isEmailValid(ccValue);
-            let isBccValid = this.isEmailValid(bccValue);
-
-            if (isToValid || isCcValid || isBccValid) {
-                // All email fields are valid, proceed to save
+            if ((toValue === '' || toValue === undefined) && (ccValue === '' || ccValue === undefined) && (bccValue === '' || bccValue === undefined)) {
+                // All email fields are empty, proceed to save
                 this.save();
                 this.inputValue = '';
                 this.inputValue1 = '';
                 this.inputValue2 = '';
             } else {
-                this.inputValue = '';
-                this.inputValue1 = '';
-                this.inputValue2 = '';
+                let isToValid = this.isEmailValid(toValue);
+                let isCcValid = this.isEmailValid(ccValue);
+                let isBccValid = this.isEmailValid(bccValue);
+
+                if (isToValid || isCcValid || isBccValid) {
+                    // All email fields are valid, proceed to save
+                    this.save();
+                    this.inputValue = '';
+                    this.inputValue1 = '';
+                    this.inputValue2 = '';
+                } else {
+                    this.inputValue = '';
+                    this.inputValue1 = '';
+                    this.inputValue2 = '';
+                }
             }
+        } catch (error) {
+            console.log(error);
         }
     }
 
 
 
     isEmailValid(email) {
-        // Regular expression to validate email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        try {
+            // Regular expression to validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
 
-    save() {           
-        this.textto = this.toAddress.toString();
-        this.textcc = this.ccAddress.toString();
-        this.textbcc = this.bccAddress.toString();
+    save() {
+        try {
+            this.textto = this.toAddress.toString();
+            this.textcc = this.ccAddress.toString();
+            this.textbcc = this.bccAddress.toString();
 
-        this.Subject = this.Subject.trim();
-        if (this.textto == '') {
-            this.required_to = true;
-            this.email_msg = false;
-        }
-        if (this.Subject == '') {
-            this.required_Subject = true;
-        }
-        if (this.Message == '') {
-            this.required_Message = true;
-
-        }
-
-        if (this.textto != '' && this.Subject != '' && this.Message != '') {
-            this.inputValue = '';
-            this.inputValue1 = '';
-            this.inputValue2 = '';
-            this.email_msg = false;
-            this.email_msg_cc = false;
-            this.email_msg_bcc = false;
-
-            let listObj = {
-                'sobjectType': 'Notification__c'
-            };
-            listObj.To_Recipients__c = this.textto;
-            listObj.CC_Recipients__c = this.textcc;
-            listObj.BCC_Recipients__c = this.textbcc;
-            listObj.Subject__c = this.Subject;
-            listObj.Email_Body__c = this.Message;
-            listObj.Form__c = this.form_id;
-            listObj.Attachment__c = this.Attachment;
-            listObj.Id = this.Notification_id;
-            listObj.Status__c = this.isChecked;
-            if (this.Notification_id == null) {
-                try {
-                    this.spinnerDataTable = true;
-                    create({
-                            acc: listObj
-                        })
-                        .then( data=> {
-                            this.toast_error_msg = 'The Notification data has been Saved successfully';
-                            this.template.querySelector('c-toast-component').showToast('success', this.toast_error_msg, 3000);
-                            this.Cancel();
-                            this.spinnerDataTable = false;
-                            getContactList({
-                                formid: this.form_id
-                            });
-                        })
-                        .catch(error => {
-                            this.spinnerDataTable = false;
-                            this.error_message = 'Something Went Wrong In Notification Page' + error.message;
-                            this.showerrorpopup();
-                        })
-
-                } catch (error) {
-                    this.spinnerDataTable = false;
-                    this.error_message = 'Something Went Wrong In Notification Page';
-                    this.showerrorpopup();
-                }
-            } else {
-                try {
-                    this.spinnerDataTable = true;
-                    updated({
-                            updatelist: listObj
-                        })
-                        .then(data => {
-                            this.toast_error_msg = 'he notification data has been Updated successfully';
-                            this.template.querySelector('c-toast-component').showToast('success', this.toast_error_msg, 3000);
-                            this.spinnerDataTable = false;
-                            this.get_records();
-                            this.Subject = data.Subject__c;
-
-                        })
-                        .catch(error => {
-                            this.spinnerDataTable = false;
-                            console.error({
-                                error
-                            });
-                            this.error_message = 'Something Went Wrong In Notification Page';
-                            this.showerrorpopup();
-                        })
-
-                } catch (error) {
-                    this.spinnerDataTable = false;
-                    this.error_message = 'Something Went Wrong In Notification Page';
-                    this.showerrorpopup();
-                }
+            this.Subject = this.Subject.trim();
+            if (this.textto == '') {
+                this.required_to = true;
+                this.email_msg = false;
+            }
+            if (this.Subject == '') {
+                this.required_Subject = true;
+            }
+            if (this.Message == '') {
+                this.required_Message = true;
 
             }
+
+            if (this.textto != '' && this.Subject != '' && this.Message != '') {
+                this.inputValue = '';
+                this.inputValue1 = '';
+                this.inputValue2 = '';
+                this.email_msg = false;
+                this.email_msg_cc = false;
+                this.email_msg_bcc = false;
+
+                let listObj = {
+                    'sobjectType': 'Notification__c'
+                };
+                listObj.To_Recipients__c = this.textto;
+                listObj.CC_Recipients__c = this.textcc;
+                listObj.BCC_Recipients__c = this.textbcc;
+                listObj.Subject__c = this.Subject;
+                listObj.Email_Body__c = this.Message;
+                listObj.Form__c = this.form_id;
+                listObj.Attachment__c = this.Attachment;
+                listObj.Id = this.Notification_id;
+                listObj.Status__c = this.isChecked;
+                if (this.Notification_id == null) {
+                    try {
+                        this.spinnerDataTable = true;
+                        create({
+                            acc: listObj
+                        })
+                            .then(data => {
+                                this.toast_error_msg = 'The Notification data has been Saved successfully';
+                                this.template.querySelector('c-toast-component').showToast('success', this.toast_error_msg, 3000);
+                                this.Cancel();
+                                this.spinnerDataTable = false;
+                                getContactList({
+                                    formid: this.form_id
+                                });
+                            })
+                            .catch(error => {
+                                this.spinnerDataTable = false;
+                                this.error_message = 'Something Went Wrong In Notification Page' + error.message;
+                                this.showerrorpopup();
+                            })
+
+                    } catch (error) {
+                        this.spinnerDataTable = false;
+                        this.error_message = 'Something Went Wrong In Notification Page';
+                        this.showerrorpopup();
+                    }
+                } else {
+                    try {
+                        this.spinnerDataTable = true;
+                        updated({
+                            updatelist: listObj
+                        })
+                            .then(data => {
+                                this.toast_error_msg = 'he notification data has been Updated successfully';
+                                this.template.querySelector('c-toast-component').showToast('success', this.toast_error_msg, 3000);
+                                this.spinnerDataTable = false;
+                                this.get_records();
+                                this.Subject = data.Subject__c;
+
+                            })
+                            .catch(error => {
+                                this.spinnerDataTable = false;
+                                console.error({
+                                    error
+                                });
+                                this.error_message = 'Something Went Wrong In Notification Page';
+                                this.showerrorpopup();
+                            })
+
+                    } catch (error) {
+                        this.spinnerDataTable = false;
+                        this.error_message = 'Something Went Wrong In Notification Page';
+                        this.showerrorpopup();
+                    }
+
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
 
     }
     Cancel() {
-        this.spinnerDataTable = true;
-        getContactList({
+        try {
+            this.spinnerDataTable = true;
+            getContactList({
                 formid: this.form_id
             })
-            .then(result => {
-                console.log(result);
-                console.log(JSON.stringify(result));
-                 this.selectedValuesMap.clear();
+                .then(result => {
+                    console.log(result);
+                    console.log(JSON.stringify(result));
+                    this.selectedValuesMap.clear();
+                    this.selectedValues_2Map.clear();
+                    this.selectedValues_3Map.clear();
+                    this.selectedValues = '';
+                    this.selectedValues_2 = '';
+                    this.selectedValues_3 = '';
+                    this.list_length = result.length;
+                    console.log(JSON.stringify(this.list_length));
+                    this.to = result[0].To_Recipients__c;
+                    this.to_email(this.to);
+                    this.cc = result[0].CC_Recipients__c;
+                    this.cc_email(this.cc);
+                    this.bcc = result[0].BCC_Recipients__c;
+                    this.bcc_email(this.bcc);
+                    this.Subject = result[0].Subject__c;
+                    this.Message = result[0].Email_Body__c;
+                    this.Attachment = result[0].Attachment__c;
+                    this.Notification_id = result[0].Id;
+                })
+                .catch(error => {
+                    this.spinnerDataTable = false;
+                    this.error = error;
+                    this.error_message = 'Something Went Wrong In Notification';
+                    this.showerrorpopup();
+                });
+            if (this.list_length < 1) {
+                console.log('oy');
+                this.toAddress = '';
+                this.ccAddress = '';
+                this.Subject = '';
+                this.Message = '';
+                this.Attachment = false;
+                this.inputValue = '';
+                this.inputValue1 = '';
+                this.inputValue2 = '';
+                this.email_msg = false;
+                this.email_msg_cc = false;
+                this.email_msg_bcc = false;
+                this.required_to = false;
+                this.required_Subject = false;
+                this.required_Message = false;
+                this.selectedValuesMap.clear();
                 this.selectedValues_2Map.clear();
                 this.selectedValues_3Map.clear();
                 this.selectedValues = '';
                 this.selectedValues_2 = '';
                 this.selectedValues_3 = '';
-                this.list_length = result.length;
-                console.log(JSON.stringify(this.list_length));
-                this.to = result[0].To_Recipients__c;
-                this.to_email(this.to);
-                this.cc = result[0].CC_Recipients__c;
-                this.cc_email(this.cc);
-                this.bcc = result[0].BCC_Recipients__c;
-                this.bcc_email(this.bcc);
-                this.Subject = result[0].Subject__c;
-                this.Message = result[0].Email_Body__c;
-                this.Attachment = result[0].Attachment__c;
-                this.Notification_id = result[0].Id;
-            })
-            .catch(error => {
                 this.spinnerDataTable = false;
-                this.error = error;
-                this.error_message = 'Something Went Wrong In Notification';
-                this.showerrorpopup();
-            });
-        if (this.list_length < 1) {
-            console.log('oy');
-            this.toAddress = '';
-            this.ccAddress = '';
-            this.Subject = '';
-            this.Message = '';
-            this.Attachment = false;
-            this.inputValue = '';
-            this.inputValue1 = '';
-            this.inputValue2= '';
-            this.email_msg = false;
-            this.email_msg_cc = false;
-            this.email_msg_bcc = false;
-            this.required_to = false;
-            this.required_Subject = false;
-            this.required_Message = false;
-            this.selectedValuesMap.clear();
-            this.selectedValues_2Map.clear();
-            this.selectedValues_3Map.clear();
-            this.selectedValues = '';
-            this.selectedValues_2 = '';
-            this.selectedValues_3 = '';
-            this.spinnerDataTable = false;
-        }
-        else{
-            this.email_msg = false;
-            this.email_msg_cc = false;
-            this.email_msg_bcc = false;
-            this.inputValue = '';
-            this.inputValue1 = '';
-            this.inputValue2= '';
-            this.spinnerDataTable = false;
+            }
+            else {
+                this.email_msg = false;
+                this.email_msg_cc = false;
+                this.email_msg_bcc = false;
+                this.inputValue = '';
+                this.inputValue1 = '';
+                this.inputValue2 = '';
+                this.spinnerDataTable = false;
+            }
+        } catch (error) {
+            console.log(error);
         }
 
     }
@@ -560,7 +591,7 @@ export default class NotificationComponent extends LightningElement {
                     this.template.querySelector('lightning-input.input2').value = '';
                 }
             }
-            
+
         } catch (error) {
             this.error_message = 'Something Went Wrong In Notification Page';
             this.showerrorpopup();
@@ -594,9 +625,13 @@ export default class NotificationComponent extends LightningElement {
     }
 
     @api validate() {
-        this.template.querySelector('input').reportValidity();
-        const isValid = this.template.querySelector('input').checkValidity();
-        return isValid;
+        try {
+            this.template.querySelector('input').reportValidity();
+            const isValid = this.template.querySelector('input').checkValidity();
+            return isValid;
+        } catch (error) {
+            console.log(error);
+        }
     }
     to_email(strString) {
         try {
@@ -635,7 +670,7 @@ export default class NotificationComponent extends LightningElement {
                 this.selectedValues_2 = [...this.selectedValues_2Map.keys()];
                 this.template.querySelector('lightning-input.input3').value = '';
             }
-            
+
         } catch (error) {
             this.error_message = 'Something Went Wrong In Notification Page';
             this.showerrorpopup();
@@ -661,9 +696,13 @@ export default class NotificationComponent extends LightningElement {
     }
 
     @api validate_2() {
-        this.template.querySelector('input').reportValidity();
-        const isValid = this.template.querySelector('input').checkValidity();
-        return isValid;
+        try {
+            this.template.querySelector('input').reportValidity();
+            const isValid = this.template.querySelector('input').checkValidity();
+            return isValid;
+        } catch (error) {
+            console.log(error);
+        }
     }
     @api cc_email(strString) {
         try {
@@ -708,7 +747,7 @@ export default class NotificationComponent extends LightningElement {
                     this.template.querySelector('lightning-input.input4').value = '';
                 }
             }
-            
+
         } catch (error) {
             this.error_message = 'Something Went Wrong In Notification Page';
             this.showerrorpopup();
@@ -758,7 +797,12 @@ export default class NotificationComponent extends LightningElement {
     }
 
     showerrorpopup() {
-        this.template.querySelector('c-errorpopup').errormessagee('Notification Component Error', this.error_message);
+        try {
+            this.template.querySelector('c-errorpopup').errormessagee('Notification Component Error', this.error_message);
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
     errorpopupcall() {
         location.reload();

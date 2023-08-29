@@ -221,31 +221,42 @@ export default class CaptchaType extends LightningElement {
 
     // Start Captcha 3 Slider Captcha
     @api generate_new_slider_captcha() {
-        this.slider_captcha_1 = Math.floor(Math.random() * 50);
+        try {
+            this.slider_captcha_1 = Math.floor(Math.random() * 50);
+        } catch (error) {
+            console.log(error);
+        }
     }
     testch(event) {
-        this.value = event.target.value;
+        try {
+            this.value = event.target.value;
+        } catch (error) {
+            console.log(error);
+        }
 
     }
     handleValueChange() {
-
-        if (this.value == this.slider_captcha_1) {
-            this.msg_verified_captcha = true;
-            this.msg_invalid_captcha = false;
-            const selectedEvent = new CustomEvent("captchaverification", {
-                detail: this.msg_verified_captcha
-            });
-            // Dispatches the event.
-            this.dispatchEvent(selectedEvent);
-        } else {
-            this.msg_invalid_captcha = true;
-            this.msg_verified_captcha = false;
-            const selectedEvent = new CustomEvent("captchaverification", {
-                detail: this.msg_verified_captcha
-            });
-            // Dispatches the event.
-            this.dispatchEvent(selectedEvent);
-            this.generate_new_slider_captcha();
+        try {
+            if (this.value == this.slider_captcha_1) {
+                this.msg_verified_captcha = true;
+                this.msg_invalid_captcha = false;
+                const selectedEvent = new CustomEvent("captchaverification", {
+                    detail: this.msg_verified_captcha
+                });
+                // Dispatches the event.
+                this.dispatchEvent(selectedEvent);
+            } else {
+                this.msg_invalid_captcha = true;
+                this.msg_verified_captcha = false;
+                const selectedEvent = new CustomEvent("captchaverification", {
+                    detail: this.msg_verified_captcha
+                });
+                // Dispatches the event.
+                this.dispatchEvent(selectedEvent);
+                this.generate_new_slider_captcha();
+            }
+        } catch (error) {
+            console.log(error);
         }
 
     }
@@ -358,7 +369,12 @@ export default class CaptchaType extends LightningElement {
     }
 
     showerrorpopup() {
-        this.template.querySelector('c-errorpopup').errormessagee('Publish Component Error', this.message);
+        try {
+            this.template.querySelector('c-errorpopup').errormessagee('Publish Component Error', this.message);
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 }

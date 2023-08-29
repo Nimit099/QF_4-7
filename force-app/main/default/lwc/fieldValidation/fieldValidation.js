@@ -142,8 +142,8 @@ export default class FieldValidation extends LightningElement {
             getfieldvalidation({
                 fieldId: this.fieldId
             }).then(result => {
-                let fielvalidation = result.fieldvalidations;                
-                if(result.fieldmapping == 'LastName<!@!>Contact'){                    
+                let fielvalidation = result.fieldvalidations;
+                if (result.fieldmapping == 'LastName<!@!>Contact') {
                     this.disable = true;
                 } else {
                     this.disable = false;
@@ -206,7 +206,7 @@ export default class FieldValidation extends LightningElement {
                 this.message = "Something Went Wrong In Field Validation Page";
                 this.showerror();
             })
-        } catch (error) {            
+        } catch (error) {
             this.spinnerDataTable = false;
             this.message = "Something Went Wrong In Field Validation Page";
             this.showerror();
@@ -224,8 +224,8 @@ export default class FieldValidation extends LightningElement {
             } else if (event.currentTarget.dataset.title == "Delete") {
                 if (this.standardrequired != "isrequired") {
                     deletefield({
-                            fieldId: this.fieldId
-                        })
+                        fieldId: this.fieldId
+                    })
                         .then(() => {
                             event.preventDefault();
                             const deleteEvent = new CustomEvent("updatefields", {
@@ -284,10 +284,10 @@ export default class FieldValidation extends LightningElement {
 
                 if (parseInt(this.maximumvalue) > parseInt(this.minimumvalue)) {
                     savevalidation({
-                            fieldId: this.fieldId,
-                            fieldValidation: this.fieldValidation,
-                            Label: this.labelvalue
-                        })
+                        fieldId: this.fieldId,
+                        fieldValidation: this.fieldValidation,
+                        Label: this.labelvalue
+                    })
                         .then(() => {
                             event.preventDefault();
                             const selectEvent = new CustomEvent("closevalidation", {
@@ -307,8 +307,8 @@ export default class FieldValidation extends LightningElement {
             } else if (event.currentTarget.dataset.title == "Copy") {
                 if (this.fieldtype == "Extra") {
                     copyfield({
-                            fieldId: this.fieldId
-                        })
+                        fieldId: this.fieldId
+                    })
                         .then(() => {
                             event.preventDefault();
                             const selectEvent = new CustomEvent("closevalidation", {
@@ -326,7 +326,7 @@ export default class FieldValidation extends LightningElement {
                     this.template.querySelector("c-toast-component").showToast("error", "You cannot copy Object Fields", 3000);
                 }
             }
-        } catch (error) {            
+        } catch (error) {
             this.spinnerDataTable = false;
             this.message = "Something Went Wrong In Field Validation Page";
             this.showerror();
@@ -335,21 +335,21 @@ export default class FieldValidation extends LightningElement {
 
     get showdecimal() {
         return [{
-                label: "0",
-                value: "0"
-            },
-            {
-                label: "0.00",
-                value: "0.00"
-            },
-            {
-                label: "0.000",
-                value: "0.000"
-            },
-            {
-                label: "0.0000",
-                value: "0.0000"
-            },
+            label: "0",
+            value: "0"
+        },
+        {
+            label: "0.00",
+            value: "0.00"
+        },
+        {
+            label: "0.000",
+            value: "0.000"
+        },
+        {
+            label: "0.0000",
+            value: "0.0000"
+        },
         ];
     }
 
@@ -378,7 +378,7 @@ export default class FieldValidation extends LightningElement {
                     this.minimumdate = "";
                 }
             }
-        } catch (error) {            
+        } catch (error) {
             this.spinnerDataTable = false;
             this.message = "Something Went Wrong In Field Validation Page";
             this.showerror();
@@ -400,7 +400,7 @@ export default class FieldValidation extends LightningElement {
             } else if (event.currentTarget.dataset.title == "RichText") {
                 this.richtextinput = true;
             }
-        } catch (error) {            
+        } catch (error) {
             this.spinnerDataTable = false;
             this.message = "Something Went Wrong In Field Validation Page";
             this.showerror();
@@ -422,7 +422,7 @@ export default class FieldValidation extends LightningElement {
                     this.isdisabledcheck = false;
                 }
             }
-        } catch (error) {            
+        } catch (error) {
             this.spinnerDataTable = false;
             this.message = "Something Went Wrong In Field Validation Page";
             this.showerror();
@@ -459,21 +459,25 @@ export default class FieldValidation extends LightningElement {
     }
 
     slider(event) {
-        if (event.currentTarget.dataset.title == "Minimum") {
-            this.minimumvalue = event.detail.value;
-            this.minimumvalue = parseInt(this.minimumvalue);
-            if (this.minimumvalue >= this.maximumvalue) {
-                this.template.querySelector("c-toast-component").showToast("error", "Minimum Value can not be more then the Maximum Value", 3000);
+        try {
+            if (event.currentTarget.dataset.title == "Minimum") {
+                this.minimumvalue = event.detail.value;
+                this.minimumvalue = parseInt(this.minimumvalue);
+                if (this.minimumvalue >= this.maximumvalue) {
+                    this.template.querySelector("c-toast-component").showToast("error", "Minimum Value can not be more then the Maximum Value", 3000);
+                }
+            } else if (event.currentTarget.dataset.title == "Maximum") {
+                this.maximumvalue = event.detail.value;
+                this.maximumvalue = parseInt(this.maximumvalue);
+                if (this.minimumvalue >= this.maximumvalue) {
+                    this.template.querySelector("c-toast-component").showToast("error", "Maximum Value can not be lower than the Minimum Value ", 3000);
+                }
+            } else if (event.currentTarget.dataset.title == "Reset") {
+                this.minimumvalue = 0;
+                this.maximumvalue = this.fieldlength;
             }
-        } else if (event.currentTarget.dataset.title == "Maximum") {
-            this.maximumvalue = event.detail.value;
-            this.maximumvalue = parseInt(this.maximumvalue);
-            if (this.minimumvalue >= this.maximumvalue) {
-                this.template.querySelector("c-toast-component").showToast("error", "Maximum Value can not be lower than the Minimum Value ", 3000);
-            }
-        } else if (event.currentTarget.dataset.title == "Reset") {
-            this.minimumvalue = 0;
-            this.maximumvalue = this.fieldlength;
+        } catch (error) {
+            console.log(error);
         }
     }
     resetdatetime() {
@@ -487,11 +491,15 @@ export default class FieldValidation extends LightningElement {
         return this.salutation;
     }
     addsalutation() {
-        this.salutation.push({
-            id: this.salutationindex,
-            salutation: ""
-        });
-        this.salutationindex++;
+        try {
+            this.salutation.push({
+                id: this.salutationindex,
+                salutation: ""
+            });
+            this.salutationindex++;
+        } catch (error) {
+            console.log(error);
+        }
     }
     opensalutation() {
         try {
@@ -502,31 +510,39 @@ export default class FieldValidation extends LightningElement {
                 });
                 this.salutationindex++;
             }
-        } catch (error) {            
+        } catch (error) {
             this.spinnerDataTable = false;
             this.message = "Something Went Wrong In Field Validation Page";
             this.showerror();
         }
     }
     deletesalutation(event) {
-        this.salutation.splice(event.currentTarget.dataset.id, 1);
-        this.salutationvalue.splice(event.currentTarget.dataset.id, 1);
-        this.salutationindex--;
-        this.salutation = [];
-        for (let index = 0; index < this.salutationindex; index++) {
-            this.salutation.push({
-                id: index,
-                salutation: this.salutationvalue[index]
-            });
+        try {
+            this.salutation.splice(event.currentTarget.dataset.id, 1);
+            this.salutationvalue.splice(event.currentTarget.dataset.id, 1);
+            this.salutationindex--;
+            this.salutation = [];
+            for (let index = 0; index < this.salutationindex; index++) {
+                this.salutation.push({
+                    id: index,
+                    salutation: this.salutationvalue[index]
+                });
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     salutationvalues(event) {
-        this.salutationvalue[event.currentTarget.dataset.id] = event.detail.value;
-        this.salutation[event.currentTarget.dataset.id] = ({
-            id: event.currentTarget.dataset.id,
-            salutation: this.salutationvalue[event.currentTarget.dataset.id]
-        });
+        try {
+            this.salutationvalue[event.currentTarget.dataset.id] = event.detail.value;
+            this.salutation[event.currentTarget.dataset.id] = ({
+                id: event.currentTarget.dataset.id,
+                salutation: this.salutationvalue[event.currentTarget.dataset.id]
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -535,14 +551,18 @@ export default class FieldValidation extends LightningElement {
     }
 
     @api showerror() {
-        this.error_popup = true;
-        let errordata = {
-            header_type: "Field Validation",
-            Message: this.message
-        };
-        const showpopup = new CustomEvent("showerrorpopup", {
-            detail: errordata
-        });
-        this.dispatchEvent(showpopup);
+        try {
+            this.error_popup = true;
+            let errordata = {
+                header_type: "Field Validation",
+                Message: this.message
+            };
+            const showpopup = new CustomEvent("showerrorpopup", {
+                detail: errordata
+            });
+            this.dispatchEvent(showpopup);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

@@ -2417,21 +2417,24 @@ public with sharing class FormBuilderController{
      */
     public static void sendemailforformsubmission(wrapformsubmission wrapper) {
         /*This method is used Send email to email service class*/
-
-        
-        EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' LIMIT 1 ]; 
-        List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1  ];
-         
-        Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
-        List<String> toAddresses = new List<String>();
-        toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
-        if ( owea.size() > 0 ) {
-            emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+        try{
+            EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' LIMIT 1 ]; 
+            List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1  ];
+             
+            Messaging.SingleEmailMessage emailNotification = new Messaging.SingleEmailMessage();        
+            List<String> toAddresses = new List<String>();
+            toAddresses.add(esa.LocalPart+'@' +esa.EmailDomainName);
+            if ( owea.size() > 0 ) {
+                emailNotification.setOrgWideEmailAddressId(owea.get(0).Id);
+            }
+            emailNotification.setToAddresses(toAddresses);
+            emailNotification.setSubject('Three Object Form');
+            emailNotification.setPlainTextBody(JSON.serialize(wrapper));
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        } catch(Exception e){
+            System.debug(e);
         }
-        emailNotification.setToAddresses(toAddresses);
-        emailNotification.setSubject('Three Object Form');
-        emailNotification.setPlainTextBody(JSON.serialize(wrapper));
-        Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        
     }
 
     /**

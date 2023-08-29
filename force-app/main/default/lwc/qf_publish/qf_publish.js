@@ -13,11 +13,11 @@ export default class Qf_publish extends LightningElement {
     js_Icon = jsIcon;
     @track spinner = false;
     readonly = true;
-    lightBoxOpt; 
-    formSiteURL = true; 
-    usingAura = true; 
-    usingLWC; 
-    formIFrame; 
+    lightBoxOpt;
+    formSiteURL = true;
+    usingAura = true;
+    usingLWC;
+    formIFrame;
     formLightBox;
     formTextLink = true;
     formImageLink;
@@ -43,42 +43,62 @@ export default class Qf_publish extends LightningElement {
     @track message;
 
     connectedCallback() {
-        this.spinner = true;
-        this.error_popup1 = this.error_popup;
-     
-        siteUrl({
+        try {
+            this.spinner = true;
+            this.error_popup1 = this.error_popup;
+
+            siteUrl({
                 formid: this.currentformid
             })
-            .then(data => {
-                this.formurl = data;
-                this.srcurl = data;
-                if (this.formurl.includes("User Configuration tab")) {
-                    this.srcurl = '';
-                    this.template.querySelector('.inputBox').style.color = 'red';
-                }
-                this.spinner = false;
-                this.error = undefined;
-            })
-            .catch(() => {
-                this.message = 'Something went wrong in Site URL(A)';
-                this.showerrorpopup();
-                this.spinner = false;
-            })
-        this.aura = true;
+                .then(data => {
+                    this.formurl = data;
+                    this.srcurl = data;
+                    if (this.formurl.includes("User Configuration tab")) {
+                        this.srcurl = '';
+                        this.template.querySelector('.inputBox').style.color = 'red';
+                    }
+                    this.spinner = false;
+                    this.error = undefined;
+                })
+                .catch(() => {
+                    this.message = 'Something went wrong in Site URL(A)';
+                    this.showerrorpopup();
+                    this.spinner = false;
+                })
+            this.aura = true;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     copyTextFieldHelper() {
-        this.copyToClipboard('.inputBox', '.urlCopied');
+        try {
+            this.copyToClipboard('.inputBox', '.urlCopied');
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     copyDivToClipboard_1() {
-        this.copyToClipboard(".copyCodeSection_12", ".copiedtext1");
+        try {
+            this.copyToClipboard(".copyCodeSection_12", ".copiedtext1");
+        } catch (error) {
+            console.log(error);
+        }
     }
     copyDivToClipboard_2() {
-        this.copyToClipboard(".copyCodeSection_22", ".copiedtext2");
+        try {
+            this.copyToClipboard(".copyCodeSection_22", ".copiedtext2");
+        } catch (error) {
+            console.log(error);
+        }
     }
     copyDivToClipboard_3() {
-        this.copyToClipboard(".copyCodeSection_32", ".copiedtext3");
+        try {
+            this.copyToClipboard(".copyCodeSection_32", ".copiedtext3");
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     copyToClipboard(elementSelector, copiedTextSelector) {
@@ -119,7 +139,11 @@ export default class Qf_publish extends LightningElement {
     }
 
     copy_code_fir_lwc() {
-        this.copyToClipboard('.codestyle', null);
+        try {
+            this.copyToClipboard('.codestyle', null);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     handleRadioChange(event) {
@@ -155,7 +179,7 @@ export default class Qf_publish extends LightningElement {
                 this.aura = false;
                 this.lwc = false;
                 this.iframe = true;
-                this.PageUrl = '{pageURL : \''+ this.srcurl+'\'},';
+                this.PageUrl = '{pageURL : \'' + this.srcurl + '\'},';
                 this.QRCode = false;
                 this.lightBox = false;
             } else {
@@ -185,55 +209,59 @@ export default class Qf_publish extends LightningElement {
             } else {
                 this.formLightBox = false;
                 this.lightBoxOpt = false;
-                }
-        }catch(e) {
+            }
+        } catch (e) {
             this.message = 'Something went wrong in Selection Of Component' + e.message;
             this.showerrorpopup();
         }
     }
 
     handleLightBoxChange(event) {
-        var getDiv = event.target.dataset.id;
-        if (getDiv == 'textLink') {
-            this.formTextLink = true;
-            this.formImageLink = false;
-            this.formAutoPopup = false;
-            this.floatingButton = false;
+        try {
+            var getDiv = event.target.dataset.id;
+            if (getDiv == 'textLink') {
+                this.formTextLink = true;
+                this.formImageLink = false;
+                this.formAutoPopup = false;
+                this.floatingButton = false;
 
-            this.text_b_color = "background-color: #b2CCE5;";
-            this.img_b_color = "background-color: #ffffff;";
-            this.auto_b_color = "background-color: #ffffff;";
-            this.floating_b_color = "background-color: #ffffff;";
-        }
-        if (getDiv == 'imageLink') {
-            this.formTextLink = false;
-            this.formImageLink = true;
-            this.formAutoPopup = false;
-            this.floatingButton = false;
-            this.text_b_color = "background-color: #ffffff;";
-            this.img_b_color = "background-color: #b2CCE5;";
-            this.auto_b_color = "background-color: #ffffff;";
-            this.floating_b_color = "background-color: #ffffff;";
-        }
-        if (getDiv == 'autoPopup') {
-            this.formTextLink = false;
-            this.formImageLink = false;
-            this.formAutoPopup = true;
-            this.floatingButton = false;
-            this.text_b_color = "background-color: #ffffff;";
-            this.img_b_color = "background-color: #ffffff;";
-            this.auto_b_color = "background-color: #b2CCE5;";
-            this.floating_b_color = "background-color: #ffffff;";
-        }
-        if (getDiv == 'floatingBtn') {
-            this.formTextLink = false;
-            this.formImageLink = false;
-            this.formAutoPopup = false;
-            this.floatingButton = true;
-            this.text_b_color = "background-color: #ffffff;";
-            this.img_b_color = "background-color: #ffffff;";
-            this.auto_b_color = "background-color: #ffffff;";
-            this.floating_b_color = "background-color: #b2CCE5;";
+                this.text_b_color = "background-color: #b2CCE5;";
+                this.img_b_color = "background-color: #ffffff;";
+                this.auto_b_color = "background-color: #ffffff;";
+                this.floating_b_color = "background-color: #ffffff;";
+            }
+            if (getDiv == 'imageLink') {
+                this.formTextLink = false;
+                this.formImageLink = true;
+                this.formAutoPopup = false;
+                this.floatingButton = false;
+                this.text_b_color = "background-color: #ffffff;";
+                this.img_b_color = "background-color: #b2CCE5;";
+                this.auto_b_color = "background-color: #ffffff;";
+                this.floating_b_color = "background-color: #ffffff;";
+            }
+            if (getDiv == 'autoPopup') {
+                this.formTextLink = false;
+                this.formImageLink = false;
+                this.formAutoPopup = true;
+                this.floatingButton = false;
+                this.text_b_color = "background-color: #ffffff;";
+                this.img_b_color = "background-color: #ffffff;";
+                this.auto_b_color = "background-color: #b2CCE5;";
+                this.floating_b_color = "background-color: #ffffff;";
+            }
+            if (getDiv == 'floatingBtn') {
+                this.formTextLink = false;
+                this.formImageLink = false;
+                this.formAutoPopup = false;
+                this.floatingButton = true;
+                this.text_b_color = "background-color: #ffffff;";
+                this.img_b_color = "background-color: #ffffff;";
+                this.auto_b_color = "background-color: #ffffff;";
+                this.floating_b_color = "background-color: #b2CCE5;";
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -251,6 +279,10 @@ export default class Qf_publish extends LightningElement {
     }
 
     showerrorpopup() {
-        this.template.querySelector('c-errorpopup').errormessagee('Publish Component Error',this.message);
+        try {
+            this.template.querySelector('c-errorpopup').errormessagee('Publish Component Error', this.message);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

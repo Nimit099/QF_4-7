@@ -6,7 +6,7 @@ import {
 } from 'lwc';
 
 
-import iconsZip from '@salesforce/resourceUrl/Iconfolder'; 
+import iconsZip from '@salesforce/resourceUrl/Iconfolder';
 
 import Id from '@salesforce/user/Id';
 import {
@@ -14,13 +14,13 @@ import {
 } from 'lightning/uiRecordApi';
 import UserNameFIELD from '@salesforce/schema/User.Name';
 
-import records from '@salesforce/apex/QuickFormHome.getFormRecords'; 
+import records from '@salesforce/apex/QuickFormHome.getFormRecords';
 import status from '@salesforce/apex/QuickFormHome.getFormsByStatus';
 import deleteform from '@salesforce/apex/QuickFormHome.deleteFormRecord';
-import search from '@salesforce/apex/QuickFormHome.searchForms'; 
+import search from '@salesforce/apex/QuickFormHome.searchForms';
 import renameform from '@salesforce/apex/QuickFormHome.renameFormRecord';
 import {
-  NavigationMixin,CurrentPageReference
+  NavigationMixin, CurrentPageReference
 } from "lightning/navigation";
 
 export default class Qf extends NavigationMixin(LightningElement) {
@@ -38,17 +38,17 @@ export default class Qf extends NavigationMixin(LightningElement) {
   isModalOpen_2;
   renamediv;
   pencheck = false;
-  count; 
+  count;
   searchkey;
-  formId; 
+  formId;
   formname;
-  isOpenRenameForm; 
-  indexval = 1; 
+  isOpenRenameForm;
+  indexval = 1;
   outsideClick;
   keyCode;
   isModalOpen = false;
 
-  
+
   searchicon = iconsZip + '/Iconfolder/searchBoxIcon.jpg';
   addicon = iconsZip + '/Iconfolder/addIcon.png';
   previewicon = iconsZip + '/Iconfolder/previewIcon.png';
@@ -59,21 +59,21 @@ export default class Qf extends NavigationMixin(LightningElement) {
   right = iconsZip + '/Iconfolder/right.png';
   bin = iconsZip + '/Iconfolder/bin.png';
   editpen = iconsZip + '/Iconfolder/editpen.png';
- 
+
   @api error_popup = false;
   @track error_popupNewValue;
   @track message;
 
   @wire(CurrentPageReference)
   setCurrentPageReference(currentPageReference) {
-      this.currentPageReference = currentPageReference;
-      if (currentPageReference.state) {
-          if(currentPageReference.attributes.apiName == 'Home'){
-            this.indexval = 1;
-            this.fetchRecords();
-            this.searchkey = '';
-          }
+    this.currentPageReference = currentPageReference;
+    if (currentPageReference.state) {
+      if (currentPageReference.attributes.apiName == 'Home') {
+        this.indexval = 1;
+        this.fetchRecords();
+        this.searchkey = '';
       }
+    }
   }
 
   @track currentUserName;
@@ -82,7 +82,7 @@ export default class Qf extends NavigationMixin(LightningElement) {
     fields: [UserNameFIELD]
   })
   currentUserInfo({
-    
+
     data
   }) {
     if (data) {
@@ -92,9 +92,13 @@ export default class Qf extends NavigationMixin(LightningElement) {
 
 
   connectedCallback() {
-    this.error_popupNewValue = this.error_popup;
-    this.spinnerDataTable = true;
-    this.fetchRecords();
+    try {
+      this.error_popupNewValue = this.error_popup;
+      this.spinnerDataTable = true;
+      this.fetchRecords();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   fetchRecords() {
@@ -209,7 +213,7 @@ export default class Qf extends NavigationMixin(LightningElement) {
       this.pencheck = false;
       document.removeEventListener('click', this.outsideClick);
       if (event.target.dataset.id != this.formId) {
-        this.template.querySelector("div[data-name =" + this.formId + "]").style.display = 'none';
+        this.template.querySelector("div[data-name =" + this.formId + "]").style.display = 'none';;
         this.template.querySelector("lightning-formatted-text[data-id =" + this.formId + "]").style.display = 'block';
       }
     } catch (error) {
@@ -229,31 +233,31 @@ export default class Qf extends NavigationMixin(LightningElement) {
       let nameCmp = this.template.querySelector(".rename_input");
       if (this.keyCode === 13) {
         let FName = nameCmp.value;
-        if(FName.length <= 80){
-        if (this.formname.length > 0 && this.formname.replaceAll(' ', '').length > 0) {
-          this.spinnerDataTable = true;
-          this.error_toast = false;
-          renameform({
-            id: this.formId,
-            rename: this.formname,
-            searchkey: this.searchkey
-          }).then(result => {
-            this.PaginationList = result;
-            this.template.querySelector("div[data-name =" + this.formId + "]").style.display = 'none';
-            this.template.querySelector("lightning-formatted-text[data-id =" + this.formId + "]").style.display = 'block';
-            this.isOpenRenameForm = false;
-            this.spinnerDataTable = false;
-            this.renamediv = true;
-            this.pencheck = false;
-          }).catch(() => {
-            this.message = 'Something Went Wrong In Home Page';
-            this.showerror();
-            this.spinnerDataTable = false;
-          })
-        } else {
-          this.error_toast = true;
+        if (FName.length <= 80) {
+          if (this.formname.length > 0 && this.formname.replaceAll(' ', '').length > 0) {
+            this.spinnerDataTable = true;
+            this.error_toast = false;
+            renameform({
+              id: this.formId,
+              rename: this.formname,
+              searchkey: this.searchkey
+            }).then(result => {
+              this.PaginationList = result;
+              this.template.querySelector("div[data-name =" + this.formId + "]").style.display = 'none';
+              this.template.querySelector("lightning-formatted-text[data-id =" + this.formId + "]").style.display = 'block';
+              this.isOpenRenameForm = false;
+              this.spinnerDataTable = false;
+              this.renamediv = true;
+              this.pencheck = false;
+            }).catch(() => {
+              this.message = 'Something Went Wrong In Home Page';
+              this.showerror();
+              this.spinnerDataTable = false;
+            })
+          } else {
+            this.error_toast = true;
           }
-        } else{
+        } else {
           this.error_toast = true;
           this.template.querySelector('c-toast-component').showToast('error', 'Input must be no longer than 80 characters.', 3000);
         }
@@ -286,20 +290,28 @@ export default class Qf extends NavigationMixin(LightningElement) {
   }
 
   showpen(event) {
-    if (this.pencheck == false) {
-      document.addEventListener('click', this.outsideClick = this.cancleRenameForm.bind(this));
-      this.template.querySelector("span[data-id =" + event.currentTarget.dataset.id + "]").style.display = 'block';
+    try {
+      if (this.pencheck == false) {
+        document.addEventListener('click', this.outsideClick = this.cancleRenameForm.bind(this));
+        this.template.querySelector("span[data-id =" + event.currentTarget.dataset.id + "]").style.display = 'block';
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   hidepen(event) {
-    this.template.querySelector("span[data-id =" + event.currentTarget.dataset.id + "]").style.display = 'none';
-    if (this.renamediv == false) {
-      this.template.querySelector("div[data-name =" + this.formId + "]").style.display = 'none';
-      this.template.querySelector("lightning-formatted-text[data-id =" + this.formId + "]").style.display = 'block';
+    try {
+      this.template.querySelector("span[data-id =" + event.currentTarget.dataset.id + "]").style.display = 'none';
+      if (this.renamediv == false) {
+        this.template.querySelector("div[data-name =" + this.formId + "]").style.display = 'none';
+        this.template.querySelector("lightning-formatted-text[data-id =" + this.formId + "]").style.display = 'block';
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
-  
+
   deleteyes() {
     this.deletepopup = false;
     this.spinnerDataTable = true;
@@ -356,22 +368,26 @@ export default class Qf extends NavigationMixin(LightningElement) {
   }
 
   onpreview(event) {
-    this.formId = event.currentTarget.dataset.id;
-    let cmpDef = {
-      componentDef: "c:previewFormCmp",
-      attributes: {
-        nosubmission: true,
-        activepreviews: true,
-        formid: this.formId != "" ? this.formId : "No Record Created",
-      }
-    };
-    let encodedDef = btoa(JSON.stringify(cmpDef));
-    this[NavigationMixin.Navigate]({
-      type: "standard__webPage",
-      attributes: {
-        url: "/one/one.app#" + encodedDef
-      }
-    });
+    try {
+      this.formId = event.currentTarget.dataset.id;
+      let cmpDef = {
+        componentDef: "c:previewFormCmp",
+        attributes: {
+          nosubmission: true,
+          activepreviews: true,
+          formid: this.formId != "" ? this.formId : "No Record Created",
+        }
+      };
+      let encodedDef = btoa(JSON.stringify(cmpDef));
+      this[NavigationMixin.Navigate]({
+        type: "standard__webPage",
+        attributes: {
+          url: "/one/one.app#" + encodedDef
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   @track showquickbot = false;
   quickbot() {
@@ -385,40 +401,56 @@ export default class Qf extends NavigationMixin(LightningElement) {
     this.showquickbot = false;
   }
   sendsuccesspopup() {
-    this.error_toast = true;
-    let toast_error_msg = 'Message Sent Successfully';
-    this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+    try {
+      this.error_toast = true;
+      let toast_error_msg = 'Message Sent Successfully';
+      this.template.querySelector('c-toast-component').showToast('success', toast_error_msg, 3000);
+    } catch (error) {
+      console.log(error);
+    }
 
   }
   senderrorpopup() {
-    this.error_toast = true;
-    let toast_error_msg = 'Email was not Sent. Something went Wrong, Please try again';
-    this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+    try {
+      this.error_toast = true;
+      let toast_error_msg = 'Email was not Sent. Something went Wrong, Please try again';
+      this.template.querySelector('c-toast-component').showToast('error', toast_error_msg, 3000);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   userconfig() {
-    let cmpDef = {
-      componentDef: "c:qf_guide2"
-    };
-    let encodedDef = btoa(JSON.stringify(cmpDef));
-    this[NavigationMixin.Navigate]({
-      type: "standard__webPage",
-      attributes: {
-        url: "/one/one.app#" + encodedDef
-      }
-    });
+    try {
+      let cmpDef = {
+        componentDef: "c:qf_guide2"
+      };
+      let encodedDef = btoa(JSON.stringify(cmpDef));
+      this[NavigationMixin.Navigate]({
+        type: "standard__webPage",
+        attributes: {
+          url: "/one/one.app#" + encodedDef
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   @api showerror() {
-    this.error_popupNewValue = true;
-    let errordata = {
-      header_type: 'Test Thank You page',
-      Message: this.message
+    try {
+      this.error_popupNewValue = true;
+      let errordata = {
+        header_type: 'Test Thank You page',
+        Message: this.message
+      }
+      const showpopup = new CustomEvent('showerrorpopup', {
+        detail: errordata
+      });
+      this.dispatchEvent(showpopup);
+    } catch (error) {
+      console.log(error);
     }
-    const showpopup = new CustomEvent('showerrorpopup', {
-      detail: errordata
-    });
-    this.dispatchEvent(showpopup);
   }
 
 }

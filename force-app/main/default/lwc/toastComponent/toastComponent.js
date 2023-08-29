@@ -18,24 +18,28 @@ export default class ToastComponent extends LightningElement {
 
     @api
     showToast(type, message, time) {
-        if (type != undefined && message != undefined){
-            this.type = type;
-            this.message = message;
-            
-            
-            if(this.type == "success"){
-                this.showToastBar_success = true;
-                this.showToastBar_error = false;
+        try {
+            if (type != undefined && message != undefined){
+                this.type = type;
+                this.message = message;
+                
+                
+                if(this.type == "success"){
+                    this.showToastBar_success = true;
+                    this.showToastBar_error = false;
+                }
+                else{
+                    this.showToastBar_success = false;
+                    this.showToastBar_error = true;
+    
+                }
+    
+                setTimeout(() => {
+                    this.closeModel();
+                }, (time == null || time == undefined) ? this.autoCloseTime : time);
             }
-            else{
-                this.showToastBar_success = false;
-                this.showToastBar_error = true;
-
-            }
-
-            setTimeout(() => {
-                this.closeModel();
-            }, (time == null || time == undefined) ? this.autoCloseTime : time);
+        } catch (error) {
+          console.log(error);
         }
     }
 
@@ -48,9 +52,13 @@ export default class ToastComponent extends LightningElement {
     }
 
     renderedCallback(){
-        Promise.all([
-            loadStyle( this, CancleIcon )
-        ]);
+        try {
+            Promise.all([
+                loadStyle( this, CancleIcon )
+            ]);
+        } catch (error) {
+          console.log(error);
+        }
     }
  
     get outerClass() {

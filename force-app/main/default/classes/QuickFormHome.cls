@@ -299,24 +299,30 @@ public with sharing class QuickFormHome{/*QuickFormHome used ofr the Create,upda
         @return return submitted forms count
     */    
     public static List<Formwrapper> commonquery(String searchkey){/* return the form list based onthe the pass value */
-        if(Schema.sObjectType.Form__c.fields.Name.IsAccessible() && Schema.sObjectType.Form__c.fields.Status__c.IsAccessible() && Schema.sObjectType.Form__c.fields.createdDate.IsAccessible()){
-            String searchkeyword = '%' + searchkey + '%';
-            String query = 'SELECT Id, Name, Status__c ,(SELECT Id FROM Form_Submissions__r) FROM Form__c';
-            if (searchkey != null && searchkey != '' && searchkey != 'undefined'){
-                query += ' WHERE Name LIKE :searchkeyword order by createdDate  DESC  ';
-            } else{
-                query += ' order by createdDate  DESC   ';
+        try {
+            
+            if(Schema.sObjectType.Form__c.fields.Name.IsAccessible() && Schema.sObjectType.Form__c.fields.Status__c.IsAccessible() && Schema.sObjectType.Form__c.fields.createdDate.IsAccessible()){
+                String searchkeyword = '%' + searchkey + '%';
+                String query = 'SELECT Id, Name, Status__c ,(SELECT Id FROM Form_Submissions__r) FROM Form__c';
+                if (searchkey != null && searchkey != '' && searchkey != 'undefined'){
+                    query += ' WHERE Name LIKE :searchkeyword order by createdDate  DESC  ';
+                } else{
+                    query += ' order by createdDate  DESC   ';
+                }
+    
+                List<Form__c> forms = Database.query(query);
+    
+                List<Formwrapper> wrapper = new List<Formwrapper>();
+                for (Form__c qfForm : forms){
+                    wrapper.add(new formWrapper(qfForm.Form_Submissions__r.size(), qfForm));
+                }
+                return wrapper;
+    
+            }else{
+                return null;
             }
-
-            List<Form__c> forms = Database.query(query);
-
-            List<Formwrapper> wrapper = new List<Formwrapper>();
-            for (Form__c qfForm : forms){
-                wrapper.add(new formWrapper(qfForm.Form_Submissions__r.size(), qfForm));
-            }
-            return wrapper;
-
-        }else{
+        } catch (Exception e) {
+            System.debug(e);
             return null;
         }
     }
