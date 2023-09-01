@@ -705,6 +705,23 @@ span.deleteicon input {
     .scaleRating{
         overflow-x: scroll;
     }
+    .dropuser{
+        min-width: 0% !important;
+        overflow: hidden;
+        overflow-x: scroll;
+    }
+    .usrnameClass{
+        width: fit-content;
+    }
+    .listbox-item{
+        width: fit-content;
+    }
+    .slds-scope{
+        --lwc-sizeXSmall: none !important;
+    }
+    .slds-dropdown_fluid{
+        --lwc-sizeXSmall: none !important;
+    }
   }
   .clsrkvalue{
     color: white;
