@@ -19,7 +19,7 @@ import QuickBot_Cross from '@salesforce/resourceUrl/QuickBot_Cross';
 import groupRadio from '@salesforce/resourceUrl/groupRadio'
 import helptextcss from '@salesforce/resourceUrl/helptextcss'
 import {
-    loadStyle,loadScript
+    loadStyle, loadScript
 } from 'lightning/platformResourceLoader';
 import signaturePadURL from '@salesforce/resourceUrl/signature_pad';
 
@@ -187,28 +187,31 @@ export default class Quickformfieldcomponent extends LightningElement {
     canvasHeight = 200;
 
     showerrorpopup() {
-        this.template.querySelector('c-errorpopup').errormessagee('QuickForm Field Component Error', this.messagetrack);
-    }
-
-    get cross_img() {
-        return `background-image:url(${blackcross})`;
+        try {
+            this.template.querySelector('c-errorpopup').errormessagee('QuickForm Field Component Error', this.messagetrack);
+        } catch (error) {
+            console.log('error');
+        }
     }
 
     connectedCallback() {
-        this.tView1 = this.tView;
-        this.hovercssproperty1 = this.hovercssproperty;
-        this.focuscssproperty1 = this.focuscssproperty;
-        this.fieldstype = this.tView1.split(',')[1];
-        this.tView1 = this.tView1.split(',')[0];
-        if (this.fieldstype == 'PICKLIST' || this.fieldstype == 'COMBOBOX') {
-            this.picklistvalues();
-        } else if (this.fieldstype == 'MULTIPICKLIST') {
-            this.picklistvalues();
+        try {
+            this.tView1 = this.tView;
+            this.hovercssproperty1 = this.hovercssproperty;
+            this.focuscssproperty1 = this.focuscssproperty;
+            this.fieldstype = this.tView1.split(',')[1];
+            this.tView1 = this.tView1.split(',')[0];
+            if (this.fieldstype == 'PICKLIST' || this.fieldstype == 'COMBOBOX' || this.fieldstype == 'MULTIPICKLIST') {
+                this.picklistvalues();
+            }
+            this.getScaleRatingValue();
+            this.onfocus = false;
+            loadStyle(this, groupRadio);
+            loadStyle(this, helptextcss);
+
+        } catch (error) {
+            console.log('error');
         }
-        this.getScaleRatingValue();
-        this.onfocus = false;
-        loadStyle(this, groupRadio);
-        loadStyle(this, helptextcss);
 
     }
 
@@ -292,93 +295,118 @@ export default class Quickformfieldcomponent extends LightningElement {
             this.dispatchEvent(event1);
         }
 
-                // Added By NIMIT
-                if (this.sigPadInitialized) {
-                    return;
-                }
-                this.sigPadInitialized = true;
-        
-                Promise.all([
-                    loadScript(this, signaturePadURL)
-                ])
-                    .then(() => {
-                        this.initialize();
-                    })
-                    .catch(error => {
-                        console.error(error.message);
-                    });
+
 
         this.s_address();
         this.apply_val();
 
+         // Added By NIMIT
+         if (this.sigPadInitialized) {
+            return;
+        }
+        this.sigPadInitialized = true;
+
+        Promise.all([
+            loadScript(this, signaturePadURL)
+        ])
+            .then(() => {
+                this.initialize();
+            })
+            .catch(() => {
+                console.error('error');
+            });
     }
 
     getScaleRatingValue() {
-        getScaleRating()
-            .then(result => {
-                if (result != undefined) {
-                    this.scaleRating = result;
-                }
-            }).catch(() => {
-                this.messagetrack = 'Something went wrong in Get Scale Rating';
-                this.showerrorpopup();
-            });
+        try {
+            getScaleRating()
+                .then(result => {
+                    if (result != undefined) {
+                        this.scaleRating = result;
+                    }
+                }).catch(() => {
+                    this.messagetrack = 'Something went wrong in Get Scale Rating';
+                    this.showerrorpopup();
+                });
+        } catch (error) {
+            console.log('error');
+        }
     }
 
     //This function is used to locate the header address field, then caret and apply field mapping in the address subfield.
     s_address() {
-        let filde_name = this.fieldmapping;
-        if (filde_name != '' && filde_name != null && filde_name != undefined) {
-            let api_name = filde_name.split('<!@!>');
-            let add_name = api_name[0].split('Address');
-            this.street = add_name[0] + 'Street<!@!>' + api_name[1];
-            this.city = add_name[0] + 'City<!@!>' + api_name[1];
-            this.state = add_name[0] + 'State<!@!>' + api_name[1];
-            this.postalcode = add_name[0] + 'PostalCode<!@!>' + api_name[1];
-            this.country = add_name[0] + 'Country<!@!>' + api_name[1];
-            // This condition is used to create field_name of stander fullname.
-            if (api_name[0] == 'LastName') {
-                this.salutation = 'Salutation<!@!>' + api_name[1];
-                this.firstname = 'FirstName<!@!>' + api_name[1];
-                this.lastname = 'LastName<!@!>' + api_name[1];
+        try {
+            let filde_name = this.fieldmapping;
+            if (filde_name != '' && filde_name != null && filde_name != undefined) {
+                let api_name = filde_name.split('<!@!>');
+                let add_name = api_name[0].split('Address');
+                this.street = add_name[0] + 'Street<!@!>' + api_name[1];
+                this.city = add_name[0] + 'City<!@!>' + api_name[1];
+                this.state = add_name[0] + 'State<!@!>' + api_name[1];
+                this.postalcode = add_name[0] + 'PostalCode<!@!>' + api_name[1];
+                this.country = add_name[0] + 'Country<!@!>' + api_name[1];
+                // This condition is used to create field_name of stander fullname.
+                if (api_name[0] == 'LastName') {
+                    this.salutation = 'Salutation<!@!>' + api_name[1];
+                    this.firstname = 'FirstName<!@!>' + api_name[1];
+                    this.lastname = 'LastName<!@!>' + api_name[1];
+                }
+                if (this.isTrueRating == true) {
+                    this.str1 = this.fieldmapping + '<QFSTR>1';
+                    this.str2 = this.fieldmapping + '<QFSTR>2';
+                    this.str3 = this.fieldmapping + '<QFSTR>3';
+                    this.str4 = this.fieldmapping + '<QFSTR>4';
+                    this.str5 = this.fieldmapping + '<QFSTR>5';
+                }
             }
-            if (this.isTrueRating == true) {
-                this.str1 = this.fieldmapping + '<QFSTR>1';
-                this.str2 = this.fieldmapping + '<QFSTR>2';
-                this.str3 = this.fieldmapping + '<QFSTR>3';
-                this.str4 = this.fieldmapping + '<QFSTR>4';
-                this.str5 = this.fieldmapping + '<QFSTR>5';
-            }
+        } catch (error) {
+            console.log('error');
         }
 
     }
 
     // This function is used to remove separator and set value on field.
     set_value_in_field(valueArr) {
-        let nameArr = valueArr;
-        this.fildval = nameArr[0];
-        this.sec_val = nameArr[1];
-        this.thi_val = nameArr[2];
-        this.for_val = nameArr[3];
-        this.fiv_val = nameArr[4];
-        //This condition is used to set the value of the picklist field.
-        if (this.fildval == 'select-one') {
-            let pic_val = nameArr[1];
-            setTimeout(() => {
-            let p_list = this.template.querySelector(`[data-id="${pic_val}"]`);
-               console.log(p_list);
-               p_list.selected = true;
-            }, 450);
-            
-        }
-        //This condition is used to set the value of the multi picklist field.
-        else if (nameArr[0] == 'm_pick') {
-            let list_len = this.selectedmultipicklistvalues.length;
-            if (list_len == 0) {
-                for (let t = 1; t < nameArr.length; t++) {
-                    let pic_lit = nameArr[t];
-                    let m_listArr = pic_lit.split('<?QF>');
-                    if (m_listArr[1] != '' && m_listArr[0] != '') {
+        try {
+            let nameArr = valueArr;
+            this.fildval = nameArr[0];
+            this.sec_val = nameArr[1];
+            this.thi_val = nameArr[2];
+            this.for_val = nameArr[3];
+            this.fiv_val = nameArr[4];
+            //This condition is used to set the value of the picklist field.
+            if (this.fildval == 'select-one') {
+                let pic_val = nameArr[1];
+                let p_list = this.template.querySelector(`[data-id="${pic_val}"]`);
+                p_list.selected = true;
+            }
+            //This condition is used to set the value of the multi picklist field.
+            else if (nameArr[0] == 'm_pick') {
+                let list_len = this.selectedmultipicklistvalues.length;
+                if (list_len == 0) {
+                    for (let t = 1; t < nameArr.length; t++) {
+                        let pic_lit = nameArr[t];
+                        let m_listArr = pic_lit.split('<?QF>');
+                        if (m_listArr[1] != '' && m_listArr[0] != '') {
+                            this.selectedmultipicklistvalues.push({
+                                key: m_listArr[1],
+                                value: m_listArr[0]
+                            });
+                        }
+                    }
+                }
+                for (let j = 0; j < this.selectedmultipicklistvalues.length; j++) {
+                    let s_list = this.selectedmultipicklistvalues[j].value;
+                    let val_in = 'yes';
+                    let m_listArr = '';
+                    for (let t = 1; t < nameArr.length; t++) {
+                        let pic_lit = nameArr[t];
+                        m_listArr = pic_lit.split('<?QF>');
+                        if (s_list == m_listArr[0]) {
+                            val_in = 'no'
+                        }
+                    }
+                    if (val_in == 'yes') {
                         this.selectedmultipicklistvalues.push({
                             key: m_listArr[1],
                             value: m_listArr[0]
@@ -386,102 +414,94 @@ export default class Quickformfieldcomponent extends LightningElement {
                     }
                 }
             }
-            for (let j = 0; j < this.selectedmultipicklistvalues.length; j++) {
-                let s_list = this.selectedmultipicklistvalues[j].value;
-                let val_in = 'yes';
-                let m_listArr = '';
-                for (let t = 1; t < nameArr.length; t++) {
-                    let pic_lit = nameArr[t];
-                    m_listArr = pic_lit.split('<?QF>');
-                    if (s_list == m_listArr[0]) {
-                        val_in = 'no'
-                    }
-                }
-                if (val_in == 'yes') {
-                    this.selectedmultipicklistvalues.push({
-                        key: m_listArr[1],
-                        value: m_listArr[0]
-                    });
+            //This condition is used to set the value of the DateTime field.
+            else if (nameArr[0] == 'datetime') {
+                this.fildval = nameArr[1];
+            }
+            //This condition is used to set the value of the Refernce field.
+            else if (nameArr[0] == 'refernce') {
+                if (nameArr[1] == null || nameArr[1] == undefined) {
+                    this.searchkey = '';
+                } else {
+                    this.searchkey = nameArr[1];
                 }
             }
-        }
-        //This condition is used to set the value of the DateTime field.
-        else if (nameArr[0] == 'datetime') {
-            this.fildval = nameArr[1];
-        }
-        //This condition is used to set the value of the Refernce field.
-        else if (nameArr[0] == 'refernce') {
-            if (nameArr[1] == null || nameArr[1] == undefined) {
-                this.searchkey = '';
-            } else {
-                this.searchkey = nameArr[1];
+            // This condition is used to set the value of the Check Box field.
+            else if (nameArr[0] == 'chk_box') {
+                var CheckBox = this.template.querySelector(`[data-name="${this.fieldmapping}"]`);
+                this.bol_ver = nameArr[1];
+                if (nameArr[1] == 'true') {
+                    CheckBox.checked = true;
+                } else {
+                    CheckBox.checked = false;
+                }
+            } else if (nameArr[0] == 'attbase64') {
+                this.fileuploadrkAtt = true;
+                this.uploadfilenameAtt = nameArr[1];
             }
-        }
-        // This condition is used to set the value of the Check Box field.
-        else if (nameArr[0] == 'chk_box') {
-            var CheckBox = this.template.querySelector(`[data-name="${this.fieldmapping}"]`);
-            this.bol_ver = nameArr[1];
-            if (nameArr[1] == 'true') {
-                CheckBox.checked = true;
-            } else {
-                CheckBox.checked = false;
-            }
-        } else if (nameArr[0] == 'attbase64') {
-            this.fileuploadrkAtt = true;
-            this.uploadfilenameAtt = nameArr[1];
+        } catch (error) {
+            console.log('error');
         }
 
     }
 
     // This function is used to set the sAddress value on the next and previous buttons.
     set_value_in_sAddress(obj_list, arr) {
-        let addArr = arr;
-        this.sstreet = obj_list[addArr[0] + 'Street'];
-        if (obj_list[addArr[0] + 'City'] == undefined) {
-            this.scity = null;
-        } else {
-            let city = obj_list[addArr[0] + 'City'];
-            let addArrCity = city.split('<QF>');
-            this.scity = addArrCity[0];
-        }
-        if (obj_list[addArr[0] + 'State'] == undefined) {
-            this.sstate = null;
-        } else {
-            let state = obj_list[addArr[0] + 'State'];
-            let addArrState = state.split('<QF>');
-            this.sstate = addArrState[0];
-        }
-        if (obj_list[addArr[0] + 'PostalCode'] == undefined) {
-            this.szipcode = null;
-        } else {
-            let zipcode = obj_list[addArr[0] + 'PostalCode'];
-            let addArrPostalCode = zipcode.split('<QF>');
-            this.szipcode = addArrPostalCode[0];
-        }
-        if (obj_list[addArr[0] + 'Country'] == undefined) {
-            this.scountry = null;
-        } else {
-            let country = obj_list[addArr[0] + 'Country'];
-            let addArrCountry = country.split('<QF>');
-            this.scountry = addArrCountry[0];
+        try {
+            let addArr = arr;
+            this.sstreet = obj_list[addArr[0] + 'Street'];
+            if (obj_list[addArr[0] + 'City'] == undefined) {
+                this.scity = null;
+            } else {
+                let city = obj_list[addArr[0] + 'City'];
+                let addArrCity = city.split('<QF>');
+                this.scity = addArrCity[0];
+            }
+            if (obj_list[addArr[0] + 'State'] == undefined) {
+                this.sstate = null;
+            } else {
+                let state = obj_list[addArr[0] + 'State'];
+                let addArrState = state.split('<QF>');
+                this.sstate = addArrState[0];
+            }
+            if (obj_list[addArr[0] + 'PostalCode'] == undefined) {
+                this.szipcode = null;
+            } else {
+                let zipcode = obj_list[addArr[0] + 'PostalCode'];
+                let addArrPostalCode = zipcode.split('<QF>');
+                this.szipcode = addArrPostalCode[0];
+            }
+            if (obj_list[addArr[0] + 'Country'] == undefined) {
+                this.scountry = null;
+            } else {
+                let country = obj_list[addArr[0] + 'Country'];
+                let addArrCountry = country.split('<QF>');
+                this.scountry = addArrCountry[0];
+            }
+        } catch (error) {
+            console.log('error');
         }
 
     }
     // This function is used to set the fullname of stander field value on the next and previous buttons.
     set_value_fullname(obj_list) {
-        if (obj_list['Salutation'] != undefined) {
-            var p_list = this.template.querySelector(`[name="s_salutation"]`)
-            p_list.value = obj_list['Salutation'];
-        }
-        if (obj_list['FirstName'] == undefined) {
-            this.s_f_name = null;
-        } else {
-            this.s_f_name = obj_list['FirstName'];
-        }
-        if (obj_list['LastName'] == undefined) {
-            this.s_l_name = null;
-        } else {
-            this.s_l_name = obj_list['LastName'];
+        try {
+            if (obj_list['Salutation'] != undefined) {
+                var p_list = this.template.querySelector(`[name="s_salutation"]`)
+                p_list.value = obj_list['Salutation'];
+            }
+            if (obj_list['FirstName'] == undefined) {
+                this.s_f_name = null;
+            } else {
+                this.s_f_name = obj_list['FirstName'];
+            }
+            if (obj_list['LastName'] == undefined) {
+                this.s_l_name = null;
+            } else {
+                this.s_l_name = obj_list['LastName'];
+            }
+        } catch (error) {
+            console.log('error');
         }
 
     }
@@ -576,7 +596,8 @@ export default class Quickformfieldcomponent extends LightningElement {
                         } else if (this.fildval == 'chkbox') {
                             for (let k = 2; k < nameArr.length; k++) {
                                 var chk_val = nameArr[k];
-                                var CheckBox = this.template.querySelector(`[data-id="${chk_val}"]`)
+                                this.chexk_val_list.push(chk_val);
+                                var CheckBox = this.template.querySelector(`[data-id="${chk_val}"]`);
                                 CheckBox.checked = true;
                             }
                         } else if (this.fildval == 'select-one') {
@@ -626,43 +647,47 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     @api FieldCSSUpdate(CSSString) {
-        if (CSSString != undefined) {
-            try {
-                this.updatedfieldcss = CSSString;
-                let array = this.template.querySelectorAll('.slds-input');
-                let array2 = this.template.querySelectorAll('.dropuser');
-                let str = '';
-                if (CSSString == undefined || CSSString == null || CSSString == '') {
-                    if (this.fieldcss != undefined) {
-                        str = this.fieldcss;
+        try {
+            if (CSSString != undefined) {
+                try {
+                    this.updatedfieldcss = CSSString;
+                    let array = this.template.querySelectorAll('.slds-input');
+                    let array2 = this.template.querySelectorAll('.dropuser');
+                    let str = '';
+                    if (CSSString == undefined || CSSString == null || CSSString == '') {
+                        if (this.fieldcss != undefined) {
+                            str = this.fieldcss;
+                        }
+                    } else {
+                        str = CSSString;
                     }
-                } else {
-                    str = CSSString;
-                }
-                if (str != undefined) {
-                    let Arr = str.split(';color:');
-                    let Arr2 = Arr[1].split(';');
-                    let pcolor = Arr2[0];
-                    if (pcolor != undefined || pcolor != null) {
-                        if (array != undefined) {
-                            for (let i = 0; i < array.length; i++) {
-                                const element = array[i];
-                                element.style = str;
-                                element.style.setProperty("--c", pcolor);
+                    if (str != undefined) {
+                        let Arr = str.split(';color:');
+                        let Arr2 = Arr[1].split(';');
+                        let pcolor = Arr2[0];
+                        if (pcolor != undefined || pcolor != null) {
+                            if (array != undefined) {
+                                for (let i = 0; i < array.length; i++) {
+                                    const element = array[i];
+                                    element.style = str;
+                                    element.style.setProperty("--c", pcolor);
+                                }
+                            }
+                            if (array2 != undefined) {
+                                for (let i = 0; i < array2.length; i++) {
+                                    const element = array2[i];
+                                    element.style = str;
+                                    element.style.setProperty("--c", pcolor);
+                                }
                             }
                         }
-                        if (array2 != undefined) {
-                            for (let i = 0; i < array2.length; i++) {
-                                const element = array2[i];
-                                element.style = str;
-                                element.style.setProperty("--c", pcolor);
-                            }
-                        }
                     }
+                } catch (e) {
+                    this.messagetrack = 'Something went wrong in apply css property' + e.message;
                 }
-            } catch (e) {
-                this.messagetrack = 'Something went wrong in apply css property' + e.message;
             }
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -708,65 +733,81 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     handlehover(event) {
-        if (this.hovercssproperty1 != undefined) {
-            let str = this.hovercssproperty1;
-            if (this.onfocus) {
-                if (event.target.dataset.id == undefined || event.target.dataset.id == null) {
-                    this.handlefocus(event)
-                } else {
-                    if (event.target.dataset.id == this.focused) {
+        try {
+            if (this.hovercssproperty1 != undefined) {
+                let str = this.hovercssproperty1;
+                if (this.onfocus) {
+                    if (event.target.dataset.id == undefined || event.target.dataset.id == null) {
                         this.handlefocus(event)
                     } else {
-                        event.target.style = str;
-                        let array = this.template.querySelector('.listbox-item');
-                        for (let i = 0; i < array.length; i++) {
-                            const element = array[i];
-                            element.style = str;
+                        if (event.target.dataset.id == this.focused) {
+                            this.handlefocus(event)
+                        } else {
+                            event.target.style = str;
+                            let array = this.template.querySelector('.listbox-item');
+                            for (let i = 0; i < array.length; i++) {
+                                const element = array[i];
+                                element.style = str;
+                            }
                         }
                     }
+                } else {
+                    event.target.style = str;
                 }
-            } else {
-                event.target.style = str;
             }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     handlefocus(event) {
-        if (this.focuscssproperty1 != undefined) {
-            if (event.target.dataset.id != undefined && event.target.dataset.id != null) {
-                this.focused = event.target.dataset.id;
+        try {
+            if (this.focuscssproperty1 != undefined) {
+                if (event.target.dataset.id != undefined && event.target.dataset.id != null) {
+                    this.focused = event.target.dataset.id;
+                }
+                let str = this.focuscssproperty1;
+                event.target.style = str;
+                this.onfocus = true;
             }
-            let str = this.focuscssproperty1;
-            event.target.style = str;
-            this.onfocus = true;
+        } catch (error) {
+            console.log('error');
         }
     }
 
     handleblur(event) {
-        if (this.onfocus != undefined) {
-            if (this.onfocus) {
-                if (event.target.dataset.id == undefined || event.target.dataset.id == null) {
-                    this.handlefocus(event)
-                } else {
-                    if (event.target.dataset.id == this.focused) {
+        try {
+            if (this.onfocus != undefined) {
+                if (this.onfocus) {
+                    if (event.target.dataset.id == undefined || event.target.dataset.id == null) {
                         this.handlefocus(event)
                     } else {
-                        event.target.style = this.fieldcss;
+                        if (event.target.dataset.id == this.focused) {
+                            this.handlefocus(event)
+                        } else {
+                            event.target.style = this.fieldcss;
+                        }
                     }
+                } else {
+                    event.target.style = this.fieldcss;
                 }
-            } else {
-                event.target.style = this.fieldcss;
             }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     handleblur1(event) {
-        this.onfocus = false;
-        if (this.fieldcss != undefined) {
-            event.target.style = this.fieldcss
-        }
-        if (this.updatedfieldcss != undefined) {
-            this.FieldCSSUpdate(this.updatedfieldcss)
+        try {
+            this.onfocus = false;
+            if (this.fieldcss != undefined) {
+                event.target.style = this.fieldcss
+            }
+            if (this.updatedfieldcss != undefined) {
+                this.FieldCSSUpdate(this.updatedfieldcss)
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -998,13 +1039,7 @@ export default class Quickformfieldcomponent extends LightningElement {
         }
     }
 
-    handleSubscribe() {
-        this.referencevalue = [];
-        this.referencevaling = false;
-        this.referencevalings = false;
-        this.referecnereadonly = true;
-        this.usrViewBool = false;
-    }
+
 
     getreferncevalue(event) {
         try {
@@ -1055,13 +1090,17 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     closereference() {
-        this.referencevaling = false;
-        this.referencevalings = false;
-        this.referencevalue = [];
-        if (typeof document !== 'undefined') {
-            document.removeEventListener('click', this.outsideClick);
+        try {
+            this.referencevaling = false;
+            this.referencevalings = false;
+            this.referencevalue = [];
+            if (typeof document !== 'undefined') {
+                document.removeEventListener('click', this.outsideClick);
+            }
+            this.usrViewBool = false;
+        } catch (error) {
+            console.log('error');
         }
-        this.usrViewBool = false;
     }
 
     selectreferencevalue(event) {
@@ -1237,129 +1276,154 @@ export default class Quickformfieldcomponent extends LightningElement {
     handleMouseOut(event) {
         this.searchCoordinatesForEvent('out', event);
     }
+
     // This function is to be used to clear the signature from canvas & remove emove signature dataURL in JSON.
     handleClearClick(event) {
-        if (this.submit == true) {
+        try {
+            if (this.submit == true) {
 
-            canvasElement = this.template.querySelector(`[data-name="${this.fieldmapping}"]`);
-            ctx = canvasElement.getContext("2d");
-            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-            this.convertedDataURI = '';
-            let key = event.target.dataset.name;
-            var sig_fildeArr = key.split('<!@!>');
-            this.sig_filde_id = sig_fildeArr[0];
-            let splitparetan = '<!@!>';
-            var pera_m = {
-                con_id: this.convertedDataURI,
-                filde_id: this.sig_filde_id,
-            };
-            let fulldata = key + splitparetan + 'sig<QF>' + null;
-            const cssevent_sing = new CustomEvent("sigconverteddataurl", {
-                detail: pera_m
-            });
-            this.dispatchEvent(cssevent_sing);
-            let new_fulldata = key + splitparetan + 'sig<QF>' + null;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            }); //This custom event is used to remove signature dataURL in JSON
-            this.dispatchEvent(cssevent1);
+                canvasElement = this.template.querySelector(`[data-name="${this.fieldmapping}"]`);
+                ctx = canvasElement.getContext("2d");
+                ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+                this.convertedDataURI = '';
+                let key = event.target.dataset.name;
+                var sig_fildeArr = key.split('<!@!>');
+                this.sig_filde_id = sig_fildeArr[0];
+                let splitparetan = '<!@!>';
+                var pera_m = {
+                    con_id: this.convertedDataURI,
+                    filde_id: this.sig_filde_id,
+                };
+                let fulldata = key + splitparetan + 'sig<QF>' + null;
+                const cssevent_sing = new CustomEvent("sigconverteddataurl", {
+                    detail: pera_m
+                });
+                this.dispatchEvent(cssevent_sing);
+                let new_fulldata = key + splitparetan + 'sig<QF>' + null;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                }); //This custom event is used to remove signature dataURL in JSON
+                this.dispatchEvent(cssevent1);
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     searchCoordinatesForEvent(requestedEvent, event) {
-        event.preventDefault();
-        if (requestedEvent === 'down') {
-            this.setupCoordinate(event);
-            isDownFlag = true;
-            isDotFlag = true;
-            if (isDotFlag) {
-                this.drawDot();
-                isDotFlag = false;
-            }
-        }
-        if (requestedEvent === 'up' || requestedEvent === "out") {
-            isDownFlag = false;
-        }
-        if (requestedEvent === 'move') {
-            if (isDownFlag) {
+        try {
+            event.preventDefault();
+            if (requestedEvent === 'down') {
                 this.setupCoordinate(event);
-                this.redraw();
+                isDownFlag = true;
+                isDotFlag = true;
+                if (isDotFlag) {
+                    this.drawDot();
+                    isDotFlag = false;
+                }
             }
+            if (requestedEvent === 'up' || requestedEvent === "out") {
+                isDownFlag = false;
+            }
+            if (requestedEvent === 'move') {
+                if (isDownFlag) {
+                    this.setupCoordinate(event);
+                    this.redraw();
+                }
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     //This method is primary called from mouse down & move to setup cordinates.
     setupCoordinate(eventParam) {
-        const clientRect = canvasElement.getBoundingClientRect();
-        prevX = currX;
-        prevY = currY;
-        currX = eventParam.clientX - clientRect.left;
-        currY = eventParam.clientY - clientRect.top;
+        try {
+            const clientRect = canvasElement.getBoundingClientRect();
+            prevX = currX;
+            prevY = currY;
+            currX = eventParam.clientX - clientRect.left;
+            currY = eventParam.clientY - clientRect.top;
+        } catch (error) {
+            console.log('error');
+        }
     }
 
     //For every mouse move based on the coordinates line to redrawn
     redraw() {
-        ctx.beginPath();
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(currX, currY);
-        ctx.strokeStyle = x; //sets the color, gradient and pattern of stroke
-        ctx.lineWidth = y;
-        ctx.closePath(); //create a path from current point to starting point
-        ctx.stroke(); //draws the path
+        try {
+            ctx.beginPath();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(currX, currY);
+            ctx.strokeStyle = x; //sets the color, gradient and pattern of stroke
+            ctx.lineWidth = y;
+            ctx.closePath(); //create a path from current point to starting point
+            ctx.stroke(); //draws the path
+        } catch (error) {
+            console.log('error');
+        }
     }
 
     drawDot() {
-        ctx.beginPath();
-        ctx.fillStyle = x;
-        ctx.fillRect(currX, currY, y, y);
-        ctx.closePath();
+        try {
+            ctx.beginPath();
+            ctx.fillStyle = x;
+            ctx.fillRect(currX, currY, y, y);
+            ctx.closePath();
+        } catch (error) {
+            console.log('error');
+        }
     }
 
 
     get_signature(event) {
-        if (this.submit == true) {
-            let field_id = event.target.dataset.name;
-            canvasElement = this.template.querySelector(`[data-name="${field_id}"]`);
-            ctx = canvasElement.getContext("2d");
-            ctx.globalCompositeOperation = "destination-over";
-            ctx.fillStyle = "#FFF"; //white
-            ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-            this.dataURL = canvasElement.toDataURL("image/png"); //convert to png image as dataURL
-            this.convertedDataURI = this.dataURL.replace(/^data:image\/(png|jpg);base64,/, ""); //convert that as base64 encoding
-            let key = event.target.dataset.name;
-            var sig_fildeArr = key.split('<!@!>');
-            this.sig_filde_id = sig_fildeArr[0];
-            let splitparetan = '<!@!>';
-            var pera_m = {
-                con_id: this.convertedDataURI,
-                filde_id: this.sig_filde_id,
-            };
-            let fulldata = key + splitparetan + 'sig<QF>' + this.dataURL;
-            const cssevent_sing = new CustomEvent("sigconverteddataurl", {
-                detail: pera_m
-            });
-            this.dispatchEvent(cssevent_sing);
-            let new_fulldata = key + splitparetan + 'sig<QF>' + this.dataURL;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            });
-            this.dispatchEvent(cssevent1);
-            var pera_sig = {
-                toast_error_msg: 'Signature has been saved Successfully',
-                msg_type: 'success'
-            };
-            const showpop = new CustomEvent("openpop", {
-                detail: pera_sig
-            });
-            this.dispatchEvent(showpop);
+        try {
+            if (this.submit == true) {
+                let field_id = event.target.dataset.name;
+                canvasElement = this.template.querySelector(`[data-name="${field_id}"]`);
+                ctx = canvasElement.getContext("2d");
+                ctx.globalCompositeOperation = "destination-over";
+                ctx.fillStyle = "#FFF"; //white
+                ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+                this.dataURL = canvasElement.toDataURL("image/png"); //convert to png image as dataURL
+                this.convertedDataURI = this.dataURL.replace(/^data:image\/(png|jpg);base64,/, ""); //convert that as base64 encoding
+                let key = event.target.dataset.name;
+                var sig_fildeArr = key.split('<!@!>');
+                this.sig_filde_id = sig_fildeArr[0];
+                let splitparetan = '<!@!>';
+                var pera_m = {
+                    con_id: this.convertedDataURI,
+                    filde_id: this.sig_filde_id,
+                };
+                let fulldata = key + splitparetan + 'sig<QF>' + this.dataURL;
+                const cssevent_sing = new CustomEvent("sigconverteddataurl", {
+                    detail: pera_m
+                });
+                this.dispatchEvent(cssevent_sing);
+                let new_fulldata = key + splitparetan + 'sig<QF>' + this.dataURL;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                });
+                this.dispatchEvent(cssevent1);
+                var pera_sig = {
+                    toast_error_msg: 'Signature has been saved Successfully',
+                    msg_type: 'success'
+                };
+                const showpop = new CustomEvent("openpop", {
+                    detail: pera_sig
+                });
+                this.dispatchEvent(showpop);
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -1402,6 +1466,8 @@ export default class Quickformfieldcomponent extends LightningElement {
                         toast_error_msg: 'File size limit exceeded. Choose a smaller file.',
                         msg_type: 'error'
                     };
+                    this.fileuploadrk = false;
+                    this.fileuploadrkAtt = false;
                     const showpop = new CustomEvent("openpop", {
                         detail: pera_file_upload
                     });
@@ -1586,52 +1652,60 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     leftarrowmulti(event) {
-        if (this.submit == true) {
-            let splitparetan = '<!@!>';
-            let sel_val = event.currentTarget.dataset.name;
-            let new_sel_val = event.currentTarget.dataset.name;
-            sel_val = sel_val + splitparetan + 'm_pick<QF>';
-            new_sel_val = new_sel_val + splitparetan;
-            let splitparetan_2 = '<QF>';
-            for (let i = 0; i < this.selmultipicklistvalues.length; i++) {
-                this.template.querySelector('div[data-id="' + this.selmultipicklistvalues[i].value + '"]').style.display = 'none';
-            }
-            for (var j = 0; j < this.selmultipicklistvalues.length; j++) {
-                for (var i = 0; i < this.selectedmultipicklistvalues.length; i++) {
-                    if (this.selectedmultipicklistvalues[i].value == this.selmultipicklistvalues[j].value) {
-                        this.picklistvalue.push(this.selmultipicklistvalues[j]);
-                        this.selectedmultipicklistvalues.splice(i, 1);
+        try {
+            if (this.submit == true) {
+                let splitparetan = '<!@!>';
+                let sel_val = event.currentTarget.dataset.name;
+                let new_sel_val = event.currentTarget.dataset.name;
+                sel_val = sel_val + splitparetan + 'm_pick<QF>';
+                new_sel_val = new_sel_val + splitparetan;
+                let splitparetan_2 = '<QF>';
+                for (let i = 0; i < this.selmultipicklistvalues.length; i++) {
+                    this.template.querySelector('div[data-id="' + this.selmultipicklistvalues[i].value + '"]').style.display = 'none';
+                }
+                for (var j = 0; j < this.selmultipicklistvalues.length; j++) {
+                    for (var i = 0; i < this.selectedmultipicklistvalues.length; i++) {
+                        if (this.selectedmultipicklistvalues[i].value == this.selmultipicklistvalues[j].value) {
+                            this.picklistvalue.push(this.selmultipicklistvalues[j]);
+                            this.selectedmultipicklistvalues.splice(i, 1);
+                        }
                     }
                 }
+                for (let i = 0; i < this.selectedmultipicklistvalues.length; i++) {
+                    let cur_val = this.selectedmultipicklistvalues[i].value;
+                    let cur_key = this.selectedmultipicklistvalues[i].key;
+                    sel_val = sel_val + cur_val + '<?QF>' + cur_key + splitparetan_2;
+                    new_sel_val = new_sel_val + cur_val;
+                }
+                this.selmultipicklistvalues = [];
+                let new_fulldata = new_sel_val;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: sel_val
+                });
+                this.dispatchEvent(cssevent1);
             }
-            for (let i = 0; i < this.selectedmultipicklistvalues.length; i++) {
-                let cur_val = this.selectedmultipicklistvalues[i].value;
-                let cur_key = this.selectedmultipicklistvalues[i].key;
-                sel_val = sel_val + cur_val + '<?QF>' + cur_key + splitparetan_2;
-                new_sel_val = new_sel_val + cur_val;
-            }
-            this.selmultipicklistvalues = [];
-            let new_fulldata = new_sel_val;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: sel_val
-            });
-            this.dispatchEvent(cssevent1);
+        } catch (error) {
+            console.log('error');
         }
     }
 
     Set_error_msg(msg, datakey) {
-        if (this.submit == true) {
-            var error = this.template.querySelector(`[data-id="${datakey}"]`);
-            error.textContent = msg;
-            error.style.color = "red";
-            const cssevent2 = new CustomEvent("nextbtval", {
-                detail: datakey
-            });
-            this.dispatchEvent(cssevent2);
+        try {
+            if (this.submit == true) {
+                var error = this.template.querySelector(`[data-id="${datakey}"]`);
+                error.textContent = msg;
+                error.style.color = "red";
+                const cssevent2 = new CustomEvent("nextbtval", {
+                    detail: datakey
+                });
+                this.dispatchEvent(cssevent2);
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -1660,253 +1734,326 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     OnFieldClick(event) {
-        if (this.submit == true) {
-            let vale = ''
-            if (event.target.dataset.check == 'checkbox') {
-                 vale = event.target.checked;
-            } else {
-                vale = event.target.value;
-            }
-            let key = event.target.dataset.name;
-            let fild_teye = event.target.type;
-            if (fild_teye == 'select-one') {
-                if (vale == '--Select--') {
-                    vale = '';
-                }
-                let splitparetan = '<!@!>';
-                let fulldata = key + splitparetan + 'select-one<QF>' + vale;
-                let new_fulldata = key + splitparetan + vale;
-                const csseventaddval = new CustomEvent("addinputvaljosn", {
-                    detail: new_fulldata
-                });
-                this.dispatchEvent(csseventaddval);
-                const cssevent1 = new CustomEvent("passfieldvalue", {
-                    detail: fulldata
-                });
-                this.dispatchEvent(cssevent1);
-                var error = this.template.querySelector(`[data-id="${key}"]`)
-                error.textContent = ""
-                const cssevent3 = new CustomEvent("nextbtvaltrue", {
-                    detail: key
-                });
-                this.dispatchEvent(cssevent3);
-            } else if (fild_teye == 'text') {
-                let msg1 = '';
-                if (event.target.dataset.type == 'phone') {
-                    const regexPattern = /^[0-9+\-\s]{0,15}$/;
-                    const isInputValid = regexPattern.test(vale);
-                    if (!isInputValid) {
-                        msg1 = 'Enter a Valid Phone Number.';
-                        this.Set_error_msg(msg1, key);
-                    } else {
-                        let text_val = vale;
-                        let error = this.template.querySelector(`[data-id="${key}"]`);
-                        error.textContent = "";
-                        const cssevent3 = new CustomEvent("nextbtvaltrue", {
-                            detail: key
-                        });
-                        this.dispatchEvent(cssevent3);
-                        let splitparetan = '<!@!>';
-                        let fulldata = key + splitparetan + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        this.remove_error_msg(key, text_val);
-
-                    }
+        try {
+            if (this.submit == true) {
+                let vale = ''
+                if (event.target.dataset.check == 'checkbox') {
+                    vale = event.target.checked;
                 } else {
-                    if (this.minimum > vale.length) {
-                        msg1 = 'Please enter a minimum ' + this.minimum + ' character.';
-                        this.Set_error_msg(msg1, key);
-                    } else {
-                        let text_val = vale + '<QF>';
-                        let splitparetan = '<!@!>';
-                        let fulldata = key + splitparetan + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        this.remove_error_msg(key, text_val);
-                    }
-                    if (vale == '' || vale == null || vale == undefined) {
-                        let text_val = vale + '<QF>';
-                        let splitparetan = '<!@!>';
-                        let fulldata = key + splitparetan + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        this.remove_error_msg(key, text_val);
-                    }
+                    vale = event.target.value;
                 }
-
-            } else if (fild_teye == 'number') {
-                let msg1 = '';
-                if (vale.length < this.minimum) {
-                    msg1 = "Please enter a minimum " + this.minimum + " character.";
-                    this.Set_error_msg(msg1, key);
-                } else if (vale.length > this.maximum) {
-                    msg1 = " maximum character limit is " + this.maximum + " .";
-                    this.Set_error_msg(msg1, key);
-                } else {
+                let key = event.target.dataset.name;
+                let fild_teye = event.target.type;
+                if (fild_teye == 'select-one') {
+                    if (vale == '--Select--') {
+                        vale = '';
+                    }
                     let splitparetan = '<!@!>';
+                    let fulldata = key + splitparetan + 'select-one<QF>' + vale;
                     let new_fulldata = key + splitparetan + vale;
                     const csseventaddval = new CustomEvent("addinputvaljosn", {
                         detail: new_fulldata
                     });
                     this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
-                }
-                if (vale == '' || vale == null || vale == undefined) {
-                    let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
-                        detail: new_fulldata
-                    });
-                    this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
-                }
-
-            } else if (fild_teye == 'date') {
-                let msg1 = '';
-                let min = event.target.min;
-                let max = event.target.max;
-                if (min != '' && max != '') {
-                    if (vale < min || vale > max) {
-                        msg1 = "Please enter a date betwin " + min + ' to ' + max;
-                        this.Set_error_msg(msg1, key);
-                    } else {
-                        let splitparetan = '<!@!>';
-                        let new_fulldata = key + splitparetan + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: new_fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        this.remove_error_msg(key, vale);
-                    }
-                } else if (min != '' && max == '') {
-                    if (min <= vale) {
-                        let splitparetan = '<!@!>';
-                        let new_fulldata = key + splitparetan + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: new_fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        this.remove_error_msg(key, vale);
-                    } else {
-                        msg1 = "Please enter a date after to " + min;
-                        this.Set_error_msg(msg1, key);
-                    }
-                } else if (min == '' && max != '') {
-                    if (max >= vale) {
-                        let splitparetan = '<!@!>';
-                        let new_fulldata = key + splitparetan + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: new_fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        this.remove_error_msg(key, vale);
-                    } else {
-                        msg1 = "Please enter a date a bove to " + max;
-                        this.Set_error_msg(msg1, key);
-                    }
-                } else {
-                    let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
-                        detail: new_fulldata
-                    });
-                    this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
-                }
-            } else if (fild_teye == 'datetime-local') {
-                let msg1 = '';
-                let min = event.target.min;
-                let max = event.target.max;
-                const valdatetime = new Date(vale);
-                if (min != '' && max != '') {
-                    var min_date_time = min.split('T');
-                    var min_time = min_date_time[1];
-                    var max_date_time = max.split('T');
-                    var max_time = max_date_time[1];
-                    var che_max_timeArr = max_time.split(':');
-                    var che_min_timeArr = min_time.split(':');
-                    var full_max_time = max_date_time[0] + 'T' + che_max_timeArr[0] + ':' + che_max_timeArr[1];
-                    var full_min_time = min_date_time[0] + 'T' + che_min_timeArr[0] + ':' + che_min_timeArr[1];
-                    const maxdatetime = new Date(full_max_time);
-                    const mindatetime = new Date(full_min_time);
-                    if (valdatetime < mindatetime || valdatetime > maxdatetime) {
-                        msg1 = 'Please enter a date between ' + mindatetime + ' to ' + maxdatetime;
-                        this.Set_error_msg(msg1, key);
-                    } else {
-                        let splitparetan = '<!@!>';
-                        let fulldata = key + splitparetan + 'datetime<QF>' + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        let newvale = 'datetime<QF>' + vale;
-                        this.remove_error_msg(key, newvale);
-                    }
-                } else if (min != '' && max == '') {
-                    let min_date_time = min.split('T');
-                    let min_time = min_date_time[1];
-                    let che_min_timeArr = min_time.split(':');
-                    let full_min_time = min_date_time[0] + 'T' + che_min_timeArr[0] + ':' + che_min_timeArr[1];
-                    const mindatetime = new Date(full_min_time);
-                    if (valdatetime < mindatetime) {
-                        msg1 = 'Please enter a date above ' + mindatetime;
-                        this.Set_error_msg(msg1, key);
-                    } else {
-                        let splitparetan = '<!@!>';
-                        let fulldata = key + splitparetan + 'datetime<QF>' + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        let newvale = 'datetime<QF>' + vale;
-                        this.remove_error_msg(key, newvale);
-                    }
-                } else if (min == '' && max != '') {
-                    let max_date_time = max.split('T');
-                    let max_time = max_date_time[1];
-                    let che_max_timeArr = max_time.split(':');
-                    let full_max_time = max_date_time[0] + 'T' + che_max_timeArr[0] + ':' + che_max_timeArr[1];
-                    const maxdatetime = new Date(full_max_time);
-                    if (valdatetime > maxdatetime) {
-                        msg1 = 'Please enter a date before ' + maxdatetime;
-                        this.Set_error_msg(msg1, key);
-                    } else {
-                        let splitparetan = '<!@!>';
-                        let fulldata = key + splitparetan + 'datetime<QF>' + vale;
-                        const csseventaddval = new CustomEvent("addinputvaljosn", {
-                            detail: fulldata
-                        });
-                        this.dispatchEvent(csseventaddval);
-                        let newvale = 'datetime<QF>' + vale;
-                        this.remove_error_msg(key, newvale);
-                    }
-                } else {
-                    let splitparetan = '<!@!>';
-                    let fulldata = key + splitparetan + 'datetime<QF>' + vale;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    const cssevent1 = new CustomEvent("passfieldvalue", {
                         detail: fulldata
                     });
-                    this.dispatchEvent(csseventaddval);
-                    let newvale = 'datetime<QF>' + vale;
-                    this.remove_error_msg(key, newvale);
-                }
-            } else if (fild_teye == 'email') {
-                var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                if (vale.match(mailformat)) {
+                    this.dispatchEvent(cssevent1);
+                    var error = this.template.querySelector(`[data-id="${key}"]`)
+                    error.textContent = ""
+                    const cssevent3 = new CustomEvent("nextbtvaltrue", {
+                        detail: key
+                    });
+                    this.dispatchEvent(cssevent3);
+                } else if (fild_teye == 'text') {
+                    let msg1 = '';
+                    if (event.target.dataset.type == 'phone') {
+                        const regexPattern = /^[0-9+\-\s]{0,15}$/;
+                        const isInputValid = regexPattern.test(vale);
+                        if (!isInputValid) {
+                            msg1 = 'Enter a Valid Phone Number.';
+                            this.Set_error_msg(msg1, key);
+                        } else {
+                            let text_val = vale;
+                            let error = this.template.querySelector(`[data-id="${key}"]`);
+                            error.textContent = "";
+                            const cssevent3 = new CustomEvent("nextbtvaltrue", {
+                                detail: key
+                            });
+                            this.dispatchEvent(cssevent3);
+                            let splitparetan = '<!@!>';
+                            let fulldata = key + splitparetan + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            this.remove_error_msg(key, text_val);
+
+                        }
+                    } else {
+                        if (this.minimum > vale.length) {
+                            msg1 = 'Please enter a minimum ' + this.minimum + ' character.';
+                            this.Set_error_msg(msg1, key);
+                        } else {
+                            let text_val = vale + '<QF>';
+                            let splitparetan = '<!@!>';
+                            let fulldata = key + splitparetan + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            this.remove_error_msg(key, text_val);
+                        }
+                        if (vale == '' || vale == null || vale == undefined) {
+                            let text_val = vale + '<QF>';
+                            let splitparetan = '<!@!>';
+                            let fulldata = key + splitparetan + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            this.remove_error_msg(key, text_val);
+                        }
+                    }
+
+                } else if (fild_teye == 'number') {
+                    let msg1 = '';
+                    if (vale.length < this.minimum) {
+                        msg1 = "Please enter a minimum " + this.minimum + " character.";
+                        this.Set_error_msg(msg1, key);
+                    } else if (vale.length > this.maximum) {
+                        msg1 = " maximum character limit is " + this.maximum + " .";
+                        this.Set_error_msg(msg1, key);
+                    } else {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    }
+                    if (vale == '' || vale == null || vale == undefined) {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    }
+
+                } else if (fild_teye == 'date') {
+                    let msg1 = '';
+                    let min = event.target.min;
+                    let max = event.target.max;
+                    if (min != '' && max != '') {
+                        if (vale < min || vale > max) {
+                            msg1 = "Please enter a date betwin " + min + ' to ' + max;
+                            this.Set_error_msg(msg1, key);
+                        } else {
+                            let splitparetan = '<!@!>';
+                            let new_fulldata = key + splitparetan + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: new_fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            this.remove_error_msg(key, vale);
+                        }
+                    } else if (min != '' && max == '') {
+                        if (min <= vale) {
+                            let splitparetan = '<!@!>';
+                            let new_fulldata = key + splitparetan + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: new_fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            this.remove_error_msg(key, vale);
+                        } else {
+                            msg1 = "Please enter a date after to " + min;
+                            this.Set_error_msg(msg1, key);
+                        }
+                    } else if (min == '' && max != '') {
+                        if (max >= vale) {
+                            let splitparetan = '<!@!>';
+                            let new_fulldata = key + splitparetan + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: new_fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            this.remove_error_msg(key, vale);
+                        } else {
+                            msg1 = "Please enter a date a bove to " + max;
+                            this.Set_error_msg(msg1, key);
+                        }
+                    } else {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    }
+                } else if (fild_teye == 'datetime-local') {
+                    let msg1 = '';
+                    let min = event.target.min;
+                    let max = event.target.max;
+                    const valdatetime = new Date(vale);
+                    if (min != '' && max != '') {
+                        var min_date_time = min.split('T');
+                        var min_time = min_date_time[1];
+                        var max_date_time = max.split('T');
+                        var max_time = max_date_time[1];
+                        var che_max_timeArr = max_time.split(':');
+                        var che_min_timeArr = min_time.split(':');
+                        var full_max_time = max_date_time[0] + 'T' + che_max_timeArr[0] + ':' + che_max_timeArr[1];
+                        var full_min_time = min_date_time[0] + 'T' + che_min_timeArr[0] + ':' + che_min_timeArr[1];
+                        const maxdatetime = new Date(full_max_time);
+                        const mindatetime = new Date(full_min_time);
+                        if (valdatetime < mindatetime || valdatetime > maxdatetime) {
+                            msg1 = 'Please enter a date between ' + mindatetime + ' to ' + maxdatetime;
+                            this.Set_error_msg(msg1, key);
+                        } else {
+                            let splitparetan = '<!@!>';
+                            let fulldata = key + splitparetan + 'datetime<QF>' + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            let newvale = 'datetime<QF>' + vale;
+                            this.remove_error_msg(key, newvale);
+                        }
+                    } else if (min != '' && max == '') {
+                        let min_date_time = min.split('T');
+                        let min_time = min_date_time[1];
+                        let che_min_timeArr = min_time.split(':');
+                        let full_min_time = min_date_time[0] + 'T' + che_min_timeArr[0] + ':' + che_min_timeArr[1];
+                        const mindatetime = new Date(full_min_time);
+                        if (valdatetime < mindatetime) {
+                            msg1 = 'Please enter a date above ' + mindatetime;
+                            this.Set_error_msg(msg1, key);
+                        } else {
+                            let splitparetan = '<!@!>';
+                            let fulldata = key + splitparetan + 'datetime<QF>' + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            let newvale = 'datetime<QF>' + vale;
+                            this.remove_error_msg(key, newvale);
+                        }
+                    } else if (min == '' && max != '') {
+                        let max_date_time = max.split('T');
+                        let max_time = max_date_time[1];
+                        let che_max_timeArr = max_time.split(':');
+                        let full_max_time = max_date_time[0] + 'T' + che_max_timeArr[0] + ':' + che_max_timeArr[1];
+                        const maxdatetime = new Date(full_max_time);
+                        if (valdatetime > maxdatetime) {
+                            msg1 = 'Please enter a date before ' + maxdatetime;
+                            this.Set_error_msg(msg1, key);
+                        } else {
+                            let splitparetan = '<!@!>';
+                            let fulldata = key + splitparetan + 'datetime<QF>' + vale;
+                            const csseventaddval = new CustomEvent("addinputvaljosn", {
+                                detail: fulldata
+                            });
+                            this.dispatchEvent(csseventaddval);
+                            let newvale = 'datetime<QF>' + vale;
+                            this.remove_error_msg(key, newvale);
+                        }
+                    } else {
+                        let splitparetan = '<!@!>';
+                        let fulldata = key + splitparetan + 'datetime<QF>' + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        let newvale = 'datetime<QF>' + vale;
+                        this.remove_error_msg(key, newvale);
+                    }
+                } else if (fild_teye == 'email') {
+                    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                    if (vale.match(mailformat)) {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    } else if (vale == '' || vale == null || vale == undefined) {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    } else {
+                        let msg1 = " You have entered an invalid email address! ";
+                        this.Set_error_msg(msg1, key);
+                    }
+                } else if (fild_teye == 'textarea') {
+                    if (this.minimum > vale.length) {
+                        let msg1 = 'Please enter a minimum ' + this.minimum + ' character. ';
+                        this.Set_error_msg(msg1, key);
+                    } else {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    }
+                    if (vale == '' || vale == null || vale == undefined) {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    }
+
+                } else if (fild_teye == 'url') {
+                    var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+                    if (vale.match(expression)) {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    } else if (vale == '' || vale == null || vale == undefined) {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+
+                    } else {
+                        let msg1 = " You have entered an invalid Link ";
+                        this.Set_error_msg(msg1, key);
+                    }
+
+                } else if (fild_teye == 'time') {
+                    let fulltime = 'time<QF>' + vale;
                     let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
+                    let fulldata = key + splitparetan + fulltime;
+                    let new_fulldata = key + splitparetan + fulltime;
                     const csseventaddval = new CustomEvent("addinputvaljosn", {
                         detail: new_fulldata
                     });
                     this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
+                    const cssevent1 = new CustomEvent("passfieldvalue", {
+                        detail: fulldata
+                    });
+                    this.dispatchEvent(cssevent1);
                 } else if (vale == '' || vale == null || vale == undefined) {
                     let splitparetan = '<!@!>';
                     let new_fulldata = key + splitparetan + vale;
@@ -1915,97 +2062,35 @@ export default class Quickformfieldcomponent extends LightningElement {
                     });
                     this.dispatchEvent(csseventaddval);
                     this.remove_error_msg(key, vale);
-                } else {
-                    let msg1 = " You have entered an invalid email address! ";
-                    this.Set_error_msg(msg1, key);
-                }
-            } else if (fild_teye == 'textarea') {
-                if (this.minimum > vale.length) {
-                    let msg1 = 'Please enter a minimum ' + this.minimum + ' character. ';
-                    this.Set_error_msg(msg1, key);
-                } else {
+                } else if (fild_teye == 'checkbox') {
+                    let che = event.target.checked;
                     let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
+                    let fulldata = key + splitparetan + 'chk_box<QF>' + che;
+                    let new_fulldata = key + splitparetan + 'chk_box<QF>' + che;
                     const csseventaddval = new CustomEvent("addinputvaljosn", {
                         detail: new_fulldata
                     });
                     this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
-                }
-                if (vale == '' || vale == null || vale == undefined) {
-                    let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
-                        detail: new_fulldata
+                    const cssevent1 = new CustomEvent("passfieldvalue", {
+                        detail: fulldata
                     });
-                    this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
-                }
+                    this.dispatchEvent(cssevent1);
+                } else if (fild_teye == 'password') {
 
-            } else if (fild_teye == 'url') {
-                var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-                if (vale.match(expression)) {
-                    let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
-                        detail: new_fulldata
-                    });
-                    this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
-                } else if (vale == '' || vale == null || vale == undefined) {
-                    let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + vale;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
-                        detail: new_fulldata
-                    });
-                    this.dispatchEvent(csseventaddval);
-                    this.remove_error_msg(key, vale);
+                    let vallenth = vale.length;
+                    if (vallenth < this.minimum) {
+                        let msg1 = "Please enter a minimum " + this.minimum + " character.";
+                        this.Set_error_msg(msg1, key);
+                    } else {
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + vale;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        this.remove_error_msg(key, vale);
+                    }
 
-                } else {
-                    let msg1 = " You have entered an invalid Link ";
-                    this.Set_error_msg(msg1, key);
-                }
-
-            } else if (fild_teye == 'time') {
-                let fulltime = 'time<QF>' + vale;
-                let splitparetan = '<!@!>';
-                let fulldata = key + splitparetan + fulltime;
-                let new_fulldata = key + splitparetan + fulltime;
-                const csseventaddval = new CustomEvent("addinputvaljosn", {
-                    detail: new_fulldata
-                });
-                this.dispatchEvent(csseventaddval);
-                const cssevent1 = new CustomEvent("passfieldvalue", {
-                    detail: fulldata
-                });
-                this.dispatchEvent(cssevent1);
-            } else if (vale == '' || vale == null || vale == undefined) {
-                let splitparetan = '<!@!>';
-                let new_fulldata = key + splitparetan + vale;
-                const csseventaddval = new CustomEvent("addinputvaljosn", {
-                    detail: new_fulldata
-                });
-                this.dispatchEvent(csseventaddval);
-                this.remove_error_msg(key, vale);
-            } else if (fild_teye == 'checkbox') {
-                let che = event.target.checked;
-                let splitparetan = '<!@!>';
-                let fulldata = key + splitparetan + 'chk_box<QF>' + che;
-                let new_fulldata = key + splitparetan + 'chk_box<QF>' + che;
-                const csseventaddval = new CustomEvent("addinputvaljosn", {
-                    detail: new_fulldata
-                });
-                this.dispatchEvent(csseventaddval);
-                const cssevent1 = new CustomEvent("passfieldvalue", {
-                    detail: fulldata
-                });
-                this.dispatchEvent(cssevent1);
-            } else if (fild_teye == 'password') {
-
-                let vallenth = vale.length;
-                if (vallenth < this.minimum) {
-                    let msg1 = "Please enter a minimum " + this.minimum + " character.";
-                    this.Set_error_msg(msg1, key);
                 } else {
                     let splitparetan = '<!@!>';
                     let new_fulldata = key + splitparetan + vale;
@@ -2014,18 +2099,11 @@ export default class Quickformfieldcomponent extends LightningElement {
                     });
                     this.dispatchEvent(csseventaddval);
                     this.remove_error_msg(key, vale);
+
                 }
-
-            } else {
-                let splitparetan = '<!@!>';
-                let new_fulldata = key + splitparetan + vale;
-                const csseventaddval = new CustomEvent("addinputvaljosn", {
-                    detail: new_fulldata
-                });
-                this.dispatchEvent(csseventaddval);
-                this.remove_error_msg(key, vale);
-
             }
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -2084,110 +2162,127 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     address(event) {
-        if (this.submit == true) {
-            let street = this.template.querySelector(`[name="street"]`).value;
-            let city = this.template.querySelector(`[name="city"]`).value;
-            let state = this.template.querySelector(`[name="state"]`).value;
-            let zipcode = this.template.querySelector(`[name="zipcode"]`).value;
-            let country = this.template.querySelector(`[name="country"]`).value;
-            let FullAdd = 'add<QF>' + ' ' + street + '<QF>' + ' ' + city + '<QF>' + ' ' + state + '<QF>' + ' ' + zipcode + '<QF>' + ' ' + country;
-            let new_fulladd = street + ' ' + city + ' ' + state + ' ' + zipcode + ' ' + country;
-            let key = event.target.dataset.name;
-            let splitparetan = '<!@!>';
-            let fulldata = key + splitparetan + FullAdd;
-            let new_fulldata2 = key + splitparetan + new_fulladd;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata2
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            });
-            this.dispatchEvent(cssevent1);
+        try {
+            if (this.submit == true) {
+                let street = this.template.querySelector(`[name="street"]`).value;
+                let city = this.template.querySelector(`[name="city"]`).value;
+                let state = this.template.querySelector(`[name="state"]`).value;
+                let zipcode = this.template.querySelector(`[name="zipcode"]`).value;
+                let country = this.template.querySelector(`[name="country"]`).value;
+                let FullAdd = 'add<QF>' + ' ' + street + '<QF>' + ' ' + city + '<QF>' + ' ' + state + '<QF>' + ' ' + zipcode + '<QF>' + ' ' + country;
+                let new_fulladd = street + ' ' + city + ' ' + state + ' ' + zipcode + ' ' + country;
+                let key = event.target.dataset.name;
+                let splitparetan = '<!@!>';
+                let fulldata = key + splitparetan + FullAdd;
+                let new_fulldata2 = key + splitparetan + new_fulladd;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata2
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                });
+                this.dispatchEvent(cssevent1);
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     radiobutton(event) {
-        this.sendrequesttoclosereferencefield();
-        if (this.submit == true) {
-            let radio_val = event.target.value;
-            let key = event.target.dataset.name;
-            let splitparetan = '<!@!>';
-            let splitparetan2 = 'redio<QF>';
-            let fulldata = key + splitparetan + splitparetan2 + radio_val;
-            let new_fulldata = key + splitparetan + radio_val;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            });
-            this.dispatchEvent(cssevent1);
+        try {
+            this.sendrequesttoclosereferencefield();
+            if (this.submit == true) {
+                let radio_val = event.target.value;
+                let key = event.target.dataset.name;
+                let splitparetan = '<!@!>';
+                let splitparetan2 = 'redio<QF>';
+                let fulldata = key + splitparetan + splitparetan2 + radio_val;
+                let new_fulldata = key + splitparetan + radio_val;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                });
+                this.dispatchEvent(cssevent1);
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     star_rating(event) {
-        if (this.submit == true) {
-            let radio_val = event.target.value;
-            let key = event.target.dataset.name;
-            for (let i = 1; i <= 5; i++) {
-                var testdataid = key + '<QFSTR>' + i;
-                const myElement_1 = this.template.querySelector(`[data-id="${testdataid}"]`);
-                myElement_1.style.color = '#ccc';
+        try {
+            if (this.submit == true) {
+                let radio_val = event.target.value;
+                let key = event.target.dataset.name;
+                for (let i = 1; i <= 5; i++) {
+                    var testdataid = key + '<QFSTR>' + i;
+                    const myElement_1 = this.template.querySelector(`[data-id="${testdataid}"]`);
+                    myElement_1.style.color = '#ccc';
+                }
+                var selectStar = radio_val.split(' ')[0];
+                for (let j = 1; j <= selectStar; j++) {
+                    var testkey = key + '<QFSTR>' + j;
+                    const myElement = this.template.querySelector(`[data-id="${testkey}"]`);
+                    myElement.style.color = '#c59b08';
+                }
+                let splitparetan = '<!@!>';
+                let splitparetan2 = 'star<QF>';
+                let fulldata = key + splitparetan + splitparetan2 + radio_val;
+                let new_fulldata = key + splitparetan + radio_val;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                });
+                this.dispatchEvent(cssevent1);
             }
-            var selectStar = radio_val.split(' ')[0];
-            for (let j = 1; j <= selectStar; j++) {
-                var testkey = key + '<QFSTR>' + j;
-                const myElement = this.template.querySelector(`[data-id="${testkey}"]`);
-                myElement.style.color = '#c59b08';
-            }
-            let splitparetan = '<!@!>';
-            let splitparetan2 = 'star<QF>';
-            let fulldata = key + splitparetan + splitparetan2 + radio_val;
-            let new_fulldata = key + splitparetan + radio_val;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            });
-            this.dispatchEvent(cssevent1);
+        } catch (error) {
+            console.log('error');
         }
     }
 
     check_box(event) {
-        if (this.submit == true) {
-            let radio_val = event.target.value;
-            let add_var = 'yes';
-            for (let i = 0; i < this.chexk_val_list.length; i++) {
-                if (this.chexk_val_list[i] == radio_val) {
-                    add_var = 'No';
-                    this.chexk_val_list.splice(i, 1);
+        try {
+            if (this.submit == true) {
+                let radio_val = event.target.value;
+
+                if (event.target.checked) {
+                    this.chexk_val_list.push(radio_val);
+                } else {
+                    this.chexk_val_list.forEach((element, index) => {
+                        if (radio_val == element) {
+                            this.chexk_val_list.splice(index, 1);
+                        }
+                    });
                 }
+
+                let full_cheh_val;
+                let new_full_cheh_val;
+                for (let i = 0; i < this.chexk_val_list.length; i++) {
+                    full_cheh_val = full_cheh_val + '<QF>' + this.chexk_val_list[i];
+                    new_full_cheh_val = new_full_cheh_val + this.chexk_val_list[i];
+                }
+                let key = event.target.dataset.name;
+                let splitparetan = '<!@!>';
+                let fulldata = key + splitparetan + 'chkbox<QF>' + full_cheh_val;
+                let new_fulldata = key + splitparetan + new_full_cheh_val;
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                });
+                this.dispatchEvent(cssevent1);
             }
-            if (add_var == 'yes') {
-                this.chexk_val_list.push(radio_val);
-            }
-            let full_cheh_val;
-            let new_full_cheh_val;
-            for (let i = 0; i < this.chexk_val_list.length; i++) {
-                full_cheh_val = full_cheh_val + '<QF>' + this.chexk_val_list[i];
-                new_full_cheh_val = new_full_cheh_val + this.chexk_val_list[i];
-            }
-            let key = event.target.dataset.name;
-            let splitparetan = '<!@!>';
-            let fulldata = key + splitparetan + 'chkbox<QF>' + full_cheh_val;
-            let new_fulldata = key + splitparetan + new_full_cheh_val;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            });
-            this.dispatchEvent(cssevent1);
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -2209,27 +2304,31 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     clearreference(event) {
-        if (this.submit == true) {
-            this.searchkey = '';
-            this.showCrossIcon = false;
-            this.usrViewBool = false;
-            let key = event.target.dataset.id;
-            let splitparetan = '<!@!>';
-            let fulldata = key + splitparetan + null;
-            let new_fulldata = key + splitparetan + null;
-            const csseventaddval = new CustomEvent("addinputvaljosn", {
-                detail: new_fulldata
-            });
-            this.dispatchEvent(csseventaddval);
-            const cssevent1 = new CustomEvent("passfieldvalue", {
-                detail: fulldata
-            });
-            this.dispatchEvent(cssevent1);
-        }
-        else {
-            this.searchkey = '';
-            this.showCrossIcon = false;
-            this.usrViewBool = false;
+        try {
+            if (this.submit == true) {
+                this.searchkey = '';
+                this.showCrossIcon = false;
+                this.usrViewBool = false;
+                let key = event.target.dataset.id;
+                let splitparetan = '<!@!>';
+                let fulldata = key + splitparetan + '';
+                let new_fulldata = key + splitparetan + '';
+                const csseventaddval = new CustomEvent("addinputvaljosn", {
+                    detail: new_fulldata
+                });
+                this.dispatchEvent(csseventaddval);
+                const cssevent1 = new CustomEvent("passfieldvalue", {
+                    detail: fulldata
+                });
+                this.dispatchEvent(cssevent1);
+            }
+            else {
+                this.searchkey = '';
+                this.showCrossIcon = false;
+                this.usrViewBool = false;
+            }
+        } catch (error) {
+            console.log('error');
         }
     }
 
@@ -2238,16 +2337,19 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     showerror() {
+        try {
+            this.errordata = {
+                header_type: 'Quick From Field',
+                Message: this.message
+            };
 
-        this.errordata = {
-            header_type: 'Quick From Field',
-            Message: this.message
-        };
-
-        const showpopup = new CustomEvent('showerrorpopup', {
-            detail: this.errordata
-        });
-        this.dispatchEvent(showpopup);
+            const showpopup = new CustomEvent('showerrorpopup', {
+                detail: this.errordata
+            });
+            this.dispatchEvent(showpopup);
+        } catch (error) {
+            console.log('error');
+        }
     }
 
 
@@ -2264,77 +2366,89 @@ export default class Quickformfieldcomponent extends LightningElement {
     }
 
     handleUploadbase64(event) {
-        if (this.submit == true) {
-            let key = event.target.dataset.name;
-            if (event.target.files.length > 0) {
-                let file = event.target.files[0];
-                if (file.size > 3145728) { // 3MB in bytes
-                    // Show error message here
-                    var pera_file_upload = {
-                        toast_error_msg: 'File size limit exceeded. Choose a smaller file.',
-                        msg_type: 'error'
+        try {
+            if (this.submit == true) {
+                let key = event.target.dataset.name;
+                if (event.target.files.length > 0) {
+                    let file = event.target.files[0];
+                    if (file.size > 3145728) { // 3MB in bytes
+                        // Show error message here
+                        var pera_file_upload = {
+                            toast_error_msg: 'File size limit exceeded. Choose a smaller file.',
+                            msg_type: 'error'
+                        };
+                        const showpop = new CustomEvent("openpop", {
+                            detail: pera_file_upload
+                        });
+                        this.dispatchEvent(showpop);
+                        this.fileuploadrkAtt = false;
+                        return;
+                    }
+                    this.fileuploadrkAtt = true;
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        var base64 = reader.result.split(',')[1];
+                        let splitparetan = '<!@!>';
+                        let new_fulldata = key + splitparetan + 'attbase64<QF>' + file.name;
+                        const csseventaddval = new CustomEvent("addinputvaljosn", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(csseventaddval);
+                        const cssevent1 = new CustomEvent("passfieldvalue", {
+                            detail: new_fulldata
+                        });
+                        this.dispatchEvent(cssevent1);
+                        var pera_file = {
+                            base64: base64,
+                            fSize: file.size
+                        };
+                        const passBase64 = new CustomEvent("base64att", {
+                            detail: pera_file
+                        });
+                        this.dispatchEvent(passBase64);
+                        this.fsize = this.totalfilesize;
+                        this.uploadfilenameAtt = file.name;
+
                     };
-                    const showpop = new CustomEvent("openpop", {
-                        detail: pera_file_upload
-                    });
-                    this.dispatchEvent(showpop);
+
+                    reader.readAsDataURL(file);
+                } else {
                     this.fileuploadrkAtt = false;
-                    return;
                 }
-                this.fileuploadrkAtt = true;
-                let reader = new FileReader();
-                reader.onload = () => {
-                    var base64 = reader.result.split(',')[1];
-                    let splitparetan = '<!@!>';
-                    let new_fulldata = key + splitparetan + 'attbase64<QF>' + file.name;
-                    const csseventaddval = new CustomEvent("addinputvaljosn", {
-                        detail: new_fulldata
-                    });
-                    this.dispatchEvent(csseventaddval);
-                    const cssevent1 = new CustomEvent("passfieldvalue", {
-                        detail: new_fulldata
-                    });
-                    this.dispatchEvent(cssevent1);
-                    var pera_file = {
-                        base64: base64,
-                        fSize: file.size
-                    };
-                    const passBase64 = new CustomEvent("base64att", {
-                        detail: pera_file
-                    });
-                    this.dispatchEvent(passBase64);
-                    this.fsize = this.totalfilesize;
-                    this.uploadfilenameAtt = file.name;
-
-                };
-
-                reader.readAsDataURL(file);
-            } else {
-                this.fileuploadrkAtt = false;
             }
+        } catch (error) {
+            console.log('error');
         }
     }
 
     removeReceiptImage(event) {
-        const divId = event.target.getAttribute('id');
-        const removeimg = new CustomEvent("removwfile", {
-            detail: divId
-        });
-        this.dispatchEvent(removeimg);
-        this.uploadfilename = null;
-        this.fileuploadrk = false;
+        try {
+            const divId = event.target.getAttribute('id');
+            const removeimg = new CustomEvent("removwfile", {
+                detail: divId
+            });
+            this.dispatchEvent(removeimg);
+            this.uploadfilename = null;
+            this.fileuploadrk = false;
+        } catch (error) {
+            console.log('error');
+        }
 
     }
     removeReceiptImage_att(event) {
-        const divId = event.target.getAttribute('id');
-        this.fileuploadrkAtt = false;
-        this.uploadfilenameAtt = null;
-        const removeimg_att = new CustomEvent("removwfileatt", {
-            detail: divId
-        });
-        this.dispatchEvent(removeimg_att);
+        try {
+            const divId = event.target.getAttribute('id');
+            this.fileuploadrkAtt = false;
+            this.uploadfilenameAtt = null;
+            const removeimg_att = new CustomEvent("removwfileatt", {
+                detail: divId
+            });
+            this.dispatchEvent(removeimg_att);
 
-        event.preventDefault();
+            event.preventDefault();
+        } catch (error) {
+            console.log('error');
+        }
     }
 
     @api
@@ -2350,7 +2464,7 @@ export default class Quickformfieldcomponent extends LightningElement {
             );
             this.dispatchEvent(ev);
         } catch (error) {
-            console.error(error.message);
+            console.error('error');
         }
     }
 
@@ -2361,7 +2475,7 @@ export default class Quickformfieldcomponent extends LightningElement {
             this.signaturePad = new window.SignaturePad(canvas);
 
         } catch (error) {
-            console.error(error.message);
+            console.log('error');
         }
     }
 }

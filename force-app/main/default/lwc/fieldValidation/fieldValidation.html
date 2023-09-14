@@ -82,7 +82,7 @@
 
         <template for:each={field.data} for:item="fields">
             <div key={fields.Name} title={fields.Name}>
-                <template if:true={fields.QFSHORTTEXT}>                    
+                <template if:true={fields.QFSHORTTEXT}>
                     <div class="textlabel">Options</div>
                     <div class="togglebox">
                         <label>Add Placeholder text </label>
@@ -99,7 +99,7 @@
                         </div>
                     </template>
                 </template>
-                
+
                 <template if:true={fields.QFNUMBER}>
 
                     <div class="textlabel">Options</div>
@@ -191,7 +191,7 @@
                 </template>
 
                 <template if:true={fields.QFLONGTEXT}>
-                   
+
                     <div class="textlabel">Options</div>
                     <div class="togglebox">
                         <label>Add Placeholder text </label>
@@ -234,7 +234,7 @@
                     <div class="Item">
                         <lightning-input class="slds-size_5-of-6" variant="label-hidden" value={}></lightning-input>
                         <lightning-button class="slds-s-right_xxx-small" icon-name="utility:delete" size="medium"
-                                    data-id={fields.id} onclick={deletesalutation}></lightning-button>
+                            data-id={fields.id} onclick={deletesalutation}></lightning-button>
                     </div>
                     <div class="Itembutton">
                         <lightning-button icon-name="utility:add" title="Add" onclick={addvalue}></lightning-button>
@@ -278,7 +278,7 @@
                         </div>
                     </div>
                 </template>
-    
+
 
                 <!-- Email-Id -->
                 <template if:true={fields.QFEMAILID}>
@@ -314,7 +314,7 @@
 
                 <!-- PRICE -->
                 <template if:true={fields.QFPRICE}>
-                  
+
                     <div class="textlabel">Options</div>
                     <div class="plaintext">
                         <lightning-combobox name="progress" label="Decimal" value={decimal} placeholder="Decimal"
@@ -355,14 +355,16 @@
                         <template for:each={salutations} for:item="fields">
                             <div class="Item" key={fields.id}>
                                 <lightning-input class="slds-size_5-of-6" variant="label-hidden" data-id={fields.id}
-                                    value={fields.salutation} onchange={salutationvalues} disabled={disable}></lightning-input>
+                                    value={fields.salutation} onchange={salutationvalues}
+                                    disabled={disable}></lightning-input>
                                 <lightning-button class="slds-s-right_xxx-small" icon-name="utility:delete"
-                                    size="medium" data-id={fields.id} onclick={deletesalutation} disabled={disable}></lightning-button>
+                                    size="medium" data-id={fields.id} onclick={deletesalutation}
+                                    disabled={disable}></lightning-button>
                             </div>
                         </template>
                         <div class="Itembutton">
-                            <lightning-button icon-name="utility:add" title="Add"
-                                onclick={addsalutation} disabled={disable}></lightning-button>
+                            <lightning-button icon-name="utility:add" title="Add" onclick={addsalutation}
+                                disabled={disable}></lightning-button>
                         </div>
                     </div>
                 </template>
@@ -503,26 +505,26 @@
                                     <h2 data-id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit
                                         Agreement Text</h2>
                                 </header>
-                               <div class="richtextContent">
-                                <lightning-tabset variant="scoped" class="slds-tabs_scoped__nav">
-                                    <lightning-tab class="richtextTab" label="Edit Rich Text">
-                                        <lightning-input-rich-text formats="['font', 'size', 'bold', 'italic', 'underline', 'strike', 'list', 'indent', 'align', 'link', 'clean', 'table', 
+                                <div class="richtextContent">
+                                    <lightning-tabset variant="scoped" class="slds-tabs_scoped__nav">
+                                        <lightning-tab class="richtextTab" label="Edit Rich Text">
+                                            <lightning-input-rich-text formats="['font', 'size', 'bold', 'italic', 'underline', 'strike', 'list', 'indent', 'align', 'link', 'clean', 'table', 
                                 'header', 'color', 'background']" value={Richtextvalue} data-id="editor"
-                                            placeholder="Type something" class="labelinput slds-nowrap"
-                                            onchange={RichTextData}></lightning-input-rich-text>
-                                    </lightning-tab>
-                                    <lightning-tab class="htmlTab" label="Edit HTML Text">
-                                        <lightning-textarea label="HTML Text" value={Richtextvalue} name="Html"
-                                            onchange={RichTextData}></lightning-textarea>
-                                    </lightning-tab>
-                                    <lightning-tab class="outputTab" label="Output">
-                                        <lightning-formatted-rich-text class="slds-text-longform slds-nowrap"
-                                            value={Richtextvalue}></lightning-formatted-rich-text>
-                                    </lightning-tab>
-                                </lightning-tabset>
-                               </div>
-                                <footer class="slds-modal__footer richtextfooter">                                   
-                                         <button label="Cancel" class="cancelModelButton"
+                                                placeholder="Type something" class="labelinput slds-nowrap"
+                                                onchange={RichTextData}></lightning-input-rich-text>
+                                        </lightning-tab>
+                                        <lightning-tab class="htmlTab" label="Edit HTML Text">
+                                            <lightning-textarea label="HTML Text" value={Richtextvalue} name="Html"
+                                                onchange={RichTextData}></lightning-textarea>
+                                        </lightning-tab>
+                                        <lightning-tab class="outputTab" label="Output">
+                                            <lightning-formatted-rich-text class="slds-text-longform slds-nowrap"
+                                                value={Richtextvalue}></lightning-formatted-rich-text>
+                                        </lightning-tab>
+                                    </lightning-tabset>
+                                </div>
+                                <footer class="slds-modal__footer richtextfooter">
+                                    <button label="Cancel" class="cancelModelButton"
                                         onclick={closerichtext}>Cancel</button>
                                     <button label="Save" class="saveModelButton" onclick={closerichtext}>Save</button>
                                 </footer>
@@ -534,7 +536,7 @@
 
                 <!-- LINK -->
                 <template if:true={fields.QFLINK}>
-                   
+
                     <div class="textlabel">Options</div>
                     <div class="togglebox">
                         <label>Add Placeholder text </label>
@@ -551,17 +553,17 @@
                         </div>
                     </template>
                 </template>
-               
+
                 <!-- Look Up -->
                 <template if:true={fields.QFLOOKUP}>
                     <div class="fieldLabel">
                         Look Up Field
-                    </div>                    
+                    </div>
                     <div class="textlabel">Object Selection</div>
                     <div class="styletext">
                         <lightning-select data-id="SobjectList" label="Select Object" name="SobjectList"
                             value={defvalue} onchange={selectObject}>
-                            <option>Select Object</option>                           
+                            <option>Select Object</option>
                         </lightning-select>
                     </div>
                 </template>

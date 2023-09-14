@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="slds-col slds-size_6-of-12 dropdown_object">
                                     <lightning-combobox name="ProgressIndicator" value={Progressbarvalue}
-                                        variant="label-hidden" placeholder="Select Progress Indicator" style="max-height: 150px"
+                                        variant="label-hidden" placeholder="Select Progress Indicator"
                                         options={TypeOptions} onchange={changeProgressIndicator} class="slds-is-open">
                                     </lightning-combobox>
                                 </div>
@@ -79,8 +79,11 @@
                         <div class="input_field">
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_5-of-12">
-                                    <label class="input_field-label">Captcha Type <lightning-helptext
-                                            content="To display Captcha in the Forms"></lightning-helptext></label>
+                                    <label class="input_field-label">Captcha Type
+                                        <lightning-helptext
+                                            content="Choose a captcha type to display a generic test to the user to determine whether or not they are human.">
+                                        </lightning-helptext>
+                                    </label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -237,14 +240,17 @@
                                                                 <div class="templeat3-combobox">
                                                                     <lightning-combobox
                                                                         class="templet3_object3 slds-is-open slds-has-flexi-truncate ligcombobox"
-                                                                        name="object2.2" placeholder="Select Child Object"
-                                                                        value={value2} onchange={object2_1}
+                                                                        name="object2.2"
+                                                                        placeholder="Select Child Object" value={value2}
+                                                                        onchange={object2_1}
                                                                         onfocus={selcel_object_errormsg}
                                                                         dropdown-alignment="bottom-left"
                                                                         options={options_object2}>
                                                                     </lightning-combobox>
                                                                     <div class="sec_obj_error_main">
-                                                                        <div class="sec_obj_error" if:true={sec_obj_error}>Please select parent object first!</div>
+                                                                        <div class="sec_obj_error"
+                                                                            if:true={sec_obj_error}>Please select parent
+                                                                            object first!</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -282,7 +288,8 @@
                                                                             onfocus={selcel_object_errormsg}></lightning-combobox>
                                                                         <div class="sec_obj_error_main">
                                                                             <div class="sec_obj_error"
-                                                                                if:true={sec_obj_error}>Please select parent object first!</div>
+                                                                                if:true={sec_obj_error}>Please select
+                                                                                parent object first!</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -300,7 +307,8 @@
                                                                             onfocus={tep3_selcel_object_errormsg_2}></lightning-combobox>
                                                                         <div class="sec_obj_error_main">
                                                                             <div class="sec_obj_error"
-                                                                                if:true={tep3_sec_obj_error_2}>Please select parent object first!</div>
+                                                                                if:true={tep3_sec_obj_error_2}>Please
+                                                                                select parent object first!</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>

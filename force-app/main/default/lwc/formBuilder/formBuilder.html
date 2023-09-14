@@ -5,8 +5,8 @@
         <c-toast-component></c-toast-component>
     </template>
     <!-- ============== error toast=========== -->
-    <c-errorpopup class="errorpopup_class"  onerrorpopup={errorpopupcall}></c-errorpopup> 
-    
+    <c-errorpopup class="errorpopup_class" onerrorpopup={errorpopupcall}></c-errorpopup>
+
 
     <div class="MainComponent">
         <!-- spinner -->
@@ -80,34 +80,38 @@
                 </div>
             </div>
         </div>
-       
+
         <template if:true={activesidebar}>
             <div class="child3">
-                <c-fields-section-component class="childref" formid={ParentMessage} randomstr={randomString}  oncallpasstoparent={passToParent}
-                    onstopspinner={stopspinner}  onshowerrorpopup={showerrorpopup} ></c-fields-section-component>
+                <c-fields-section-component class="childref" formid={ParentMessage} randomstr={randomString}
+                    oncallpasstoparent={passToParent} onstopspinner={stopspinner}
+                    onshowerrorpopup={showerrorpopup}></c-fields-section-component>
             </div>
         </template>
 
         <template if:true={activeDesignsidebar}>
             <div class="child3">
                 <c-design-section-component ongetnewcss={handlenewCSS} ongetpagecss={handlepagecss}
-                    ongetlabelcss={handlelabelcss} ongetformcss={handleformcss} onhovercss={handlehovercss} onformerrormsg={formerrormsg}
-                    onfocuscss={handlefocuscss} onimagespinner={startspinner} onbtnposition={handlebtnpos} onstopspinner={stopspinner}
-                    ongetbuttoncss={handlebtncss} recordid={ParentMessage} onshowerrorpopup={showerrorpopup}></c-design-section-component>
+                    ongetlabelcss={handlelabelcss} ongetformcss={handleformcss} onhovercss={handlehovercss}
+                    onformerrormsg={formerrormsg} onfocuscss={handlefocuscss} onimagespinner={startspinner}
+                    onbtnposition={handlebtnpos} onstopspinner={stopspinner} ongetbuttoncss={handlebtncss}
+                    recordid={ParentMessage} onshowerrorpopup={showerrorpopup}></c-design-section-component>
             </div>
         </template>
 
         <template if:true={activeNotification}>
-            <c-notification-component cmptype="main" form_id={ParentMessage} id='notmcp' onshowerrorpopup={showerrorpopup}></c-notification-component>
+            <c-notification-component cmptype="main" form_id={ParentMessage} id='notmcp'
+                onshowerrorpopup={showerrorpopup}></c-notification-component>
         </template>
 
         <template if:true={activethankyou}>
-              <c-thankyou-component currentformid={ParentMessage} formname={FormName} cmptype="main" form-id={FormId}
+            <c-thankyou-component currentformid={ParentMessage} formname={FormName} cmptype="main" form-id={FormId}
                 id='thkmcp' editing={activethankyou} onshowerrorpopup={showerrorpopup}></c-thankyou-component>
         </template>
 
         <template if:true={activepreview}>
-            <c-preview-form-cmp formid={ParentMessage} onshowerrorpopup={showerrorpopup} nosubmission={activepreview}></c-preview-form-cmp>
+            <c-preview-form-cmp formid={ParentMessage} onshowerrorpopup={showerrorpopup}
+                nosubmission={activepreview}></c-preview-form-cmp>
         </template>
 
         <template if:true={activeqf_publish}>
@@ -115,7 +119,7 @@
         </template>
 
         <template if:true={activeDropZone}>
-            
+
             <div class="child2">
 
                 <!-- Main Form Div -->
@@ -125,20 +129,22 @@
                         style="display: none;">
                         <lightning-input type="text" value={FormName} onchange={renamemain} onkeypress={key}
                             class="rename_input"></lightning-input>
-                        <div class="right" onclick={renameMainForm} data-id={ParentMessage}><img draggable="false" src={right} alt="">
+                        <div class="right" onclick={renameMainForm} data-id={ParentMessage}><img draggable="false"
+                                src={right} alt="">
                         </div>
-                        <div class="wrong" onclick={cancleRenameMainForm} data-id={ParentMessage}><img draggable="false" src={cross}
-                                alt="">
+                        <div class="wrong" onclick={cancleRenameMainForm} data-id={ParentMessage}><img draggable="false"
+                                src={cross} alt="">
                         </div>
                     </div>
 
                     <div class="formButtons">
-                            <button class="FormButtons" onclick={handleeditForm} name={EditButtonName}
-                            data-record={FormName} data-id={ParentMessage}  title="Edit Form"> <img draggable="false" src={EditIcon} alt="edit button"
-                                class="icon">Edit Form</button>
-                        <button value="new page add" class="FormButtons" onclick={handleAddPage}
-                            name={EditButtonName} title="Add Button"><img draggable="false" src={addIcon} alt="Add button" class="icon">Add Page</button>
-                        
+                        <button class="FormButtons" onclick={handleeditForm} name={EditButtonName}
+                            data-record={FormName} data-id={ParentMessage} title="Edit Form"> <img draggable="false"
+                                src={EditIcon} alt="edit button" class="icon">Edit Form</button>
+                        <button value="new page add" class="FormButtons" onclick={handleAddPage} name={EditButtonName}
+                            title="Add Button"><img draggable="false" src={addIcon} alt="Add button" class="icon">Add
+                            Page</button>
+
                     </div>
                 </div>
 
@@ -159,8 +165,8 @@
                                                     <lightning-input type="text" value={newFormName} onchange={rename}
                                                         onkeypress={key} onclick={insideClick}
                                                         class="rename_input"></lightning-input>
-                                                    <div class="right" onclick={renameForm} data-id={page.pageId}><img draggable="false"
-                                                            src={right} alt=""></div>
+                                                    <div class="right" onclick={renameForm} data-id={page.pageId}><img
+                                                            draggable="false" src={right} alt=""></div>
                                                     <div class="wrong" onclick={cancleRenameForm} data-id={page.pageId}>
                                                         <img draggable="false" src={cross} alt="">
                                                     </div>
@@ -170,14 +176,14 @@
 
                                         </div>
                                     </div>
-                                    
+
                                     <div class="PageButtonMenu">
                                         <button class="pageIconButton" data-record={page.pageName} data-id={page.pageId}
-                                            onclick={openmodal2} title="Edit Page"><img draggable="false" class="pageIcons" src={editpageIcon}
-                                                alt="Edit page"></button>
+                                            onclick={openmodal2} title="Edit Page"><img draggable="false"
+                                                class="pageIcons" src={editpageIcon} alt="Edit page"></button>
                                         <button class="pageIconButton" onclick={handleDeleteAction}
-                                            data-record={page.pageId} title="Delte Page"><img draggable="false" class="pageIcons" src={DeleteIcon}
-                                                alt="Delete Page"></button>
+                                            data-record={page.pageId} title="Delte Page"><img draggable="false"
+                                                class="pageIcons" src={DeleteIcon} alt="Delete Page"></button>
                                     </div>
                                 </div>
                                 <div class="example-dropzone" ondragover={onDragOver} ondrop={onDrop}
@@ -186,7 +192,8 @@
                                     <template for:each={page.FieldData} for:item="field">
 
                                         <div id={field.Id} class="field" draggable="true"
-                                            data-order-id={field.Field_Order__c} data-form-id={ParentMessage} data-random-str={randomString} data-page-record={field.Form_Page__c}
+                                            data-order-id={field.MVQF__Field_Order__c} data-form-id={ParentMessage}
+                                            data-random-str={randomString} data-page-record={field.MVQF__Form_Page__c}
                                             data-record={field.Id} data-ref="inner" ondragstart={onDragStart}
                                             data-record-count={fieldcount} onclick={openfieldvalidation} key={field.Id}
                                             data-field-name={field.Name} data-field-id={field.Id} data-id={field.Id}>
@@ -195,24 +202,21 @@
                                                 field-attribute="" field-attribute-value="" field-id={field.Id}
                                                 page-id={page.ParentMessage} data-field-id={field.Id}
                                                 onstopspinner={stopspinner}
-                                                is-reqired={field.Field_Validations__c.isRequired}
-                                                helptextcheck={field.Field_Validations__c.isHelptext}
-                                                labelcheck={field.Field_Validations__c.isLabel}
-                                                labelvalue={field.Field_Validations__c.Label}
-                                                helptextvalue={field.Field_Validations__c.HelpText}
-                                                salutationvalue={field.Field_Validations__c.Salutation}
-                                                isdisabled={field.Field_Validations__c.isDisabled}
-                                                placeholder={field.Field_Validations__c.Placeholder}
-                                                fieldtype={field.Field_Validations__c.fieldtype}
-                                                terms-and-condition-value={field.Field_Validations__c.Richtext}
-                                                hovercssproperty={hovercss} focuscssproperty={focuscss}
-                                                fieldcss={fcss}
-                                                labelcss={lcss}
-                                                submit={submit}
-                                                is-field-view={isFieldView}
-                                                filesignread={filesignread}
-                                                onpassfieldvalue={storefielddata} onclosefield={getrequestforcloserefencefield}
-                                                onnextbtval={next_val_by} onshowerrorpopup={showerrorpopup}
+                                                is-reqired={field.MVQF__Field_Validations__c.isRequired}
+                                                helptextcheck={field.MVQF__Field_Validations__c.isHelptext}
+                                                labelcheck={field.MVQF__Field_Validations__c.isLabel}
+                                                labelvalue={field.MVQF__Field_Validations__c.Label}
+                                                helptextvalue={field.MVQF__Field_Validations__c.HelpText}
+                                                salutationvalue={field.MVQF__Field_Validations__c.Salutation}
+                                                isdisabled={field.MVQF__Field_Validations__c.isDisabled}
+                                                placeholder={field.MVQF__Field_Validations__c.Placeholder}
+                                                fieldtype={field.MVQF__Field_Validations__c.fieldtype}
+                                                terms-and-condition-value={field.MVQF__Field_Validations__c.Richtext}
+                                                hovercssproperty={hovercss} focuscssproperty={focuscss} fieldcss={fcss}
+                                                labelcss={lcss} submit={submit} is-field-view={isFieldView}
+                                                filesignread={filesignread} onpassfieldvalue={storefielddata}
+                                                onclosefield={getrequestforcloserefencefield} onnextbtval={next_val_by}
+                                                onshowerrorpopup={showerrorpopup}
                                                 onnextbtvaltrue={next_val_true}></c-quickformfieldcomponent>
                                         </div>
                                     </template>
@@ -231,18 +235,18 @@
                                         </template>
                                     </template>
 
-                                    <template if:true={page.isIndexIsNotLast} >
+                                    <template if:true={page.isIndexIsNotLast}>
 
-                                            <button id={previousButton} variant="brand" value="Previous" title="Previous"
+                                        <button id={previousButton} variant="brand" value="Previous" title="Previous"
                                             onclick={onaddpage1} class="btn1">Previous</button>
-                                            <button id={nextButton} variant="brand" value="Next" title="Next"
+                                        <button id={nextButton} variant="brand" value="Next" title="Next"
                                             onclick={onaddpage1} class="btn1">Next</button>
 
                                     </template>
-                                    
+
                                     <template if:true={page.isIndexLast}>
 
-                                            <button variant="brand" value="Previous" title="Previous" onclick={onaddpage1}
+                                        <button variant="brand" value="Previous" title="Previous" onclick={onaddpage1}
                                             class="btn1">Previous</button>
                                         <button variant="brand" value="Submit" title="Submit" onclick={onaddpage1}
                                             class="btn1">Submit</button>
@@ -261,15 +265,15 @@
                 </div>
 
             </div>
-            
+
             <div class="fieldvalidationdiv">
-                <c-field-validation onupdatefields={afterfielddelete}
-                    onclosevalidation={closevalidation} onshowerrorpopup={showerrorpopup}></c-field-validation>
+                <c-field-validation onupdatefields={afterfielddelete} onclosevalidation={closevalidation}
+                    onshowerrorpopup={showerrorpopup}></c-field-validation>
             </div>
 
         </template>
     </div>
-    
+
     <template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
             aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -312,7 +316,8 @@
                                 <div class="slds-col slds-size_5-of-12">
                                     <label class="input_field-label">Progress Indicator <lightning-helptext
                                             variant="label-hidden"
-                                            content="To display the form using the Progress bar or Steps" class="helptext"></lightning-helptext></label>
+                                            content="To display the form using the Progress bar or Steps"
+                                            class="helptext"></lightning-helptext></label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -331,7 +336,8 @@
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_5-of-12">
                                     <label class="input_field-label">Captcha Type <lightning-helptext
-                                            content="Choose a captcha type to display a generic test to the user to determine whether or not they are human." class="helptext"></lightning-helptext></label>
+                                            content="Choose a captcha type to display a generic test to the user to determine whether or not they are human."
+                                            class="helptext"></lightning-helptext></label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -354,8 +360,9 @@
                                     :
                                 </div>
                                 <div class="slds-col slds-size_6-of-12">
-                                    <lightning-textarea variant="label-hidden" name="description" onchange={changeDescription}
-                                        class="desc" value={description}></lightning-textarea>
+                                    <lightning-textarea variant="label-hidden" name="description"
+                                        onchange={changeDescription} class="desc"
+                                        value={description}></lightning-textarea>
                                 </div>
                             </div>
                         </div>
@@ -428,8 +435,8 @@
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_5-of-12">
                                     <label class="input_field-label"><abbr>*</abbr>Page Title <lightning-helptext
-                                            variant="label-hidden"
-                                            content="To display the page title" class="helptext"></lightning-helptext></label>
+                                            variant="label-hidden" content="To display the page title"
+                                            class="helptext"></lightning-helptext></label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -447,8 +454,8 @@
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_5-of-12">
                                     <label class="input_field-label">Page Number <lightning-helptext
-                                            variant="label-hidden"
-                                            content="To place the new page on any index number. " class="helptext"></lightning-helptext></label>
+                                            variant="label-hidden" content="To place the new page on any index number. "
+                                            class="helptext"></lightning-helptext></label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -472,7 +479,7 @@
                     </div>
                 </div>
             </div>
-        </section>        
+        </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
 
@@ -501,8 +508,8 @@
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_5-of-12">
                                     <label class="input_field-label"><abbr>*</abbr>Page Title<lightning-helptext
-                                            variant="label-hidden"
-                                            content="To display the page title" class="helptext"></lightning-helptext></label>
+                                            variant="label-hidden" content="To display the page title"
+                                            class="helptext"></lightning-helptext></label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -520,8 +527,8 @@
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_5-of-12">
                                     <label class="input_field-label">Page Number<lightning-helptext
-                                            variant="label-hidden"
-                                            content="To place the new page on any index number. " class="helptext"></lightning-helptext></label>
+                                            variant="label-hidden" content="To place the new page on any index number. "
+                                            class="helptext"></lightning-helptext></label>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     :
@@ -545,7 +552,7 @@
                     </div>
                 </div>
             </div>
-        </section>        
+        </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
 

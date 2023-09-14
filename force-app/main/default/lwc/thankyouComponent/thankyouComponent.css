@@ -381,6 +381,23 @@ lightning-tabset {
   }
 }
 
+@media screen and (max-width: 767px) {
+  .imgDiv{
+    height: 35%;
+    width: 100%;
+  }
+
+  .thanksPreviewDiv{
+    width: 100% !important;
+  }
+  
+  .thanksPreview{
+    /* height: 80%; */
+    overflow: hidden;
+  }
+}
+
+
 .loader--ripple div {
   border-color: #00539f;
 }

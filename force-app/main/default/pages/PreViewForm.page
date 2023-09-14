@@ -130,8 +130,8 @@
         }
     var contactId = p_value;
     //Create Lightning Component
-    $Lightning.use("c:PreViewFormApp", function() {
-        $Lightning.createComponent("c:previewFormCmp", 
+    $Lightning.use("MVQF:PreViewFormApp", function() {
+        $Lightning.createComponent("MVQF:previewFormCmp", 
                                    {"formid" : contactId}, //Pass Parameter
                                    "LightningContainer", function(cmp) {
                                        console.log('Component created Successfully');

@@ -16,6 +16,8 @@ public with sharing class error_handler {
         @description insert error data into the obeject as record
     */
     public static Id insert_errordata(Exception e,String classname, String methodname) {
+        try {
+            
         class_name = classname;
         method_name = methodname;
         
@@ -36,5 +38,10 @@ public with sharing class error_handler {
                 return error.Id;       
             }
             return null;
+        
+        } catch (Exception error) {
+            error_handler.insert_errordata(e,'error_handler','insert_errordata');
+            return null;
+        }
     }
 }

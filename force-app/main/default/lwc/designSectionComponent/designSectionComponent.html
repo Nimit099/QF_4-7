@@ -35,17 +35,18 @@
                                 <lightning-input label="Background Image" onchange={openformfileUpload} type="file"
                                     name="file" accept=".png , .jpeg , .jpg" class="backclass"></lightning-input>
 
-                        
+
                                 <template if:true={formimage}>
                                     <p>{fileData1.filename}</p>
                                     <div class="slds-m-top_small slds-m-bottom_small slds-align_absolute-center">
                                         <div class="box">
-                                            <div class="cross" onclick={removeFormBackground}><img draggable="false" src={cross} alt="">
+                                            <div class="cross" onclick={removeFormBackground}><img draggable="false"
+                                                    src={cross} alt="">
                                             </div>
                                             <img draggable="false" class="pageimage" src={formimageurl} alt="" />
-                                        </div>                                        
+                                        </div>
                                     </div>
-                                    
+
                                     <lightning-combobox label="Background size" class="mt-3" value={formbackSize}
                                         options={optformbackSize} data-name="background-size:"
                                         onchange={handleFormCss}></lightning-combobox>
@@ -102,8 +103,7 @@
                             <lightning-input type="number" value={formborderwidth} label="Border thickness (px)"
                                 data-name="border-width:" onchange={handlepageCss}></lightning-input>
                             <lightning-input type="number" value={formborderradius} label="Border radius (px)"
-                                data-name="border-radius:"
-                                onchange={handlepageCss}></lightning-input>
+                                data-name="border-radius:" onchange={handlepageCss}></lightning-input>
                             <lightning-input type="number" name="Top padding" min="0" max="100" value={toppadding}
                                 data-name="padding-top:" label="Top padding (px)"
                                 onchange={handlepageCss}></lightning-input>
@@ -121,12 +121,13 @@
                                 <p>{fileData.filename}</p>
                                 <div class="slds-m-top_small slds-m-bottom_small slds-align_absolute-center">
                                     <div class="box">
-                                        <div class="cross" onclick={removePageBackground}><img draggable="false" src={cross} alt=""></div>
+                                        <div class="cross" onclick={removePageBackground}><img draggable="false"
+                                                src={cross} alt=""></div>
                                         <img draggable="false" class="pageimage" src={pageimageurl} alt="" />
                                     </div>
-                                   
+
                                 </div>
-                               
+
                                 <lightning-combobox label="Background size" class="mt-3" value={backSize}
                                     options={optbackSize} data-name="background-size:"
                                     onchange={handlepageCss}></lightning-combobox>
@@ -170,7 +171,7 @@
                         </div>
                     </lightning-accordion-section>
                     <lightning-accordion-section class="accordion slds-scrollable_y" name="D" label="Input">
-                        
+
                         <div class="panel" style="display: flex; flex-direction: column; gap: 8px;">
                             <lightning-combobox name="Border style" label="Border style" value={borderStyle}
                                 options={optborderStyle} data-name="border-style:"
@@ -188,16 +189,15 @@
                                 onchange={handleFieldCss} class="colorpickercls"></lightning-input>
                             <lightning-input type="color" label="Text color" value={bordertextcolor} data-name="color:"
                                 onchange={handleFieldCss}></lightning-input>
-                            <lightning-combobox label="Font height" value={inputlineheight}
-                                options={optinputlineheight} data-name="line-height:"
-                                onchange={handleFieldCss}></lightning-combobox>
+                            <lightning-combobox label="Font height" value={inputlineheight} options={optinputlineheight}
+                                data-name="line-height:" onchange={handleFieldCss}></lightning-combobox>
                             <lightning-input type="number" label="Border thickness (px)" value={borderWidth}
                                 data-name="border-width:" onchange={handleFieldCss}></lightning-input>
                             <lightning-input type="number" label="Border radius (px)" value={borderRadius}
                                 data-name="border-radius:" onchange={handleFieldCss}></lightning-input>
                             <lightning-input type="number" label="Font size (px)" value={inputfontsize}
                                 data-name="font-size:" onchange={handleFieldCss}></lightning-input>
-                           
+
                         </div>
                     </lightning-accordion-section>
                     <lightning-accordion-section class="accordion slds-scrollable_y" name='E' label="Button">
@@ -231,7 +231,7 @@
                             <lightning-input type="number" label="Width (px)" onchange={handleButtonCss}
                                 value={btnWidth} data-name="width:"></lightning-input>
                             <lightning-input type="number" label="Height (px)" onchange={handleButtonCss}
-                                value={btnHeight} data-name="height:"></lightning-input>                           
+                                value={btnHeight} data-name="height:"></lightning-input>
                         </div>
                     </lightning-accordion-section>
                     <lightning-accordion-section class="accordion slds-scrollable_y" name="F" label="Field Hover">
@@ -243,7 +243,7 @@
                             <lightning-input type="color" label="Input border" value={fieldhoverborderColor}
                                 data-name="border-color:" onchange={handlefieldhover}></lightning-input>
                             <lightning-input type="color" label="Input text color" value={fieldhovercolor}
-                                data-name="color:" onchange={handlefieldhover} class="hoverTextColor"></lightning-input>                            
+                                data-name="color:" onchange={handlefieldhover} class="hoverTextColor"></lightning-input>
                         </div>
                     </lightning-accordion-section>
                     <lightning-accordion-section class="accordion slds-scrollable_y" name="G" label="Field Focus">
@@ -257,9 +257,9 @@
                                 class="colorBarFocusInputBorder"></lightning-input>
                             <lightning-input type="color" label="Input text color" value={fieldfocuscolor}
                                 data-name="color:" onchange={handlefieldfocus}
-                                class="colorBarFocusInput"></lightning-input>                            
+                                class="colorBarFocusInput"></lightning-input>
                         </div>
-                    </lightning-accordion-section>                    
+                    </lightning-accordion-section>
                 </div>
             </lightning-accordion>
         </div>

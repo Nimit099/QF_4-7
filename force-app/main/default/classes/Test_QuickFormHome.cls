@@ -42,7 +42,6 @@ public class Test_QuickFormHome {/*@description : check the QuickFormHome code c
         pageno.Page_Number__c = 1;
         pageno.Form__c = form1.ID;
         insert pageno;
-        // main();
     }
 
     @istest

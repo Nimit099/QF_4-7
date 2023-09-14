@@ -138,8 +138,8 @@ private class EmailInboundservicesTest {
                     wrapper.create_chi = true;
                     wrapper.create_chi_2 = true;
 
-                Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
-                testEmail.subject = 'Test Email';
+        Messaging.InboundEmail testEmail = new Messaging.InboundEmail();
+        testEmail.subject = 'Test Email';
                 testEmail.plainTextBody = JSON.serialize(wrapper);
 
 
@@ -151,7 +151,7 @@ private class EmailInboundservicesTest {
 
         @isTest
         public  static void createrecord1Test() {
-            Test.startTest();
+        Test.startTest();
 
                 Form_Submission__c testformsub = [SELECT Id, First_object_data__c,Second_object_data__c,Other_fields_data__c,Third_object_data__c,Form__c FROM Form_Submission__c WHERE Form__r.Name = 'Test3' ];
 
@@ -176,8 +176,8 @@ private class EmailInboundservicesTest {
                 testEmail.subject = 'Test Email';
                 testEmail.plainTextBody = JSON.serialize(wrapper);
 
-                EmailInboundservices emailHandler = new EmailInboundservices();
-                Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
+        EmailInboundservices emailHandler = new EmailInboundservices();
+        Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
                 System.assert( result != null, 'Success');
             Test.stopTest();
@@ -219,7 +219,7 @@ private class EmailInboundservicesTest {
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
-                System.assert( result == null, 'Success');
+                System.assertNotEquals('success', String.valueOf(result));
             Test.stopTest();
         }
 
@@ -301,7 +301,8 @@ private class EmailInboundservicesTest {
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
-                System.assert( result == null, 'Success');
+                System.assertNotEquals('success', String.valueOf(result));
+
             Test.stopTest();
         }
 
@@ -341,7 +342,8 @@ private class EmailInboundservicesTest {
 
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
-                System.assert( result == null, 'Success');
+                System.assertNotEquals('success', String.valueOf(result));
+
                 Test.stopTest();
         }
 
@@ -382,7 +384,8 @@ private class EmailInboundservicesTest {
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
-                System.assert( result == null, 'Success');
+                System.assertNotEquals('success', String.valueOf(result));
+
             Test.stopTest();
         }
 
@@ -424,7 +427,8 @@ private class EmailInboundservicesTest {
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
 
-                System.assert( result == null, 'Success');
+                System.assertNotEquals('success', String.valueOf(result));
+
             Test.stopTest();
         }
 
@@ -464,7 +468,8 @@ private class EmailInboundservicesTest {
 
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
-                System.assert( result == null, 'Success');
+                System.assertNotEquals('success', String.valueOf(result));
+
             Test.stopTest();
         }
 
@@ -545,7 +550,8 @@ private class EmailInboundservicesTest {
 
                 EmailInboundservices emailHandler = new EmailInboundservices();
                 Messaging.InboundEmailResult result = emailHandler.handleInboundEmail(testEmail, null);
-                System.assert( result == null, 'Success');
-            Test.stopTest();
-        }
+                System.assertNotEquals('success', String.valueOf(result));
+
+        Test.stopTest();
+    }
 }

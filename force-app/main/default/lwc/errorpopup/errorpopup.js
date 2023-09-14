@@ -8,20 +8,28 @@ export default class Errorpopup extends LightningElement {
     @track header_type;
     @track error_messagee;
     show = false;
-    
-    @api errormessagee(header_type, error_messagee){
-        this.show = true;
-        this.header_type = header_type;
-        this.error_messagee = error_messagee;
+
+    @api errormessagee(header_type, error_messagee) {
+        try {
+            this.show = true;
+            this.header_type = header_type;
+            this.error_messagee = error_messagee;
+        } catch (error) {
+            console.log('error');
+        }
     }
 
-    hideError(){
+    hideError() {
         this.show = false;
     }
 
-    reload(){
-        const reload = new CustomEvent('errorpopup');
-        this.dispatchEvent(reload);
-        this.show = false;
+    reload() {
+        try {
+            const reload = new CustomEvent('errorpopup');
+            this.dispatchEvent(reload);
+            this.show = false;
+        } catch (error) {
+            console.log('error');
+        }
     }
 }

@@ -22,7 +22,6 @@ public with sharing class qfthankyou {
             }
             return record;
         } catch (Exception e) {
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
             return null;            
         }
     }

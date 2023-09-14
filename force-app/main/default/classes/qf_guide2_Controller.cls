@@ -11,70 +11,32 @@ public with sharing class qf_guide2_Controller {
     @AuraEnabled
     public static List<Site> getSites() {
         try {
-            if (Site.SObjectType.getDescribe().isAccessible()) {
                 return [SELECT Id, Name, MasterLabel, Subdomain, SiteType, Status, GuestUserId FROM Site WHERE Status = 'Active' AND SiteType = 'Visualforce' WITH SECURITY_ENFORCED];
-            }else{
-                return null;
-            }
-            
         } catch (Exception e) {
             return null;
         }
     }
 
-    /** Method Name : getUserEmail
-     * @description : get users email address
-     * @param uid Id value
-     * @return user's email
-     */
-    @AuraEnabled
-    public static String getUserEmail(String uid) {
-        try {
-            User user = [SELECT Email FROM User WHERE Id = :uid WITH SECURITY_ENFORCED];
-            return user.Email;          
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /** Method Name : updateUserEmail
-     * @description : update users email address
-     * @param newEmail new email address
-     * @param userId Id value
-     */
-    @AuraEnabled
-    public static void updateUserEmail(String newEmail, String userId) {
-            User userToUpdate = [SELECT Email FROM User WHERE Id = :userId WITH SECURITY_ENFORCED];
-            userToUpdate.Email = newEmail;
-            if (Schema.sObjectType.User.fields.Email.IsCreateable() && Schema.sObjectType.User.fields.Email.IsUpdateable() && Schema.sObjectType.User.fields.Email.IsAccessible()){
-                update userToUpdate;
-            }
-        }
     /** Method Name : saveSecureUrl
      * @description : saveSecureUrl data
      * @param selectedSiteid Id value
      * @return String of UserEmail
      */
-
     @AuraEnabled
-    public static String saveSecureUrl(Id selectedSiteid) {
+    public static void saveSecureUrl(Id selectedSiteid) {
         try {
-            Site sitedta = [SELECT Id, Name, MasterLabel, Subdomain, SiteType, Status, GuestUserId FROM Site WHERE Id = :selectedSiteid];
             SiteDetail siteDetail = [SELECT Id, SecureUrl FROM SiteDetail WHERE DurableId = :selectedSiteid WITH SECURITY_ENFORCED];
             QuickForm_Administration__c customSetting = QuickForm_Administration__c.getOrgDefaults();
             customSetting.SecureUrl__c = siteDetail.SecureUrl;
             customSetting.SiteId__c = selectedSiteid;
-            User user = [SELECT Email FROM User WHERE Id = :sitedta.GuestUserId WITH SECURITY_ENFORCED];
             
             if (QuickForm_Administration__c.SObjectType.getDescribe().isCreateable() && QuickForm_Administration__c.SObjectType.getDescribe().isUpdateable() && 
                 Schema.SObjectType.QuickForm_Administration__c.fields.SecureUrl__c.isUpdateable() && Schema.SObjectType.QuickForm_Administration__c.fields.SecureUrl__c.isCreateable())
             {
             upsert customSetting;
             }
-            return user.Email; 
-
         } catch (Exception e) {
-            return null;
+           error_handler.insert_errordata(e, 'qf_guide2_Controller','saveSecureUrl');
         }
     }
 
@@ -103,33 +65,10 @@ public with sharing class qf_guide2_Controller {
             QuickForm_Administration__c customSetting = QuickForm_Administration__c.getOrgDefaults();
             if(String.isNotBlank(customSetting.SiteId__c)) {
                 data.siteId = customSetting.SiteId__c;
-                Site sitedta = [SELECT Id, GuestUserId FROM Site WHERE Id = :data.siteId];
-                data.userId = sitedta.GuestUserId;
                 return data;
             }else {
                 return null;
             }
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    // get site from org 
-    /** Method Name : getSitePrefixes
-     * @description : getSitePrefixes data
-     * @return List of String
-     */
-    @AuraEnabled
-    public static List<String> getSitePrefixes() {
-        try {
-            List<String> sitePrefixes = new List<String>();
-            for(Site site : [SELECT Id, Name, Subdomain, SiteType, Status FROM Site WHERE Status='Active']) {
-                if(site.SiteType == 'Site') {
-                    sitePrefixes.add(site.Subdomain);
-                }
-            }
-            return sitePrefixes;
-            
         } catch (Exception e) {
             return null;
         }
@@ -158,7 +97,7 @@ public with sharing class qf_guide2_Controller {
                 if (Schema.sObjectType.PermissionSetAssignment.isDeletable()  && PermissionSetAssignment.SObjectType.getDescribe().isAccessible()) {
                     PermissionSetAssignment oldpsa = [SELECT Id FROM PermissionSetAssignment WHERE PermissionSetId = :permissionset.Id AND AssigneeId = :oldusr.Id];
                     if(oldpsa != null){
-                    delete oldpsa;
+                        delete oldpsa;
                     }
                 }
             }
@@ -180,7 +119,7 @@ public with sharing class qf_guide2_Controller {
 
 
         } catch (Exception e) {
-            System.debug('Exception--->>'+e.getMessage()+'-->'+e.getLinenumber());
+            error_handler.insert_errordata(e, 'qf_quide2_Controller', 'assignPermissionSet');
         }
     }
 }

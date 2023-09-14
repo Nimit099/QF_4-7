@@ -31,16 +31,15 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
             List<Object> lookupList2map = (List<Object>)map1.get('lookup_list2'); 
             Boolean createChi2boolean = (Boolean)map1.get('create_chi_2'); 
             Integer objectCount = (Integer)map1.get('ObjectCount');
-            String acc1 = (String)accmap.get('First_object_data__c');
+            String acc1 = (String)accmap.get('MVQF__First_object_data__c');
             Map<String, Object> object1 = (Map<String, Object>)JSON.deserializeUntyped(acc1);
-            String acc2 = (String)accmap.get('Second_object_data__c');
+            String acc2 = (String)accmap.get('MVQF__Second_object_data__c');
             Map<String, Object> object2 = (Map<String, Object>)JSON.deserializeUntyped(acc2);
-            String acc3 = (String)accmap.get('Third_object_data__c');
+            String acc3 = (String)accmap.get('MVQF__Third_object_data__c');
             Map<String, Object> object3 = (Map<String, Object>)JSON.deserializeUntyped(acc3);
             insertRecordList.add((Id)map1.get('SubId'));
             Id submissionid = (Id) map1.get('SubId');
-            formId = (String)accmap.get('Form__c');
-
+            formId = (String)accmap.get('MVQF__Form__c');
             String success;
             if (objectCount == 1) {
                 success = Createrecord(object1, sigUploadJsoneString, sigUploadFidListmap, fileuploadjsoneString, fileUploadFidListmap);
@@ -51,7 +50,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
            }
             
            if (success == 'success') {
-                Id formid = (Id)accmap.get('Form__c');
+                Id formid = (Id)accmap.get('MVQF__Form__c');
                  
                     if ([SELECT Count() FROM Notification__c WHERE Form__c =: formid WITH SECURITY_ENFORCED] > 0) {  
                         Notification__c notify = new Notification__c();
@@ -113,7 +112,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
            }  
            return null;
         } catch(Exception e){
-            System.debug('errror' +String.valueOf(e)+ ' : '+ e.getLineNumber());
+            error_handler.insert_errordata(e,'EmailInboundservice','handleInboundEmail');
             return null;
         }
     }
@@ -403,7 +402,6 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
         } catch (Exception e){
             Id errorId = error_handler.insert_errordata(e,'EmailInboundservice','createrecord_secod_object');
             erroremail(errorId);
-            System.debug('errror' +String.valueOf(e) + ' '+ e.getLineNumber());
             return null;
         }
     }
@@ -719,7 +717,7 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
      * @param errorId Id
      */
     public static void erroremail(Id errorId) {
-
+        try {
         Form__c form = [SELECT Id,Name FROM Form__c WHERE Id =: formId WITH SECURITY_ENFORCED ];
         String errormessage = '<p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Dear '+UserInfo.getName()+',</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">We regret to inform you that there has been an issue with the submission of the ' +form.Name+'. The details of the failed submission are as follows:</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Submission ID: '+insertRecordList[0]+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Form Name: '+form.Name+'</span></p><p><span style="font-size: 16px; color: rgb(0, 0, 0); font-family: verdana;">Error ID: '+errorId+'</span></p><p><br></p><p><span style="font-size: 16px; color: rgb(21, 21, 21); font-family: verdana;">Please contact admin if you have any questions or need further assistance.</span></p>';
         List<OrgWideEmailAddress> owea = [select Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' WITH SECURITY_ENFORCED LIMIT 1];
@@ -733,5 +731,8 @@ global with sharing class EmailInboundservices implements Messaging.InboundEmail
         emailNotification.setSubject('Form Submission Failure - '+form.Name);
         emailNotification.setHtmlBody(errormessage);
         Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        } catch (Exception e) {
+            error_handler.insert_errordata(e,'EmailInboundservice','erroremail');
+        }
     }
 }

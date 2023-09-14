@@ -82,15 +82,15 @@ public class Test_qf_guide2_Controller {
         // Call the method being tested
         Test.startTest();
                 
-        List<String> sitedata = qf_guide2_Controller.getSitePrefixes();
-        System.assert(sitedata != null , 'Successful');
+        // List<String> sitedata = qf_guide2_Controller.getSitePrefixes();
+        // System.assert(sitedata != null , 'Successful');
         
         System.assert(newselectedSiteName != null , 'Successful');
         System.assert(oldselectedSiteName != null , 'Successful');
         
         qf_guide2_Controller.assignPermissionSet(oldselectedSiteName, newselectedSiteName);
-        qf_guide2_Controller.getUserEmail(newSiteUser.Id);
-        qf_guide2_Controller.updateUserEmail('test@test.com',newSiteUser.Id);
+        // qf_guide2_Controller.getUserEmail(newSiteUser.Id);
+        // qf_guide2_Controller.updateUserEmail('test@test.com',newSiteUser.Id);
         Test.stopTest();  
     }
 }

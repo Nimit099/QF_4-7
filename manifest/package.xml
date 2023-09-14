@@ -6,9 +6,29 @@
     </types>
     <types>
         <members>*</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>PDFGenerator</members>
+        <name>ApexPage</name>
+    </types>
+     <types>
+        <members>PreViewForm</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTestSuite</name>
+    </types>
+    <types>
+        <members>PreViewFormApp</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>LightningComponentBundle</name>
     </types>
-        <types>
+    <types>
         <members>*</members>
         <name>StaticResource</name>
     </types>

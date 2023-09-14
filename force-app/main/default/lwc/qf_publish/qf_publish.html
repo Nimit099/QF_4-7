@@ -69,23 +69,7 @@
                 </div>
                 <div class="hrLine"></div>
             </div>
-
             <!-- [Start light box accordions] -->
-
-            <template if:true={lightBoxOpt}>
-                <div class="lightBoxChexboxes">
-                    <div class="lightBoxAcc" style={text_b_color} onclick={handleLightBoxChange} data-id='textLink'
-                        id="textLink">Text Link</div>
-                    <div class="lightBoxAcc" style={img_b_color} onclick={handleLightBoxChange} data-id='imageLink'
-                        id="imageLink"> Image Link</div>
-                    <div class="lightBoxAcc" style={auto_b_color} onclick={handleLightBoxChange} data-id='autoPopup'
-                        id="autoPopup">Auto popup</div>
-                    <div class="lightBoxAcc" style={floating_b_color} onclick={handleLightBoxChange}
-                        data-id='floatingBtn' id="floatingBtn">Floating Button</div>
-                </div>
-            </template>
-            <!-- [End light box accordions] -->
-
         </div>
         <!--=============================[End Left bar]=============================== -->
 
@@ -129,13 +113,13 @@
                             <div class="divtag">
 
                                 &lt;!-- QuickForm Aura Component Code snippet starts from here --&gt;<br />
-                                &lt;aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,
+                                &lt;aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,
                                 flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
                                 access="global"&gt;<br />
                                 <div class="divtag1">
                                     &lt;!-- Below component used to display this Form --&gt;<br />
-                                    &lt;c:previewFormCmp aura:id="lWCComponent2"
-                                    pageURL=&quot;{srcurl}&quot;&gt;<br />&lt;/c:previewFormCmp&gt;<br />
+                                    &lt;MVQF:previewFormCmp aura:id="lWCComponent2"
+                                    pageURL=&quot;{srcurl}&quot;&gt;<br />&lt;/MVQF:previewFormCmp&gt;<br />
                                 </div>
                                 &lt;/aura:component&gt;<br />
                                 &lt;!-- QuickForm Aura Component Code snippet ends here --&gt;
@@ -161,23 +145,34 @@
                     <p>There are various ways to publish forms or surveys, according to your requirements. This section
                         offers the options of linking your form through Lightning web component (LWC).</p>
 
-                    <span><p class="step"><b>Step 1 :- </b>Go to Setup and Search for Session Settings and click on it.</p></span>
-                    <span><p class="step"><b>Step 2 :- </b>In Session Setting go to Lightning Web Security</p></span>
-                    <span><p class="step"><b>Step 3 :- </b>Click the checkbox for Use Lightning Web Security for Lightning web components......</p></span>
-                    <span><p class="step"><b>Step 4 :- </b>Copy below code snippet to use your form in custom lwc component.</p></span>
+                    <span>
+                        <p class="step"><b>Step 1 :- </b>Go to Setup and Search for Session Settings and click on it.
+                        </p>
+                    </span>
+                    <span>
+                        <p class="step"><b>Step 2 :- </b>In Session Setting go to Lightning Web Security</p>
+                    </span>
+                    <span>
+                        <p class="step"><b>Step 3 :- </b>Click the checkbox for Use Lightning Web Security for Lightning
+                            web components......</p>
+                    </span>
+                    <span>
+                        <p class="step"><b>Step 4 :- </b>Copy below code snippet to use your form in custom lwc
+                            component.</p>
+                    </span>
                 </div>
                 <div class="copyCodeSection_2">
                     <div class="codeCopySection slds-p-around_large slds-m-top_medium copyCodeSection_22">
                         <div class="divtag">
-                            &lt;template&gt; <br/>
-                                &lt;!-- QuickForm Lightning Web Component Code snippet starts from here --&gt;<br />
-                                <div class="divtag1">
-                                        &lt;!-- Below component used to display this Form --&gt;<br />
-                                        &lt;MVQF-preview-form-cmp
-                                        page-u-r-l=&quot;{srcurl}&quot;&gt; <br/> &lt;/MVQF-preview-form-cmp&gt;<br />
-                                </div>
-                                &lt;!-- QuickForm Lightning Web Component Code snippet ends from here --&gt; <br/>
-                            &lt;/template&gt;    
+                            &lt;template&gt; <br />
+                            &lt;!-- QuickForm Lightning Web Component Code snippet starts from here --&gt;<br />
+                            <div class="divtag1">
+                                &lt;!-- Below component used to display this Form --&gt;<br />
+                                &lt;MVQF-preview-form-cmp
+                                page-u-r-l=&quot;{srcurl}&quot;&gt; <br /> &lt;/MVQF-preview-form-cmp&gt;<br />
+                            </div>
+                            &lt;!-- QuickForm Lightning Web Component Code snippet ends from here --&gt; <br />
+                            &lt;/template&gt;
                         </div>
                     </div>
 
@@ -201,21 +196,22 @@
                 </div>
                 <div class="copyCodeSection_2">
                     <div class=" codeCopySection iframeCode  slds-p-around_large slds-m-top_medium copyCodeSection_32">
-                        <div class="divtag">    
+                        <div class="divtag">
                             &lt;apex:component&gt; <br />
-                                <div class="divtag1">
-                                    &lt;apex:includeLightning /&gt;
-                                    <br />&lt;div id=&quot;LightningContainer&quot;/&gt;
-                                    <br />&lt;script type=&quot;text/javascript&quot;&gt;
-                                    <br />&emsp;$Lightning.use(&quot;c:PreViewFormApp&quot;, function() {
-                                    <br />&emsp;&emsp;$Lightning.createComponent(&quot;c:previewFormCmp&quot;,                                    
-                                    <br />&emsp;&emsp;&emsp;{PageUrl}
-                                    <br />&emsp;&emsp;&emsp;&quot;LightningContainer&quot;, function(cmp) {
-                                    <br />&emsp;&emsp;&emsp;  console.log('Component created Successfully');
-                                    <br />&emsp;&emsp;&emsp;});
-                                    <br />&emsp;});
-                                    <br />&lt;/script&gt;
-                                    <br /></div>
+                            <div class="divtag1">
+                                &lt;apex:includeLightning /&gt;
+                                <br />&lt;div id=&quot;LightningContainer&quot;/&gt;
+                                <br />&lt;script type=&quot;text/javascript&quot;&gt;
+                                <br />&emsp;$Lightning.use(&quot;MVQF:PreViewFormApp&quot;, function() {
+                                <br />&emsp;&emsp;$Lightning.createComponent(&quot;MVQF:previewFormCmp&quot;,
+                                <br />&emsp;&emsp;&emsp;{PageUrl}
+                                <br />&emsp;&emsp;&emsp;&quot;LightningContainer&quot;, function(cmp) {
+                                <br />&emsp;&emsp;&emsp; console.log('Component created Successfully');
+                                <br />&emsp;&emsp;&emsp;});
+                                <br />&emsp;});
+                                <br />&lt;/script&gt;
+                                <br />
+                            </div>
                             &lt;/apex:component&gt;
                         </div>
                     </div>
@@ -245,643 +241,6 @@
                         </div>
                     </div>
                     <div class="qrcode2" id="qrcode2"></div>
-                </div>
-            </template>
-
-
-            <template if:true={formLightBox}>
-                <div class="publishUsing slds-m-top_medium">
-                    <h2>Publish Using Lightbox</h2>
-                </div>
-                <div class="introCodeText slds-m-top_medium  ">
-                    <p>There are various ways to publish forms or surveys, according to your requirements. This section
-                        offers the options of linking your form through text or images.</p>
-                </div>
-                <div class="slds-m-top_medium">
-
-                    <template if:true={formTextLink}>
-                        <div class="lightBoxSection">
-                            <div class=" code slds-grid">
-                                <div
-                                    class=" slds-col slds-size_1-of-1 slds-small-size_1-of-1	slds-medium-size_4-of-12 slds-large-size_4-of-12 subcode">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={html_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>HTML:</b></h1>
-
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-                                    <div class="codestyle" id="copytext">
-                                        <div class="codingstyle">
-                                            &lt;p id="myBtn" &gt; Text Link &lt;/p&gt;
-                                            <br /> &lt;div id="myModal" class="modal"&gt;
-                                            <br /> &emsp;&lt;div class="modal-content"&gt;
-                                            <br /> &emsp;&emsp;&lt;span class="close">&times;&lt;/span&gt;
-                                            <br /> &emsp;&emsp;&lt;p&gt; &lt;iframe frameborder= '0' scrolling ="yes"
-                                            src="{srcurl}"> &lt;/iframe&gt; &lt;/p&gt;
-                                            <br /> &emsp;&lt;/div&gt;
-                                            <br /> &lt;/div&gt;
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class=" slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12 subcode subcodeCss">
-
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={css_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>CSS:</b></h1>
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-
-                                    </div>
-
-                                    <div class="codestyle" id="copytext2">
-                                        <div class="codingstyle">
-                                            body {
-                                            <br /> &emsp;font-family: Arial, Helvetica, sans-serif;
-                                            <br /> }
-                                            <br />
-                                            <br /> #myBtn {
-                                            <br /> &emsp;color:blue;
-                                            <br /> &emsp;text-decoration:underline"
-                                            <br /> &emsp;cursor:pointer;
-                                            <br /> }
-                                            <br />
-                                            <br /> #myBtn:hover {
-                                            <br /> &emsp;cursor:pointer;
-                                            <br /> }
-                                            <br />
-                                            <br /> iframe {
-                                            <br /> &emsp;height:60vh;
-                                            <br /> &emsp;width:80vw;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Model Background*/
-                                            <br /> .modal {
-                                            <br /> &emsp;display: none;
-                                            <br /> &emsp;position: fixed;
-                                            <br /> &emsp;z-index: 1;
-                                            <br /> &emsp;padding-top: 100px;
-                                            <br /> &emsp;left: 0;
-                                            <br /> &emsp;top: 0;
-                                            <br /> &emsp;width: 100%;
-                                            <br /> &emsp;height: 100%;
-                                            <br /> &emsp;overflow: auto;
-                                            <br /> &emsp;background-color: rgb(0,0,0);
-                                            <br /> &emsp;background-color: rgba(0,0,0,0.4);
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Modal Content */
-                                            <br /> .modal-content {
-                                            <br /> &emsp;background-color: #fefefe;
-                                            <br /> &emsp;margin: auto;
-                                            <br /> &emsp;padding: 20px;
-                                            <br /> &emsp;border: 1px solid #888;
-                                            <br /> &emsp;width: 80%;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*The Close Button */
-                                            <br /> .close {
-                                            <br /> &emsp;color: #aaaaaa;
-                                            <br /> &emsp;float: right;
-                                            <br /> &emsp;font-size: 28px;
-                                            <br /> &emsp;font-weight: bold;
-                                            <br /> }
-                                            <br />
-                                            <br /> .close:hover, .close:focus {
-                                            <br /> &emsp;color: #000;
-                                            <br /> &emsp;text-decoration: none;
-                                            <br /> &emsp;cursor: pointer;
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class=" slds-col slds-small-size_1-of-1 slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 subcode subcodeJs">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={js_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-
-                                            <h1><b>JavaScript:</b></h1>
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-
-                                    <div class="codestyle" id="copytext3">
-                                        <div class="codingstyle">
-                                            // Get the modal
-                                            <br /> var modal = document.getElementById("myModal");
-                                            <br />
-                                            <br /> // Get the button that opens the modal
-                                            <br /> var btn = document.getElementById("myBtn");
-                                            <br />
-                                            <br /> // Get the &lt;span&gt; element that closes the modal
-                                            <br /> var span = document.getElementsByClassName("close")[0];
-                                            <br />
-                                            <br /> // When the user clicks the button, open the modal
-                                            <br /> btn.onclick = function() {
-                                            <br /> &emsp;modal.style.display = "block";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks on &lt;span&gt; (x), close the modal
-                                            <br /> span.onclick = function() {
-                                            <br /> &emsp;modal.style.display = "none";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks anywhere outside of the modal, close it
-                                            <br /> window.onclick = function(event) {
-                                            <br /> &emsp;if (event.target == modal) {
-                                            <br /> &emsp;&emsp;modal.style.display = "none";
-                                            <br /> &emsp;}
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template if:true={formImageLink}>
-                        <div class="lightBoxSection">
-                            <div class="code slds-grid">
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode ">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={html_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>HTML:</b></h1>
-
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-
-                                    </div>
-
-                                    <div class="codestyle" id="copytext4">
-                                        <div class="codingstyle">
-                                            &lt;img id="myBtn" src="image.png" /&gt;
-                                            <br /> &lt;div id="myModal" class="modal"&gt;
-                                            <br /> &emsp;&lt;div class="modal-content"&gt;
-                                            <br /> &emsp;&emsp;&lt;span class="close">&times;&lt;/span&gt;
-                                            <br /> &emsp;&emsp;&lt;p&gt; &lt;iframe frameborder= '0' scrolling ="yes"
-                                            src="{srcurl}"> &lt;/iframe&gt; &lt;/p&gt;
-                                            <br /> &emsp;&lt;/div&gt;
-                                            <br /> &lt;/div&gt;
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode subcodeCss">
-
-
-
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={css_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>CSS:</b></h1>
-
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-
-                                    </div>
-                                    <div class="codestyle" id="copytext5">
-                                        <div class="codingstyle">
-                                            body {
-                                            <br /> &emsp;font-family: Arial, Helvetica, sans-serif;
-                                            <br /> }
-                                            <br />
-                                            <br /> iframe{
-                                            <br /> &emsp;height:60vh;
-                                            <br /> &emsp;width:80vw;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Model Background*/
-                                            <br /> .modal {
-                                            <br /> &emsp;display: none;
-                                            <br /> &emsp;position: fixed;
-                                            <br /> &emsp;z-index: 1;
-                                            <br /> &emsp;padding-top: 100px;
-                                            <br /> &emsp;left: 0;
-                                            <br /> &emsp;top: 0;
-                                            <br /> &emsp;width: 100%;
-                                            <br /> &emsp;height: 100%;
-                                            <br /> &emsp;overflow: auto;
-                                            <br /> &emsp;background-color: rgb(0,0,0);
-                                            <br /> &emsp;background-color: rgba(0,0,0,0.4);
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Modal Content */
-                                            <br /> .modal-content {
-                                            <br /> &emsp;background-color: #fefefe;
-                                            <br /> &emsp;margin: auto;
-                                            <br /> &emsp;padding: 20px;
-                                            <br /> &emsp;border: 1px solid #888;
-                                            <br /> &emsp;width: 80%;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*The Close Button */
-                                            <br /> .close {
-                                            <br /> &emsp;color: #aaaaaa;
-                                            <br /> &emsp;float: right;
-                                            <br /> &emsp;font-size: 28px;
-                                            <br /> &emsp;font-weight: bold;
-                                            <br /> }
-                                            <br />
-                                            <br /> .close:hover, .close:focus {
-                                            <br /> &emsp;color: #000;
-                                            <br /> &emsp;text-decoration: none;
-                                            <br /> &emsp;cursor: pointer;
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode subcodeJs">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={js_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>JavaScript:</b></h1>
-
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-
-                                    </div>
-                                    <div class="codestyle" id="copytext6">
-                                        <div class="codingstyle">
-                                            // Get the modal
-                                            <br /> var modal = document.getElementById("myModal");
-                                            <br />
-                                            <br /> // Get the button that opens the modal
-                                            <br /> var btn = document.getElementById("myBtn");
-                                            <br />
-                                            <br /> // Get the &lt;span&gt; element that closes the modal
-                                            <br /> var span = document.getElementsByClassName("close")[0];
-                                            <br />
-                                            <br /> // When the user clicks the button, open the modal
-                                            <br /> btn.onclick = function() {
-                                            <br /> &emsp;modal.style.display = "block";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks on &lt;span&gt; (x), close the modal
-                                            <br /> span.onclick = function() {
-                                            <br /> &emsp;modal.style.display = "none";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks anywhere outside of the modal, close it
-                                            <br /> window.onclick = function(event) {
-                                            <br /> &emsp;if (event.target == modal) {
-                                            <br /> &emsp;&emsp;modal.style.display = "none";
-                                            <br /> &emsp;}
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template if:true={formAutoPopup}>
-                        <div class="lightBoxSection">
-                            <div class="code slds-grid">
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={html_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>HTML:</b></h1>
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-                                    <div class="codestyle" id="copytext7">
-                                        <div class="codingstyle">
-                                            &lt;img id="myBtn" src="image.png" /&gt;
-                                            <br /> &lt;div id="myModal" class="modal"&gt;
-                                            <br /> &emsp;&lt;div class="modal-content"&gt;
-                                            <br /> &emsp;&emsp;&lt;span class="close">&times;&lt;/span&gt;
-                                            <br /> &emsp;&emsp;&lt;p&gt; &lt;iframe frameborder= '0' scrolling ="yes"
-                                            src="{srcurl}"> &lt;/iframe&gt; &lt;/p&gt;
-                                            <br /> &emsp;&lt;/div&gt;
-                                            <br /> &lt;/div&gt;
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode subcodeCss">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={css_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>CSS:</b></h1>
-                                        </div>
-
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-                                    <div class="codestyle" id="copytext8">
-                                        <div class="codingstyle">
-                                            body {
-                                            <br /> &emsp;font-family: Arial, Helvetica, sans-serif;
-                                            <br /> }
-                                            <br />
-                                            <br /> iframe{
-                                            <br /> &emsp;height:60vh;
-                                            <br /> &emsp;width:80vw;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Model Background*/
-                                            <br /> .modal {
-                                            <br /> &emsp;display: none;
-                                            <br /> &emsp;position: fixed;
-                                            <br /> &emsp;z-index: 1;
-                                            <br /> &emsp;padding-top: 100px;
-                                            <br /> &emsp;left: 0;
-                                            <br /> &emsp;top: 0;
-                                            <br /> &emsp;width: 100%;
-                                            <br /> &emsp;height: 100%;
-                                            <br /> &emsp;overflow: auto;
-                                            <br /> &emsp;background-color: rgb(0,0,0);
-                                            <br /> &emsp;background-color: rgba(0,0,0,0.4);
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Modal Content */
-                                            <br /> .modal-content {
-                                            <br /> &emsp;background-color: #fefefe;
-                                            <br /> &emsp;margin: auto;
-                                            <br /> &emsp;padding: 20px;
-                                            <br /> &emsp;border: 1px solid #888;
-                                            <br /> &emsp;width: 80%;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*The Close Button */
-                                            <br /> .close {
-                                            <br /> &emsp;color: #aaaaaa;
-                                            <br /> &emsp;float: right;
-                                            <br /> &emsp;font-size: 28px;
-                                            <br /> &emsp;font-weight: bold;
-                                            <br /> }
-                                            <br />
-                                            <br /> .close:hover, .close:focus {
-                                            <br /> &emsp;color: #000;
-                                            <br /> &emsp;text-decoration: none;
-                                            <br /> &emsp;cursor: pointer;
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	slds-large-size_4-of-12  subcode subcodeJs">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={js_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>JavaScript:</b></h1>
-                                        </div>
-
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-                                    <div class="codestyle" id="copytext9">
-                                        <div class="codingstyle">
-                                            // Get the modal
-                                            <br /> var modal = document.getElementById("myModal");
-                                            <br />
-                                            <br /> // Get the button that opens the modal
-                                            <br /> var btn = document.getElementById("myBtn");
-                                            <br />
-                                            <br /> // Get the &lt;span&gt; element that closes the modal
-                                            <br /> var span = document.getElementsByClassName("close")[0];
-                                            <br />
-                                            <br /> // When the user clicks the button, open the modal
-                                            <br /> window.onload = setTimeout(function() {
-                                            <br /> &emsp;modal.style.display = "block";
-                                            <br /> }, 5000);
-                                            <br />
-                                            <br /> // When the user clicks on &lt;span&gt; (x), close the modal
-                                            <br /> span.onclick = function() {
-                                            <br /> &emsp;modal.style.display = "none";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks anywhere outside of the modal, close it
-                                            <br /> window.onclick = function(event) {
-                                            <br /> &emsp;if (event.target == modal) {
-                                            <br /> &emsp;&emsp;modal.style.display = "none";
-                                            <br /> &emsp;}
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template if:true={floatingButton}>
-                        <div class="lightBoxSection">
-                            <div class="code slds-grid ">
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={html_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>HTML:</b></h1>
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-
-                                    <div class="codestyle" id="copytext10">
-                                        <div class="codingstyle">
-                                            &lt;button id="myBtn"/&gt;
-                                            <br /> &emsp;&lt;span&gt; + &lt;/span&gt;
-                                            <br /> &lt;/button&gt;
-                                            <br /> &lt;div id="myModal" class="modal"&gt;
-                                            <br /> &emsp;&lt;div class="modal-content"&gt;
-                                            <br /> &emsp;&emsp;&lt;span class="close">&times; &lt;/span&gt;
-                                            <br /> &emsp;&emsp;&lt;p&gt; &lt;iframe frameborder= '0' scrolling ="yes"
-                                            src="{srcurl}"> &lt;/iframe&gt; &lt;/p&gt;
-                                            <br /> &emsp;&lt;/div&gt;
-                                            <br /> &lt;/div&gt;
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode subcodeCss">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={css_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>CSS:</b></h1>
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-                                    <div class="codestyle" id="copytext11">
-                                        <div class="codingstyle">
-                                            body {
-                                            <br /> &emsp;font-family: Arial, Helvetica, sans-serif;
-                                            <br /> }
-                                            <br />
-                                            <br /> iframe{
-                                            <br /> &emsp;height:60vh;
-                                            <br /> &emsp;width:80vw;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Model Background*/
-                                            <br /> .modal {
-                                            <br /> &emsp;display: none;
-                                            <br /> &emsp;position: fixed;
-                                            <br /> &emsp;z-index: 1;
-                                            <br /> &emsp;padding-top: 100px;
-                                            <br /> &emsp;left: 0;
-                                            <br /> &emsp;top: 0;
-                                            <br /> &emsp;width: 100%;
-                                            <br /> &emsp;height: 100%;
-                                            <br /> &emsp;overflow: auto;
-                                            <br /> &emsp;background-color: rgb(0,0,0);
-                                            <br /> &emsp;background-color: rgba(0,0,0,0.4);
-                                            <br /> }
-                                            <br />
-                                            <br /> /*Modal Content */
-                                            <br /> .modal-content {
-                                            <br /> &emsp;background-color: #fefefe;
-                                            <br /> &emsp;margin: auto;
-                                            <br /> &emsp;padding: 20px;
-                                            <br /> &emsp;border: 1px solid #888;
-                                            <br /> &emsp;width: 80%;
-                                            <br /> }
-                                            <br />
-                                            <br /> /*The Close Button */
-                                            <br /> .close {
-                                            <br /> &emsp;color: #aaaaaa;
-                                            <br /> &emsp;float: right;
-                                            <br /> &emsp;font-size: 28px;
-                                            <br /> &emsp;font-weight: bold;
-                                            <br /> }
-                                            <br />
-                                            <br /> .close:hover, .close:focus {
-                                            <br /> &emsp;color: #000;
-                                            <br /> &emsp;text-decoration: none;
-                                            <br /> &emsp;cursor: pointer;
-                                            <br /> }
-                                            <br />
-                                            <br /> button {
-                                            <br /> &emsp;position: absolute;
-                                            <br /> &emsp;bottom: 12px;
-                                            <br /> &emsp;right: 12px;
-                                            <br /> &emsp;border-radius: 50%;
-                                            <br /> &emsp;width: 50px;
-                                            <br /> &emsp;height: 50px;
-                                            <br /> &emsp;transition: box-shadow 0.4s ease;
-                                            <br /> &emsp;background: #4610f5;
-                                            <br /> &emsp;box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-                                            <br /> &emsp;color: #fff;
-                                            <br /> &emsp;font-size: 1.7rem;
-                                            <br /> &emsp;font-weight: bold;
-                                            <br /> &emsp;cursor: pointer;
-                                            <br /> }
-                                            <br />
-                                            <br /> button span{
-                                            <br /> &emsp;display: flex;
-                                            <br /> &emsp;width: 100%;
-                                            <br /> &emsp;height: 100%;
-                                            <br /> &emsp;justify-content: center;
-                                            <br /> &emsp;align-items: center;
-                                            <br /> &emsp;transition: transform 0.5s ease;
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12	 slds-large-size_4-of-12  subcode subcodeJs">
-                                    <div class="mainHeading">
-                                        <div class="heading">
-                                            <div class="diviconsImg">
-                                                <img src={js_Icon} class="iconsImg" title='html' data-id="buttonId" />
-                                            </div>
-                                            <h1><b>JavaScript:</b></h1>
-                                        </div>
-                                        <img src={copy_Icon} class="iconsImages" title='copy'
-                                            onclick={copy_code_fir_lwc} data-id="buttonId" />
-                                    </div>
-                                    <div class="codestyle" id="copytext12">
-                                        <div class="codingstyle">
-                                            // Get the modal
-                                            <br /> var modal = document.getElementById("myModal");
-                                            <br />
-                                            <br /> // Get the button that opens the modal
-                                            <br /> var btn = document.getElementById("myBtn");
-                                            <br />
-                                            <br /> // Get the &lt;span&gt; element that closes the modal
-                                            <br /> var span = document.getElementsByClassName("close")[0];
-                                            <br />
-                                            <br /> // When the user clicks the button, open the modal
-                                            <br /> btn.onclick = function(){
-                                            <br /> &emsp;modal.style.display = "block";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks on &lt;span&gt; (x), close the modal
-                                            <br /> span.onclick = function() {
-                                            <br /> &emsp;modal.style.display = "none";
-                                            <br /> }
-                                            <br />
-                                            <br /> // When the user clicks anywhere outside of the modal, close it
-                                            <br /> window.onclick = function(event) {
-                                            <br /> &emsp;if (event.target == modal) {
-                                            <br /> &emsp;&emsp;modal.style.display = "none";
-                                            <br /> &emsp;}
-                                            <br /> }
-                                            <br /><br />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
                 </div>
             </template>
         </div>

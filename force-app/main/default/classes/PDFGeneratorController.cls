@@ -253,7 +253,7 @@ public with sharing class PDFGeneratorController{
             formData.contentDocumentTitleMap = fileUploadTitles;
 
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            error_handler.insert_errordata(e, 'PDFGeneratorController', 'getPagesofForm');            
         }
     }
 
@@ -308,7 +308,8 @@ public with sharing class PDFGeneratorController{
             }
 
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            error_handler.insert_errordata(e, 'PDFGeneratorController', 'genrateLabelMap');
+
         }
         return objLabelMap;
     }
@@ -324,7 +325,7 @@ public with sharing class PDFGeneratorController{
             Schema.DescribeSObjectResult describeResult = Schema.getGlobalDescribe().get(objectApiName).getDescribe();
             objectLabel = describeResult.getLabel();
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            error_handler.insert_errordata(e, 'PDFGeneratorController', 'genrateObjectLabel');
         }
         return objectLabel;
     }

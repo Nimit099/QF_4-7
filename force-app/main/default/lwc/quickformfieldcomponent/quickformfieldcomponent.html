@@ -1,5 +1,4 @@
 <template>
-
     <c-toast-component></c-toast-component>
     <c-errorpopup></c-errorpopup>
     <!-- Email Id -->
@@ -849,7 +848,7 @@
                                     type="search" onchange={OnFieldClick} class="slds-input nosubmit fieldcancel" />
                                 <template if:true={showCrossIcon}>
                                     <span id={fieldmapping} data-id={fieldmapping} class="clearref"
-                                        onclick={clearreference} style={cross_img}>
+                                        onclick={clearreference} >
                                     </span>
                                 </template>
                             </span>
@@ -1016,7 +1015,7 @@
                                 <label>
                                     <div class="container">
                                         <div class="box box1">
-                                            <p>{uploadfilenameAtt}</p>
+                                            <p class="clsrkvalue">{uploadfilenameAtt}</p>
                                         </div>
                                         <div id={fieldmapping} data-name='yashR' class="box removeImage"
                                             onclick={removeReceiptImage_att}>
@@ -1400,7 +1399,7 @@
                             <!-- {uploadfilename} -->
                             <div class="container">
                                 <div class="box box1">
-                                    <p>{uploadfilename}</p>
+                                    <p class="clsrkvalue">{uploadfilename}</p>
                                 </div>
                                 <div id={fieldmapping} data-name='yashR' class="box removeImage"
                                     onclick={removeReceiptImage}>
@@ -1721,7 +1720,7 @@
                                     <abbr class="slds-required" title="required">* </abbr>
                                 </label>
                             </template>
-                            <label class="slds-form-element__label flabel" >
+                            <label class="slds-form-element__label flabel">
                                 {labelvalue}
                             </label>
                         </template>
@@ -1736,7 +1735,8 @@
                                 <th></th>
                                 <template for:each={salutationvalue} for:item="value">
                                     <th key={rating}>
-                                        <label for={rating} class="likert-style clsrkvalue" title="5 stars">{value} </label>
+                                        <label for={rating} class="likert-style clsrkvalue" title="5 stars">{value}
+                                        </label>
                                     </th>
                                 </template>
 
@@ -1775,8 +1775,12 @@
                             <label class="slds-form-element__label flabel">
                                 {labelvalue}
                             </label>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
                         </div>
                     </template>
+
                     <div id={PageId} class="clsrk">
                         <input data-name={fieldmapping} data-id="true" onmousemove={handlehover} onmouseout={handleblur}
                             onfocusin={handlefocus} onblur={handleblur1} type="checkbox" variant="standard"
@@ -1784,7 +1788,6 @@
                             value={displayTexts} onclick={sendrequesttoclosereferencefield}></input>
                         <lightning-formatted-rich-text value={displayText} class="clsrkvalue"
                             style="display:flex; align-items: center;"></lightning-formatted-rich-text>
-
                     </div>
                 </template>
             </template>
@@ -1830,17 +1833,17 @@
                             <label class="slds-form-element__label flabel">
                                 {labelvalue}
                             </label>
+                            <template if:true={helptextcheck}>
+                                <lightning-helptext class="helptxt" content={helptextvalue}></lightning-helptext>
+                            </template>
                         </div>
                     </template>
+
                     <template if:true={isFieldView}>
                         <div>
-                            <div style="" id={PageId} class="signaturebox">
-                                <!-- <canvas class="signaturefield" style="border:2px solid #ddd;background:white;"
-                                    id={PageId}></canvas> -->
+                            <div id={PageId} class="signaturebox">
                                 <canvas class="signature-pad signaturefield" data-name={fieldmapping}
-                                    height={canvasHeight}
-                                    style="border:2px solid #ddd;background:white;" id={PageId}
-                                    lwc:dom="manual"></canvas>
+                                    height={canvasHeight} style="border:2px solid #ddd;background:white;" id={PageId}></canvas>
                                 <div style="display: flex; justify-content: center;" class="signaturefield">
                                     <div style="width: 65px; margin: 5px 5px 0 0;">
                                         <div class="slds-button slds-button_brand" id="btnClear">Clear</div>
@@ -1856,9 +1859,7 @@
                         <div>
                             <div class="signaturebox" id={PageId}>
                                 <canvas class="signature-pad signaturefield" data-name={fieldmapping}
-                                    height={canvasHeight}
-                                    style="border:2px solid #ddd;background:white;" id={PageId}
-                                    lwc:dom="manual"></canvas>
+                                    height={canvasHeight} style="border:2px solid #ddd;background:white;" id={PageId}></canvas>
                                 <div style="display: flex; justify-content: center;" class="signaturefield">
                                     <div style="width: 65px; margin: 5px 5px 0 0;">
                                         <div data-name={fieldmapping} class="slds-button slds-button_brand"

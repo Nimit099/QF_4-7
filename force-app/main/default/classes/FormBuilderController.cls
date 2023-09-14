@@ -243,6 +243,9 @@ public with sharing class FormBuilderController{
                                   FROM ContentDocument
                                   WHERE Id = :cv.ContentDocumentId
                                   WITH SECURITY_ENFORCED];
+            if (ContentDocument.sObjectType.getDescribe().isDeletable()){
+                delete cd;
+            }
             String str = nform.Form_Styling__c;
             List<String> arr = str.split(';background-image:');
             List<string> arr2 = arr[1].split(';');
@@ -1471,8 +1474,6 @@ public with sharing class FormBuilderController{
                                                         }
                                                     }
                                                 }
-
-
                                             } else{
                                                 field.Field_Validations__c = 'isRequired<!@!>true' + 
                                                                                                                    '?$`~isDisabled<!@!>false' + 
@@ -1522,8 +1523,6 @@ public with sharing class FormBuilderController{
                                     }
                                     fields.add(field);
                                 }
-
-
                             } else if (fieldName == 'AccountId'){
                                 if (type == 'Asset' || type == 'Order'){
                                     Position = Position + 1;
@@ -1559,9 +1558,7 @@ public with sharing class FormBuilderController{
                                                              '?$`~MaximumDate<!@!>' + 
                                                              '?$`~Salutation<!@!>';
                                     fields.add(field);
-
                                 }
-
                             } else if (fieldName == 'StartDateTime' || fieldName == 'EndDateTime'){
                                 if (type == 'Event'){
                                     String leb;
@@ -1603,9 +1600,7 @@ public with sharing class FormBuilderController{
                                                              '?$`~MaximumDate<!@!>' + 
                                                              '?$`~Salutation<!@!>';
                                     fields.add(field);
-
                                 }
-
                             }
                         }
                         iteration = iteration + 1;
@@ -1759,7 +1754,7 @@ public with sharing class FormBuilderController{
                 return null;
             }
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            error_handler.insert_errordata(e,'FormBuilder','createPage');
             return null;
         }
     }
@@ -1840,7 +1835,7 @@ public with sharing class FormBuilderController{
                 return null;
             }
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            error_handler.insert_errordata(e,'FormBuilder','updatePage');
             return null;
         }
     }
@@ -1958,7 +1953,7 @@ public with sharing class FormBuilderController{
             }
 
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
+            error_handler.insert_errordata(e,'FormBuilder','deletePage');
             return null;
         }
     }
@@ -1977,6 +1972,8 @@ public with sharing class FormBuilderController{
                     where Id = :PageId
                     WITH SECURITY_ENFORCED];
         } catch (Exception e){
+            error_handler.insert_errordata(e,'FormBuilder','pageDetails');
+
             return null;
         }
     }
@@ -2045,7 +2042,6 @@ public with sharing class FormBuilderController{
             return conVer.Id;
 
         } catch (Exception e){
-            System.debug('signature error' + String.valueOf(e));
             return null;
         }
     }
@@ -2133,7 +2129,7 @@ public with sharing class FormBuilderController{
         }
     }
 
-    public static List<Id> insertRecordList = new List<Id>(); // use to just revert the DML
+    public static List<Id> insertRecordList = new List<Id>();
     /**
      * @description createrecord Method
      * @param acc Form_Submission__c record
@@ -2167,7 +2163,6 @@ public with sharing class FormBuilderController{
                 }
             }
              
-
             Integer listLen = file_upload_fid_list.size();
             if (listLen > 0){
                 for (String type : file_upload_fid_list){
@@ -2205,7 +2200,6 @@ public with sharing class FormBuilderController{
             wrapper.ObjectCount = 1;
             wrapper.SubId = subID;
 
-        
             sendemailforformsubmission(wrapper);
 
             SubId ids = new SubId();
@@ -2310,9 +2304,7 @@ public with sharing class FormBuilderController{
                 ids.File_upload_map = file_upload_map;
                 return ids;
           
-            
         } catch (Exception e){
-            System.debug('errror' +String.valueOf(e) + e.getLineNumber());
             return null;
         }
     }
@@ -2414,7 +2406,6 @@ public with sharing class FormBuilderController{
                 return ids;
 
         } catch (Exception e){
-            System.debug('Exception--->' + e.getMessage() + ' -->>' + e.getLineNumber());
             return null;
         }
     }
@@ -2425,8 +2416,7 @@ public with sharing class FormBuilderController{
      */
     public static void sendemailforformsubmission(wrapformsubmission wrapper) {
         /*This method is used Send email to email service class*/
-
-        
+        try{
         EmailServicesAddress esa = [SELECT EmailDomainName, LocalPart FROM EmailServicesAddress WHERE Function.FunctionName =: 'QuickFormemailservice' LIMIT 1 ]; 
         List<OrgWideEmailAddress> owea  = [SELECT Id, Address from OrgWideEmailAddress WHERE DisplayName =: 'QF-OWA' LIMIT 1  ];
          
@@ -2440,6 +2430,10 @@ public with sharing class FormBuilderController{
          emailNotification.setSubject('Three Object Form');
          emailNotification.setPlainTextBody(JSON.serialize(wrapper));
          Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ emailNotification });
+        } catch(Exception e){
+            error_handler.insert_errordata(e, 'FormBuilderController', 'sendemailforformsubmission');
+        }
+        
     }
 
     /**

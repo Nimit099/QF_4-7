@@ -148,7 +148,7 @@ lightning-input {
 }
 
 .s-item-1 {
-    background-image: url("/resource/bg");
+    background-image: url("/resource/MVQF__bg");
     background-size: contain;
     border-radius: 28px !important;
 }
@@ -186,19 +186,19 @@ lightning-input {
 }
 
 .s-wrap1 .s-item-4 {
-    background-image: url("/resource/UserConfig1");
+    background-image: url("/resource/MVQF__UserConfig1");
 }
 
 .s-wrap1 .s-item-5 {
-    background-image: url("/resource/UserConfig2");
+    background-image: url("/resource/MVQF__UserConfig2");
 }
 
 .s-wrap1 .s-item-6 {
-    background-image: url("/resource/UserConfig3");
+    background-image: url("/resource/MVQF__UserConfig3");
 }
 
 .s-wrap1 .s-item-7 {
-    background-image: url("/resource/UserConfig4");
+    background-image: url("/resource/MVQF__UserConfig4");
 }
 
 .s-type-11 .s-control1 {
@@ -389,19 +389,19 @@ lightning-input {
 }
 
 .s-wrap11 .s-item-8 {
-    background-image: url("/resource/img5");
+    background-image: url("/resource/MVQF__img5");
 }
 
 .s-wrap11 .s-item-9 {
-    background-image: url("/resource/img6");
+    background-image: url("/resource/MVQF__img6");
 }
 
 .s-wrap11 .s-item-10 {
-    background-image: url("/resource/img7");
+    background-image: url("/resource/MVQF__img7");
 }
 
 .s-wrap11 .s-item-11 {
-    background-image: url("/resource/img8");
+    background-image: url("/resource/MVQF__img8");
 }
 
 .s-type-111 .s-control11 {
@@ -486,7 +486,11 @@ lightning-input {
     right: 20px;
     position: relative;
     overflow-x: hidden !important;
-    overflow-y: hidden !important;
+    overflow-y: scroll !important;
+}
+
+.resourcediv::-webkit-scrollbar {
+    display: none;
 }
 
 .resourceh1 {
@@ -665,19 +669,19 @@ lightning-input {
 }
 
 .ss-wrap .ss-item-1 {
-    background-image: url("/resource/img9");
+    background-image: url("/resource/MVQF__img9");
 }
 
 .ss-wrap .ss-item-2 {
-    background-image: url("/resource/img10");
+    background-image: url("/resource/MVQF__img10");
 }
 
 .ss-wrap .ss-item-3 {
-    background-image: url("/resource/img11");
+    background-image: url("/resource/MVQF__img11");
 }
 
 .ss-wrap .ss-item-4 {
-    background-image: url("/resource/img12");
+    background-image: url("/resource/MVQF__img12");
 }
 
 .ss-type-1 .ss-control {
@@ -1656,16 +1660,16 @@ body {
     }
 }
 .sr-item-8{
-    background-image: url("/resource/sharingruleimg1");
+    background-image: url("/resource/MVQF__sharingruleimg1");
 }
 .sr-item-9{
-    background-image: url("/resource/sharingruleimg2");
+    background-image: url("/resource/MVQF__sharingruleimg2");
 }
 .sr-item-10{
-    background-image: url("/resource/sharingruleimg3");
+    background-image: url("/resource/MVQF__sharingruleimg3");
 }
 .sr-item-11{
-    background-image: url("/resource/sharingruleimg4");
+    background-image: url("/resource/MVQF__sharingruleimg4");
 }
 
 .UserConfigDetails .step1{

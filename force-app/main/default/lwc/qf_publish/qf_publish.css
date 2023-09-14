@@ -106,9 +106,9 @@
 
 .PublishForm {
     width: 80%;
-    height: 100vh;
+    height: 100%;
     padding: 0 6%;
-    background-image: url("/resource/bg");
+    background-image: url("/resource/MVQF__bg");
     background-repeat: no-repeat;
     background-size: 100% 85%;
 }
@@ -400,6 +400,14 @@
     margin: 13% 0 6% 5%;
 }
 
+.PublishForm::-webkit-scrollbar {
+    display: none;
+}
+
+.divtag::-webkit-scrollbar {
+    display: none;
+}
+
 @media only screen and (max-width:1669px) {
     .iframeCode {
         line-height: 2rem;
@@ -424,6 +432,17 @@
 
     .PublishForm {
         width: 80%;
+        height: 85vh;
+        overflow-y: scroll;
+        padding: 0 5%;
+    }
+
+    .formLinkTitle {
+        padding-top: 25px;
+    }
+
+    .publishUsing {
+        height: 3%;
     }
 }
 
@@ -476,6 +495,8 @@
 
     .PublishForm {
         width: 77%;
+        height: 80vh;
+        overflow-y: scroll;
         padding: 0 5%;
     }
 
@@ -594,6 +615,6 @@
     margin: 4% 0 4% 3%;
 }
 
-.step{
+.step {
     font-weight: bold;
 }
