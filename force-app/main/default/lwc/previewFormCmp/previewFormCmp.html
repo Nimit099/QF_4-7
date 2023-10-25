@@ -1,0 +1,151 @@
+<template>
+    <c-toast-component></c-toast-component>
+    <template if:true={isPageNotFoud}>
+        <c-page-Not-Found></c-page-Not-Found>
+    </template>
+    <template if:true={spinnerDataTable}>
+        <div data-id="spinnerId" class="slds-spinner_container" style="overflow: hidden;">
+            <div class="spinner-main-div">
+                <div class="loader--ripple">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={activepreviews}>
+        <button onclick={backhome} class="backbutton hovercssbtn"><img src={BackButton} alt="">
+            <p>Home Page</p>
+        </button>
+    </template>
+    <template if:true={isPreviewForm}>
+        <div class="fieldDiv1">
+            <div class="mainbody">
+
+                <div class="myform" id="mainformid">
+                    <div class="flexforprogress">
+                        <div class="formname">
+                            <p>{formname}</p>
+                        </div>
+                        <div class="progressindicator">
+                            <template if:true={Progressbarvalue}>
+                                <c-progress-indicator></c-progress-indicator>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="scroll">
+                        <div class="page" id={page.pageId}>
+                            <div class="pagetitle">
+                                <div style="display: flex;align-items: center;">
+                                    <div>
+                                        <template if:true={page.pageName}>
+                                            <div class="pagetitle1">{page.pageName}</div>
+                                        </template>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="example-dropzone" data-page-record={page.pageId}>
+
+                                <template for:each={page.FieldData} for:item="field">
+
+                                    <div id={field.Id} class="field" data-order-id={field.MVQF__Field_Order__c}
+                                        data-page-record={field.MVQF__Form_Page__c} data-record={field.Id}
+                                        data-ref="inner" data-record-count={fieldcount} key={field.Id}
+                                        data-field-name={field.Name} data-field-id={field.Id} data-id={field.Id}>
+                                        <c-quickformfieldcomponent formid={formid} t-view={field.Name}
+                                            data-page-record={page.pageId} compview="Full" disable-field="true"
+                                            field-attribute="" field-attribute-value="" field-id={field.Id}
+                                            page-id={page.ParentMessage} data-field-id={field.Id}
+                                            onstartsppiner={stopspinner} fieldmapping={field.MVQF__Field_Mapping__c}
+                                            is-reqired={field.MVQF__Field_Validations__c.isRequired}
+                                            helptextcheck={field.MVQF__Field_Validations__c.isHelptext}
+                                            labelcheck={field.MVQF__Field_Validations__c.isLabel}
+                                            labelvalue={field.MVQF__Field_Validations__c.Label}
+                                            helptextvalue={field.MVQF__Field_Validations__c.HelpText}
+                                            salutationvalue={field.MVQF__Field_Validations__c.Salutation}
+                                            scaleratingques={field.MVQF__Field_Validations__c.ratingques}
+                                            isdisabled={field.MVQF__Field_Validations__c.isDisabled}
+                                            placeholder={field.MVQF__Field_Validations__c.Placeholder}
+                                            fieldtype={field.MVQF__Field_Validations__c.fieldtype}
+                                            terms-and-condition-value={field.MVQF__Field_Validations__c.Richtext}
+                                            hovercssproperty={hovercss} focuscssproperty={focuscss} fieldcss={fcss}
+                                            labelcss={lcss} onpassfieldvalue={storefielddata} onnextbtval={next_val_by}
+                                            onnextbtvaltrue={next_val_true} onsigconverteddataurl={convertedDataURIsin}
+                                            onaddinputvaljosn={add_input_val_josn}
+                                            onfileuploadpra={add_file_upload_josn} onremovwfile={file_remove}
+                                            onremovwfileatt={file_remove_att} onopenpop={show_msg_pop}
+                                            onbase64att={base64attpreview} totalfilesize={fileSize}
+                                            minimum={field.MVQF__Field_Validations__c.Minimum}
+                                            maximum={field.MVQF__Field_Validations__c.Maximum}
+                                            minimumtime={field.MVQF__Field_Validations__c.MinimumTime}
+                                            maximumtime={field.MVQF__Field_Validations__c.MaximumTime}
+                                            minimumdatetime={field.MVQF__Field_Validations__c.MinimumDateTime}
+                                            maximumdatetime={field.MVQF__Field_Validations__c.MaximumDateTime}
+                                            minimumdate={field.MVQF__Field_Validations__c.MinimumDate}
+                                            maximumdate={field.MVQF__Field_Validations__c.MaximumDate}
+                                            firstobjvallist={list_first_obj} secondobjvallist={list_second_obj}
+                                            thirdobjvallist={list_third_obj} extobjvallist={list_ext_obj}
+                                            formobject={datawithleabel} validation={form_validation}
+                                            is-preview-view={isPreviewView} submit={submit}
+                                            onclosefield={getrequestforcloserefencefield}
+                                            filesignread={filesignread}></c-quickformfieldcomponent>
+
+
+                                    </div>
+                                </template>
+                                <div class="captchafield">
+                                    <template if:true={show_captchavalue}>
+                                        <template if:true={isIndexLast}>
+                                            <h1 class="captchatext">To confirm that you are a human, please complete the
+                                                captcha
+                                                below.</h1>
+                                            <c-captcha-type class="captchabox" oncaptchaverification={verifycaptcha}
+                                                captypetypes={captchavalue}></c-captcha-type>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="footer">
+
+                                <template if:true={isIndexZero}>
+                                    <template if:false={isIndexLast}>
+                                        <button data-name="next" variant="brand" label="Next" title="Next"
+                                            onclick={handlepagination} class="btn1 hovercssbtn">Next</button>
+                                    </template>
+                                    <template if:true={isIndexLast}>
+                                        <button variant="brand" label="Submit" title="Submit" onclick={handlepagination}
+                                            disabled={disableSaveButton} class="btn1 hovercssbtn" data-name="submit">Submit</button>
+                                    </template>
+                                </template>
+
+                                <template if:false={isIndexZero}>
+                                    <button data-name="previous" variant="brand" label="Previous" title="Previous"
+                                        onclick={handlepagination} class="btn1 hovercssbtn">Previous</button>
+
+                                    <template if:false={isIndexLast}>
+                                        <button data-name="next" variant="brand" label="Next" title="Next"
+                                            onclick={handlepagination} class="btn1 hovercssbtn">Next</button>
+                                    </template>
+                                    <template if:true={isIndexLast}>
+                                        <button variant="brand" label="Submit" title="Submit" onclick={handlepagination}
+                                            disabled={disableSaveButton} class="btn1 hovercssbtn" data-name="submit">Submit</button>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={thankyou}>
+        <div style="height: 97vh;">
+            <div style="height: 100%;">
+                <c-thankyou-component currentformid={formid} thankyoutype={thankyoutype} label={label}
+                    changelabel={changelabel} text={text} richtext={richtext} url={url}></c-thankyou-component>
+            </div>
+        </div>
+    </template>
+</template>

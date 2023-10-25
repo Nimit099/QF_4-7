@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Progress_Indicator__c</fullName>
+    <externalId>false</externalId>
+    <label>Progress_Indicator</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Page_Count</fullName>
+                <default>false</default>
+                <label>Page Count</label>
+            </value>
+            <value>
+                <fullName>Progress_Bar</fullName>
+                <default>false</default>
+                <label>Progress Bar</label>
+            </value>
+            <value>
+                <fullName>Standard_Steps</fullName>
+                <default>false</default>
+                <label>Standard Steps</label>
+            </value>
+            <value>
+                <fullName>Custom_Steps</fullName>
+                <default>false</default>
+                <label>Custom Steps</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>--None--</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>--None--</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

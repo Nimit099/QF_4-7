@@ -1,0 +1,3 @@
+.slds-input:focus, .slds-input:active{
+    --slds-c-input-shadow: none;
+}

@@ -1,0 +1,49 @@
+<template>
+  <div if:true={show}>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+      class="slds-modal slds-fade-in-open">
+      <div class="error_container" if:true={userConfig}>
+        <div class="error-box-header">
+          <div class="error-box-header-div">
+            <img src={alert_img} class="alert_logo" width="34" height="34"/>
+            <p class="popup_header_text">User Configuration Required</p>
+</div>
+          </div>
+          <div class="slds-modal__content" id="modal-content-id-2">
+            <div class="error_body">
+              <p class="error_body_text">
+                Before you start using the application, make sure you've filled out the User Configuration. This is really important to make the whole process run smoothly.
+              </p>
+            </div>
+          </div>
+          <div class="error_footer slds-p-around_medium">
+            <div class="error_footer_div slds-p-left_medium slds-p-right_medium" onclick={Redirect}>
+              <p class="error_footer_btn userconfigcss">User Configuration</p>
+            </div>
+          </div>
+        </div>
+        <div class="error_container" if:false={userConfig}>
+          <div class="error-box-header">
+            <div class="error-box-header-div">
+              <img src={alert_img} class="alert_logo" width="34" height="34"/>
+              <p class="popup_header_text">{header_type}</p>
+            </div>
+            <img src={close_img} class="clse_logo" width="20" height="20" onclick={hideError} />
+        </div>
+        <div class="slds-modal__content" id="modal-content-id-1">
+          <div class="error_body">
+            <p class="error_body_text">
+              {error_messagee}, Please Reload Page.
+            </p>
+          </div>
+        </div>
+        <div class="error_footer slds-p-around_medium">
+          <div class="error_footer_div" onclick={reload}>
+            <p class="error_footer_btn">Reload</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+  </div>
+</template>

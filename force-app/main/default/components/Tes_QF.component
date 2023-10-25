@@ -1,0 +1,13 @@
+<apex:component >
+<apex:includeLightning />
+<div id="LightningContainer"/>
+<script type="text/javascript">
+ $Lightning.use("MVQF:PreViewFormApp", function() {
+  $Lightning.createComponent("MVQF:previewFormCmp",
+   {pageURL : 'https://quickformdev-dev-ed.develop.my.salesforce-sites.com/MVQF__PreViewForm?access_key=HrIU7jcKxCnds1NUn3QttIlvtHR3I7F4DEUIscwTdP2SGfgvw08QM11FYhba6g1w'},
+   "LightningContainer", function(cmp) {
+    console.log('Component created Successfully');
+   });
+ });
+</script>
+</apex:component>

@@ -1,0 +1,25 @@
+<apex:component >
+<!-- Begin Default Content REMOVE THIS -->
+    <apex:iframe src="{!URLFOR($Page.PreViewForm)}"/>
+<!-- End Default Content REMOVE THIS -->
+</apex:component>
+
+
+<!-- <apex:includeLightning />
+
+<div id="lwc-container"></div>
+
+<script type="text/javascript">
+    var c_url = window.location.href;
+    var c_url = {srcurl};
+    var c_url = "https://drive-customization-8503-dev-ed.scratch.my.salesforce-sites.com/PreViewForm?access_key=Od5p710eQRZe2gwiYb1IZtJaUvIV8mYjALJllslmW5/PjrSXDSFYGv6D3+0Bik25";
+
+    $Lightning.use("c:preview_form_test_app", function() {
+        $Lightning.createComponent("c:previewFormCmp", 
+                                   {"formid" : contactId}, 
+                                   "LightningContainer", function(cmp) {
+                                       console.log('Component created Successfully');
+                                   });
+    });
+   
+    </script> -->

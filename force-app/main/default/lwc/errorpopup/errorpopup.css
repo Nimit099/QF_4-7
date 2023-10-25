@@ -1,0 +1,102 @@
+.error_container{
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;    
+}
+
+.error-box-header{
+    width: 100%;
+    height: 64px;
+    background-color: #6699CC;
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px 0 0;
+    border-radius: 14px 14px 0 0;
+}
+
+.error-box-header-div{
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+.popup_header_text{
+    height: 33px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;   
+    color: #FFFFFF;
+    margin: 0 0 0 15px;
+}
+
+.clse_logo{
+        cursor: pointer;
+}
+
+.error_body{
+    padding: 5%;
+}
+
+.error_body_text{
+    height: auto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.007em;
+    color: #000000;
+    justify-content: center;
+}
+
+.error_footer{
+    display: flex;
+    /* height: 64px; */
+    justify-content: center;
+    border-top: #000000 solid 1px;
+    background-color: #FFFFFF;
+    border-radius: 0 0 14px 14px;
+}
+
+.error_footer_div{
+    /* width: auto; */
+    width: 20%;
+    height: 35px;
+    background: #6699CC;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 28px;
+    justify-content: center;
+    display: flex;
+    align-self: center;
+    cursor: pointer;
+}
+
+.error_footer_btn{
+    width: 66px;
+    height: 19px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.userconfigcss {
+    width: 100% !important;
+}

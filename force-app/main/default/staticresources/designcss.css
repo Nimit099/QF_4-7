@@ -1,0 +1,23 @@
+.slds-color-picker__summary-button{
+    border-radius: 14px;
+    border-color: #6699cc;
+}
+
+.clssrk .slds-file-selector__button{
+    border-radius: 14px;
+    border-color: #6699cc;
+}
+/* .combocls .slds-dropdown-trigger_click .slds-dropdown {
+    max-height: 150px !important;
+} */
+
+.clrks .slds-swatch{
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.colorpickercls .slds-color-picker__selector.slds-popover {
+    top: 50.8% !important;
+    /* position: relative !important; */
+    /* transform: translateY(-112%); */
+    /* top: unset !important; */
+}

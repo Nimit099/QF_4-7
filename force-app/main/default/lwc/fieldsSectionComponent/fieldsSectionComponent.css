@@ -1,0 +1,102 @@
+.main {    
+    background-color: antiquewhite;
+    width: 19%;        
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* Firefox */    
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.example-draggable{
+    opacity: 0.9;
+}
+
+.main::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
+.OtherFields {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.OtherFields::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
+.slds-scrollable_y {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.slds-scrollable_y::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
+.slds-icon {
+    overflow: hidden;    
+    fill: #6699cc;
+    background-color: #ffffff;
+}
+
+.icon {
+    margin-right: 6px !important;
+    padding: 0 !important;
+}
+
+.fieldname>p{
+    color: rgb(0, 0, 0, 0.56);
+    font-size: 30px;
+    font-weight: 800;   
+    line-height: 25px;    
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    margin: 13% 0 6% 5%;
+
+}
+
+.Accord {
+    height: 75vh;
+    padding: 0 0 20px 0;
+}
+
+.slds-box_xx-small {
+    opacity:0.9;
+} 
+
+.fieldOutlines:hover {
+    background-color: #f0f0f0;
+}
+
+.fieldOutlines {
+    border: 1px solid #046EAA;
+    align-items: center;
+    text-align: left;
+    flex-direction: row;
+    display: flex !important;
+    height: auto;
+    border-radius: 28px !important;
+    font-size: 15px !important;
+    min-height: 35px !important;
+    padding: 0 12px !important;
+    white-space: revert;
+    margin: 0 15px 14px 5%;
+    word-break: break-all;
+}
+
+@media screen and (max-width:1400px) {
+    .Accord {
+        height: 70vh;
+    }
+}

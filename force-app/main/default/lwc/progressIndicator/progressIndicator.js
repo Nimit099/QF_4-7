@@ -1,0 +1,103 @@
+import {
+    LightningElement,
+    api,
+    track
+} from 'lwc';
+import {
+    loadStyle,
+} from 'lightning/platformResourceLoader';
+import progressbar from '@salesforce/resourceUrl/progressbar'
+
+export default class ProgressIndicator extends LightningElement {
+
+    @api progress = 'Select';
+    @track currentpage = 2;
+    @track totalpage = 3;
+    @track getprogreshbar = 'Select';
+    @track pages = [];
+    @track Progress_Bar = false;
+    @track Custom_Steps = false;
+    @track Standard_Steps = false;
+    @track Page_Count = false;
+    @track progress_bar_value = 90;
+    
+    connectedCallback() {
+        try {
+            this.tesmethod(this.progress);
+            loadStyle(this, progressbar);
+        } catch (error) {
+            console.log('QF INFO:- ConnectedCallback Progressindicator');
+        }
+    }
+
+    @api calculation(progressbar, pageindex, totalpages) {
+        try {
+            if (progressbar != undefined && pageindex != undefined && totalpages != undefined) {
+                this.currentpage = pageindex;
+                this.totalpage = totalpages;
+                this.tesmethod(progressbar);
+            }
+        } catch (error) {
+            console.log('QF INFO:- Calculation Progressindicator');
+        }
+    }
+
+    @api tesmethod(strString) {
+        try {
+            if (strString != undefined) {
+                this.getprogreshbar = strString;
+                if (this.getprogreshbar == 'Select') {
+                    this.Progress_Bar = false;
+                    this.Custom_Steps = false;
+                    this.Standard_Steps = false;
+                    this.Page_Count = false;
+                }else if (this.getprogreshbar == 'Progress_Bar') {
+                    this.Progress_Bar = true;
+                    this.Custom_Steps = false;
+                    this.Standard_Steps = false;
+                    this.Page_Count = false;
+                    if (this.totalpage != undefined && this.currentpage != undefined) {
+                        this.progress_bar_value = Math.round(((this.currentpage) / this.totalpage) * 100);
+                    }
+                }else if (this.getprogreshbar == 'Custom_Steps') {
+                    this.Progress_Bar = false;
+                    this.Custom_Steps = true;
+                    this.Standard_Steps = false;
+                    this.Page_Count = false;
+                    if (this.pages.length == 0) {
+                        if (this.totalpage != undefined) {
+                            for (let i = 1; i <= this.totalpage; i++) {
+                                this.pages.push({
+                                    label: 'Page' + i,
+                                    value: i
+                                });
+                            }
+                        }
+                    }
+                }else if (this.getprogreshbar == 'Standard_Steps') {
+                    this.Progress_Bar = false;
+                    this.Custom_Steps = false;
+                    this.Standard_Steps = true;
+                    this.Page_Count = false;
+                    if (this.pages.length == 0) {
+                        if (this.totalpage != undefined) {
+                            for (let i = 1; i <= this.totalpage; i++) {
+                                this.pages.push({
+                                    label: 'Page' + i,
+                                    value: i
+                                });
+                            }
+                        }
+                    }
+                }else if (this.getprogreshbar == 'Page_Count') {
+                    this.Progress_Bar = false;
+                    this.Custom_Steps = false;
+                    this.Standard_Steps = false;
+                    this.Page_Count = true;
+                }
+            }
+        } catch (error) {
+            console.log('QF INFO:- Tesmethod Progressindicator');
+        }
+    }
+}

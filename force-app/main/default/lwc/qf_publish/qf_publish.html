@@ -1,0 +1,249 @@
+<template>
+    <c-toast-component></c-toast-component>
+    <c-errorpopup></c-errorpopup>
+    <!-- =========[Start Popup Modal] =======================-->
+    <template if:true={spinner}>
+        <div data-id="spinnerId" class="slds-spinner_container spinnercont">
+            <div class="spinner-main-div">
+                <div class="loader--ripple">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- ======================[End of popup modal]====================== -->
+
+    <!-- =====================[Start of component]=============================== -->
+    <div class="slds-grid slds-wrap">
+        <!--=============================[ Start Left bar]=============================== -->
+        <div class="LeftBar slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-large-size_2-of-12">
+            <div class="leftPanelTitle">
+                PUBLISH
+            </div>
+            <div class="newclsrks">
+                <div class="form-check">
+                    <div class="thanks-optiondiv">
+                        <div class="thanks-option">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="aura" value="aura"
+                                onchange={handleRadioChange} checked={aura} />
+                            <label class="form-check-label" for="aura"> Aura Component</label>
+                        </div>
+                    </div>
+                    <div id="Input0"> </div>
+                </div>
+                <div class="hrLine"></div>
+
+                <div class="form-check">
+                    <div class="thanks-optiondiv">
+                        <div class="thanks-option">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="lwc" value="lwc"
+                                onchange={handleRadioChange} checked={lwc} />
+                            <label class="form-check-label" for="lwc"> Lightning Web Component</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="hrLine"></div>
+
+                <div class="form-check">
+                    <div class="thanks-optiondiv">
+                        <div class="thanks-option">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="iframe"
+                                value="iframe" onchange={handleRadioChange} checked={iframe} />
+                            <label class="form-check-label" for="iframe"> Visualforce Component</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="hrLine"></div>
+
+                <div class="form-check">
+                    <div class="thanks-optiondiv">
+                        <div class="thanks-option">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="QRCode"
+                                value="QRCode" onchange={handleRadioChange} checked={QRCode} />
+                            <label class="form-check-label" for="QRCode"> QR Code</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="hrLine"></div>
+            </div>
+            <!-- [Start light box accordions] -->
+        </div>
+        <!--=============================[End Left bar]=============================== -->
+
+        <!-- =====================[Start Right bar]================================== -->
+<div class="PublishForm slds-col  slds-size_1-of-1 slds-medium-size_9-of-12 slds-large-size_9-of-12 slds-p-horizontal_xx-large">
+
+            <div class="formLinkTitle">
+                <h1>Form Link</h1>
+            </div>
+
+            <div class=" linkText ">
+                <p>This way of publishing your form is perfect if you want to handle a small amount of code or if you
+                    want to directly invite somebody to view your form.</p>
+            </div>
+
+            <template if:true={formSiteURL}>
+                <div class="formlink ">
+                    <input type="link" data-id="urlinput" value={formurl} id="myInput" readonly class="inputBox" />
+                    <img src={copy_Icon} class="iconsImage hovercssbtn" id="menuItems" title='copy' onclick={copyTextFieldHelper}
+                        data-id="buttonId" />
+                    <span class="urlCopied" aria-hidden="true"><b>Copied!</b></span>
+                </div>
+            </template>
+
+            <template if:true={usingAura}>
+                <div class="publishUsing slds-m-top_medium">
+                    <h2>Publish Using Aura Component</h2>
+                </div>
+                <div class="introCodeText slds-m-top_medium">
+                    <p>There are various ways to publish forms or surveys, according to your requirements. This section
+                        offers the options of linking your form through Aura Component</p>
+                    <span>
+                        <p><b>Note :- </b>Using extends="force:slds" in a an Aura Application when incorporating a Aura component is advisable to maintain a consistent and cohesive visual style across your page.</p>
+                    </span>
+                </div>
+                <lightning-layout-item>
+                    <div class="copyCodeSection_1">
+                        <div data-id="overview"
+                            class="codeCopySection slds-p-around_large slds-m-top_medium copyCodeSection_12">
+                            <div class="divtag">
+                                &lt;!-- QuickForm Aura Component Code snippet starts from here --&gt;<br />
+                                &lt;aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,
+                                flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+                                access="global"&gt;<br />
+                                <div class="divtag1">
+                                    &lt;!-- Below component used to display this Form --&gt;<br />
+                                    &lt;MVQF:previewFormCmp aura:id="lWCComponent2"
+                                    pageURL=&quot;{srcurl}&quot;&gt;<br />&lt;/MVQF:previewFormCmp&gt;<br />
+                                </div>
+                                &lt;/aura:component&gt;<br />
+                                &lt;!-- QuickForm Aura Component Code snippet ends here --&gt;
+                            </div>
+                        </div>
+
+                        <div class="bt-center">
+                            <div class="bt divtag2">
+                                <input class="std-btn hovercssbtn" type="button" value="Copy Code" onclick={copyDivToClipboard_1}
+                                    name="Copy Code" />
+                                <span data-id="test" class="copiedtext1" aria-hidden="true">Copied!</span>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+
+            <template if:true={usingLWC}>
+                <div class="publishUsing slds-m-top_medium">
+                    <h2>Publish Using Lightning Web Component</h2>
+                </div>
+                <div class="introCodeText slds-m-top_medium ">
+                    <p>There are various ways to publish forms or surveys, according to your requirements. This section
+                        offers the options of linking your form through Lightning web component (LWC).</p>
+
+                    <span>
+                        <p class="step"><b>Step 1 :- </b>Go to Setup and Search for Session Settings and click on it.
+                        </p>
+                    </span>
+                    <span>
+                        <p class="step"><b>Step 2 :- </b>In Session Setting go to Lightning Web Security</p>
+                    </span>
+                    <span>
+                        <p class="step"><b>Step 3 :- </b>Click the checkbox for Use Lightning Web Security for Lightning
+                            web components......</p>
+                    </span>
+                    <span>
+                        <p class="step"><b>Step 4 :- </b>Copy below code snippet to use your form in custom lwc
+                            component.</p>
+                    </span>
+                </div>
+                <div class="copyCodeSection_2">
+                    <div class="codeCopySection slds-p-around_large slds-m-top_medium copyCodeSection_22">
+                        <div class="divtag">
+                            &lt;template&gt; <br />
+                            &lt;!-- QuickForm Lightning Web Component Code snippet starts from here --&gt;<br />
+                            <div class="divtag1">
+                                &lt;!-- Below component used to display this Form --&gt;<br />
+                                &lt;MVQF-preview-form-cmp
+                                page-u-r-l=&quot;{srcurl}&quot;&gt; <br /> &lt;/MVQF-preview-form-cmp&gt;<br />
+                            </div>
+                            &lt;!-- QuickForm Lightning Web Component Code snippet ends from here --&gt; <br />
+                            &lt;/template&gt;
+                        </div>
+                    </div>
+
+                    <div class="bt-center">
+                        <div class="bt divtag2">
+                            <input class="std-btn hovercssbtn" type="button" value="Copy Code" name="Copy"
+                                onclick={copyDivToClipboard_2} />
+                            <span data-id="lwccode" class="copiedtext2" aria-hidden="true">Copied!</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={formIFrame}>
+                <div class="publishUsing slds-m-top_medium">
+                    <h2>Publish Using Visualforce Component </h2>
+                </div>
+                <div class="introCodeText slds-m-top_medium  ">
+                    <p>There are various ways to publish forms or surveys, according to your requirements. This section
+                        offers the options of linking your form through Visualforce Component.</p>
+                    <span>
+                        <p><b>Note :- </b>Using standardstylesheets="false" and showheader="false" in a Visualforce page when incorporating a Visualforce component is advisable to maintain a consistent and cohesive visual style across your page.</p>
+                    </span>
+                </div>
+                <div class="copyCodeSection_2">
+                    <div class=" codeCopySection iframeCode  slds-p-around_large slds-m-top_medium copyCodeSection_32">
+                        <div class="divtag">
+                            &lt;apex:component&gt; <br />
+                            <div class="divtag1">
+                                &lt;apex:includeLightning /&gt;
+                                <br />&lt;div id=&quot;LightningContainer&quot;/&gt;
+                                <br />&lt;script type=&quot;text/javascript&quot;&gt;
+                                <br />&emsp;$Lightning.use(&quot;MVQF:PreViewFormApp&quot;, function() {
+                                <br />&emsp;&emsp;$Lightning.createComponent(&quot;MVQF:previewFormCmp&quot;,
+                                <br />&emsp;&emsp;&emsp;{PageUrl}
+                                <br />&emsp;&emsp;&emsp;&quot;LightningContainer&quot;, function(cmp) {
+                                <br />&emsp;&emsp;&emsp; console.log('Component created Successfully');
+                                <br />&emsp;&emsp;&emsp;});
+                                <br />&emsp;});
+                                <br />&lt;/script&gt;
+                                <br />
+                            </div>
+                            &lt;/apex:component&gt;
+                        </div>
+                    </div>
+                    <div class="bt-center">
+                        <div class="bt divtag2">
+                            <input class="std-btn hovercssbtn" type="button" value="Copy Code" onclick={copyDivToClipboard_3}
+                                name="Copy" />
+                            <span class="copiedtext3" aria-hidden="true">Copied!</span>
+                        </div>
+                    </div>
+
+                </div>
+            </template>
+
+            <template if:true={formQRCode}>
+                <div class="publishUsing slds-m-top_medium">
+                    <h2>Publish Using QR </h2>
+                </div>
+                <div class="introCodeText slds-m-top_medium  ">
+                    <p>There are various ways to publish forms or surveys, according to your requirements. This section
+                        offers the options of linking your form through QR Code.</p>
+                </div>
+                <div class="center">
+                    <div class="bt-center">
+                        <div class="bt">
+                            <input class="std-btn hovercssbtn" type="button" value="Show QR" name="Show QR" onclick={qrGenerate} />
+                        </div>
+                    </div>
+                    <div class="qrcode2" id="qrcode2"></div>
+                </div>
+            </template>
+        </div>
+        <!-- =====================[End Right bar]================================== -->
+    </div>
+    <!--========================[End  component ]================================== -->
+</template>

@@ -1,0 +1,12 @@
+.helptext .slds-form-element__icon {
+    padding-top: 0px;
+}
+.helptxt .slds-form-element__icon {
+    padding-top: 0px;
+    display: flex;
+}
+.slds-popover__body {
+    min-width: 50px;
+    /* display: flex;
+    justify-content: center; */
+}

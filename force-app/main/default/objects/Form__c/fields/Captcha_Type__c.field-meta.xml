@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Captcha_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Captcha_Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Normal_Captcha</fullName>
+                <default>false</default>
+                <label>Normal Captcha</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Maths_Captcha</fullName>
+                <default>false</default>
+                <label>Math Captcha</label>
+            </value>
+            <value>
+                <fullName>Slider_Captcha</fullName>
+                <default>false</default>
+                <label>Slider Captcha</label>
+            </value>
+            <value>
+                <fullName>Image_Captcha</fullName>
+                <default>false</default>
+                <label>Image Captcha</label>
+            </value>
+            <value>
+                <fullName>--None--</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>--None--</label>
+            </value>
+            <value>
+                <fullName>Normal_Captcha_In_Popup</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Normal_Captcha_In_Popup</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
